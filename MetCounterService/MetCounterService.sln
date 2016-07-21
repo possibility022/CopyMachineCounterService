@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetCounterService", "MetCounterService\MetCounterService.csproj", "{5468FCC1-9AD0-4A72-893C-86D62B790145}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MetServiceSetup", "MetServiceSetup\MetServiceSetup.vdproj", "{18CA5D63-1F57-4AA6-9720-CD038055ED8F}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Met Service Setup", "Met Service Setup\Met Service Setup.vdproj", "{89E9FE8D-26E6-4D8E-A9D4-7464FD770EB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{5468FCC1-9AD0-4A72-893C-86D62B790145}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5468FCC1-9AD0-4A72-893C-86D62B790145}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5468FCC1-9AD0-4A72-893C-86D62B790145}.Release|Any CPU.Build.0 = Release|Any CPU
-		{18CA5D63-1F57-4AA6-9720-CD038055ED8F}.Debug|Any CPU.ActiveCfg = Debug
-		{18CA5D63-1F57-4AA6-9720-CD038055ED8F}.Release|Any CPU.ActiveCfg = Release
+		{89E9FE8D-26E6-4D8E-A9D4-7464FD770EB7}.Debug|Any CPU.ActiveCfg = Debug
+		{89E9FE8D-26E6-4D8E-A9D4-7464FD770EB7}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

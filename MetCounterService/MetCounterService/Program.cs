@@ -15,12 +15,20 @@ namespace MetCounterService
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            string v = LocalDatabase.Version;
+            LocalDatabase.Initialize();
+            MainCore.setupTrigger();
+            
+            while(true)
             {
-                new ReportService()
-            };
-            ServiceBase.Run(ServicesToRun);
+                System.Threading.Thread.Sleep(1000);
+            }
+            //ServiceBase[] ServicesToRun;
+            //ServicesToRun = new ServiceBase[]
+            //{
+            //    new ReportService()
+            //};
+            //ServiceBase.Run(ServicesToRun);
         }
     }
 }

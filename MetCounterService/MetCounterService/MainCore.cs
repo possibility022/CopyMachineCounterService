@@ -10,7 +10,6 @@ namespace MetCounterService
     class MainCore
     {
         private static DateTime tickTime;
-        private static Timer t;
 
         public static void setupTrigger(bool retry = false)
         {
@@ -82,7 +81,7 @@ namespace MetCounterService
                     server.sendMachine(m);
 
                 LocalDatabase.setToodayTick();
-                MainCore.setupTrigger();
+                MainCore.setupTrigger(true);
             }
             catch ( Exception ex)
             {

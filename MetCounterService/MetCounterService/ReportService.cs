@@ -21,10 +21,10 @@ namespace MetCounterService
             if (!System.Diagnostics.EventLog.SourceExists("LogSource"))
             {
                 System.Diagnostics.EventLog.CreateEventSource(
-                    "LogSource", "Log");
+                    "LogSource", "MetServiceLog");
             }
             eventLog1.Source = "LogSource";
-            eventLog1.Log = "Log";
+            eventLog1.Log = "MetServiceLog";
         }
 
         public enum ServiceState
@@ -77,6 +77,12 @@ namespace MetCounterService
         protected override void OnStop()
         {
 
+        }
+
+        protected override void OnContinue()
+        {
+            base.OnContinue();
+            eventLog1.WriteEntry("Waiting for trigger");
         }
     }
 }

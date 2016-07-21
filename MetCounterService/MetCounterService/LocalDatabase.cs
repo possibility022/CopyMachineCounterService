@@ -14,7 +14,7 @@ namespace MetCounterService
     {
         private static string[] ipsOfCopymachines;
 
-        private const string FolderName = "MetCounterServiceService";
+        private const string FolderName = "MetCounterService";
         private const string FileIps = "ip.cfg";
         private const string MacToWebMapping = "mactoweb.xml";
         private const string LastTickFile = "ticktime.log";
@@ -26,6 +26,10 @@ namespace MetCounterService
         private static string buildPath(string file)
         {
             var directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            if (Directory.Exists(Path.Combine(directory, FolderName)) == false)
+            {
+                Directory.CreateDirectory(Path.Combine(directory, FolderName));
+            }
             return (Path.Combine(directory, FolderName, file));
         }
 
@@ -36,6 +40,7 @@ namespace MetCounterService
 
         public static void Initialize()
         {
+            
             loadConfig();
             downloadMacToWebXML();
             setupLocalLog();
