@@ -9,23 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace MetCounterService
-{
-    public partial class ReportService : ServiceBase
-    {
-        public ReportService()
-        {
-            InitializeComponent();
 
-            eventLog1 = new System.Diagnostics.EventLog();
-            if (!System.Diagnostics.EventLog.SourceExists("LogSource"))
-            {
-                System.Diagnostics.EventLog.CreateEventSource(
-                    "LogSource", "MetServiceLog");
-            }
-            eventLog1.Source = "LogSource";
-            eventLog1.Log = "MetServiceLog";
-        }
+namespace MetTestingName
+{
+    public partial class MetTesting : ServiceBase
+    {
+        private System.ComponentModel.IContainer components;
+        private System.Diagnostics.EventLog eventLog1;
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
 
         public enum ServiceState
         {
@@ -50,50 +43,48 @@ namespace MetCounterService
             public long dwWaitHint;
         };
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
+        public MetTesting()
+        {
+            InitializeComponent();
+            
+            eventLog1 = new System.Diagnostics.EventLog();
+            if (!System.Diagnostics.EventLog.SourceExists("MySource"))
+            {
+                System.Diagnostics.EventLog.CreateEventSource(
+                    "MySource", "MyNewLog");
+            }
+            eventLog1.Source = "MySource";
+            eventLog1.Log = "MyNewLog";
+        }
 
         protected override void OnStart(string[] args)
         {
-            base.OnStart(args);
-            // Update the service state to Start Pending.
             ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
-            eventLog1.WriteEntry("Met Report Service - Start");
-            //string v = LocalDatabase.Version;
-            //LocalDatabase.Initialize();
-            //eventLog1.WriteEntry("Local database initialized");
-            //MainCore.setupTrigger();
-            //eventLog1.WriteEntry("Trigger have been set");
-
+            eventLog1.WriteEntry("In OnStart");
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000; // 60 seconds
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
             timer.Start();
 
-            // Update the service state to Running.
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+
         }
 
         protected override void OnStop()
         {
-
+            eventLog1.WriteEntry("In onStop.");
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             // TODO: Insert monitoring activities here.
-            eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information);
-        }
-
-        protected override void OnContinue()
-        {
-            base.OnContinue();
+            eventLog1.WriteEntry("Monitoring the System", EventLogEntryType.Information, eventId++);
         }
     }
 }
