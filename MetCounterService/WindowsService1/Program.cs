@@ -17,7 +17,9 @@ namespace WindowsMetService
         static void Main()
         {
 #if DEBUG
-
+            //LocalDatabase.saveRegistryID();
+            //bool s = Network.ServerConnection.downloadMacToWebMapping("test3.xml");
+            //bool s2 = Network.ServerConnection.downloadMacToWebMapping("test");
 #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]

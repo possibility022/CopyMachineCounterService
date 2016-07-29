@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
+using Microsoft.Win32;
 
 namespace WindowsMetService
 {
@@ -20,8 +21,7 @@ namespace WindowsMetService
         private const string LastTickFile = "ticktime.log";
         private const string MachineStorage = "machinestorage.stor";
         private const string Log = "log.log";
-
-        private static bool initialized = false;
+        private const string KeyName = "MCservice";
 
         public const string Version = "1.0";
 
@@ -220,6 +220,43 @@ namespace WindowsMetService
             }
         }
 
+        private static byte[] createRegistryID()
+        {
+            Random rnd = new Random();
+            Byte[] b = new Byte[256];
+            //TO DO. Autoryzowac klucz. Sprawdzic czy juz taki nie istnieje.
+            rnd.NextBytes(b);
+            return b;
+        }
+
+        public static bool saveRegistryID()
+        {
+            byte[] b = createRegistryID();
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(KeyName);
+            byte[] encryptedKey = Encrypting.Encrypt(b);
+            key.SetValue(@"Software\AppName\Key", encryptedKey, RegistryValueKind.Binary);
+
+            byte[] readedKey = getRegistryID();
+
+            if (readedKey.Length != b.Length)
+                throw new Exception("ID ERROR in saving and reading - wrong lenght");
+
+            for (int i = 0; i < b.Length; i++)
+            {
+                if (readedKey[i] != b[i])
+                    throw new Exception("ID ERROR in saving and reading - diffrent values");
+            }
+
+            return true;
+        }
+
+        public static byte[] getRegistryID()
+        {
+            byte[] value = createRegistryID();
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(KeyName);
+            byte[] Data = (byte[])key.GetValue(@"Software\AppName\Key", value);
+            return Encrypting.Decrypt(Data);
+        }
 
     }
 }

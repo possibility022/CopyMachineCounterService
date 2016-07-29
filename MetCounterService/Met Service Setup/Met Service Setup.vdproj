@@ -16,12 +16,12 @@
         "Entry"
         {
         "MsmKey" = "8:_0BF0A40747F0065E7795CE3A405D7768"
-        "OwnerKey" = "8:_EB6DB9EBA60343ACB438445D84FFE3CC"
+        "OwnerKey" = "8:_677F78E66802413FA4FE627531FF33E8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_EB6DB9EBA60343ACB438445D84FFE3CC"
+        "MsmKey" = "8:_677F78E66802413FA4FE627531FF33E8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -34,7 +34,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EB6DB9EBA60343ACB438445D84FFE3CC"
+        "OwnerKey" = "8:_677F78E66802413FA4FE627531FF33E8"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -55,6 +55,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -71,6 +87,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -81,7 +113,7 @@
             {
             "Name" = "8:Primary output from MetCounterService (Active)"
             "Condition" = "8:"
-            "Object" = "8:_EB6DB9EBA60343ACB438445D84FFE3CC"
+            "Object" = "8:"
             "FileType" = "3:2"
             "InstallAction" = "3:4"
             "Arguments" = "8:"
@@ -95,7 +127,7 @@
             {
             "Name" = "8:Primary output from MetCounterService (Active)"
             "Condition" = "8:"
-            "Object" = "8:_EB6DB9EBA60343ACB438445D84FFE3CC"
+            "Object" = "8:"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
@@ -735,9 +767,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_EB6DB9EBA60343ACB438445D84FFE3CC"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_677F78E66802413FA4FE627531FF33E8"
             {
-            "SourcePath" = "8:..\\MetCounterService\\obj\\Release\\MetCounterService.exe"
+            "SourcePath" = "8:..\\WindowsService1\\obj\\Debug\\WindowsService1.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5FDE3CC4078C4D49A2E6E8843ED17811"
@@ -757,7 +789,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{5468FCC1-9AD0-4A72-893C-86D62B790145}"
+            "OutputProjectGuid" = "8:{0394B830-9F6B-441E-A8CC-75217A487862}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

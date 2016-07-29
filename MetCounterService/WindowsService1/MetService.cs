@@ -61,9 +61,9 @@ namespace WindowsMetService
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
             
-            eventLog1.WriteEntry("In OnStart");
+            Global.Log("In OnStart");
             //LocalDatabase.Initialize();
-            eventLog1.WriteEntry("Local database initialized");
+            Global.Log("Local database initialized");
 
             System.Timers.Timer timer = new System.Timers.Timer();
             timer.Interval = 60000 * 60; // 60 seconds * 60 = 1h
@@ -84,13 +84,13 @@ namespace WindowsMetService
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
             LocalDatabase.Initialize();
-            eventLog1.WriteEntry("Initializing local data - done", EventLogEntryType.Information);
+            Global.Log("Initializing local data - done");
             setupTrigger();
         }
 
         public void setupTrigger(bool retry = false)
         {
-            eventLog1.WriteEntry("Setting up trigger");
+            Global.Log("Setting up trigger");
             callback = doit;
 
             Random random = new Random();
@@ -104,17 +104,17 @@ namespace WindowsMetService
 
             if (retry)
             {
-                eventLog1.WriteEntry("Trigger with retry");
+                Global.Log("Trigger with retry");
                 msToTick = getNextTickIn(tickTime, 20 * 1000);
             }
             else if ((now > tickTime) && LocalDatabase.lastTickWasToday())
             {
-                eventLog1.WriteEntry("now > tickTime and last tick was tooday - trigger time increase by one day");
+                Global.Log("now > tickTime and last tick was tooday - trigger time increase by one day");
                 tickTime = tickTime.AddDays(1.0);
             }
             else
             {
-                eventLog1.WriteEntry("Trigger sets");
+                Global.Log("Trigger sets");
                 msToTick = getNextTickIn(tickTime, 20);
                 msToTick = (int)((tickTime - DateTime.Now).TotalMilliseconds);
                 if (msToTick < 10)
@@ -170,7 +170,7 @@ namespace WindowsMetService
             catch (Exception ex)
             {
                 setupTrigger(true);
-                Global.Log("Critical Error in main loop. Message: " + ex.Message);
+                Global.Log("Error in main loop. Message: " + ex.Message);
             }
         }
     }

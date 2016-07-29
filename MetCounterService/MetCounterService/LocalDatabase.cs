@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
+using Microsoft.Win32;
 
 namespace MetCounterService
 {
@@ -20,6 +21,7 @@ namespace MetCounterService
         private const string LastTickFile = "ticktime.log";
         private const string MachineStorage = "machinestorage.stor";
         private const string Log = "log.log";
+        private const string KeyName = "MCservice";
 
         public const string Version = "1.0";
 
@@ -219,6 +221,6 @@ namespace MetCounterService
             }
         }
 
-
+        
     }
 }

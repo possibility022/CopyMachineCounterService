@@ -14,6 +14,13 @@ namespace WindowsMetService
 {
     class Global
     {
+        static System.Diagnostics.EventLog eventLog1;
+
+        public static void SetSystemEventLog(EventLog log)
+        {
+            if (eventLog1 == null) eventLog1 = log;
+        }
+
         public static StreamReader ExecuteCommandLine(string file, string arguments = "")
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -67,6 +74,7 @@ namespace WindowsMetService
         public static void Log(string message)
         {
             LocalDatabase.log(message);
+            eventLog1.WriteEntry(message);
         }
         #endregion
 

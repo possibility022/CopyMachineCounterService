@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetCounterService", "MetCounterService\MetCounterService.csproj", "{5468FCC1-9AD0-4A72-893C-86D62B790145}"
-EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Met Service Setup", "Met Service Setup\Met Service Setup.vdproj", "{89E9FE8D-26E6-4D8E-A9D4-7464FD770EB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService1", "WindowsService1\WindowsService1.csproj", "{0394B830-9F6B-441E-A8CC-75217A487862}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SslConnection", "SslConnection\SslConnection.csproj", "{04CF4369-175A-451D-80E7-2E6082D11ADE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,16 +15,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5468FCC1-9AD0-4A72-893C-86D62B790145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5468FCC1-9AD0-4A72-893C-86D62B790145}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5468FCC1-9AD0-4A72-893C-86D62B790145}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5468FCC1-9AD0-4A72-893C-86D62B790145}.Release|Any CPU.Build.0 = Release|Any CPU
 		{89E9FE8D-26E6-4D8E-A9D4-7464FD770EB7}.Debug|Any CPU.ActiveCfg = Debug
 		{89E9FE8D-26E6-4D8E-A9D4-7464FD770EB7}.Release|Any CPU.ActiveCfg = Release
 		{0394B830-9F6B-441E-A8CC-75217A487862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0394B830-9F6B-441E-A8CC-75217A487862}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0394B830-9F6B-441E-A8CC-75217A487862}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0394B830-9F6B-441E-A8CC-75217A487862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04CF4369-175A-451D-80E7-2E6082D11ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04CF4369-175A-451D-80E7-2E6082D11ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04CF4369-175A-451D-80E7-2E6082D11ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04CF4369-175A-451D-80E7-2E6082D11ADE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

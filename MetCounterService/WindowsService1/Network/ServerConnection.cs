@@ -14,7 +14,7 @@ namespace WindowsMetService.Network
 
     class ServerConnection
     {
-        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 127, 0, 0, 1 });
+        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 240 });
         static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
         TcpClient client;
@@ -22,6 +22,8 @@ namespace WindowsMetService.Network
         private Machine machine = null;
 
         private bool canCreateNewConnection = true;
+
+        private static int handshakeKeyLenght = 50;
 
         public bool sendMachine(Machine machine)
         {
@@ -74,7 +76,7 @@ namespace WindowsMetService.Network
             return success;
         }
 
-        private bool sendByteArray(ref NetworkStream stream, byte[] data)
+        private static bool sendByteArray(ref NetworkStream stream, byte[] data)
         {
             try
             {
@@ -128,23 +130,40 @@ namespace WindowsMetService.Network
 
         private byte[] buildData(string data)
         {
-            byte[] d = System.Text.Encoding.ASCII.GetBytes("#|$" + data + "$|#");
+            return getBytes("#|$" + data + "$|#");
+        }
+
+        private static byte[] getBytes(string data)
+        {
+            byte[] d = System.Text.Encoding.ASCII.GetBytes(data);
             return d;
         }
 
         static public bool downloadMacToWebMapping(string path)
         {
             //string path = LocalDatabase.buildPath(LocalDatabase.MacToWebMapping);
-
+            int total = 0;
             try
             {
                 using (FileStream filestream = new FileStream(path, FileMode.Create))
                 {
                     using (TcpClient client = new TcpClient(serverOfferEndPoint.Address.ToString(), serverOfferEndPoint.Port))
                     {
-                        int readed = 0;
                         byte[] buffor = new byte[1024];
                         NetworkStream networkStream = client.GetStream();
+
+                        //Autoryzacja
+                        Handshake handshake = new Handshake();
+                        if (handshake.authorize(ref networkStream) == false)
+                            return false;
+
+                        System.Threading.Thread.Sleep(500);
+
+                        //Wysylanie komendy pobrania pliku XML
+                        sendByteArray(ref networkStream, getBytes("XMLO"));
+
+                        //pobieranie pliku
+                        int readed = 0;
                         do
                         {
                             readed = networkStream.Read(buffor, 0, buffor.Length);
@@ -152,7 +171,9 @@ namespace WindowsMetService.Network
                             {
                                 filestream.Write(buffor, 0, readed);
                             }
+                            total += readed;
                         } while (readed > 0);
+                        //zamykanie polaczenia
                         networkStream.Close();
                         client.Close();
                     }
@@ -162,8 +183,13 @@ namespace WindowsMetService.Network
             {
                 return false;
             }
+
+            if (total == 0)
+                return false;
             return true;
         }
+
+
     }
     
 }
