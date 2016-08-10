@@ -23,6 +23,7 @@ namespace WindowsMetService
         private const string Log = "log.log";
         private const string KeyName = "MCservice";
 
+
         public const string Version = "1.0";
 
         private static string buildPath(string file)
@@ -233,7 +234,7 @@ namespace WindowsMetService
         {
             byte[] b = createRegistryID();
             RegistryKey key = Registry.CurrentUser.CreateSubKey(KeyName);
-            byte[] encryptedKey = Encrypting.Encrypt(b);
+            byte[] encryptedKey = Security.Encrypting.Encrypt(b);
             key.SetValue(@"Software\AppName\Key", encryptedKey, RegistryValueKind.Binary);
 
             byte[] readedKey = getRegistryID();
@@ -255,8 +256,10 @@ namespace WindowsMetService
             byte[] value = createRegistryID();
             RegistryKey key = Registry.CurrentUser.OpenSubKey(KeyName);
             byte[] Data = (byte[])key.GetValue(@"Software\AppName\Key", value);
-            return Encrypting.Decrypt(Data);
+            return Security.Encrypting.Decrypt(Data);
         }
+
+
 
     }
 }

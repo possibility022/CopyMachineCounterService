@@ -14,7 +14,7 @@ namespace WindowsMetService.Network
 
     class ServerConnection
     {
-        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 240 });
+        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 137 });
         static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
         TcpClient client;
@@ -22,8 +22,6 @@ namespace WindowsMetService.Network
         private Machine machine = null;
 
         private bool canCreateNewConnection = true;
-
-        private static int handshakeKeyLenght = 50;
 
         public bool sendMachine(Machine machine)
         {
@@ -160,7 +158,7 @@ namespace WindowsMetService.Network
                         System.Threading.Thread.Sleep(500);
 
                         //Wysylanie komendy pobrania pliku XML
-                        sendByteArray(ref networkStream, getBytes("XMLO"));
+                        sendByteArray(ref networkStream, Security.RSAv3.encrypt(getBytes("XMLO")));
 
                         //pobieranie pliku
                         int readed = 0;
@@ -188,8 +186,6 @@ namespace WindowsMetService.Network
                 return false;
             return true;
         }
-
-
     }
     
 }

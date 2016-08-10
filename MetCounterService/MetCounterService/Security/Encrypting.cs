@@ -3,38 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using System.IO;
 using System.Security.Cryptography;
+using System.IO;
 
-namespace WindowsMetService
+namespace MetCounterService.Security
 {
     class Encrypting
     {
-        public static string Encrypt(string text)
+        private static RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider();
+
+
+        //Encoding.Unicode.GetBytes(textToEncrypt);
+        //data = Convert.ToBase64String(ms.ToArray());
+        public static string Encrypt(string textToEncrypt)
         {
-            byte[] encrypted = Encrypt(Encoding.Unicode.GetBytes(text));
-            return Convert.ToBase64String(encrypted);
+            byte[] text = Encrypt(Encoding.Unicode.GetBytes(textToEncrypt));
+            return Convert.ToBase64String(text);
         }
 
-        public static string Decrypt(string text)
+        public static string Decrypt(string textToDecrypt)
         {
-            byte[] encrypted = Decrypt(Encoding.Unicode.GetBytes(text));
-            return Convert.ToBase64String(encrypted);
+            byte[] text = Convert.FromBase64String(textToDecrypt);
+            return Encoding.Unicode.GetString(text);
         }
-        
+
         public static byte[] Encrypt(byte[] data)
         {
             if (data == null) return new byte[] { };
 
-            string EncryptionKey = "***REMOVED***";
-            byte[] clearBytes = data; //Encoding.Unicode.GetBytes
+            string d = "***REMOVED***";
+            byte[] clearBytes = data;
 
             string s = Convert.ToBase64String(new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
 
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(d, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
                 encryptor.Key = pdb.GetBytes(32);
                 encryptor.IV = pdb.GetBytes(16);
                 using (MemoryStream ms = new MemoryStream())
@@ -44,18 +48,19 @@ namespace WindowsMetService
                         cs.Write(clearBytes, 0, clearBytes.Length);
                         cs.Close();
                     }
-                    data = ms.ToArray();//Convert.ToBase64String
+                    data = ms.ToArray();
                 }
             }
             return data;
         }
 
+        //Encoding.Unicode.GetString(ms.ToArray());
         public static byte[] Decrypt(byte[] data)
         {
             if (data == null) return new byte[] { };
 
             string EncryptionKey = "***REMOVED***";
-            byte[] cipherBytes = data;//Convert.FromBase64String
+            byte[] cipherBytes = data;
             using (Aes encryptor = Aes.Create())
             {
                 Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
@@ -68,10 +73,11 @@ namespace WindowsMetService
                         cs.Write(cipherBytes, 0, cipherBytes.Length);
                         cs.Close();
                     }
-                    data = ms.ToArray(); //Encoding.Unicode.GetString
+                    data = ms.ToArray();
                 }
             }
             return data;
         }
+
     }
 }

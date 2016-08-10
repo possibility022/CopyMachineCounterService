@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using WindowsMetService.Security;
+
 namespace WindowsMetService.Network
 {
     class Handshake
@@ -45,17 +47,27 @@ namespace WindowsMetService.Network
 
         public bool authorize(ref System.Net.Sockets.NetworkStream stream)
         {
+            //wysylanie zaszyfrowanego klucza publicznego klienta |ServerPublicKey[ClientPublicKeyM]|
+            byte[] buffor = Security.RSAv3.getEncryptedClientRsaParameterM();
+            stream.Write(buffor, 0, buffor.Length);
+
+            System.Threading.Thread.Sleep(100);
+
+            //wysylanie drugiej czesci parametr e
+            buffor = Security.RSAv3.getEncryptedClientRsaParameterE();
+            stream.Write(buffor, 0, buffor.Length);
+
             int readed = 0;
             byte[] keyBuffor = new byte[Handshake.handshakekeylenght];
-            readed = stream.Read(keyBuffor, 0, keyBuffor.Length);
+            readed = stream.Read(keyBuffor, 0, 1024);
 
-            if (readed != Handshake.handshakekeylenght)
+            keyBuffor = RSAv3.decrypt(keyBuffor);
+
+            if (keyBuffor.Length != Handshake.handshakekeylenght)
                 return false;
             //wysylanie odpowiedzi
-            keyBuffor = handshakeResponse(keyBuffor);
-
+            keyBuffor = RSAv3.encrypt(handshakeResponse(keyBuffor));
             stream.Write(keyBuffor, 0, keyBuffor.Length);
-
             return true;
         }
     }

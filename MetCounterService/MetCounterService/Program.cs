@@ -15,6 +15,7 @@ namespace MetCounterService
         /// </summary>
         static void Main()
         {
+# if DEBUG
             string v = LocalDatabase.Version;
             LocalDatabase.Initialize();
             MainCore.setupTrigger();
@@ -23,12 +24,14 @@ namespace MetCounterService
             {
                 System.Threading.Thread.Sleep(1000);
             }
+#else
             //ServiceBase[] ServicesToRun;
             //ServicesToRun = new ServiceBase[]
             //{
             //    new ReportService()
             //};
             //ServiceBase.Run(ServicesToRun);
+#elseif
         }
     }
 }
