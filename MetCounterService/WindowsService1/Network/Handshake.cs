@@ -51,6 +51,8 @@ namespace WindowsMetService.Network
             byte[] buffor = Security.RSAv3.getEncryptedClientRsaParameterM();
             stream.Write(buffor, 0, buffor.Length);
 
+            System.IO.File.WriteAllBytes("v:\\encryptedFromC-rsav3.bytes", buffor);
+
             System.Threading.Thread.Sleep(100);
 
             //wysylanie drugiej czesci parametr e
@@ -58,8 +60,8 @@ namespace WindowsMetService.Network
             stream.Write(buffor, 0, buffor.Length);
 
             int readed = 0;
-            byte[] keyBuffor = new byte[Handshake.handshakekeylenght];
-            readed = stream.Read(keyBuffor, 0, 1024);
+            byte[] keyBuffor = new byte[128];
+            readed = stream.Read(keyBuffor, 0, keyBuffor.Length);
 
             keyBuffor = RSAv3.decrypt(keyBuffor);
 

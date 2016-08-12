@@ -102,7 +102,7 @@ namespace WindowsMetService.Security
             File.WriteAllBytes("v:\\csharpencrypted.bytes", encrypted);
         }
 
-        private static byte[] clearbytes(byte[] bytes)
+        public static byte[] clearbytes(byte[] bytes)
         {
             byte empty = bytes[0];
 

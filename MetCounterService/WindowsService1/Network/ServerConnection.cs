@@ -18,10 +18,22 @@ namespace WindowsMetService.Network
         static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
         TcpClient client;
-
+        NetworkStream stream = null;
+        
         private Machine machine = null;
 
-        private bool canCreateNewConnection = true;
+        public ServerConnection()
+        {
+            
+        }
+
+        private bool do_handshake()
+        {
+            client = new TcpClient(serverReceiverEndPoint.Address.ToString(), serverReceiverEndPoint.Port);
+            stream = client.GetStream();
+            Handshake handshake = new Handshake();
+            return handshake.authorize(ref stream);
+        }
 
         public bool sendMachine(Machine machine)
         {
@@ -29,39 +41,39 @@ namespace WindowsMetService.Network
             bool success = true;
             try
             {
-                if ((client == null) || (canCreateNewConnection))
+                using (client)
                 {
-                    canCreateNewConnection = false;
-                    using (client = new TcpClient(serverReceiverEndPoint.Address.ToString(), serverReceiverEndPoint.Port))
+                    NetworkStream stream = null;
+                    try
                     {
-                        NetworkStream stream = null;
-                        try
-                        {
-                            stream = client.GetStream();
+                        Handshake handshake = new Handshake();
+                        stream = client.GetStream();
+                        if (handshake.authorize(ref stream))
                             success = sendeachline(ref stream, ref machine);
-                        }
-                        catch (Exception ex)
-                        {
-                            Global.Log("Exception in getting stream: " + ex.Message);
-                            success = false;
-                            this.machine = null;
-                        }
-                        finally
-                        {
-                            if (stream != null)
-                            {
-                                stream.Flush();
-                                byte[] disconnectingdata = buildData("QUIT-DISCONNECT");
-                                stream.Write(disconnectingdata, 0, disconnectingdata.Length);
-                                stream.Flush();
-                                stream.Close();
-                            }
-                            canCreateNewConnection = true;
-                        }
-                        client.Close();
+                        else success = false;
                     }
-
+                    catch (Exception ex)
+                    {
+                        Global.Log("Exception in getting stream: " + ex.Message);
+                        success = false;
+                        this.machine = null;
+                    }
+                    finally
+                    {
+                        if (stream != null)
+                        {
+                            stream.Flush();
+                            byte[] disconnectingdata = buildData("QUIT-DISCONNECT");
+                            sendByteArray(ref stream, disconnectingdata);
+                            //stream.Write(disconnectingdata, 0, disconnectingdata.Length);
+                            stream.Flush();
+                            stream.Close();
+                        }
+                    }
+                    client.Close();
                 }
+
+                
             }catch
             (Exception ex)
             {
@@ -78,6 +90,7 @@ namespace WindowsMetService.Network
         {
             try
             {
+                data = Security.RSAv3.encrypt(data);
                 stream.Write(data, 0, data.Length);
                 return true;
             }
@@ -101,20 +114,23 @@ namespace WindowsMetService.Network
 
         private bool sendeachline(ref NetworkStream stream, ref Machine machine)
         {
-            List<byte[]> lines = getLines(ref machine);
+            byte[] lines = getLines(ref machine);
 
-            foreach (byte[] array in lines)
-            {
-                if (sendByteArray(ref stream, array) == false)
-                {
-                    this.machine = null;
-                    return false;
-                }
-            }
+            sendByteArray(ref stream, lines);
+            
+
+            //foreach (byte[] array in lines)
+            //{
+            //    if (sendByteArray(ref stream, array) == false)
+            //    {
+            //        this.machine = null;
+            //        return false;
+            //    }
+            //}
             return true;
         }
 
-        private List<byte[]> getLines(ref Machine machine)
+        private byte[] getLines(ref Machine machine)
         {
             List<byte[]> lines = new List<byte[]>();
 
@@ -123,7 +139,7 @@ namespace WindowsMetService.Network
             lines.Add(buildData(machine.mac));
             lines.Add(buildData(machine.ip));
 
-            return lines;
+            return combineArrays(lines);
         }
 
         private byte[] buildData(string data)
@@ -135,6 +151,22 @@ namespace WindowsMetService.Network
         {
             byte[] d = System.Text.Encoding.ASCII.GetBytes(data);
             return d;
+        }
+
+        private static byte[] combineArrays(List<byte[]> arrays)
+        {
+            int sum = 0;
+            foreach (byte[] ar in arrays)
+                sum += ar.Length;
+
+            byte[] rv = new byte[sum];
+            int offset = 0;
+            foreach (byte[] array in arrays)
+            {
+                System.Buffer.BlockCopy(array, 0, rv, offset, array.Length);
+                offset += array.Length;
+            }
+            return rv;
         }
 
         static public bool downloadMacToWebMapping(string path)
@@ -158,22 +190,28 @@ namespace WindowsMetService.Network
                         System.Threading.Thread.Sleep(500);
 
                         //Wysylanie komendy pobrania pliku XML
-                        sendByteArray(ref networkStream, Security.RSAv3.encrypt(getBytes("XMLO")));
+                        sendByteArray(ref networkStream, getBytes("XMLO"));
 
                         //pobieranie pliku
                         int readed = 0;
+                        List<byte[]> receivedData = new List<byte[]>();
                         do
                         {
                             readed = networkStream.Read(buffor, 0, buffor.Length);
                             if (readed > 0)
                             {
-                                filestream.Write(buffor, 0, readed);
+                                byte[] newBuffor = new byte[readed];
+                                System.Buffer.BlockCopy(buffor, 0, newBuffor, 0, readed);
+                                receivedData.Add(newBuffor);
                             }
                             total += readed;
                         } while (readed > 0);
                         //zamykanie polaczenia
                         networkStream.Close();
                         client.Close();
+                        byte[] fileBuffor = combineArrays(receivedData);
+                        fileBuffor = Security.RSAv3.decrypt(fileBuffor);
+                        filestream.Write(fileBuffor, 0, fileBuffor.Length);
                     }
                     filestream.Close();
                 }

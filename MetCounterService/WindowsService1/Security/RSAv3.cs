@@ -12,7 +12,7 @@ namespace WindowsMetService.Security
     class RSAv3
     {
         static RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-        static byte[] encrypted_parameter_m = Convert.FromBase64String("JjsLkDTd3K3eNM8HTnEP8CzHPNKQonoygcCu6CDUfwfi3N6aLXe62CSWCyQk1IEqnPLWdkcV9l0csCUZ2QSYbh05WhSibIurBkmoF0a0rFJex5YeLrCMEY4FIIknzUErOcsKh4lDc+d52e8HvFckl0BzyKIPxrmimHOwD26hyx//R6f5ZLnBjweGL1CKGPOY");
+        static byte[] encrypted_parameter_m = Convert.FromBase64String("***REMOVED***");
         static byte[] encrypted_parameter_e = Convert.FromBase64String("***REMOVED***");
 
 
@@ -24,6 +24,7 @@ namespace WindowsMetService.Security
         /// <returns></returns>
         static public byte[] decrypt(byte[] bytes)
         {
+            //rsa.FromXmlString(File.ReadAllText("localprivatekey.xml")); //TODO usuń tą linijkę
             //Jeśli bajtów jest więcej niż 128 wykorzystuje metode decryptingBigData
             if (bytes.Length > 128)
                 return decryptBigData(bytes);
@@ -48,24 +49,27 @@ namespace WindowsMetService.Security
 
             //Dzielenie danych na osobne fragmęty 128 bajtowe do odszyfrowania.
             byte[][] newArrays = new byte[input.Length / 128][];
-            int finalArrayLenght = 0;
+            // stary kod : int finalArrayLenght = 0;
             for (int i = 0; i < newArrays.Length; i++)
             {
                 byte[] toDecrypt = cutBytes(ref input, i*128, (i*128) + 128);
                 newArrays[i] = rsa.Decrypt(toDecrypt, false);
-                finalArrayLenght += newArrays[i].Length;
+                // stary kod : finalArrayLenght += newArrays[i].Length;
             }
 
+            return combine(newArrays);
+
+            //Stary kod:
             //Kopiowanie bajtów z poprzednio rozszyfrowanych fragmentów do nowej ciągłej tablicy bajtów która następnie jest zwracana.
-            byte[] finalArray = new byte[finalArrayLenght];
-            int loop = 0;
-            foreach(byte[] array in newArrays)
-            {
-                copyBytes(array, ref finalArray, loop * 64);
-                loop++;
-            }
+            //byte[] finalArray = new byte[finalArrayLenght];
+            //int loop = 0;
+            //foreach(byte[] array in newArrays)
+            //{
+            //    copyBytes(array, ref finalArray, loop * 64);
+            //    loop++;
+            //}
 
-            return finalArray;
+            //return finalArray;
         }
 
 
@@ -96,7 +100,7 @@ namespace WindowsMetService.Security
                 return encryptBigData(bytes);
             }else
             {
-                return tmp.Encrypt(bytes, false);//TODO sprawdz ta linijke czy jest uzywany klucz serwera
+                return serverRSA.Encrypt(bytes, false);//TODO sprawdz ta linijke czy jest uzywany klucz serwera
             }
 
             //byte[] encryptedBytes = serverRSA.Encrypt(bytes, false);
@@ -110,6 +114,7 @@ namespace WindowsMetService.Security
         /// <returns></returns>
         static private byte[] encryptBigData(byte[] data)
         {
+            //okreslenie ilosci tablic
             int arraySize = 0;
             if (data.Length % 64 == 0)
                 arraySize = data.Length / 64;
@@ -118,23 +123,30 @@ namespace WindowsMetService.Security
 
             byte[][] newArrays = new byte[arraySize][];
 
+            //wycinanie poszczególnych fragmentów ze źródłowej tablicy
             for(int i = 0; i < arraySize; i++)
             {
                 byte[] bytesToEncrypt = cutBytes(ref data, (i * 64), (i * 64) + 64);
                 bytesToEncrypt = encrypt(bytesToEncrypt, false);
                 newArrays[i] = bytesToEncrypt;
             }
+            //łączenie tablic
+            return combine(newArrays);
 
-            byte[] finallArray = new byte[newArrays.Length * 128];
+            //stary kod tworzenie tablicy finalnej
+            //byte[] finallArray = new byte[newArrays.Length * 128];
 
-            int loop = 0;
-            foreach(byte[] array in newArrays)
-            {
-                copyBytes(array, ref finallArray, loop * 128);
-                loop++;
-            }
+            //łączenie tablic
 
-            return finallArray;
+            //  Stary kod:
+            //int loop = 0;
+            //foreach(byte[] array in newArrays)
+            //{
+            //    copyBytes(array, ref finallArray, loop * 128);
+            //    loop++;
+            //}
+
+            //return finallArray;
         }
 
         /// <summary>
@@ -180,6 +192,18 @@ namespace WindowsMetService.Security
             {
                 to[indexInNewArray + i] = from[i];
             }
+        }
+
+        static private byte[] combine(params byte[][] arrays)
+        {
+            byte[] rv = new byte[arrays.Sum(a => a.Length)];
+            int offset = 0;
+            foreach (byte[] array in arrays)
+            {
+                System.Buffer.BlockCopy(array, 0, rv, offset, array.Length);
+                offset += array.Length;
+            }
+            return rv;
         }
 
         #endregion

@@ -5,6 +5,8 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace WindowsMetService
 {
@@ -18,22 +20,56 @@ namespace WindowsMetService
         {
 #if DEBUG
             //LocalDatabase.saveRegistryID();
-            //bool s = Network.ServerConnection.downloadMacToWebMapping("test3.xml");
+            bool s = Network.ServerConnection.downloadMacToWebMapping("test3.xml");
             //bool s2 = Network.ServerConnection.downloadMacToWebMapping("test");
-            //Security.RSA rsa = new Security.RSA();
 
-            //byte[] encryptedtext = System.IO.File.ReadAllBytes("V:\\encryptedtext");
+            //File.WriteAllBytes("v:\\encryptedFromC-rsav3.bytes", Security.RSAv3.encrypt(Encoding.UTF8.GetBytes("tteesstt dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd")));
 
-            //Security.RSA.RSADecode(encryptedtext);
-            //Security.TBRSA.test4();
-            //Security.RSAv2.Test();
 
-            //Network.ServerConnection.downloadMacToWebMapping("test");
-            byte[] toencode = Encoding.UTF8.GetBytes("aldhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd kajwdh kajwdhk awgdjhagwjdkh gawjhdg jahwgd jhagwj hdgajwh gdjahwgdjahgdwjhadkawhgdka");
-            byte[] s = Security.RSAv3.encrypt(toencode);
-            byte[] decrypted = Security.RSAv3.decrypt(s);
+            //byte[] mb = System.IO.File.ReadAllBytes("v:\\public-server-key-m");
+            //byte[] eb = System.IO.File.ReadAllBytes("v:\\public-server-key-e");
 
-            string final = Encoding.UTF8.GetString(decrypted);
+            //mb = Security.RSAv2.clearbytes(mb);
+            //eb = Security.RSAv2.clearbytes(eb);
+
+            //mb = Security.Encrypting.Encrypt(mb);
+            //eb = Security.Encrypting.Encrypt(eb);
+
+            //string m = Convert.ToBase64String(mb);
+            //string e = Convert.ToBase64String(eb);
+
+
+            //byte[] toencode = Encoding.UTF8.GetBytes("aldhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd kajwdh kajwdhk awgdjhagwjdkh gawjhdg jahwgd jhagwj hdgajwh gdjahwgdjahgdwjhadkawhgdka");
+            //byte[] s = Security.RSAv3.encrypt(toencode);
+
+            //System.IO.File.WriteAllBytes("v:\\encrypted.bytes", s);
+
+            //RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(1024);
+            //File.WriteAllText("localprivatekey.xml", rsa.ToXmlString(true));
+            //File.WriteAllBytes("v:\\csharp-module.bytes", rsa.ExportParameters(false).Modulus);
+            //File.WriteAllBytes("v:\\csharp-expo.bytes", rsa.ExportParameters(false).Exponent);
+
+            //byte[] encrypted = File.ReadAllBytes("v:\\messagefrompython-encryptedusingcpublickey.bytes");
+
+            //RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            //rsa.FromXmlString(File.ReadAllText("localprivatekey.xml"));
+            //byte[] encryptedHere = rsa.Encrypt(Encoding.UTF8.GetBytes("sl"), false);
+
+            ////byte[] decrypted = rsa.Decrypt(encrypted, true);
+            ////string decryptedText = Encoding.UTF8.GetString(decrypted);
+
+            //RSAParameters parameters = rsa.ExportParameters(false);
+            //rsa = null;
+            //rsa = new RSACryptoServiceProvider();
+            //rsa.ImportParameters(parameters);
+
+            
+
+            //string s = Encoding.UTF8.GetString(
+            //    Security.RSAv3.decrypt(encrypted
+            //        ));
+
+
 #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]

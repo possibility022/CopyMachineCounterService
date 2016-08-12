@@ -163,7 +163,8 @@ namespace WindowsMetService
 
                 machines = LocalDatabase.getMachinesFromStorage();
                 foreach (Machine m in machines)
-                    server.sendMachine(m);
+                    if (server.sendMachine(m) == false)
+                        LocalDatabase.putMachineToStorage(m);
 
                 LocalDatabase.setToodayTick();
             }
