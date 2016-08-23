@@ -15,7 +15,6 @@ namespace WindowsMetService.Network
     class ServerConnection
     {
         static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 137 });
-        static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
         TcpClient client;
         NetworkStream stream = null;
@@ -25,65 +24,6 @@ namespace WindowsMetService.Network
         public ServerConnection()
         {
             
-        }
-
-        private bool do_handshake()
-        {
-            client = new TcpClient(serverReceiverEndPoint.Address.ToString(), serverReceiverEndPoint.Port);
-            stream = client.GetStream();
-            Handshake handshake = new Handshake();
-            return handshake.authorize(ref stream);
-        }
-
-        public bool sendMachine(Machine machine)
-        {
-            this.machine = machine;
-            bool success = true;
-            try
-            {
-                using (client)
-                {
-                    NetworkStream stream = null;
-                    try
-                    {
-                        Handshake handshake = new Handshake();
-                        stream = client.GetStream();
-                        if (handshake.authorize(ref stream))
-                            success = sendeachline(ref stream, ref machine);
-                        else success = false;
-                    }
-                    catch (Exception ex)
-                    {
-                        Global.Log("Exception in getting stream: " + ex.Message);
-                        success = false;
-                        this.machine = null;
-                    }
-                    finally
-                    {
-                        if (stream != null)
-                        {
-                            stream.Flush();
-                            byte[] disconnectingdata = buildData("QUIT-DISCONNECT");
-                            sendByteArray(ref stream, disconnectingdata);
-                            //stream.Write(disconnectingdata, 0, disconnectingdata.Length);
-                            stream.Flush();
-                            stream.Close();
-                        }
-                    }
-                    client.Close();
-                }
-
-                
-            }catch
-            (Exception ex)
-            {
-                Global.Log("Class: ServerConnection Method: sendMachine Ex.Message:" + ex.Message);
-                success = false;
-                this.machine = null;
-            }
-
-            Global.Log("SendMachine operation result: " + success);
-            return success;
         }
 
         private static bool sendByteArray(ref NetworkStream stream, byte[] data)
@@ -110,36 +50,6 @@ namespace WindowsMetService.Network
             }
 
             return false;
-        }
-
-        private bool sendeachline(ref NetworkStream stream, ref Machine machine)
-        {
-            byte[] lines = getLines(ref machine);
-
-            sendByteArray(ref stream, lines);
-            
-
-            //foreach (byte[] array in lines)
-            //{
-            //    if (sendByteArray(ref stream, array) == false)
-            //    {
-            //        this.machine = null;
-            //        return false;
-            //    }
-            //}
-            return true;
-        }
-
-        private byte[] getLines(ref Machine machine)
-        {
-            List<byte[]> lines = new List<byte[]>();
-
-            lines.Add(buildData(machine.counterData));
-            lines.Add(buildData(machine.serialNumberData));
-            lines.Add(buildData(machine.mac));
-            lines.Add(buildData(machine.ip));
-
-            return combineArrays(lines);
         }
 
         private byte[] buildData(string data)

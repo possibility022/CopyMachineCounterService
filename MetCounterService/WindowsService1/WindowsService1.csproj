@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network\DAO.cs" />
+    <Compile Include="Network\ServerStream.cs" />
     <Compile Include="Security\Encrypting.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="LocalDatabase.cs" />
