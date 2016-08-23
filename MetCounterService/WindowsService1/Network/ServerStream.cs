@@ -22,7 +22,6 @@ namespace WindowsMetService.Network
         TcpClient client;
         NetworkStream stream = null;
 
-        private Machine machine = null;
         private bool connected = false;
 
         public ServerStream()

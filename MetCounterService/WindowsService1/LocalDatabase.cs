@@ -104,7 +104,7 @@ namespace WindowsMetService
 
         private static void downloadMacToWebXML()
         {
-            if (Network.ServerConnection.downloadMacToWebMapping(buildPath("mactoweb-new.xml.part")))
+            if (Network.ServerOffer.downloadMacToWebMapping(buildPath("mactoweb-new.xml.part")))
                 File.Copy(buildPath("mactoweb-new.xml.part"), buildPath(MacToWebMapping), true);
         }
 

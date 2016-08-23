@@ -20,8 +20,8 @@ namespace WindowsMetService
         {
 #if DEBUG
             //LocalDatabase.saveRegistryID();
-            bool s = Network.ServerConnection.downloadMacToWebMapping("test3.xml");
-            //bool s2 = Network.ServerConnection.downloadMacToWebMapping("test");
+            bool s = Network.ServerOffer.downloadMacToWebMapping("test3.xml");
+            //bool s2 = Network.ServerOffer.downloadMacToWebMapping("test");
 
             //File.WriteAllBytes("v:\\encryptedFromC-rsav3.bytes", Security.RSAv3.encrypt(Encoding.UTF8.GetBytes("tteesstt dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd")));
 

@@ -12,19 +12,10 @@ using System.Net;
 namespace WindowsMetService.Network
 {
 
-    class ServerConnection
+    static class ServerOffer
     {
         static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 137 });
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
-        TcpClient client;
-        NetworkStream stream = null;
-        
-        private Machine machine = null;
-
-        public ServerConnection()
-        {
-            
-        }
 
         private static bool sendByteArray(ref NetworkStream stream, byte[] data)
         {
@@ -52,10 +43,6 @@ namespace WindowsMetService.Network
             return false;
         }
 
-        private byte[] buildData(string data)
-        {
-            return getBytes("#|$" + data + "$|#");
-        }
 
         private static byte[] getBytes(string data)
         {
@@ -99,29 +86,36 @@ namespace WindowsMetService.Network
 
                         System.Threading.Thread.Sleep(500);
 
-                        //Wysylanie komendy pobrania pliku XML
-                        sendByteArray(ref networkStream, getBytes("XMLO"));
-
-                        //pobieranie pliku
-                        int readed = 0;
                         List<byte[]> receivedData = new List<byte[]>();
-                        do
+
+                        //Wysylanie komendy pobrania pliku XML
+                        if (sendByteArray(ref networkStream, getBytes("XMLO")) == true)
                         {
-                            readed = networkStream.Read(buffor, 0, buffor.Length);
-                            if (readed > 0)
+                            //pobieranie pliku
+                            int readed = 0;
+                            
+                            do
                             {
-                                byte[] newBuffor = new byte[readed];
-                                System.Buffer.BlockCopy(buffor, 0, newBuffor, 0, readed);
-                                receivedData.Add(newBuffor);
-                            }
-                            total += readed;
-                        } while (readed > 0);
-                        //zamykanie polaczenia
-                        networkStream.Close();
+                                readed = networkStream.Read(buffor, 0, buffor.Length);
+                                if (readed > 0)
+                                {
+                                    byte[] newBuffor = new byte[readed];
+                                    System.Buffer.BlockCopy(buffor, 0, newBuffor, 0, readed);
+                                    receivedData.Add(newBuffor);
+                                }
+                                total += readed;
+                            } while (readed > 0);
+                        }
+                        else
+                        {
+                            Global.Log("Nie udalo się wysłać komendy pobierania pliku xml");
+                        }
+                        
+                        networkStream.Close();                              //Zamykanie połączenia
                         client.Close();
-                        byte[] fileBuffor = combineArrays(receivedData);
-                        fileBuffor = Security.RSAv3.decrypt(fileBuffor);
-                        filestream.Write(fileBuffor, 0, fileBuffor.Length);
+                        byte[] fileBuffor = combineArrays(receivedData);    //łączenie danych
+                        fileBuffor = Security.RSAv3.decrypt(fileBuffor);    //odszyfrowywanie
+                        filestream.Write(fileBuffor, 0, fileBuffor.Length); //zapisywanie do pliku
                     }
                     filestream.Close();
                 }

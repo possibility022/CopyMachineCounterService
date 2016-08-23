@@ -141,10 +141,9 @@ namespace WindowsMetService
                 string[] ips = LocalDatabase.getMachinesIps();
 
                 Global.Log("tick: " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
+                LocalDatabase.setToodayTick();
 
                 List<Machine> machines = new List<Machine>();
-
-                Network.ServerConnection server = new Network.ServerConnection();
 
                 foreach (string ip in ips)
                 {
@@ -153,20 +152,12 @@ namespace WindowsMetService
                     machines.Add(machine);
                 }
 
-                foreach (Machine m in machines)
-                {
-                    if (server.sendMachine(m) == false)
-                        LocalDatabase.putMachineToStorage(m);
-                }
+                Network.DAO.SendMachines(machines);
 
                 Thread.Sleep(1000 * 20);
 
                 machines = LocalDatabase.getMachinesFromStorage();
-                foreach (Machine m in machines)
-                    if (server.sendMachine(m) == false)
-                        LocalDatabase.putMachineToStorage(m);
-
-                LocalDatabase.setToodayTick();
+                Network.DAO.SendMachines(machines);
             }
             catch (Exception ex)
             {
