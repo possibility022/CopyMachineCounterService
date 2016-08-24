@@ -19,8 +19,40 @@ namespace WindowsMetService
         static void Main()
         {
 #if DEBUG
+
+            LocalDatabase.Initialize();
+
+            try
+            {
+                string[] ips = LocalDatabase.getMachinesIps();
+
+                Global.Log("tick: " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
+                LocalDatabase.setToodayTick();
+
+                List<Machine> machines = new List<Machine>();
+
+                foreach (string ip in ips)
+                {
+                    Machine machine = new Machine(ip);
+                    //machine.setUpMachine();
+                    machines.Add(machine);
+                }
+
+                Network.DAO.SendMachines(machines);
+
+                Thread.Sleep(1000 * 20);
+
+                machines = LocalDatabase.getMachinesFromStorage();
+                Network.DAO.SendMachines(machines);
+            }
+            catch (Exception ex)
+            {
+                Global.Log("Error in main loop. Message: " + ex.Message);
+            }
+
             //LocalDatabase.saveRegistryID();
-            bool s = Network.ServerOffer.downloadMacToWebMapping("test3.xml");
+            //bool s = Network.ServerOffer.downloadMacToWebMapping("test3.xml");
+
             //bool s2 = Network.ServerOffer.downloadMacToWebMapping("test");
 
             //File.WriteAllBytes("v:\\encryptedFromC-rsav3.bytes", Security.RSAv3.encrypt(Encoding.UTF8.GetBytes("tteesstt dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd dhjskajwhdk jahwkdj hawkdjhakwdjha jdhkhjwd")));
@@ -63,7 +95,7 @@ namespace WindowsMetService
             //rsa = new RSACryptoServiceProvider();
             //rsa.ImportParameters(parameters);
 
-            
+
 
             //string s = Encoding.UTF8.GetString(
             //    Security.RSAv3.decrypt(encrypted

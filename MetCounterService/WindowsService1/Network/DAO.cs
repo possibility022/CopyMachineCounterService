@@ -51,7 +51,7 @@ namespace WindowsMetService.Network
             machineData[0] = machine.counterData;
             machineData[1] = machine.serialNumberData;
             machineData[2] = machine.mac;
-            machineData[4] = machine.ip;
+            machineData[3] = machine.ip;
 
             return machineData;
         }

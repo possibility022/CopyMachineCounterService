@@ -14,7 +14,7 @@ namespace WindowsMetService.Network
 
     static class ServerOffer
     {
-        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 137 });
+        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 131 });
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
 
         private static bool sendByteArray(ref NetworkStream stream, byte[] data)

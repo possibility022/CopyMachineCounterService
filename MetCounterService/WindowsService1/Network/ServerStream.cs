@@ -16,9 +16,9 @@ namespace WindowsMetService.Network
 
         private const string disconnectingData = "QUIT-DISCONNECT";
 
-        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 137 });
+        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 131 });
         static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
-        static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
+
         TcpClient client;
         NetworkStream stream = null;
 
@@ -66,6 +66,7 @@ namespace WindowsMetService.Network
             data = Security.RSAv3.encrypt(data, true);
 
             byte[] dataLenght = BitConverter.GetBytes(data.Length);
+            dataLenght = Security.RSAv3.encrypt(dataLenght, false);
 
             //Wysłanie zaszyfrowanej długości wysyłanych danych.
             try

@@ -73,10 +73,14 @@ namespace WindowsMetService
         #region LOG
         public static void Log(string message)
         {
+#if DEBUG
+            LocalDatabase.log(message);
+#else
             LocalDatabase.log(message);
             eventLog1.WriteEntry(message);
+#endif
         }
-        #endregion
+#endregion
 
     }
 }
