@@ -14,7 +14,8 @@ namespace WindowsMetService.Network
     class ServerStream
     {
 
-        private const string disconnectingData = "QUIT-DISCONNECT";
+        private const string cmd_disconnectingData = "QUIT-DISCONNECT";
+        private const string cmd_serverResponseOk = "FULL_DATA_RECEIVED";
 
         static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 131 });
         static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
@@ -73,6 +74,13 @@ namespace WindowsMetService.Network
             {
                 stream.Write(dataLenght, 0, 128);
             }
+            catch (IOException ex)
+            {
+                Global.Log("Exception in sending data lenght. Message: " + ex.Message);
+                connected = false;
+                disconnect();
+                return false;
+            }
             catch (Exception ex)
             {
                 Global.Log("Exception in sending data lenght. Message: " + ex.Message);
@@ -83,7 +91,29 @@ namespace WindowsMetService.Network
             try
             {
                 //Wysyłanie zaszyfrowanych danych.
-                stream.Write(data, 0, data.Length);
+                if (data.Length > 1024)
+                {
+                    int parts = (int)data.Length / 1024;
+                    int rest = data.Length % 1024;
+
+                    for (int i = 0; i < parts; i++)
+                        stream.Write(data, i * 1024, 1024);
+
+                    stream.Write(data, 1024 * parts, rest);
+                }
+                else
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+
+                byte[] server_response = new byte[128];
+                stream.Read(server_response, 0, server_response.Length);
+
+                if (debuildStringData(Security.RSAv3.decrypt(server_response)) != cmd_serverResponseOk)
+                    return false;
+
+
+                
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -108,7 +138,8 @@ namespace WindowsMetService.Network
             {
                 try
                 {
-                    sendData(buildStringData(disconnectingData));
+                    connected = false;
+                    sendData(buildStringData(cmd_disconnectingData));
                     step = 1;
                     stream.Flush();
                     step = 2;
@@ -140,7 +171,15 @@ namespace WindowsMetService.Network
                 { Global.Log("Exception in disconnecting. #Ex step: " + step.ToString() + " Message: " + ex.Message); }
             }
 
-            connected = true;
+            connected = false;
+        }
+
+        public string debuildStringData(byte[] data)
+        {
+            string str = UnicodeEncoding.UTF8.GetString(data);
+            str = str.Remove(0, 3);
+            str = str.Remove(str.Length - 3);
+            return str;
         }
 
         public byte[] buildStringData(string data)

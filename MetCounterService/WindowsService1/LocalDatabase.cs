@@ -43,6 +43,7 @@ namespace WindowsMetService
 
         public static void Initialize()
         {
+            Security.RSAv3.initialize();
             loadConfig();
             downloadMacToWebXML();
             setupLocalLog();
@@ -58,7 +59,11 @@ namespace WindowsMetService
 
         public static void log(string message)
         {
+#if DEBUG
+            Console.WriteLine(new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+#else
             File.AppendAllLines(buildPath(Log), new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+#endif
         }
 
         public static bool lastTickWasToday()
@@ -104,8 +109,12 @@ namespace WindowsMetService
 
         private static void downloadMacToWebXML()
         {
+#if DEBUG
+            Network.ServerOffer.downloadMacToWebMapping("debuging-xmlfile.xml");
+#else
             if (Network.ServerOffer.downloadMacToWebMapping(buildPath("mactoweb-new.xml.part")))
                 File.Copy(buildPath("mactoweb-new.xml.part"), buildPath(MacToWebMapping), true);
+#endif
         }
 
         public static string[] getMachinesIps()

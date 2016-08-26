@@ -61,7 +61,7 @@
     <Compile Include="Network\Finder.cs" />
     <Compile Include="Network\Handshake.cs" />
     <Compile Include="Network\IPV4.cs" />
-    <Compile Include="Network\ServerConnection.cs" />
+    <Compile Include="Network\ServerOffer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

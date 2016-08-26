@@ -14,7 +14,12 @@ namespace WindowsMetService.Security
         static RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
         static byte[] encrypted_parameter_m = Convert.FromBase64String("***REMOVED***");
         static byte[] encrypted_parameter_e = Convert.FromBase64String("***REMOVED***");
+        static RSACryptoServiceProvider serverRSA = new RSACryptoServiceProvider();
 
+        public static void initialize()
+        {
+            serverRSA.ImportParameters(getServerParameter());
+        }
 
         #region Decrypting
         /// <summary>
@@ -85,15 +90,9 @@ namespace WindowsMetService.Security
         /// <param name="slitAllowed">Jeśli tablica jest większa niż 127 to ten parametr zezwala na szyfrowanie tych danych. False && 127 < bytes.Lenght </param>
         /// <returns></returns>
         static public byte[] encrypt(byte[] bytes, bool slitAllowed = true)
-        {
-            RSACryptoServiceProvider serverRSA = new RSACryptoServiceProvider();
-            serverRSA.ImportParameters(getServerParameter());
-
+        {            
             if ((bytes.Length > 127) && (slitAllowed == false))
                 throw new Exception("Podano dane wieksze niż jest to możliwe. Metoda dzielenia danych nie zadziałała prawidłowo.");
-
-            RSACryptoServiceProvider tmp = new RSACryptoServiceProvider();
-            tmp.ImportParameters(rsa.ExportParameters(false));
 
             if(bytes.Length > 127)
             {
