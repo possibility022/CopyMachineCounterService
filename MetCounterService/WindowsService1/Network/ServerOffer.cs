@@ -14,8 +14,10 @@ namespace WindowsMetService.Network
 
     static class ServerOffer
     {
-        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 131 });
+        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 6 });
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
+
+        private enum Commands { XMLO, CLID }
 
         private static bool sendByteArray(ref NetworkStream stream, byte[] data)
         {
@@ -66,6 +68,81 @@ namespace WindowsMetService.Network
             return rv;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="buffer"></param>
+        /// <param name="total"></param>
+        /// <param name="maxsize">0: unlimited</param>
+        /// <returns></returns>
+        private static bool sendRequest(Commands command,ref byte[] buffer, ref int total)
+        {
+            List<byte[]> receivedData = new List<byte[]>();
+
+            using (TcpClient client = new TcpClient(serverOfferEndPoint.Address.ToString(), serverOfferEndPoint.Port))
+            {
+                total = 0;
+
+                byte[] buffor = new byte[1024];
+                NetworkStream networkStream = client.GetStream();
+
+                //Autoryzacja
+                Handshake handshake = new Handshake();
+                if (handshake.authorize(ref networkStream) == false)
+                    return false;
+
+                System.Threading.Thread.Sleep(500);
+
+                //Wysylanie komendy
+                if (sendByteArray(ref networkStream, getBytes(command.ToString())) == true)
+                {
+                    //pobieranie danych
+                    int readed = 0;
+
+                    do
+                    {
+                        readed = networkStream.Read(buffor, 0, buffor.Length);
+                        if (readed > 0)
+                        {
+                            byte[] newBuffor = new byte[readed];
+                            System.Buffer.BlockCopy(buffor, 0, newBuffor, 0, readed);
+                            receivedData.Add(newBuffor);
+                        }
+                        total += readed;
+                    } while (readed > 0);
+                }
+                else
+                {
+                    Global.Log("Nie udalo się wysłać komendy");
+                }
+
+                networkStream.Close();                              //Zamykanie połączenia
+                client.Close();
+            }
+
+            buffer = combineArrays(receivedData); //Łączenie odebranych danych.
+            
+            return true;
+        }
+
+        static public byte[] downloadNewIDForClient()
+        {
+            byte[] buffor = new byte[] { };
+            int total = 0;
+            bool sucess = sendRequest(Commands.CLID, ref buffor, ref total);
+            if (sucess)
+            { 
+                buffor = Security.RSAv3.decrypt(buffor);
+                return buffor;
+            }
+            else
+            {
+                return new byte[] { };
+            }
+        }
+
         static public bool downloadMacToWebMapping(string path)
         {
             //string path = LocalDatabase.buildPath(LocalDatabase.MacToWebMapping);
@@ -74,50 +151,14 @@ namespace WindowsMetService.Network
             {
                 using (FileStream filestream = new FileStream(path, FileMode.Create))
                 {
-                    using (TcpClient client = new TcpClient(serverOfferEndPoint.Address.ToString(), serverOfferEndPoint.Port))
+                    byte[] fileBuffor = new byte[] { };
+                    bool sucess = sendRequest(Commands.XMLO, ref fileBuffor, ref total);
+                    if (sucess)
                     {
-                        byte[] buffor = new byte[1024];
-                        NetworkStream networkStream = client.GetStream();
-
-                        //Autoryzacja
-                        Handshake handshake = new Handshake();
-                        if (handshake.authorize(ref networkStream) == false)
-                            return false;
-
-                        System.Threading.Thread.Sleep(500);
-
-                        List<byte[]> receivedData = new List<byte[]>();
-
-                        //Wysylanie komendy pobrania pliku XML
-                        if (sendByteArray(ref networkStream, getBytes("XMLO")) == true)
-                        {
-                            //pobieranie pliku
-                            int readed = 0;
-                            
-                            do
-                            {
-                                readed = networkStream.Read(buffor, 0, buffor.Length);
-                                if (readed > 0)
-                                {
-                                    byte[] newBuffor = new byte[readed];
-                                    System.Buffer.BlockCopy(buffor, 0, newBuffor, 0, readed);
-                                    receivedData.Add(newBuffor);
-                                }
-                                total += readed;
-                            } while (readed > 0);
-                        }
-                        else
-                        {
-                            Global.Log("Nie udalo się wysłać komendy pobierania pliku xml");
-                        }
-                        
-                        networkStream.Close();                              //Zamykanie połączenia
-                        client.Close();
-                        byte[] fileBuffor = combineArrays(receivedData);    //łączenie danych
                         fileBuffor = Security.RSAv3.decrypt(fileBuffor);    //odszyfrowywanie
                         filestream.Write(fileBuffor, 0, fileBuffor.Length); //zapisywanie do pliku
+                        filestream.Close();
                     }
-                    filestream.Close();
                 }
             }catch(Exception ex)
             {
@@ -129,7 +170,7 @@ namespace WindowsMetService.Network
             return true;
         }
 
-        public static string 
+        
     }
     
 }

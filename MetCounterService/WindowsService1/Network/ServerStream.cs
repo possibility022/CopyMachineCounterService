@@ -20,7 +20,7 @@ namespace WindowsMetService.Network
             RECEIVE_MACHINE_DATA
         }
 
-        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 131 });
+        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 6 });
         static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
 
         TcpClient client;
@@ -220,7 +220,5 @@ namespace WindowsMetService.Network
             byte[] d = System.Text.Encoding.ASCII.GetBytes(data);
             return d;
         }
-
-        
     }
 }

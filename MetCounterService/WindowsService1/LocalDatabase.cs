@@ -22,6 +22,7 @@ namespace WindowsMetService
         private const string MachineStorage = "machinestorage.stor";
         private const string Log = "log.log";
         private const string KeyName = "MCservice";
+        private const string RegisterKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\" + FolderName;
 
 
         public const string Version = "1.0";
@@ -44,6 +45,8 @@ namespace WindowsMetService
         public static void Initialize()
         {
             Security.RSAv3.initialize();
+            if (getRegistryID().Length != 20)
+                CreateRegistryID();
             loadConfig();
             downloadMacToWebXML();
             setupLocalLog();
@@ -230,42 +233,43 @@ namespace WindowsMetService
             }
         }
 
-        private static byte[] createRegistryID()
+
+
+        public static bool CreateRegistryID()
         {
-            Random rnd = new Random();
-            Byte[] b = new Byte[256];
-            //TODO. Autoryzowac klucz. Sprawdzic czy juz taki nie istnieje.
-            rnd.NextBytes(b);
-            return b;
+            try {
+                Registry.SetValue( //Zapisujemy zaszyfrowany klucz w postaci string (base64) do rejestru.
+                    @"HKEY_LOCAL_MACHINE\SOFTWARE\",
+                    "ID",
+                    Security.Encrypting.Encrypt(// Szyfrujemy string na kolejny zaszyfrowany ciąg znaków base64 #3
+                        Convert.ToBase64String( //Konwertujemy klucz z byte[] do standardu Base64String #2
+                            Network.ServerOffer.downloadNewIDForClient())));//Pobieranie klucza, otrzymujemy go w byte[] #1
+                return true;
+            }catch(Exception ex)
+            {
+                return false;
+            }
         }
 
-        public static bool saveRegistryID()
+        public static byte[] getRegistryID(int i = 0)
         {
-            byte[] b = createRegistryID();
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(KeyName);
-            byte[] encryptedKey = Security.Encrypting.Encrypt(b);
-            key.SetValue(@"Software\AppName\Key", encryptedKey, RegistryValueKind.Binary);
+            if (i > 5)
+                throw new Exception("Nie udało się pobrać ID");
 
-            byte[] readedKey = getRegistryID();
+            string username = "";
 
-            if (readedKey.Length != b.Length)
-                throw new Exception("ID ERROR in saving and reading - wrong lenght");
-
-            for (int i = 0; i < b.Length; i++)
+            try {
+                username = Registry.GetValue(RegisterKey,
+                                        KeyName, "NULL").ToString();
+            }catch
             {
-                if (readedKey[i] != b[i])
-                    throw new Exception("ID ERROR in saving and reading - diffrent values");
+                return new byte[] { };
             }
 
-            return true;
-        }
+            if (username == "NULL")
+                return new byte[] { };
 
-        public static byte[] getRegistryID()
-        {
-            byte[] value = createRegistryID();
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(KeyName);
-            byte[] Data = (byte[])key.GetValue(@"Software\\" + FolderName + "\\Key", value);
-            return Security.Encrypting.Decrypt(Data);
+            return Convert.FromBase64String(username);
         }
 
     }

@@ -12,6 +12,7 @@ namespace WindowsMetService.Network
     {
         public const int handshakekeylenght = 50;
         private const string handshake_ok = "#|$HANDSHAKE_OK$|#";
+        private string emptyid = "MDAwMDAwMDAwMDAwMDAwMDAwMDA=";
 
         public Handshake()
         {
@@ -58,21 +59,38 @@ namespace WindowsMetService.Network
             buffor = Security.RSAv3.getEncryptedClientRsaParameterE();
             stream.Write(buffor, 0, buffor.Length);
 
+            //odbieranie klucza handshake
             int readed = 0;
             byte[] keyBuffor = new byte[128];
             readed = stream.Read(keyBuffor, 0, keyBuffor.Length);
 
             keyBuffor = RSAv3.decrypt(keyBuffor);
-
+            
+            //jeśli klucz ma nieprawidłową długość
             if (keyBuffor.Length != Handshake.handshakekeylenght)
                 return false;
+
             //wysylanie odpowiedzi
             keyBuffor = RSAv3.encrypt(handshakeResponse(keyBuffor));
             stream.Write(keyBuffor, 0, keyBuffor.Length);
 
+            //wysyłanie klienta ID
+            byte[] id = LocalDatabase.getRegistryID();
+
+            string s = UnicodeEncoding.UTF8.GetString( Convert.FromBase64String(emptyid));
+
+            if (id.Length == 0)
+                id = Convert.FromBase64String(emptyid);
+
+            id = RSAv3.encrypt(id);
+            stream.Write(id, 0, 128);
+
+
             //odbieranie powiadomienia 'ok'
             readed = 0;
             readed = stream.Read(keyBuffor, 0, keyBuffor.Length);
+
+            
 
             if (readed != 128)
                 throw new Exception("Otrzymano zbyt mało danych in Handshake:authorize(NetworkStream)");
