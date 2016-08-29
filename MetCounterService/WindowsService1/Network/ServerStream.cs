@@ -13,9 +13,12 @@ namespace WindowsMetService.Network
 {
     class ServerStream
     {
-
-        private const string cmd_disconnectingData = "QUIT-DISCONNECT";
-        private const string cmd_serverResponseOk = "FULL_DATA_RECEIVED";
+        private enum Commands
+        {
+            QUIT_DISCONNECT,
+            FULL_DATA_RECEIVED,
+            RECEIVE_MACHINE_DATA
+        }
 
         static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 131 });
         static private readonly IPEndPoint serverReceiverEndPoint = new IPEndPoint(serverip, 9999);
@@ -59,7 +62,12 @@ namespace WindowsMetService.Network
             }
         }
 
-        public bool sendData(byte[] data)
+        private bool sendCommand(Commands com)
+        {
+            return send(Security.RSAv3.encrypt(buildStringData(com.ToString())));
+        }
+
+        public bool sendMachineData(byte[] data)
         {
             if (connected == false)
                 return false;
@@ -69,51 +77,21 @@ namespace WindowsMetService.Network
             byte[] dataLenght = BitConverter.GetBytes(data.Length);
             dataLenght = Security.RSAv3.encrypt(dataLenght, false);
 
-            //Wysłanie zaszyfrowanej długości wysyłanych danych.
             try
             {
+                //wysyłanie komendy
+                sendCommand(Commands.RECEIVE_MACHINE_DATA);
+                //Wysłanie zaszyfrowanej liczby która reprezentuje ilość danych do wysłania.
                 stream.Write(dataLenght, 0, 128);
-            }
-            catch (IOException ex)
-            {
-                Global.Log("Exception in sending data lenght. Message: " + ex.Message);
-                connected = false;
-                disconnect();
-                return false;
-            }
-            catch (Exception ex)
-            {
-                Global.Log("Exception in sending data lenght. Message: " + ex.Message);
-                disconnect();
-                return false;
-            }
-
-            try
-            {
                 //Wysyłanie zaszyfrowanych danych.
-                if (data.Length > 1024)
-                {
-                    int parts = (int)data.Length / 1024;
-                    int rest = data.Length % 1024;
-
-                    for (int i = 0; i < parts; i++)
-                        stream.Write(data, i * 1024, 1024);
-
-                    stream.Write(data, 1024 * parts, rest);
-                }
-                else
-                {
-                    stream.Write(data, 0, data.Length);
-                }
+                send(data);
 
                 byte[] server_response = new byte[128];
                 stream.Read(server_response, 0, server_response.Length);
 
-                if (debuildStringData(Security.RSAv3.decrypt(server_response)) != cmd_serverResponseOk)
+                if (debuildStringData(Security.RSAv3.decrypt(server_response)) != Commands.FULL_DATA_RECEIVED.ToString())
                     return false;
 
-
-                
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -131,6 +109,47 @@ namespace WindowsMetService.Network
             return true;
         }
 
+        private bool send(byte[] data)
+        {
+            if (connected == false)
+                return false;
+
+            try
+            {
+                if (data.Length > 1024)
+                {
+                    int parts = (int)data.Length / 1024;
+                    int rest = data.Length % 1024;
+
+                    for (int i = 0; i < parts; i++)
+                        stream.Write(data, i * 1024, 1024);
+
+                    stream.Write(data, 1024 * parts, rest);
+                }
+                else
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Global.Log("ArgumentOutOfRange - sendByteArray in ServerConnection class - Message: " + ex.Message);
+                return false;
+            }
+            catch (System.IO.IOException exception)
+            {
+                Global.Log("IOException - sendByteArray in ServerConnection class - Message: " + exception.Message);
+                return false;
+            }
+            catch (ObjectDisposedException exception)
+            {
+                Global.Log("ObjectDisposedException - sendByteArray in ServerConnection class - Message: " + exception.Message);
+                return false;
+            }
+
+            return true;
+        }
+
         public void disconnect()
         {
             int step = 0;
@@ -138,8 +157,7 @@ namespace WindowsMetService.Network
             {
                 try
                 {
-                    connected = false;
-                    sendData(buildStringData(cmd_disconnectingData));
+                    sendCommand(Commands.QUIT_DISCONNECT);
                     step = 1;
                     stream.Flush();
                     step = 2;

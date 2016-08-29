@@ -20,7 +20,7 @@ namespace WindowsMetService.Network
 
             byte[] bytes = connection.buildStringData(PrepareStringArray(machine));
 
-            return connection.sendData(bytes);
+            return connection.sendMachineData(bytes);
         }
 
 

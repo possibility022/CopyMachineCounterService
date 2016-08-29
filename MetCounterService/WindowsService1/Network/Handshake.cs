@@ -11,7 +11,7 @@ namespace WindowsMetService.Network
     class Handshake
     {
         public const int handshakekeylenght = 50;
-        private const string handshake_ok = "#|$HANDSHAKE-OK$|#";
+        private const string handshake_ok = "#|$HANDSHAKE_OK$|#";
 
         public Handshake()
         {

@@ -234,7 +234,7 @@ namespace WindowsMetService
         {
             Random rnd = new Random();
             Byte[] b = new Byte[256];
-            //TO DO. Autoryzowac klucz. Sprawdzic czy juz taki nie istnieje.
+            //TODO. Autoryzowac klucz. Sprawdzic czy juz taki nie istnieje.
             rnd.NextBytes(b);
             return b;
         }
@@ -264,11 +264,9 @@ namespace WindowsMetService
         {
             byte[] value = createRegistryID();
             RegistryKey key = Registry.CurrentUser.OpenSubKey(KeyName);
-            byte[] Data = (byte[])key.GetValue(@"Software\AppName\Key", value);
+            byte[] Data = (byte[])key.GetValue(@"Software\\" + FolderName + "\\Key", value);
             return Security.Encrypting.Decrypt(Data);
         }
-
-
 
     }
 }
