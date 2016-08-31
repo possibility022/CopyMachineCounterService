@@ -12,7 +12,6 @@ namespace WindowsMetService.Network
     {
         public const int handshakekeylenght = 50;
         private const string handshake_ok = "#|$HANDSHAKE_OK$|#";
-        private string emptyid = "MDAwMDAwMDAwMDAwMDAwMDAwMDA=";
 
         public Handshake()
         {
@@ -75,15 +74,12 @@ namespace WindowsMetService.Network
             stream.Write(keyBuffor, 0, keyBuffor.Length);
 
             //wysyłanie klienta ID
-            byte[] id = LocalDatabase.getRegistryID();
-
-            string s = UnicodeEncoding.UTF8.GetString( Convert.FromBase64String(emptyid));
-
-            if (id.Length == 0)
-                id = Convert.FromBase64String(emptyid);
-
+            string s = LocalDatabase.getRegistryID();
+            byte[] id = UnicodeEncoding.UTF8.GetBytes(s);
             id = RSAv3.encrypt(id);
             stream.Write(id, 0, 128);
+
+
 
 
             //odbieranie powiadomienia 'ok'

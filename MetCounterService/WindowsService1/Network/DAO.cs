@@ -8,6 +8,7 @@ namespace WindowsMetService.Network
 {
     static class DAO
     {
+        private const string dateFormat = @"M/d/yyyy hh:mm:ss tt";
         static ServerStream connection = new ServerStream();
 
         static bool SendOneMachine(Machine machine)
@@ -46,12 +47,14 @@ namespace WindowsMetService.Network
 
         static string[] PrepareStringArray(Machine machine)
         {
-            string[] machineData = new string[4];
+            string[] machineData = new string[6];
 
             machineData[0] = machine.counterData;
             machineData[1] = machine.serialNumberData;
             machineData[2] = machine.mac;
             machineData[3] = machine.ip;
+            machineData[4] = machine.datetime.ToString(dateFormat);
+            machineData[5] = LocalDatabase.getClientDescription();
 
             return machineData;
         }

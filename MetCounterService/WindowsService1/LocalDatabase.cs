@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
-using Microsoft.Win32;
 
 namespace WindowsMetService
 {
@@ -23,6 +22,12 @@ namespace WindowsMetService
         private const string Log = "log.log";
         private const string KeyName = "MCservice";
         private const string RegisterKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\" + FolderName;
+        private const string ConfigPath = "config.cfg";
+
+        private static byte[] clientID = Security.Encrypting.Encrypt(UnicodeEncoding.UTF8.GetBytes("00000000000000000000"));
+        private static string clientDescription = "client description not set";
+
+        private enum ConfigFile{ clientID, clientDescription }
 
 
         public const string Version = "1.0";
@@ -42,12 +47,53 @@ namespace WindowsMetService
             ipsOfCopymachines = new string[] { };
         }
 
+        static string loadConfig(ConfigFile configType)
+        {
+            try
+            {
+                StreamReader file = new StreamReader(buildPath(ConfigPath));
+                while(file.Peek() > 0)
+                {
+                    string line = file.ReadLine();
+                    if (line.StartsWith(configType.ToString() + ":"))
+                        return line.Remove(0, configType.ToString().Length + 1); // to + 1 to jest dwukropek, taki separator który jest dopisywany przy zapisie
+                }
+                file.Close();
+                
+            }
+            catch(FileNotFoundException ex)
+            { }
+
+            //zwraca "" jesli nie znaleziono
+            return "";
+        }
+
+        static void saveConfig(ConfigFile configType, string value)
+        {
+            try
+            {
+                string configpath = buildPath(ConfigPath);
+                if (File.Exists(configpath) == false)
+                    File.Create(configpath);
+
+                File.AppendAllLines(configpath, new string[] { configType.ToString() + ":" + value });
+            }
+            catch (Exception ex)
+            { }
+        }
+
+        public static string getClientDescription()
+        {
+            return clientDescription;
+        }
+
         public static void Initialize()
         {
             Security.RSAv3.initialize();
-            if (getRegistryID().Length != 20)
+            loadCFG_File();
+            if (UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
                 CreateRegistryID();
-            loadConfig();
+            loadIpsFromFile();
             downloadMacToWebXML();
             setupLocalLog();
         }
@@ -97,7 +143,7 @@ namespace WindowsMetService
             }
         }
 
-        private static void loadConfig()
+        private static void loadIpsFromFile()
         {
             var directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 
@@ -108,6 +154,17 @@ namespace WindowsMetService
             {
                 ipsOfCopymachines = new string[] { };
             }
+        }
+
+        private static void loadCFG_File()
+        {
+            string value = loadConfig(ConfigFile.clientDescription);
+            if (value.Length > 0)
+                clientDescription = value;
+
+            value = loadConfig(ConfigFile.clientID);
+            if (value.Length > 0)
+                clientID = Convert.FromBase64String(value);
         }
 
         private static void downloadMacToWebXML()
@@ -233,43 +290,28 @@ namespace WindowsMetService
             }
         }
 
-
-
         public static bool CreateRegistryID()
         {
-            try {
-                Registry.SetValue( //Zapisujemy zaszyfrowany klucz w postaci string (base64) do rejestru.
-                    @"HKEY_LOCAL_MACHINE\SOFTWARE\",
-                    "ID",
-                    Security.Encrypting.Encrypt(// Szyfrujemy string na kolejny zaszyfrowany ciąg znaków base64 #3
-                        Convert.ToBase64String( //Konwertujemy klucz z byte[] do standardu Base64String #2
-                            Network.ServerOffer.downloadNewIDForClient())));//Pobieranie klucza, otrzymujemy go w byte[] #1
+            byte[] key = Network.ServerOffer.downloadNewIDForClient(); //Pobieramy ID #1
+            if (key.Length > 0)
+            {
+                byte[] encrypted = Security.Encrypting.Encrypt(
+                                            key);
+
+                saveConfig(ConfigFile.clientID, Convert.ToBase64String(encrypted));
+                clientID = encrypted;
                 return true;
-            }catch(Exception ex)
+            }
+            else
             {
                 return false;
             }
+            
         }
 
-        public static byte[] getRegistryID(int i = 0)
+        public static string getRegistryID()
         {
-            if (i > 5)
-                throw new Exception("Nie udało się pobrać ID");
-
-            string username = "";
-
-            try {
-                username = Registry.GetValue(RegisterKey,
-                                        KeyName, "NULL").ToString();
-            }catch
-            {
-                return new byte[] { };
-            }
-
-            if (username == "NULL")
-                return new byte[] { };
-
-            return Convert.FromBase64String(username);
+            return UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID));
         }
 
     }

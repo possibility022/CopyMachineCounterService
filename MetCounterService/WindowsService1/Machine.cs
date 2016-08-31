@@ -34,6 +34,7 @@ namespace WindowsMetService
                 counterData = "#null#";
                 serialNumberData = "#null#";
             }
+            datetime = DateTime.Now;
         }
 
         private bool setUpMachine()
@@ -66,6 +67,7 @@ namespace WindowsMetService
         private string downloadString(string url)
         {
             client = new WebClient();
+            client.Encoding = Encoding.UTF8;
 
             string fullURL = "http://" + ip + url;
             try

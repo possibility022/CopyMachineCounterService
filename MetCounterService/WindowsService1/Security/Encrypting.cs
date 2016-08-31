@@ -19,8 +19,8 @@ namespace WindowsMetService.Security
 
         public static string Decrypt(string text)
         {
-            byte[] encrypted = Decrypt(Encoding.Unicode.GetBytes(text));
-            return Convert.ToBase64String(encrypted);
+            byte[] decrypted = Decrypt(Encoding.Unicode.GetBytes(text));
+            return Convert.ToBase64String(decrypted);
         }
         
         public static byte[] Encrypt(byte[] data)

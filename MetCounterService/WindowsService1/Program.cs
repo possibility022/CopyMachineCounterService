@@ -31,10 +31,10 @@ namespace WindowsMetService
 
                 List<Machine> machines = new List<Machine>();
 
+
                 foreach (string ip in ips)
                 {
                     Machine machine = new Machine(ip);
-                    //machine.setUpMachine();
                     machines.Add(machine);
                 }
 
