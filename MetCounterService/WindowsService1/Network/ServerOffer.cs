@@ -14,7 +14,9 @@ namespace WindowsMetService.Network
 
     static class ServerOffer
     {
-        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 131 });
+
+        //static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { 192, 168, 1, 6 });//***REMOVED***
+        static private readonly System.Net.IPAddress serverip = new IPAddress(new byte[] { ***REMOVED*** });
         static private readonly IPEndPoint serverOfferEndPoint = new IPEndPoint(serverip, 9998);
 
         private enum Commands { XMLO, CLID }
