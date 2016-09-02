@@ -92,6 +92,7 @@ namespace WindowsMetService
 
         public static void Initialize()
         {
+            Global.Log("Localdata initializing start");
             Security.RSAv3.initialize();
             loadCFG_File();
             if (UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
@@ -99,6 +100,7 @@ namespace WindowsMetService
             loadIpsFromFile();
             downloadMacToWebXML();
             setupLocalLog();
+            Global.Log("Localdata initializing done");
         }
 
         private static void setupLocalLog()
@@ -114,7 +116,7 @@ namespace WindowsMetService
 #if DEBUG
             Console.WriteLine(new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
 #else
-            File.AppendAllLines(buildPath(Log), new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+            File.AppendAllLines(buildPath(Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
 #endif
         }
 

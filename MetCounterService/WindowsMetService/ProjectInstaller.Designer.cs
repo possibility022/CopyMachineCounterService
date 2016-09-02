@@ -36,13 +36,12 @@
             this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this.serviceProcessInstaller1.Password = null;
             this.serviceProcessInstaller1.Username = null;
-            this.serviceProcessInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceProcessInstaller1_AfterInstall);
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Met serwis";
-            this.serviceInstaller1.DisplayName = "Met Service";
-            this.serviceInstaller1.ServiceName = "MetService";
+            this.serviceInstaller1.Description = "Proces pobierający dane z urządzeń. ";
+            this.serviceInstaller1.DisplayName = "Met Counter";
+            this.serviceInstaller1.ServiceName = "MetCounterService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

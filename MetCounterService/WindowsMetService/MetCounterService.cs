@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace WindowsMetService
 {
-    public partial class MetService : ServiceBase
+    public partial class MetCounterService : ServiceBase
     {
         public TimerCallback callback;
         public Timer t;
@@ -35,21 +35,23 @@ namespace WindowsMetService
             public long dwWaitHint;
         };
 
-        
+
         static System.Diagnostics.EventLog eventLog1;
 
-        public MetService()
+        public MetCounterService()
         {
             InitializeComponent();
             eventLog1 = new System.Diagnostics.EventLog();
-            if (!System.Diagnostics.EventLog.SourceExists("MetServiceSource"))
+            if (!System.Diagnostics.EventLog.SourceExists("MetServiceLogSource"))
             {
                 System.Diagnostics.EventLog.CreateEventSource(
-                    "MetServiceSource", "MetServiceLog");
+                    "MetServiceLogSource", "MetCounterLog");
             }
-            eventLog1.Source = "MetServiceSource";
-            eventLog1.Log = "MetServiceLog";
+            eventLog1.Source = "MetServiceLogSource";
+            eventLog1.Log = "MetCounterLog";
             //LocalDatabase.Initialize();
+            Global.SetSystemEventLog(eventLog1);
+            Global.Log("Constructor done");
         }
 
         protected override void OnStart(string[] args)
@@ -60,8 +62,7 @@ namespace WindowsMetService
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-            
-            Global.Log("In OnStart");
+
             //LocalDatabase.Initialize();
             //Global.Log("Local database initialized");
 
@@ -69,16 +70,16 @@ namespace WindowsMetService
             timer.Interval = 60000 * 60; // 60 seconds * 60 = 1h
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
             timer.Start();
-
             //setupTrigger();
 
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
+            Global.Log("On Start done");
         }
 
         protected override void OnStop()
         {
-            
+
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
@@ -129,7 +130,7 @@ namespace WindowsMetService
                     msToTick = getNextTickIn(tickTime, 20);
             }
 
-            
+
             t.Change(msToTick, Timeout.Infinite);
         }
 
