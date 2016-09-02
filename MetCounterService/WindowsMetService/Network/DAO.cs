@@ -37,7 +37,13 @@ namespace WindowsMetService.Network
             foreach(Machine m in machines)
             {
                 if (SendOneMachine(m) == false)
+                {
+                    Global.Log("Przesyłanie urządzenia nie powiodło się. Ip: " + m.ip);
                     fails++;
+                }else
+                {
+                    Global.Log("Przesłano urządzenie: " + m.ip);
+                }
             }
 
             connection.disconnect();

@@ -22,9 +22,8 @@ namespace WindowsMetService
         private const string LastTickFile = "ticktime.log";
         private const string MachineStorage = "machinestorage.stor";
         private const string Log = "log.log";
-        private const string KeyName = "MCservice";
-        private const string RegisterKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\" + FolderName;
         private const string ConfigPath = "config.cfg";
+        private static string WorkFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 
         private static byte[] clientID = Security.Encrypting.Encrypt(UnicodeEncoding.UTF8.GetBytes("00000000000000000000"));
         private static string clientDescription = "client description not set";
@@ -37,12 +36,7 @@ namespace WindowsMetService
 
         private static string buildPath(string file)
         {
-            var directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            if (Directory.Exists(Path.Combine(directory, FolderName)) == false)
-            {
-                Directory.CreateDirectory(Path.Combine(directory, FolderName));
-            }
-            return (Path.Combine(directory, FolderName, file));
+            return (Path.Combine(WorkFolder, FolderName, file));
         }
 
         static LocalDatabase()
@@ -92,7 +86,13 @@ namespace WindowsMetService
 
         public static void Initialize()
         {
-            Global.Log("Localdata initializing start");
+            var directory = WorkFolder;
+            if (Directory.Exists(Path.Combine(directory, FolderName)) == false)
+            {
+                Directory.CreateDirectory(Path.Combine(directory, FolderName));
+            }
+            
+
             Security.RSAv3.initialize();
             loadCFG_File();
             if (UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
@@ -100,7 +100,6 @@ namespace WindowsMetService
             loadIpsFromFile();
             downloadMacToWebXML();
             setupLocalLog();
-            Global.Log("Localdata initializing done");
         }
 
         private static void setupLocalLog()
@@ -151,13 +150,18 @@ namespace WindowsMetService
 
         private static void loadIpsFromFile()
         {
-            var directory = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-
+            string path = buildPath(FileIps);
             try
             {
                 ipsOfCopymachines = File.ReadAllLines(buildPath(FileIps));
             }
-            catch
+            catch (IOException ex)
+            {
+                if (File.Exists(path) == false)
+                    File.Create(path);
+                ipsOfCopymachines = new string[] { };
+            }
+            catch (Exception ex)
             {
                 ipsOfCopymachines = new string[] { };
             }

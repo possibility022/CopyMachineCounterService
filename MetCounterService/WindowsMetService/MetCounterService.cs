@@ -51,7 +51,7 @@ namespace WindowsMetService
             eventLog1.Log = "MetCounterLog";
             //LocalDatabase.Initialize();
             Global.SetSystemEventLog(eventLog1);
-            Global.Log("Constructor done");
+            Global.Log("Utworzono logi w konstruktorze");
         }
 
         protected override void OnStart(string[] args)
@@ -74,7 +74,8 @@ namespace WindowsMetService
 
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-            Global.Log("On Start done");
+            LocalDatabase.Initialize();
+            Global.Log("Wystartowano process.");
         }
 
         protected override void OnStop()
@@ -84,14 +85,11 @@ namespace WindowsMetService
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
-            LocalDatabase.Initialize();
-            Global.Log("Initializing local data - done");
             setupTrigger();
         }
 
         public void setupTrigger(bool retry = false)
         {
-            Global.Log("Setting up trigger");
             callback = doit;
 
             Random random = new Random();
@@ -129,8 +127,6 @@ namespace WindowsMetService
                 if (msToTick < 10)
                     msToTick = getNextTickIn(tickTime, 20);
             }
-
-
             t.Change(msToTick, Timeout.Infinite);
         }
 
@@ -150,7 +146,7 @@ namespace WindowsMetService
             {
                 string[] ips = LocalDatabase.getMachinesIps();
 
-                Global.Log("tick: " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
+                Global.Log("Pobieram: " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
                 LocalDatabase.setToodayTick();
 
                 List<Machine> machines = new List<Machine>();
@@ -172,7 +168,7 @@ namespace WindowsMetService
                 machines = LocalDatabase.getMachinesFromStorage();
                 Network.DAO.SendMachines(machines);
 
-                if (fails == machines.Count)
+                if (fails == machines.Count && machines.Count > 0)
                     Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych");
             }
             catch (Exception ex)

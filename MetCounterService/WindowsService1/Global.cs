@@ -53,7 +53,7 @@ namespace WindowsMetService
                 ip = IPAddress.Parse(match.Value);
             }catch(Exception ex)
             {
-                
+                Global.Log("Nie udało się pobrać adresu ip serwera.");
             }
             return ip;
         }

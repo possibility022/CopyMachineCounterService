@@ -30,9 +30,9 @@ namespace WindowsMetService
             this.ip = ip;
             if (setUpMachine() == false)
             {
-                Global.Log("setupmachine in constructor return false");
-                counterData = "#null#";
-                serialNumberData = "#null#";
+                Global.Log("Pobranie informacji nie powiodło się. Ip urządzenia: " + ip);
+                counterData = "#wrongdevice#";
+                serialNumberData = "#wrongdevice#";
             }
             datetime = DateTime.Now;
         }
