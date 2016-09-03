@@ -17,12 +17,12 @@ namespace WindowsMetService
         public enum ServerType { receiver, offer }
 
         private const string FolderName = "LicznikMetService";
-        private const string FileIps = "ip.cfg";
-        private const string MacToWebMapping = "mactoweb.xml";
-        private const string LastTickFile = "ticktime.log";
-        private const string MachineStorage = "machinestorage.stor";
-        private const string Log = "log.log";
-        private const string ConfigPath = "config.cfg";
+        private const string File_Ips = "ip.cfg";
+        private const string File_MacToWebMapping = "mactoweb.xml";
+        private const string File_LastTick = "ticktime.log";
+        private const string File_MachineStorage = "machinestorage.stor";
+        private const string File_Log = "log.log";
+        private const string File_ConfigPath = "config.cfg";
         private static string WorkFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 
         private static byte[] clientID = Security.Encrypting.Encrypt(UnicodeEncoding.UTF8.GetBytes("00000000000000000000"));
@@ -44,11 +44,11 @@ namespace WindowsMetService
             ipsOfCopymachines = new string[] { };
         }
 
-        static string loadConfig(ConfigFile configType)
+        static string readConfig(ConfigFile configType)
         {
             try
             {
-                StreamReader file = new StreamReader(buildPath(ConfigPath));
+                StreamReader file = new StreamReader(buildPath(File_ConfigPath));
                 while (file.Peek() > 0)
                 {
                     string line = file.ReadLine();
@@ -69,7 +69,7 @@ namespace WindowsMetService
         {
             try
             {
-                string configpath = buildPath(ConfigPath);
+                string configpath = buildPath(File_ConfigPath);
                 if (File.Exists(configpath) == false)
                     File.Create(configpath);
 
@@ -84,29 +84,49 @@ namespace WindowsMetService
             return clientDescription;
         }
 
-        public static void Initialize()
+        public static bool Initialize()
         {
             var directory = WorkFolder;
             if (Directory.Exists(Path.Combine(directory, FolderName)) == false)
             {
                 Directory.CreateDirectory(Path.Combine(directory, FolderName));
             }
-            
+
+            if (File.Exists(buildPath(File_ConfigPath)) == false)
+                File.Create(buildPath(File_ConfigPath));
+
+            if (File.Exists(buildPath(File_Ips)) == false)
+                File.Create(buildPath(File_Ips));
+
+            if (File.Exists(buildPath(File_LastTick)) == false)
+                File.Create(buildPath(File_LastTick));
+
+            if (File.Exists(buildPath(File_Log)) == false)
+                File.Create(buildPath(File_Log));
+
+            if (File.Exists(buildPath(File_MachineStorage)) == false)
+                File.Create(buildPath(File_MachineStorage));
+
+            if (File.Exists(buildPath(File_MacToWebMapping)) == false)
+                File.Create(buildPath(File_MacToWebMapping));
 
             Security.RSAv3.initialize();
             loadCFG_File();
             if (UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
-                CreateRegistryID();
+                DownloadAndSaveID();
+            Global.Log("Pobrano id");
             loadIpsFromFile();
             downloadMacToWebXML();
             setupLocalLog();
+
+            return true;
         }
 
         private static void setupLocalLog()
         {
-            if (File.Exists(buildPath(Log)) == false)
+            if (File.Exists(buildPath(File_Log)) == false)
             {
-                File.Create(buildPath(Log));
+                File.Create(buildPath(File_Log));
             }
         }
 
@@ -115,7 +135,7 @@ namespace WindowsMetService
 #if DEBUG
             Console.WriteLine(new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
 #else
-            File.AppendAllLines(buildPath(Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+            File.AppendAllLines(buildPath(File_Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
 #endif
         }
 
@@ -123,7 +143,7 @@ namespace WindowsMetService
         {
             try
             {
-                string[] lines = File.ReadAllLines(buildPath(LastTickFile));
+                string[] lines = File.ReadAllLines(buildPath(File_LastTick));
                 if (lines[lines.Length - 1] == DateTime.Today.ToShortDateString())
                     return true;
                 else
@@ -139,8 +159,8 @@ namespace WindowsMetService
         {
             try
             {
-                File.Delete(buildPath(LastTickFile));
-                File.WriteAllLines(buildPath(LastTickFile), new string[] { DateTime.Today.ToShortDateString() });
+                File.Delete(buildPath(File_LastTick));
+                File.WriteAllLines(buildPath(File_LastTick), new string[] { DateTime.Today.ToShortDateString() });
             }
             catch (Exception ex)
             {
@@ -150,10 +170,10 @@ namespace WindowsMetService
 
         private static void loadIpsFromFile()
         {
-            string path = buildPath(FileIps);
+            string path = buildPath(File_Ips);
             try
             {
-                ipsOfCopymachines = File.ReadAllLines(buildPath(FileIps));
+                ipsOfCopymachines = File.ReadAllLines(buildPath(File_Ips));
             }
             catch (IOException ex)
             {
@@ -169,11 +189,11 @@ namespace WindowsMetService
 
         private static void loadCFG_File()
         {
-            string value = loadConfig(ConfigFile.clientDescription);
+            string value = readConfig(ConfigFile.clientDescription);
             if (value.Length > 0)
                 clientDescription = value;
 
-            value = loadConfig(ConfigFile.clientID);
+            value = readConfig(ConfigFile.clientID);
             if (value.Length > 0)
                 clientID = Convert.FromBase64String(value);
         }
@@ -184,12 +204,13 @@ namespace WindowsMetService
             Network.ServerOffer.downloadMacToWebMapping("debuging-xmlfile.xml");
 #else
             if (Network.ServerOffer.downloadMacToWebMapping(buildPath("mactoweb-new.xml.part")))
-                File.Copy(buildPath("mactoweb-new.xml.part"), buildPath(MacToWebMapping), true);
+                File.Copy(buildPath("mactoweb-new.xml.part"), buildPath(File_MacToWebMapping), true);
 #endif
         }
 
         public static string[] getMachinesIps()
         {
+            loadIpsFromFile();
             return ipsOfCopymachines;
         }
 
@@ -199,7 +220,7 @@ namespace WindowsMetService
 
             string[] links = new string[] { "", "" };
 
-            using (XmlTextReader reader = new XmlTextReader(buildPath(MacToWebMapping)))
+            using (XmlTextReader reader = new XmlTextReader(buildPath(File_MacToWebMapping)))
             {
                 while (reader.Read())
                 {
@@ -218,7 +239,7 @@ namespace WindowsMetService
                 reader.Close();
             }
 
-            using (XmlTextReader reader = new XmlTextReader(buildPath(MacToWebMapping)))
+            using (XmlTextReader reader = new XmlTextReader(buildPath(File_MacToWebMapping)))
             {
                 while (reader.Read())
                 {
@@ -251,13 +272,13 @@ namespace WindowsMetService
         {
             List<Machine> list = getMachinesFromStorage();
             list.Add(machine);
-            WriteToBinaryFile(buildPath(MachineStorage), list);
+            WriteToBinaryFile(buildPath(File_MachineStorage), list);
         }
 
         public static List<Machine> getMachinesFromStorage()
         {
-            List<Machine> list = (List<Machine>)ReadFromBinaryFile(buildPath(MachineStorage));
-            File.Delete(buildPath(MachineStorage));
+            List<Machine> list = (List<Machine>)ReadFromBinaryFile(buildPath(File_MachineStorage));
+            File.Delete(buildPath(File_MachineStorage));
             return list;
         }
 
@@ -302,7 +323,7 @@ namespace WindowsMetService
             }
         }
 
-        public static bool CreateRegistryID()
+        public static bool DownloadAndSaveID()
         {
             byte[] key = Network.ServerOffer.downloadNewIDForClient(); //Pobieramy ID #1
             if (key.Length > 0)
@@ -321,7 +342,7 @@ namespace WindowsMetService
 
         }
 
-        public static string getRegistryID()
+        public static string getClientID()
         {
             return UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID));
         }
@@ -339,6 +360,8 @@ namespace WindowsMetService
                     return new System.Net.IPEndPoint(ip, 9999);
             }
             catch (Exception ex) { }
+
+            Global.Log("Pobieranie IP serwer nie powiodło się.");
             return null;
 
         }

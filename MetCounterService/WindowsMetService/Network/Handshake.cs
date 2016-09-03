@@ -74,13 +74,10 @@ namespace WindowsMetService.Network
             stream.Write(keyBuffor, 0, keyBuffor.Length);
 
             //wysyłanie klienta ID
-            string s = LocalDatabase.getRegistryID();
+            string s = LocalDatabase.getClientID();
             byte[] id = UnicodeEncoding.UTF8.GetBytes(s);
             id = RSAv3.encrypt(id);
             stream.Write(id, 0, 128);
-
-
-
 
             //odbieranie powiadomienia 'ok'
             readed = 0;
@@ -91,8 +88,13 @@ namespace WindowsMetService.Network
             if (readed != 128)
                 throw new Exception("Otrzymano zbyt mało danych in Handshake:authorize(NetworkStream)");
 
-            return
+            
+
+            bool sucess = 
             UnicodeEncoding.UTF8.GetString(RSAv3.decrypt(keyBuffor)).EndsWith(handshake_ok);
+
+            Global.Log("Połączono z serwerem");
+            return sucess;
         }
     }
 }

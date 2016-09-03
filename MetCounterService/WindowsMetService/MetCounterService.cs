@@ -9,8 +9,9 @@ namespace WindowsMetService
 {
     public partial class MetCounterService : ServiceBase
     {
-        public TimerCallback callback;
-        public Timer t;
+        public TimerCallback callback; //callback dla timera t
+        public Timer t; // Timer który uruchamia cały process.
+        public Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
 
         public enum ServiceState
         {
@@ -49,9 +50,10 @@ namespace WindowsMetService
             }
             eventLog1.Source = "MetServiceLogSource";
             eventLog1.Log = "MetCounterLog";
-            //LocalDatabase.Initialize();
             Global.SetSystemEventLog(eventLog1);
-            Global.Log("Utworzono logi w konstruktorze");
+            //LocalDatabase.Initialize();
+
+            //Global.Log("Utworzono logi w konstruktorze");
         }
 
         protected override void OnStart(string[] args)
@@ -67,7 +69,7 @@ namespace WindowsMetService
             //Global.Log("Local database initialized");
 
             System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 60000 * 60; // 60 seconds * 60 = 1h
+            timer.Interval = 60000 * 20; // 60 seconds * 20 = 20 min
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
             timer.Start();
             //setupTrigger();
@@ -80,7 +82,8 @@ namespace WindowsMetService
 
         protected override void OnStop()
         {
-
+            t.Dispose();
+            
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
@@ -99,29 +102,26 @@ namespace WindowsMetService
             int msToTick = 20 * 1000;
 
             DateTime now = DateTime.Now;
-            DateTime tickTime = DateTime.Today.AddHours(11.0 + randomvalue + randomvalue + randomvalue);
+            DateTime tickTime = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
 
             if (retry)
             {
                 //Jeśli jest to ponowienie próby, ustaiamy ticktime na teraz + 20 minut
-                //Global.Log("Trigger with retry");
                 msToTick = getNextTickIn(DateTime.Now, 60 * 20);
             }
             else if ((now > tickTime) && LocalDatabase.lastTickWasToday())
             {
                 //Jeśli dzisiaj już przesłano dane, tick jest przestawiony na jutro
-                //Global.Log("now > tickTime and last tick was tooday - trigger time increase by one day");
                 tickTime = tickTime.AddDays(1.0);
             }
 
             else if ((now > tickTime) && LocalDatabase.lastTickWasToday() == false)
             {
-                //Global.Log("now > ticTime and last tick wasn't tooday -- srtting trigger now + 20 min");
+                //Jeśli teraz jest później niż normalny czas przesyłania i dzisiaj nie przesyłano to zrób to za 20 minut.
                 msToTick = getNextTickIn(now, 20 * 60);
             }
             else
             {
-                //Global.Log("Tic time set to normal time");
                 msToTick = getNextTickIn(tickTime, 20);
                 msToTick = (int)((tickTime - DateTime.Now).TotalMilliseconds);
                 if (msToTick < 10)
@@ -146,7 +146,7 @@ namespace WindowsMetService
             {
                 string[] ips = LocalDatabase.getMachinesIps();
 
-                Global.Log("Pobieram: " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
+                Global.Log("Tick");
                 LocalDatabase.setToodayTick();
 
                 List<Machine> machines = new List<Machine>();
@@ -160,13 +160,13 @@ namespace WindowsMetService
 
                 int fails = Network.DAO.SendMachines(machines);
 
-                if (fails == machines.Count)
+                if (fails == machines.Count && machines.Count > 0)
                     Global.Log("Nie udało się przesłać jakiejkolwiek maszyny z obecnego odczytu");
 
                 Thread.Sleep(1000 * 20);
 
                 machines = LocalDatabase.getMachinesFromStorage();
-                Network.DAO.SendMachines(machines);
+                fails = Network.DAO.SendMachines(machines);
 
                 if (fails == machines.Count && machines.Count > 0)
                     Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych");

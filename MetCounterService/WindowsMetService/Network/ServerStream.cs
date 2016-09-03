@@ -153,7 +153,7 @@ namespace WindowsMetService.Network
         public void disconnect()
         {
             int step = 0;
-            if (connected)
+            if (connected && client != null)
             {
                 try
                 {

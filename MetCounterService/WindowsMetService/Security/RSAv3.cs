@@ -14,10 +14,11 @@ namespace WindowsMetService.Security
         static RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
         static byte[] encrypted_parameter_m = Convert.FromBase64String("***REMOVED***");
         static byte[] encrypted_parameter_e = Convert.FromBase64String("***REMOVED***");
-        static RSACryptoServiceProvider serverRSA = new RSACryptoServiceProvider();
+        static RSACryptoServiceProvider serverRSA;
 
         public static void initialize()
         {
+            serverRSA = new RSACryptoServiceProvider();
             serverRSA.ImportParameters(getServerParameter());
         }
 
@@ -207,6 +208,7 @@ namespace WindowsMetService.Security
 
         #endregion
 
+        #region Other
         /// <summary>
         /// Zwraca parametry M i E klucza publicznego serwera
         /// </summary>
@@ -238,5 +240,6 @@ namespace WindowsMetService.Security
         {
             return encrypt(rsa.ExportParameters(false).Modulus);
         }
+        #endregion
     }
 }

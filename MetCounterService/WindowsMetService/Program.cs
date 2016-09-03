@@ -26,8 +26,6 @@ namespace WindowsMetService
 
                 string[] ips = LocalDatabase.getMachinesIps();
 
-                
-
                 Global.Log("Pobieram: " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
                 LocalDatabase.setToodayTick();
 
@@ -42,13 +40,13 @@ namespace WindowsMetService
 
                 int fails = Network.DAO.SendMachines(machines);
 
-                if (fails == machines.Count && ips.Length > 0)
+                if (fails == machines.Count && machines.Count > 0)
                     Global.Log("Nie udało się przesłać jakiejkolwiek maszyny z obecnego odczytu");
 
                 Thread.Sleep(1000 * 20);
 
                 machines = LocalDatabase.getMachinesFromStorage();
-                Network.DAO.SendMachines(machines);
+                fails = Network.DAO.SendMachines(machines);
 
                 if (fails == machines.Count && machines.Count > 0)
                     Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych");
