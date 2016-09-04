@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsMetService", "Window
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup2", "Setup2\Setup2.vdproj", "{6E7B86E6-1DFD-4AA7-9B2C-5D024734FCC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Copyinfo", "Copyinfo\Copyinfo.csproj", "{D0039D01-F7E7-42E7-BA90-F978312A7329}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{D117E248-CA70-4902-8A5F-71660BB094B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E7B86E6-1DFD-4AA7-9B2C-5D024734FCC8}.Debug|Any CPU.ActiveCfg = Debug
 		{6E7B86E6-1DFD-4AA7-9B2C-5D024734FCC8}.Release|Any CPU.ActiveCfg = Release
+		{D0039D01-F7E7-42E7-BA90-F978312A7329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0039D01-F7E7-42E7-BA90-F978312A7329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0039D01-F7E7-42E7-BA90-F978312A7329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0039D01-F7E7-42E7-BA90-F978312A7329}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

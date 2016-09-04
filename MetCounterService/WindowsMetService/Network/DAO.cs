@@ -11,6 +11,29 @@ namespace WindowsMetService.Network
         private const string dateFormat = @"M/d/yyyy hh:mm:ss tt";
         static ServerStream connection = new ServerStream();
 
+        enum DataPrefix { CounterData, SerialNumber, MAC, IP, DateTime, Description };
+
+        static Dictionary<DataPrefix, string> dataPrefix = new Dictionary<DataPrefix, string>()
+        {
+            {DataPrefix.DateTime,           "|DateTime|"},
+            {DataPrefix.Description,        "|Description|" },
+            {DataPrefix.IP,                 "|AddressIP|" },
+            {DataPrefix.MAC,                "|AddressMAC|" },
+            {DataPrefix.CounterData,        "|CounterData|" },
+            {DataPrefix.SerialNumber,       "|SerialNumber|" }
+        };
+
+        /*
+
+            machineData[0] = machine.datetime.ToString(dateFormat); 
+            machineData[1] = LocalDatabase.getClientDescription(); 
+            machineData[2] = machine.mac;
+            machineData[3] = machine.ip;
+            machineData[4] = machine.counterData;
+            machineData[5] = machine.serialNumberData;
+
+    */
+
         static bool SendOneMachine(Machine machine)
         {
             if (connection.connect() == false)
@@ -55,12 +78,12 @@ namespace WindowsMetService.Network
         {
             string[] machineData = new string[6];
 
-            machineData[0] = machine.counterData;
-            machineData[1] = machine.serialNumberData;
-            machineData[2] = machine.mac;
-            machineData[3] = machine.ip;
-            machineData[4] = machine.datetime.ToString(dateFormat);
-            machineData[5] = LocalDatabase.getClientDescription();
+            machineData[0] = dataPrefix[DataPrefix.DateTime] + machine.datetime.ToString(dateFormat);
+            machineData[1] = dataPrefix[DataPrefix.Description] + LocalDatabase.getClientDescription();
+            machineData[2] = dataPrefix[DataPrefix.MAC] + machine.mac;
+            machineData[3] = dataPrefix[DataPrefix.IP] + machine.ip;
+            machineData[4] = dataPrefix[DataPrefix.CounterData] + machine.counterData;
+            machineData[5] = dataPrefix[DataPrefix.SerialNumber] + machine.serialNumberData;
 
             return machineData;
         }
