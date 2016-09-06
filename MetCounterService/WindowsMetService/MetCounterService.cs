@@ -12,6 +12,8 @@ namespace WindowsMetService
         public TimerCallback callback; //callback dla timera t
         public Timer t; // Timer który uruchamia cały process.
         public Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
+        DateTime tickTime;
+        bool ToodayTickSet = false;
 
         public enum ServiceState
         {
@@ -102,7 +104,8 @@ namespace WindowsMetService
             int msToTick = 20 * 1000;
 
             DateTime now = DateTime.Now;
-            DateTime tickTime = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
+
+
 
             if (retry)
             {
@@ -127,13 +130,17 @@ namespace WindowsMetService
                 if (msToTick < 10)
                     msToTick = getNextTickIn(tickTime, 20);
             }
-            t.Change(msToTick, Timeout.Infinite);
+
+            if (tickTime.Day != DateTime.Today.Day && DateTime.Now < tickTime)
+            {
+                Global.Log("Tick time change to: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
+                t.Change(msToTick, Timeout.Infinite);
+            }
         }
 
         public static int getNextTickIn(DateTime tickTime, int secounds)
         {
             tickTime = DateTime.Now.AddSeconds(secounds);
-            Global.Log("Tick time change to: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
             return (int)((tickTime - DateTime.Now).TotalMilliseconds);
         }
 
@@ -144,6 +151,9 @@ namespace WindowsMetService
         {
             try
             {
+                if (LocalDatabase.lastTickWasToday())
+                    return;
+
                 string[] ips = LocalDatabase.getMachinesIps();
 
                 Global.Log("Tick");
