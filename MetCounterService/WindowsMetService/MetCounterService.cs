@@ -12,7 +12,7 @@ namespace WindowsMetService
         public TimerCallback callback; //callback dla timera t
         public Timer t; // Timer który uruchamia cały process.
         public Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
-        DateTime tickTime;
+        DateTime TICKTIMECURENTLYSET;
         bool ToodayTickSet = false;
 
         public enum ServiceState
@@ -101,47 +101,46 @@ namespace WindowsMetService
             double randomvalue = random.NextDouble();
 
             t = new Timer(callback);
-            int msToTick = 20 * 1000;
 
             DateTime now = DateTime.Now;
 
+            DateTime tickTime
+                = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
 
 
             if (retry)
             {
                 //Jeśli jest to ponowienie próby, ustaiamy ticktime na teraz + 20 minut
-                msToTick = getNextTickIn(DateTime.Now, 60 * 20);
+                tickTime = DateTime.Now.AddMinutes(20.0);
             }
-            else if ((now > tickTime) && LocalDatabase.lastTickWasToday())
+            else if (LocalDatabase.lastTickWasToday())
             {
                 //Jeśli dzisiaj już przesłano dane, tick jest przestawiony na jutro
-                tickTime = tickTime.AddDays(1.0);
+                tickTime = DateTime.Today.AddDays(1.0).AddHours(10.0 + (randomvalue * 4));
             }
-
-            else if ((now > tickTime) && LocalDatabase.lastTickWasToday() == false)
+            else if ((now > tickTime))
             {
                 //Jeśli teraz jest później niż normalny czas przesyłania i dzisiaj nie przesyłano to zrób to za 20 minut.
-                msToTick = getNextTickIn(now, 20 * 60);
+                tickTime = DateTime.Now.AddMinutes(20.0);
+            }
+
+            if (TICKTIMECURENTLYSET != null)
+            {
+                //Jeśli ustawiony czas już miną, ustaw nową wartość.
+                if (TICKTIMECURENTLYSET < DateTime.Now)
+                    setCurentlyTickTime(tickTime);
             }
             else
             {
-                msToTick = getNextTickIn(tickTime, 20);
-                msToTick = (int)((tickTime - DateTime.Now).TotalMilliseconds);
-                if (msToTick < 10)
-                    msToTick = getNextTickIn(tickTime, 20);
-            }
-
-            if (tickTime.Day != DateTime.Today.Day && DateTime.Now < tickTime)
-            {
-                Global.Log("Tick time change to: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
-                t.Change(msToTick, Timeout.Infinite);
+                setCurentlyTickTime(tickTime);
             }
         }
 
-        public static int getNextTickIn(DateTime tickTime, int secounds)
+        public void setCurentlyTickTime(DateTime tickTime)
         {
-            tickTime = DateTime.Now.AddSeconds(secounds);
-            return (int)((tickTime - DateTime.Now).TotalMilliseconds);
+            TICKTIMECURENTLYSET = tickTime;
+            t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
+            Global.Log("Ustawiono czas na: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
         }
 
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -151,9 +150,6 @@ namespace WindowsMetService
         {
             try
             {
-                if (LocalDatabase.lastTickWasToday())
-                    return;
-
                 string[] ips = LocalDatabase.getMachinesIps();
 
                 Global.Log("Tick");
