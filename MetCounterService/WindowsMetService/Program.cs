@@ -12,6 +12,12 @@ namespace WindowsMetService
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// 
+
+        static public Timer t; // Timer który uruchamia cały process.
+        static public Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
+        static DateTime TICKTIMECURENTLYSET;
+
         static void Main()
         {
 #if DEBUG
@@ -20,44 +26,40 @@ namespace WindowsMetService
             //LocalDatabase.Initialize();
             //Global.Log("Local database initialized");
 
-            try
+            Random random = new Random();
+            double randomvalue = random.NextDouble();
+            DateTime now = DateTime.Now;
+
+            DateTime tickTime
+                = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
+
+
+            if (false)
             {
-                LocalDatabase.Initialize();
-
-                string[] ips = LocalDatabase.getMachinesIps();
-
-                Global.Log("Pobieram: " + DateTime.Now.ToLongDateString() + " " + DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + ":" + DateTime.Now.Second.ToString());
-                LocalDatabase.setToodayTick();
-
-                List<Machine> machines = new List<Machine>();
-
-                foreach (string ip in ips)
-                {
-                    Machine machine = new Machine(ip);
-                    //machine.setUpMachine();
-                    machines.Add(machine);
-                }
-
-                int fails = Network.DAO.SendMachines(machines);
-
-                if (fails == machines.Count && machines.Count > 0)
-                    Global.Log("Nie udało się przesłać jakiejkolwiek maszyny z obecnego odczytu");
-
-                Thread.Sleep(1000 * 20);
-
-                machines = LocalDatabase.getMachinesFromStorage();
-                fails = Network.DAO.SendMachines(machines);
-
-                if (fails == machines.Count && machines.Count > 0)
-                    Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych");
+                //Jeśli jest to ponowienie próby, ustaiamy ticktime na teraz + 20 minut
+                tickTime = DateTime.Now.AddMinutes(20.0);
             }
-            catch (Exception ex)
+            else if (LocalDatabase.lastTickWasToday())
             {
-                System.IO.File.WriteAllText("error.txt", ex.Message);
-                Global.Log("Error in main loop. Message: " + ex.Message);
+                //Jeśli dzisiaj już przesłano dane, tick jest przestawiony na jutro
+                tickTime = DateTime.Today.AddDays(1.0).AddHours(10.0 + (randomvalue * 4));
+            }
+            else if ((now > tickTime))
+            {
+                //Jeśli teraz jest później niż normalny czas przesyłania i dzisiaj nie przesyłano to zrób to za 20 minut.
+                tickTime = DateTime.Now.AddMinutes(20.0);
             }
 
-            Global.Log("Wystartowano process.");
+            if (TICKTIMECURENTLYSET != null)
+            {
+                //Jeśli ustawiony czas już miną, ustaw nową wartość.
+                if (TICKTIMECURENTLYSET < DateTime.Now)
+                    setCurentlyTickTime(tickTime);
+            }
+            else
+            {
+                setCurentlyTickTime(tickTime);
+            }
 #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
@@ -66,6 +68,20 @@ namespace WindowsMetService
             };
             ServiceBase.Run(ServicesToRun);
 #endif
+        }
+
+        static public void doit(Object stateInfo)
+        {
+
+        }
+
+        static public void setCurentlyTickTime(DateTime tickTime)
+        {
+            TICKTIMECURENTLYSET = tickTime;
+            if (t != null) t.Dispose();
+            t = new Timer(doit);
+            t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
+            Global.Log("Ustawiono czas na: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
         }
 
 

@@ -9,11 +9,10 @@ namespace WindowsMetService
 {
     public partial class MetCounterService : ServiceBase
     {
-        public TimerCallback callback; //callback dla timera t
+        //public TimerCallback callback; //callback dla timera t
         public Timer t; // Timer który uruchamia cały process.
-        public Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
+        public System.Timers.Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
         DateTime TICKTIMECURENTLYSET;
-        bool ToodayTickSet = false;
 
         public enum ServiceState
         {
@@ -53,9 +52,6 @@ namespace WindowsMetService
             eventLog1.Source = "MetServiceLogSource";
             eventLog1.Log = "MetCounterLog";
             Global.SetSystemEventLog(eventLog1);
-            //LocalDatabase.Initialize();
-
-            //Global.Log("Utworzono logi w konstruktorze");
         }
 
         protected override void OnStart(string[] args)
@@ -74,6 +70,7 @@ namespace WindowsMetService
             timer.Interval = 60000 * 20; // 60 seconds * 20 = 20 min
             timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
             timer.Start();
+            t2 = timer;
             //setupTrigger();
 
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
@@ -85,7 +82,7 @@ namespace WindowsMetService
         protected override void OnStop()
         {
             t.Dispose();
-            
+            t2.Dispose();
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
@@ -95,12 +92,9 @@ namespace WindowsMetService
 
         public void setupTrigger(bool retry = false)
         {
-            callback = doit;
-
+            Global.Log("SettingupTrigger");
             Random random = new Random();
             double randomvalue = random.NextDouble();
-
-            t = new Timer(callback);
 
             DateTime now = DateTime.Now;
 
@@ -139,6 +133,8 @@ namespace WindowsMetService
         public void setCurentlyTickTime(DateTime tickTime)
         {
             TICKTIMECURENTLYSET = tickTime;
+            if (t != null) t.Dispose();
+            t = new Timer(doit);
             t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
             Global.Log("Ustawiono czas na: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
         }
@@ -160,7 +156,6 @@ namespace WindowsMetService
                 foreach (string ip in ips)
                 {
                     Machine machine = new Machine(ip);
-                    //machine.setUpMachine();
                     machines.Add(machine);
                 }
 
