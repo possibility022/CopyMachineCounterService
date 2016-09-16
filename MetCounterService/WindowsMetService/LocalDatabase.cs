@@ -260,7 +260,7 @@ namespace WindowsMetService
             return new string[] { "", "" };
         }
 
-        public static bool macIsMapped(string mac)
+        public static bool macIsMapped(string mac)//TODO sprawdz ta metode. Chyba powinno być na odwrót.
         {
             if ((getMacWebMapping(mac)[0] == "") && (getMacWebMapping(mac)[1]) == "")
                 return true;

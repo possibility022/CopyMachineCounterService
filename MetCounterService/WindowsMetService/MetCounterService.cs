@@ -10,7 +10,7 @@ namespace WindowsMetService
     public partial class MetCounterService : ServiceBase
     {
         //public TimerCallback callback; //callback dla timera t
-        public Timer t; // Timer który uruchamia cały process.
+        static public Timer t; // Timer który uruchamia cały process.
         public System.Timers.Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
         DateTime TICKTIMECURENTLYSET;
 
@@ -128,6 +128,8 @@ namespace WindowsMetService
             {
                 setCurentlyTickTime(tickTime);
             }
+
+            Global.Log("Ustawiono czas na: " + TICKTIMECURENTLYSET.ToString(@"M/d/yyyy hh:mm:ss tt"));
         }
 
         public void setCurentlyTickTime(DateTime tickTime)
@@ -136,7 +138,6 @@ namespace WindowsMetService
             if (t != null) t.Dispose();
             t = new Timer(doit);
             t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
-            Global.Log("Ustawiono czas na: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
         }
 
         [DllImport("advapi32.dll", SetLastError = true)]
