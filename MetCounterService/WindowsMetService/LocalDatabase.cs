@@ -363,7 +363,37 @@ namespace WindowsMetService
 
             Global.Log("Pobieranie IP serwer nie powiodło się.");
             return null;
+        }
 
+        public static void remove_old_logs()
+        {
+            string[] lines = File.ReadAllLines(buildPath(File_Log));
+            List<string> selected = new List<string>();
+
+            int index = 0;
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                try
+                {
+                    DateTime datetime = DateTime.ParseExact(lines[i].Remove(27), "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                    if (datetime != null)
+                    {
+                        DateTime now = DateTime.Now;
+                        double diffrent = (now - datetime).TotalDays;
+                        if (diffrent > 30.0) index = i;
+                    }
+
+                }catch(Exception ex)
+                {
+
+                }
+            }
+
+            if (index == 0)
+                return;
+
+            for(int i = index; i < )
         }
     }
 }
