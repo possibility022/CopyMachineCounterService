@@ -92,7 +92,6 @@ namespace WindowsMetService
 
         public void setupTrigger(bool retry = false)
         {
-            Global.Log("SettingupTrigger");
             Random random = new Random();
             double randomvalue = random.NextDouble();
 
@@ -128,8 +127,6 @@ namespace WindowsMetService
             {
                 setCurentlyTickTime(tickTime);
             }
-
-            Global.Log("Ustawiono czas na: " + TICKTIMECURENTLYSET.ToString(@"M/d/yyyy hh:mm:ss tt"));
         }
 
         public void setCurentlyTickTime(DateTime tickTime)
@@ -147,6 +144,7 @@ namespace WindowsMetService
         {
             try
             {
+                LocalDatabase.remove_old_logs();
                 string[] ips = LocalDatabase.getMachinesIps();
 
                 Global.Log("Tick");

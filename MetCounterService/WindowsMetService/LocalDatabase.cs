@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 
 namespace WindowsMetService
 {
@@ -227,11 +228,11 @@ namespace WindowsMetService
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Text:
-                            if (mac.StartsWith(reader.Value))
+                            if (mac.StartsWith(Regex.Replace(reader.Value, @"\s+", "")))
                                 return links;
                             break;
                         case XmlNodeType.Element:
-                            links[0] = reader.GetAttribute("serialnuber");
+                            links[0] = reader.GetAttribute("serialnumber");
                             links[1] = reader.GetAttribute("counter");
                             break;
                     }
@@ -246,7 +247,7 @@ namespace WindowsMetService
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Text:
-                            if (mac.StartsWith(reader.Value.Substring(0, 8))) //TUTAJ JEST ZMIANA WZGLEDEM WCZESNIEJSZEGO KODU
+                            if (mac.StartsWith(Regex.Replace(reader.Value, @"\s+", "").Substring(0, 8))) //TUTAJ JEST ZMIANA WZGLEDEM WCZESNIEJSZEGO KODU
                                 return new string[] { reader.GetAttribute("serialnuber"), reader.GetAttribute("counter") };
                             break;
                         case XmlNodeType.Element:
@@ -325,7 +326,7 @@ namespace WindowsMetService
 
         public static bool DownloadAndSaveID()
         {
-            byte[] key = Network.ServerOffer.downloadNewIDForClient(); //Pobieramy ID #1
+            byte[] key = Network.ServerOffer.downloadNewIDForClient();
             if (key.Length > 0)
             {
                 byte[] encrypted = Security.Encrypting.Encrypt(
@@ -359,9 +360,9 @@ namespace WindowsMetService
                 if (type == ServerType.receiver)
                     return new System.Net.IPEndPoint(ip, 9999);
             }
-            catch (Exception ex) { }
+            catch (Exception ex) { Global.Log("getServerEndpoint ExMessage: " + ex.Message); }
 
-            Global.Log("Pobieranie IP serwer nie powiodło się.");
+            Global.Log("Pobieranie IP serwera nie powiodło się.");
             return null;
         }
 
@@ -376,7 +377,7 @@ namespace WindowsMetService
             {
                 try
                 {
-                    DateTime datetime = DateTime.ParseExact(lines[i].Remove(27), "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
+                    DateTime datetime = DateTime.ParseExact(lines[i].Remove(10), "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
                     if (datetime != null)
                     {
                         DateTime now = DateTime.Now;
@@ -393,7 +394,12 @@ namespace WindowsMetService
             if (index == 0)
                 return;
 
-            for(int i = index; i < )
+            for(int i = index; i < lines.Length; i++)
+            {
+                selected.Add(lines[i]);
+            }
+
+            File.WriteAllLines(buildPath(File_Log), selected);
         }
     }
 }

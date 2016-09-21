@@ -19,8 +19,8 @@ namespace WindowsMetService.Network
             {DataPrefix.Description,        "|Description|" },
             {DataPrefix.IP,                 "|AddressIP|" },
             {DataPrefix.MAC,                "|AddressMAC|" },
-            {DataPrefix.CounterData,        "|CounterData|" },
-            {DataPrefix.SerialNumber,       "|SerialNumber|" }
+            {DataPrefix.CounterData,        "|FullCounter|" },
+            {DataPrefix.SerialNumber,       "|FullSerialnumber|" }
         };
 
         /*
@@ -61,11 +61,11 @@ namespace WindowsMetService.Network
             {
                 if (SendOneMachine(m) == false)
                 {
-                    Global.Log("Przesyłanie urządzenia nie powiodło się. Ip: " + m.ip);
+                    Global.Log("Przesyłanie urządzenia nie powiodło się. Ip: " + m.ip + " Mac: " + m.mac);
                     fails++;
                 }else
                 {
-                    Global.Log("Przesłano urządzenie: " + m.ip);
+                    Global.Log("Przesłano urządzenie: " + m.ip + " Mac: " + m.mac);
                 }
             }
 

@@ -21,45 +21,32 @@ namespace WindowsMetService
         static void Main()
         {
 #if DEBUG
+            LocalDatabase.remove_old_logs();
+            string[] ips = LocalDatabase.getMachinesIps();
 
+            Global.Log("Tick");
+            LocalDatabase.setToodayTick();
 
-            //LocalDatabase.Initialize();
-            //Global.Log("Local database initialized");
+            List<Machine> machines = new List<Machine>();
 
-            Random random = new Random();
-            double randomvalue = random.NextDouble();
-            DateTime now = DateTime.Now;
-
-            DateTime tickTime
-                = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
-
-
-            if (false)
+            foreach (string ip in ips)
             {
-                //Jeśli jest to ponowienie próby, ustaiamy ticktime na teraz + 20 minut
-                tickTime = DateTime.Now.AddMinutes(20.0);
-            }
-            else if (LocalDatabase.lastTickWasToday())
-            {
-                //Jeśli dzisiaj już przesłano dane, tick jest przestawiony na jutro
-                tickTime = DateTime.Today.AddDays(1.0).AddHours(10.0 + (randomvalue * 4));
-            }
-            else if ((now > tickTime))
-            {
-                //Jeśli teraz jest później niż normalny czas przesyłania i dzisiaj nie przesyłano to zrób to za 20 minut.
-                tickTime = DateTime.Now.AddMinutes(20.0);
+                Machine machine = new Machine(ip);
+                machines.Add(machine);
             }
 
-            if (TICKTIMECURENTLYSET != null)
-            {
-                //Jeśli ustawiony czas już miną, ustaw nową wartość.
-                if (TICKTIMECURENTLYSET < DateTime.Now)
-                    setCurentlyTickTime(tickTime);
-            }
-            else
-            {
-                setCurentlyTickTime(tickTime);
-            }
+            int fails = Network.DAO.SendMachines(machines);
+
+            if (fails == machines.Count && machines.Count > 0)
+                Global.Log("Nie udało się przesłać jakiejkolwiek maszyny z obecnego odczytu");
+
+            Thread.Sleep(1000 * 20);
+
+            machines = LocalDatabase.getMachinesFromStorage();
+            fails = Network.DAO.SendMachines(machines);
+
+            if (fails == machines.Count && machines.Count > 0)
+                Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych");
 #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
