@@ -16,6 +16,8 @@ namespace Copyinfo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Database.Mongo mongo = new Database.Mongo();
+            mongo.test();
             Application.Run(new Form1());
         }
     }

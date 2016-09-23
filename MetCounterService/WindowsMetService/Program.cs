@@ -21,6 +21,7 @@ namespace WindowsMetService
         static void Main()
         {
 #if DEBUG
+            LocalDatabase.Initialize();
             LocalDatabase.remove_old_logs();
             string[] ips = LocalDatabase.getMachinesIps();
 
