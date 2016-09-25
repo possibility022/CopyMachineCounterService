@@ -27,8 +27,8 @@ namespace Copyinfo
         public string FullSerialData { get; set; }
         public int ScanCounter { get; set; }
         public int PrintCounterBlackAndWhite { get; set; }
-        public string FullCounter { get; set; }
-        public string FullSerialnumber { get; set; }
+        public ObjectId FullCounter { get; set; }
+        public ObjectId FullSerialnumber { get; set; }
         public string AddressIP { get; set; }
         public string AddressMAC { get; set; }
         public string SerialNumber { get; set; }
