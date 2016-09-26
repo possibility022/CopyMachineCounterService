@@ -8,21 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-namespace Copyinfo
+namespace Copyinfo.Forms
 {
-    public partial class Form1 : Form
+    public partial class MachinesView : Form
     {
-        public Form1()
+        public MachinesView()
         {
             InitializeComponent();
-
-            Global.Initialize();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            reports1.fillList(Global.database.getAllReports());
         }
     }
 }

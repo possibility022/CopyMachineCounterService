@@ -35,7 +35,7 @@ namespace Copyinfo.Database
 
         enum Collections
         {
-            machine_record
+            machine_records
         }
 
         public static void Initialize()
@@ -45,17 +45,17 @@ namespace Copyinfo.Database
             database = server.GetDatabase(DATABASE_NAME);
 
             _client = new MongoClient(connectionString);
-            _database = _client.GetDatabase("machines");
+            _database = _client.GetDatabase(DATABASE_NAME);
         }
 
-        public List<Machine> getAllReports()
+        public List<MachineRecord> getAllReports()
         {
-            MongoCollection<Machine> collection = database.GetCollection<Machine>(Collections.machine_record.ToString());
-            MongoCursor<Machine> all = collection.FindAll();
+            MongoCollection<MachineRecord> collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
+            MongoCursor<MachineRecord> all = collection.FindAll();
 
-            List<Machine> list = new List<Machine>();
+            List<MachineRecord> list = new List<MachineRecord>();
 
-            foreach ( Machine m in all)
+            foreach ( MachineRecord m in all)
             {
                 list.Add(m);
             }
@@ -66,7 +66,9 @@ namespace Copyinfo.Database
         public void t()
         {
             //test3dot1();
-            test();
+            //test();
+            Initialize();
+            getAllReports();
         }
 
         public void test()
@@ -79,11 +81,11 @@ namespace Copyinfo.Database
 
             // Use the server to access the 'machines' database
             MongoDatabase database = server.GetDatabase(MongoDB.DATABASE_NAME);
-            var collection = database.GetCollection<Machine>("machine_record");
+            var collection = database.GetCollection<MachineRecord>("machine_records");
             var totalNumberOfPosts = collection.Count();
             
-            MongoCursor<Machine> members = collection.FindAll();
-            foreach (Machine test in members)
+            MongoCursor<MachineRecord> members = collection.FindAll();
+            foreach (MachineRecord test in members)
             {
                 string author = test.AddressIP;
             }
@@ -116,6 +118,39 @@ namespace Copyinfo.Database
                 }
             }
             return count;
+        }
+
+        //public void Task<MachineRecordBson[]> test4()
+        //{
+        //    var collection = _database.GetCollection<BsonDocument>(Collections.machine_records.ToString());
+        //    //var results = collection.Find<BsonDocument>(new BsonDocument());
+        //    //long count = results.Count();
+
+        //    //List<MachineRecordBson> machines = results.ToList<BsonDocument>();
+
+        //}
+
+        public void test5()
+        {
+            // Create a MongoClient object by using the connection string
+            var client = new MongoClient(connectionString);
+
+            //Use the MongoClient to access the server
+            MongoServer server = client.GetServer();
+
+            // Use the server to access the 'machines' database
+            MongoDatabase database = server.GetDatabase(MongoDB.DATABASE_NAME);
+            var collection = database.GetCollection<MachineRecord>("machine_records");
+            var totalNumberOfPosts = collection.Count();
+
+            MongoCursor<MachineRecord> members = collection.FindAll();
+            BsonValue value = new BsonValue
+            BsonElement element = new BsonElement("AddressIP", new BsonValue());
+            collection.Find()
+            foreach (MachineRecord test in members)
+            {
+                string author = test.AddressIP;
+            }
         }
 
         public async void test2()

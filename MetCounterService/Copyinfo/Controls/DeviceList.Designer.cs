@@ -1,6 +1,6 @@
 ﻿namespace Copyinfo.Controls
 {
-    partial class LastReports
+    partial class DeviceList
     {
         /// <summary> 
         /// Required designer variable.
@@ -36,17 +36,18 @@
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(668, 408);
+            this.listView1.Size = new System.Drawing.Size(381, 528);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
             // 
-            // LastReports
+            // DeviceList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.listView1);
-            this.Name = "LastReports";
-            this.Size = new System.Drawing.Size(668, 408);
+            this.Name = "DeviceList";
+            this.Size = new System.Drawing.Size(381, 528);
             this.ResumeLayout(false);
 
         }

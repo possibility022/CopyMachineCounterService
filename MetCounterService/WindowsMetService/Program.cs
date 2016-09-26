@@ -69,7 +69,7 @@ namespace WindowsMetService
             if (t != null) t.Dispose();
             t = new Timer(doit);
             t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
-            Global.Log("Ustawiono czas na: " + tickTime.ToString(@"M/d/yyyy hh:mm:ss tt"));
+            Global.Log("Ustawiono czas na: " + tickTime.ToString(@"dd/MM/yyyy HH:mm"));
         }
 
 

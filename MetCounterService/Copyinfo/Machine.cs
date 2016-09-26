@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace Copyinfo
 {
-    public class Machine
+    public class MachineRecord
     {
         //|PrintCounterColor| 0
         //|DateTime| 9.22.2016 09:18:32 AM
@@ -21,17 +21,20 @@ namespace Copyinfo
         //|AddressMAC| 00-21-b7-9c-a6-7c
         //|SerialNumber| 7947PD5
 
-        public int PrintCounterColor { get; set; }
-        public string DateTime { get; set; }
-        public string Description { get; set; }
-        public string FullSerialData { get; set; }
-        public int ScanCounter { get; set; }
+        public string SerialNumber { get; set; }
+
         public int PrintCounterBlackAndWhite { get; set; }
+        public int PrintCounterColor { get; set; }
+        public int ScanCounter { get; set; }
+
+        public string Description { get; set; }
+        public DateTime DateTime { get; set; }
+
+        public string AddressMAC { get; set; }
         public ObjectId FullCounter { get; set; }
         public ObjectId FullSerialnumber { get; set; }
         public string AddressIP { get; set; }
-        public string AddressMAC { get; set; }
-        public string SerialNumber { get; set; }
+        
         public ObjectId id { get; set; }
     }
 }

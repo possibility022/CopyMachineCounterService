@@ -8,7 +8,7 @@ namespace WindowsMetService.Network
 {
     static class DAO
     {
-        private const string dateFormat = @"M/d/yyyy hh:mm:ss tt";
+        private const string dateFormat = @"dd/MM/yyyy HH:mm";
         static ServerStream connection = new ServerStream();
 
         enum DataPrefix { CounterData, SerialNumber, MAC, IP, DateTime, Description };
@@ -42,7 +42,7 @@ namespace WindowsMetService.Network
                 return false;
             }
 
-            byte[] bytes = connection.buildStringData(PrepareStringArray(machine));
+            byte[] bytes = connection.buildStringData(CreateStringArray(machine));
 
             return connection.sendMachineData(bytes);
         }
@@ -74,7 +74,7 @@ namespace WindowsMetService.Network
             return fails;
         }
 
-        static string[] PrepareStringArray(Machine machine)
+        static string[] CreateStringArray(Machine machine)
         {
             string[] machineData = new string[6];
 

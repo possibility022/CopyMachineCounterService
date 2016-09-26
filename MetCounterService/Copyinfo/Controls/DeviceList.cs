@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace Copyinfo.Controls
 {
-    public partial class LastReports : UserControl
+    public partial class DeviceList : UserControl
     {
-        public LastReports()
+        public DeviceList()
         {
             InitializeComponent();
-        }
-
-        public void ImportListOfDevices(Machine machine)
-        {
-
         }
     }
 }
