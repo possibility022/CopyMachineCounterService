@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using MongoDB.Bson;
 
-namespace Copyinfo
+namespace Copyinfo.Database
 {
     public class MachineRecord
     {
@@ -34,7 +34,7 @@ namespace Copyinfo
         public ObjectId FullCounter { get; set; }
         public ObjectId FullSerialnumber { get; set; }
         public string AddressIP { get; set; }
-        
+
         public ObjectId id { get; set; }
     }
 }

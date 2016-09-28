@@ -19,9 +19,8 @@ using MongoDB.Driver.Linq;
 
 namespace Copyinfo.Database
 {
-    class MongoDB
+    class MongoTB
     {
-
         protected static IMongoClient _client;
         protected static IMongoDatabase _database;
 
@@ -35,7 +34,12 @@ namespace Copyinfo.Database
 
         enum Collections
         {
-            machine_records
+            machine_records,
+            full_counter,
+            full_serial,
+            clients,
+            device,
+            addresses
         }
 
         public static void Initialize()
@@ -68,7 +72,8 @@ namespace Copyinfo.Database
             //test3dot1();
             //test();
             Initialize();
-            getAllReports();
+            //getAllReports();
+            test5();
         }
 
         public void test()
@@ -80,7 +85,7 @@ namespace Copyinfo.Database
             MongoServer server = client.GetServer();
 
             // Use the server to access the 'machines' database
-            MongoDatabase database = server.GetDatabase(MongoDB.DATABASE_NAME);
+            MongoDatabase database = server.GetDatabase(MongoTB.DATABASE_NAME);
             var collection = database.GetCollection<MachineRecord>("machine_records");
             var totalNumberOfPosts = collection.Count();
             
@@ -139,14 +144,16 @@ namespace Copyinfo.Database
             MongoServer server = client.GetServer();
 
             // Use the server to access the 'machines' database
-            MongoDatabase database = server.GetDatabase(MongoDB.DATABASE_NAME);
+            MongoDatabase database = server.GetDatabase(MongoTB.DATABASE_NAME);
             var collection = database.GetCollection<MachineRecord>("machine_records");
             var totalNumberOfPosts = collection.Count();
 
             MongoCursor<MachineRecord> members = collection.FindAll();
-            BsonValue value = new BsonValue
-            BsonElement element = new BsonElement("AddressIP", new BsonValue());
-            collection.Find()
+            //BsonElement element = new BsonElement("AddressIP", (BsonValue)"192.167.1.198");
+
+            var entityQuery = Query<MachineRecord>.EQ(e => e.AddressIP, "192.168.1.198");
+
+            members = collection.Find(entityQuery);
             foreach (MachineRecord test in members)
             {
                 string author = test.AddressIP;

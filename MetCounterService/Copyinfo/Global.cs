@@ -8,12 +8,12 @@ namespace Copyinfo
 {
     static class Global
     {
-        public static Database.MongoDB database;
+        public static Database.MongoTB database;
 
         public static void Initialize()
         {
-            Database.MongoDB.Initialize();
-            database = new Database.MongoDB();
+            Database.MongoTB.Initialize();
+            database = new Database.MongoTB();
         }
     }
 }
