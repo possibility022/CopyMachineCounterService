@@ -52,6 +52,12 @@ namespace Copyinfo.Database
             _database = _client.GetDatabase(DATABASE_NAME);
         }
 
+        public Address getAddress(ObjectId id)
+        {
+            //Not implemented
+            return null;
+        }
+
         public List<MachineRecord> getAllReports()
         {
             MongoCollection<MachineRecord> collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
@@ -92,7 +98,7 @@ namespace Copyinfo.Database
             MongoCursor<MachineRecord> members = collection.FindAll();
             foreach (MachineRecord test in members)
             {
-                string author = test.AddressIP;
+                string author = test.addressIP;
             }
 
             //List<Machine> query = collection.AsQueryable<Machine>().Where<Entity>(sb => sb.Name == "Star").ToList();
@@ -151,12 +157,12 @@ namespace Copyinfo.Database
             MongoCursor<MachineRecord> members = collection.FindAll();
             //BsonElement element = new BsonElement("AddressIP", (BsonValue)"192.167.1.198");
 
-            var entityQuery = Query<MachineRecord>.EQ(e => e.AddressIP, "192.168.1.198");
+            var entityQuery = Query<MachineRecord>.EQ(e => e.addressIP, "192.168.1.198");
 
             members = collection.Find(entityQuery);
             foreach (MachineRecord test in members)
             {
-                string author = test.AddressIP;
+                string author = test.addressIP;
             }
         }
 

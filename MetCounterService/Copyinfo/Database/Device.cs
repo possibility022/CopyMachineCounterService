@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace Copyinfo.Database
 {
-    class Device
+    public class Device
     {
         public string provider { get; set; }                    // producent
         public string model { get; set; }                       // model

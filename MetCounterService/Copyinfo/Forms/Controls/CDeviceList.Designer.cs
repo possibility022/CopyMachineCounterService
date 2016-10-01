@@ -1,6 +1,6 @@
-﻿namespace Copyinfo.Controls
-{
-    partial class DeviceList
+﻿namespace Copyinfo.Forms.Controls
+{ 
+    partial class CDeviceList
     {
         /// <summary> 
         /// Required designer variable.

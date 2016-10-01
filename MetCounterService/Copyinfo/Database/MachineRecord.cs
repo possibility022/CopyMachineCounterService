@@ -21,20 +21,27 @@ namespace Copyinfo.Database
         //|AddressMAC| 00-21-b7-9c-a6-7c
         //|SerialNumber| 7947PD5
 
-        public string SerialNumber { get; set; }
 
-        public int PrintCounterBlackAndWhite { get; set; }
-        public int PrintCounterColor { get; set; }
-        public int ScanCounter { get; set; }
+            //"datetime": "",
+            //"description": "",
+            //"dddressIP": "",
+            //"addressMAC": "",
+            //"serial_number": "",
+            //"full_serialnumber": "",
+            //"full_counter": "",
+            //"scan_counter": "",
+            //"print_counter_black_and_white": "",
+            //"print_counter_color": ""}
 
-        public string Description { get; set; }
-        public DateTime DateTime { get; set; }
-
-        public string AddressMAC { get; set; }
-        public ObjectId FullCounter { get; set; }
-        public ObjectId FullSerialnumber { get; set; }
-        public string AddressIP { get; set; }
-
-        public ObjectId id { get; set; }
+        public DateTime datetime { get; set; }
+        public string description { get; set; }
+        public string addressIP { get; set; }
+        public string addressMAC { get; set; }
+        public string serial_number { get; set; }
+        public ObjectId full_serialnumber { get; set; }
+        public ObjectId full_counter { get; set; }
+        public int scan_counter { get; set; }
+        public int print_counter_black_and_white { get; set; }
+        public int print_counter_color { get; set; }
     }
 }

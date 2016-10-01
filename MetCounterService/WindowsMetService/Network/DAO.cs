@@ -15,12 +15,12 @@ namespace WindowsMetService.Network
 
         static Dictionary<DataPrefix, string> dataPrefix = new Dictionary<DataPrefix, string>()
         {
-            {DataPrefix.DateTime,           "|DateTime|"},
-            {DataPrefix.Description,        "|Description|" },
-            {DataPrefix.IP,                 "|AddressIP|" },
-            {DataPrefix.MAC,                "|AddressMAC|" },
-            {DataPrefix.CounterData,        "|FullCounter|" },
-            {DataPrefix.SerialNumber,       "|FullSerialnumber|" }
+            {DataPrefix.DateTime,           "|datetime|"},
+            {DataPrefix.Description,        "|description|" },
+            {DataPrefix.IP,                 "|addressIP|" },
+            {DataPrefix.MAC,                "|addressMAC|" },
+            {DataPrefix.CounterData,        "|full_counter|" },
+            {DataPrefix.SerialNumber,       "|full_serialnumber|" }
         };
 
         /*

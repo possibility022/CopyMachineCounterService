@@ -1,6 +1,6 @@
-﻿namespace Copyinfo.Controls
-{
-    partial class Reports
+﻿namespace Copyinfo.Forms.Controls
+{ 
+    partial class CReports
     {
         /// <summary> 
         /// Required designer variable.

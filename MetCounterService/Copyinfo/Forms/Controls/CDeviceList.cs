@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Copyinfo.Forms
+namespace Copyinfo.Forms.Controls
 {
-    public partial class MachinesView : Form
+    public partial class CDeviceList : UserControl
     {
-        public MachinesView()
+        public CDeviceList()
         {
             InitializeComponent();
         }

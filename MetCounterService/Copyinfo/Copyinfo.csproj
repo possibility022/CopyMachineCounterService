@@ -63,17 +63,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\DeviceList.cs">
+    <Compile Include="AppSetings.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CAddDevice.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\DeviceList.Designer.cs">
-      <DependentUpon>DeviceList.cs</DependentUpon>
+    <Compile Include="Forms\Controls\CAddDevice.Designer.cs">
+      <DependentUpon>CAddDevice.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Reports.cs">
+    <Compile Include="Forms\Controls\CAddress.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Reports.Designer.cs">
-      <DependentUpon>Reports.cs</DependentUpon>
+    <Compile Include="Forms\Controls\CAddress.Designer.cs">
+      <DependentUpon>CAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\CDeviceList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CDeviceList.Designer.cs">
+      <DependentUpon>CDeviceList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\CReports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CReports.Designer.cs">
+      <DependentUpon>CReports.cs</DependentUpon>
     </Compile>
     <Compile Include="Database\Address.cs" />
     <Compile Include="Database\Client.cs" />
@@ -83,33 +98,58 @@
     <Compile Include="Database\LocalDatabase.cs" />
     <Compile Include="Database\MachineRecord.cs" />
     <Compile Include="Database\Mongo.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Forms\FAddDevice.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\FAddDevice.Designer.cs">
+      <DependentUpon>FAddDevice.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MachinesView.cs">
+    <Compile Include="Forms\FAddress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MachinesView.Designer.cs">
-      <DependentUpon>MachinesView.cs</DependentUpon>
+    <Compile Include="Forms\FAddress.Designer.cs">
+      <DependentUpon>FAddress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FCopyInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FCopyInfo.Designer.cs">
+      <DependentUpon>FCopyInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FMachinesView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FMachinesView.Designer.cs">
+      <DependentUpon>FMachinesView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Style.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticSettings.cs" />
-    <EmbeddedResource Include="Controls\DeviceList.resx">
-      <DependentUpon>DeviceList.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\CAddDevice.resx">
+      <DependentUpon>CAddDevice.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Reports.resx">
-      <DependentUpon>Reports.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\CAddress.resx">
+      <DependentUpon>CAddress.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\CDeviceList.resx">
+      <DependentUpon>CDeviceList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MachinesView.resx">
-      <DependentUpon>MachinesView.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\CReports.resx">
+      <DependentUpon>CReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FAddDevice.resx">
+      <DependentUpon>FAddDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FAddress.resx">
+      <DependentUpon>FAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FCopyInfo.resx">
+      <DependentUpon>FCopyInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FMachinesView.resx">
+      <DependentUpon>FMachinesView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

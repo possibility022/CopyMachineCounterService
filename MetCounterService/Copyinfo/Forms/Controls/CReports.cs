@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Copyinfo.Controls
+using Copyinfo.Database;
+
+namespace Copyinfo.Forms.Controls
 {
-    public partial class Reports : UserControl
+    public partial class CReports : UserControl
     {
-        public Reports()
+        public CReports()
         {
             InitializeComponent();
         }
@@ -23,11 +25,11 @@ namespace Copyinfo.Controls
             foreach(MachineRecord m in machines)
             {
                 ListViewItem item = new ListViewItem(new string[] {
-                    m.SerialNumber,
-                    m.PrintCounterBlackAndWhite.ToString(),
-                    m.PrintCounterColor.ToString(),
-                    m.ScanCounter.ToString(),
-                    m.DateTime.ToString()
+                    m.serial_number,
+                    m.print_counter_black_and_white.ToString(),
+                    m.print_counter_color.ToString(),
+                    m.scan_counter.ToString(),
+                    m.datetime.ToString()
                     });
 
                 listView1.Items.Add(item);

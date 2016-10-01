@@ -20,7 +20,7 @@ namespace Copyinfo
             mongo.t();
             DateTime dtime = DateTime.Now;
             string s = dtime.ToString("dd/MM/yyyy HH:mm");
-            Application.Run(new Form1());
+            Application.Run(new Copyinfo.Forms.FCopyInfo());
         }
     }
 }

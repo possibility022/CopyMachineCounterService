@@ -1,6 +1,6 @@
 ﻿namespace Copyinfo.Forms
 {
-    partial class MachinesView
+    partial class FAddDevice
     {
         /// <summary>
         /// Required designer variable.
@@ -28,19 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.cAddDevice1 = new Copyinfo.Forms.Controls.CAddDevice();
             this.SuspendLayout();
             // 
-            // MachinesView
+            // cAddDevice1
+            // 
+            this.cAddDevice1.Location = new System.Drawing.Point(12, 12);
+            this.cAddDevice1.Name = "cAddDevice1";
+            this.cAddDevice1.Size = new System.Drawing.Size(521, 272);
+            this.cAddDevice1.TabIndex = 0;
+            // 
+            // FAddDevice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(703, 185);
-            this.Name = "MachinesView";
-            this.Text = "MachinesView";
+            this.ClientSize = new System.Drawing.Size(545, 364);
+            this.Controls.Add(this.cAddDevice1);
+            this.Name = "FAddDevice";
+            this.Text = "Dodaj urządzenie";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private Controls.CAddDevice cAddDevice1;
     }
 }

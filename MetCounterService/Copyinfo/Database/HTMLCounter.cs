@@ -11,6 +11,6 @@ namespace Copyinfo.Database
     class HTMLCounter
     {
         public ObjectId id { get; set; }
-        public string FullCounter { get; set; }
+        public string full_counter { get; set; }
     }
 }
