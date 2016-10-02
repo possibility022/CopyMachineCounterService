@@ -1,6 +1,6 @@
 ﻿namespace Copyinfo.Forms.Controls
 {
-    partial class CAddDevice
+    partial class CDevice
     {
         /// <summary> 
         /// Required designer variable.
@@ -39,7 +39,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.txtInstallationDate = new System.Windows.Forms.TextBox();
-            this.btnOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtProvider
@@ -128,9 +127,11 @@
             // 
             // monthCalendar1
             // 
+            this.monthCalendar1.FirstDayOfWeek = System.Windows.Forms.Day.Monday;
             this.monthCalendar1.Location = new System.Drawing.Point(243, 48);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 11;
+            this.monthCalendar1.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateSelected);
             // 
             // txtInstallationDate
             // 
@@ -140,24 +141,11 @@
             this.txtInstallationDate.Size = new System.Drawing.Size(269, 26);
             this.txtInstallationDate.TabIndex = 12;
             // 
-            // btnOk
-            // 
-            this.btnOk.BackColor = System.Drawing.Color.White;
-            this.btnOk.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnOk.Location = new System.Drawing.Point(167, 271);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(170, 34);
-            this.btnOk.TabIndex = 13;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = false;
-            // 
             // CAddDevice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtInstallationDate);
             this.Controls.Add(this.monthCalendar1);
             this.Controls.Add(this.label5);
@@ -170,7 +158,8 @@
             this.Controls.Add(this.txtModel);
             this.Controls.Add(this.txtProvider);
             this.Name = "CAddDevice";
-            this.Size = new System.Drawing.Size(521, 308);
+            this.Size = new System.Drawing.Size(521, 273);
+            this.Click += new System.EventHandler(this.CAddDevice_Click);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,6 +178,5 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
         private System.Windows.Forms.TextBox txtInstallationDate;
-        private System.Windows.Forms.Button btnOk;
     }
 }

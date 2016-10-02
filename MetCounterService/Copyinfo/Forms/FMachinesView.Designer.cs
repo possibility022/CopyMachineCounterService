@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.btnAdd = new System.Windows.Forms.Button();
+            this.cDeviceList1 = new Copyinfo.Forms.Controls.CDeviceList();
             this.SuspendLayout();
             // 
             // btnAdd
@@ -44,12 +45,21 @@
             this.btnAdd.UseVisualStyleBackColor = false;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // cDeviceList1
+            // 
+            this.cDeviceList1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.cDeviceList1.Location = new System.Drawing.Point(0, 67);
+            this.cDeviceList1.Name = "cDeviceList1";
+            this.cDeviceList1.Size = new System.Drawing.Size(809, 318);
+            this.cDeviceList1.TabIndex = 4;
+            // 
             // FMachinesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(809, 385);
+            this.Controls.Add(this.cDeviceList1);
             this.Controls.Add(this.btnAdd);
             this.Name = "FMachinesView";
             this.Text = "MachinesView";
@@ -60,5 +70,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnAdd;
+        private Controls.CDeviceList cDeviceList1;
     }
 }

@@ -66,11 +66,11 @@
     <Compile Include="AppSetings.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\CAddDevice.cs">
+    <Compile Include="Forms\Controls\CDevice.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\CAddDevice.Designer.cs">
-      <DependentUpon>CAddDevice.cs</DependentUpon>
+    <Compile Include="Forms\Controls\CDevice.Designer.cs">
+      <DependentUpon>CDevice.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\CAddress.cs">
       <SubType>UserControl</SubType>
@@ -127,8 +127,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticSettings.cs" />
-    <EmbeddedResource Include="Forms\Controls\CAddDevice.resx">
-      <DependentUpon>CAddDevice.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\CDevice.resx">
+      <DependentUpon>CDevice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CAddress.resx">
       <DependentUpon>CAddress.cs</DependentUpon>

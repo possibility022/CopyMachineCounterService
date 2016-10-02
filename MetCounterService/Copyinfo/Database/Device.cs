@@ -16,5 +16,10 @@ namespace Copyinfo.Database
         public ObjectId instalation_address { get; set; }       // miejsce isntalacji
         public DateTime instalation_datetime { get; set; }      // data instalacji
         public ObjectId id { get; set; }                        // _id
+
+        public Address getAddress()
+        {
+            return Global.database.getAddress(instalation_address);
+        }
     }
 }

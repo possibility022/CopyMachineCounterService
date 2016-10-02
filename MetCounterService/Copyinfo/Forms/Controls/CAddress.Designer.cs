@@ -175,7 +175,7 @@
             this.Controls.Add(this.txtCity);
             this.Controls.Add(this.txtStreet);
             this.Name = "CAddress";
-            this.Size = new System.Drawing.Size(365, 201);
+            this.Size = new System.Drawing.Size(365, 196);
             this.ResumeLayout(false);
             this.PerformLayout();
 
