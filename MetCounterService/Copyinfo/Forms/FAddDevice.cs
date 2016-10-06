@@ -19,7 +19,16 @@ namespace Copyinfo.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-
+            Database.Device d = cAddDevice1.getDevice();
+            if (d == null)
+            {
+                MessageBox.Show("Źle wypełnione dane");
+            }
+            else
+            {
+                Global.database.SaveDevice(d);
+                this.Close();
+            }
         }
     }
 }

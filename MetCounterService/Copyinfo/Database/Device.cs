@@ -17,9 +17,21 @@ namespace Copyinfo.Database
         public DateTime instalation_datetime { get; set; }      // data instalacji
         public ObjectId id { get; set; }                        // _id
 
+        private Address adress { get; set; }
+
+        public void setAddress(Address a)
+        {
+            this.adress = adress;
+            instalation_address = a.id;
+        }
+
         public Address getAddress()
         {
-            return Global.database.getAddress(instalation_address);
+            if (adress == null)
+            {
+                adress = Global.database.getAddress(instalation_address);
+            }
+            return this.adress;
         }
     }
 }

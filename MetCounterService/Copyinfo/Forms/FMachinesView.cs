@@ -22,5 +22,10 @@ namespace Copyinfo.Forms
             FAddDevice newDevice = new FAddDevice();
             newDevice.Show();
         }
+
+        private void btnDownload_Click(object sender, EventArgs e)
+        {
+            cDeviceList1.addToList(Global.database.getAllDevices());
+        }
     }
 }

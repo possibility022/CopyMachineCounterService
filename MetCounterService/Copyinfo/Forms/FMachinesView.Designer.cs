@@ -30,6 +30,7 @@
         {
             this.btnAdd = new System.Windows.Forms.Button();
             this.cDeviceList1 = new Copyinfo.Forms.Controls.CDeviceList();
+            this.btnDownload = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAdd
@@ -37,7 +38,7 @@
             this.btnAdd.BackColor = System.Drawing.Color.White;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnAdd.Location = new System.Drawing.Point(12, 12);
+            this.btnAdd.Location = new System.Drawing.Point(188, 12);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(170, 34);
             this.btnAdd.TabIndex = 3;
@@ -53,12 +54,26 @@
             this.cDeviceList1.Size = new System.Drawing.Size(809, 318);
             this.cDeviceList1.TabIndex = 4;
             // 
+            // btnDownload
+            // 
+            this.btnDownload.BackColor = System.Drawing.Color.White;
+            this.btnDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnDownload.Location = new System.Drawing.Point(12, 12);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(170, 34);
+            this.btnDownload.TabIndex = 5;
+            this.btnDownload.Text = "Pobierz";
+            this.btnDownload.UseVisualStyleBackColor = false;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+            // 
             // FMachinesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(809, 385);
+            this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.cDeviceList1);
             this.Controls.Add(this.btnAdd);
             this.Name = "FMachinesView";
@@ -71,5 +86,6 @@
 
         private System.Windows.Forms.Button btnAdd;
         private Controls.CDeviceList cDeviceList1;
+        private System.Windows.Forms.Button btnDownload;
     }
 }

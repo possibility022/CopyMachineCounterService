@@ -15,5 +15,10 @@ namespace Copyinfo
             Database.MongoTB.Initialize();
             database = new Database.MongoTB();
         }
+
+        public static void log(string message)
+        {
+
+        }
     }
 }

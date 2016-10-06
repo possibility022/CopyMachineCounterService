@@ -43,5 +43,6 @@ namespace Copyinfo.Database
         public int scan_counter { get; set; }
         public int print_counter_black_and_white { get; set; }
         public int print_counter_color { get; set; }
+        public Object id { get; set; }
     }
 }

@@ -73,6 +73,54 @@ namespace Copyinfo.Database
             return list;
         }
 
+        public ObjectId SaveDevice(Device d)
+        {
+            if (d != null)
+            {
+                ObjectId adressid = SaveAddress(d.getAddress());
+                var col = database.GetCollection(Collections.device.ToString());
+                var dev = d;
+                WriteConcernResult res = col.Save(dev);
+                Global.log("SaveDevice: " +  res.UpdatedExisting.ToString());
+                return dev.id;
+            }
+            else
+            {
+                return new ObjectId();
+            }
+        }
+
+        public List<Device> getAllDevices()
+        {
+            MongoCollection<Device> collection = database.GetCollection<Device>(Collections.device.ToString());
+            MongoCursor<Device> all = collection.FindAll();
+
+            List<Device> list = new List<Device>();
+
+            foreach (Device m in all)
+            {
+                list.Add(m);
+            }
+
+            return list;
+        }
+
+        private ObjectId SaveAddress(Address d)
+        {
+            if (d != null)
+            {
+                var col = database.GetCollection(Collections.device.ToString());
+                var obj = d;
+                WriteConcernResult res = col.Save(obj);
+                Global.log("SaveAddress: " + res.UpdatedExisting.ToString());
+                return obj.id;
+            }
+            else
+            {
+                return new ObjectId();
+            }
+        }
+
         public void t()
         {
             //test3dot1();

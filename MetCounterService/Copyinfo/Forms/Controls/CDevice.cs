@@ -37,12 +37,14 @@ namespace Copyinfo.Forms.Controls
 
         public Database.Device getDevice()
         {
+            if (checkFields() == false)
+                return null;
             Database.Device device = new Database.Device();
             device.serial_number = txtSerialNumber.Text;
             device.model = txtModel.Text;
             device.provider = txtProvider.Text;
             device.instalation_datetime = monthCalendar1.SelectionStart;
-
+            device.setAddress(cAddress.getAddress());
             return device;
         }
 
@@ -60,6 +62,15 @@ namespace Copyinfo.Forms.Controls
                 checkTxtControl(txtSerialNumber))
                 return true;
 
+            return false;
+        }
+
+        private bool checkAddress()
+        {
+            Database.Address ad = cAddress.getAddress();
+            if (ad.city != null)
+                if (ad.city.Length > 0)
+                    return true;
             return false;
         }
 
