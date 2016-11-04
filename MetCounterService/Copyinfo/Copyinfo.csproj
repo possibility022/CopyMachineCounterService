@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ListViewPrinter, Version=2.5.0.30093, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\OneDrive\Dll files\ListViewPrinter.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson, Version=2.3.0.157, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MongoDB.Bson.2.3.0\lib\net45\MongoDB.Bson.dll</HintPath>
       <Private>True</Private>
@@ -49,9 +53,14 @@
       <HintPath>..\packages\mongocsharpdriver.2.3.0\lib\net45\MongoDB.Driver.Legacy.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ObjectListView, Version=2.9.1.30081, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\OneDrive\Dll files\ObjectListView.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,6 +74,14 @@
   <ItemGroup>
     <Compile Include="AppSetings.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Database\EmailData.cs" />
+    <Compile Include="Forms\ChartBuilder.cs" />
+    <Compile Include="Forms\Controls\CCompareReports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CCompareReports.Designer.cs">
+      <DependentUpon>CCompareReports.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\CDevice.cs">
       <SubType>UserControl</SubType>
@@ -84,6 +101,12 @@
     <Compile Include="Forms\Controls\CDeviceList.Designer.cs">
       <DependentUpon>CDeviceList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\CHTMLView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CHTMLView.Designer.cs">
+      <DependentUpon>CHTMLView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Controls\CReports.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -98,6 +121,12 @@
     <Compile Include="Database\LocalDatabase.cs" />
     <Compile Include="Database\MachineRecord.cs" />
     <Compile Include="Database\Mongo.cs" />
+    <Compile Include="Forms\Controls\CLineCompare_Report.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CLineCompare_Report.Designer.cs">
+      <DependentUpon>CLineCompare_Report.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FAddDevice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,11 +139,23 @@
     <Compile Include="Forms\FAddress.Designer.cs">
       <DependentUpon>FAddress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FCompareReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FCompareReports.Designer.cs">
+      <DependentUpon>FCompareReports.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FCopyInfo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FCopyInfo.Designer.cs">
       <DependentUpon>FCopyInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FHTMLView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FHTMLView.Designer.cs">
+      <DependentUpon>FHTMLView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FMachinesView.cs">
       <SubType>Form</SubType>
@@ -122,11 +163,22 @@
     <Compile Include="Forms\FMachinesView.Designer.cs">
       <DependentUpon>FMachinesView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FReports.Designer.cs">
+      <DependentUpon>FReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ListViewSorter.cs" />
     <Compile Include="Forms\Style.cs" />
+    <Compile Include="Forms\TBListViewItem.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticSettings.cs" />
+    <EmbeddedResource Include="Forms\Controls\CCompareReports.resx">
+      <DependentUpon>CCompareReports.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CDevice.resx">
       <DependentUpon>CDevice.cs</DependentUpon>
     </EmbeddedResource>
@@ -136,8 +188,14 @@
     <EmbeddedResource Include="Forms\Controls\CDeviceList.resx">
       <DependentUpon>CDeviceList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CHTMLView.resx">
+      <DependentUpon>CHTMLView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CReports.resx">
       <DependentUpon>CReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CLineCompare_Report.resx">
+      <DependentUpon>CLineCompare_Report.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FAddDevice.resx">
       <DependentUpon>FAddDevice.cs</DependentUpon>
@@ -145,11 +203,20 @@
     <EmbeddedResource Include="Forms\FAddress.resx">
       <DependentUpon>FAddress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FCompareReports.resx">
+      <DependentUpon>FCompareReports.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FCopyInfo.resx">
       <DependentUpon>FCopyInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FHTMLView.resx">
+      <DependentUpon>FHTMLView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FMachinesView.resx">
       <DependentUpon>FMachinesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FReports.resx">
+      <DependentUpon>FReports.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

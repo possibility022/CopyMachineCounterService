@@ -8,9 +8,9 @@ using MongoDB.Bson;
 
 namespace Copyinfo.Database
 {
-    class HTMLSerial
+    public class HTMLSerial
     {
         public ObjectId id { get; set; }
-        public string full_serial { get; set; }
+        public string full_serialnumber { get; set; }
     }
 }

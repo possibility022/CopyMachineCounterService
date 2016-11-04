@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading;
@@ -14,40 +15,15 @@ namespace WindowsMetService
         /// </summary>
         /// 
 
-        static public Timer t; // Timer który uruchamia cały process.
-        static public Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
-        static DateTime TICKTIMECURENTLYSET;
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool AllocConsole();
 
         static void Main()
         {
 #if DEBUG
-            LocalDatabase.Initialize();
-            LocalDatabase.remove_old_logs();
-            string[] ips = LocalDatabase.getMachinesIps();
+            test();
 
-            Global.Log("Tick");
-            LocalDatabase.setToodayTick();
-
-            List<Machine> machines = new List<Machine>();
-
-            foreach (string ip in ips)
-            {
-                Machine machine = new Machine(ip);
-                machines.Add(machine);
-            }
-
-            int fails = Network.DAO.SendMachines(machines);
-
-            if (fails == machines.Count && machines.Count > 0)
-                Global.Log("Nie udało się przesłać jakiejkolwiek maszyny z obecnego odczytu");
-
-            Thread.Sleep(1000 * 20);
-
-            machines = LocalDatabase.getMachinesFromStorage();
-            fails = Network.DAO.SendMachines(machines);
-
-            if (fails == machines.Count && machines.Count > 0)
-                Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych");
 #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
@@ -58,24 +34,56 @@ namespace WindowsMetService
 #endif
         }
 
-        static public void doit(Object stateInfo)
+        public static void test()
         {
+            AllocConsole();
 
-        }
+            LocalDatabase.Initialize();
+            Console.WriteLine("Zainicjalizowano bazę danych");
+            LocalDatabase.remove_old_logs();
+            string[] ips = LocalDatabase.getMachinesIps();
 
-        static public void setCurentlyTickTime(DateTime tickTime)
-        {
-            TICKTIMECURENTLYSET = tickTime;
-            if (t != null) t.Dispose();
-            t = new Timer(doit);
-            t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
-            Global.Log("Ustawiono czas na: " + tickTime.ToString(@"dd/MM/yyyy HH:mm"));
-        }
+            Console.WriteLine("Wczytane adresy ip:");
+            foreach (string ip in ips)
+                Console.WriteLine(ip);
 
+            List<Machine> machines = new List<Machine>();
 
-        static public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
-        {
-            int i = 0;
+            foreach (string ip in ips)
+            {
+                Machine machine = new Machine(ip);
+                machines.Add(machine);
+            }
+
+            Console.WriteLine("Dane znalezionych urządzeń: ");
+            foreach(Machine m in machines)
+            {
+                Console.WriteLine(m.ip);
+                Console.WriteLine(m.mac);
+                Console.WriteLine(m.url_counterData);
+                Console.WriteLine(m.url_serialNumber);
+            }
+
+            int fails = Network.DAO.SendMachines(machines);
+
+            if (fails == machines.Count && machines.Count > 0)
+                Global.Log("Nie udało się przesłać jakiejkolwiek maszyny z obecnego odczytu");
+
+            if (fails == 0)
+                return;
+
+            Console.WriteLine("Coś poszło nie tak z przesyłaniem. Spróbuję jeszcze raz za 20 sekund");
+
+            Thread.Sleep(1000 * 20);
+
+            machines = LocalDatabase.getMachinesFromStorage();
+            fails = Network.DAO.SendMachines(machines);
+
+            if (fails == machines.Count && machines.Count > 0)
+                Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych. Liczba: " + fails.ToString());
+
+            Console.WriteLine("Zakończono. Konsola się zamknie za 1 min.");
+            Thread.Sleep(1000 * 60);
         }
     }
 }

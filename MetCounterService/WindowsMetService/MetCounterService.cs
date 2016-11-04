@@ -83,6 +83,8 @@ namespace WindowsMetService
         {
             t.Dispose();
             t2.Dispose();
+            ServiceStatus serviceStatus = new ServiceStatus();
+            serviceStatus.dwCurrentState = ServiceState.SERVICE_STOPPED;
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)

@@ -31,6 +31,7 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.cDeviceList1 = new Copyinfo.Forms.Controls.CDeviceList();
             this.btnDownload = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnAdd
@@ -67,12 +68,26 @@
             this.btnDownload.UseVisualStyleBackColor = false;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.White;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button1.Location = new System.Drawing.Point(364, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(170, 34);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Usuń";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FMachinesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(809, 385);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.cDeviceList1);
             this.Controls.Add(this.btnAdd);
@@ -87,5 +102,6 @@
         private System.Windows.Forms.Button btnAdd;
         private Controls.CDeviceList cDeviceList1;
         private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -77,7 +77,8 @@ namespace WindowsMetService
             LocalDatabase.log(message);
 #else
             LocalDatabase.log(message);
-            eventLog1.WriteEntry(message);
+            if (eventLog1 != null) eventLog1.WriteEntry(message);
+            Console.WriteLine(message);
 #endif
         }
 #endregion

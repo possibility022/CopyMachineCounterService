@@ -18,5 +18,15 @@ namespace Copyinfo.Database
         public string apartment { get; set; }
         public MongoDB.Bson.ObjectId id { get; set; } // _id
         
+
+        public Address()
+        {
+            street = "";
+            city = "";
+            postcode = "";
+            post_city = "";
+            house_number = "";
+            apartment = "";
+        }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using System.IO;
 using System.Xml;
@@ -37,7 +36,8 @@ namespace WindowsMetService
 
         private static string buildPath(string file)
         {
-            return (Path.Combine(WorkFolder, FolderName, file));
+            return (Path.Combine(WorkFolder, FolderName, file)); // Dla frameworku 4.5
+            //return WorkFolder + "//" + FolderName + "//" + file;
         }
 
         static LocalDatabase()
@@ -53,7 +53,7 @@ namespace WindowsMetService
                 while (file.Peek() > 0)
                 {
                     string line = file.ReadLine();
-                    if (line.StartsWith(configType.ToString() + ":"))
+                    if (line.ToLower().StartsWith(configType.ToString().ToLower() + ":"))
                         return line.Remove(0, configType.ToString().Length + 1); // to + 1 to jest dwukropek, taki separator który jest dopisywany przy zapisie
                 }
                 file.Close();
@@ -264,9 +264,9 @@ namespace WindowsMetService
         public static bool macIsMapped(string mac)//TODO sprawdz ta metode. Chyba powinno być na odwrót.
         {
             if ((getMacWebMapping(mac)[0] == "") && (getMacWebMapping(mac)[1]) == "")
-                return true;
-            else
                 return false;
+            else
+                return true;
         }
 
         public static void putMachineToStorage(Machine machine)
@@ -278,8 +278,15 @@ namespace WindowsMetService
 
         public static List<Machine> getMachinesFromStorage()
         {
-            List<Machine> list = (List<Machine>)ReadFromBinaryFile(buildPath(File_MachineStorage));
-            File.Delete(buildPath(File_MachineStorage));
+            List<Machine> list = null;
+            try
+            {
+                list = (List<Machine>)ReadFromBinaryFile(buildPath(File_MachineStorage));
+                File.Delete(buildPath(File_MachineStorage));
+            }catch(FieldAccessException ex)
+            {
+
+            }
             return list;
         }
 
@@ -340,7 +347,6 @@ namespace WindowsMetService
             {
                 return false;
             }
-
         }
 
         public static string getClientID()

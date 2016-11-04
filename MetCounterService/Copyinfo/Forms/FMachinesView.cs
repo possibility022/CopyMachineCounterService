@@ -25,7 +25,12 @@ namespace Copyinfo.Forms
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
-            cDeviceList1.addToList(Global.database.getAllDevices());
+            cDeviceList1.loadList(Global.database.getAllDevices());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            cDeviceList1.DeleteSelectedDevices();
         }
     }
 }

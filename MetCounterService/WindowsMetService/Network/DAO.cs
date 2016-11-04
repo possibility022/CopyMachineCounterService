@@ -57,6 +57,9 @@ namespace WindowsMetService.Network
         public static int SendMachines(List<Machine> machines)
         {
             int fails = 0;
+            if (machines == null)
+                return 0;
+
             foreach(Machine m in machines)
             {
                 if (SendOneMachine(m) == false)

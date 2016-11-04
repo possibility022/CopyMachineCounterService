@@ -19,9 +19,19 @@ namespace Copyinfo.Database
 
         private Address adress { get; set; }
 
+        public Device()
+        {
+            provider = "";
+            model = "";
+            serial_number = "";
+            instalation_address = new ObjectId();
+            instalation_datetime = DateTime.Now;
+            id = new ObjectId();
+        }
+
         public void setAddress(Address a)
         {
-            this.adress = adress;
+            this.adress = a;
             instalation_address = a.id;
         }
 

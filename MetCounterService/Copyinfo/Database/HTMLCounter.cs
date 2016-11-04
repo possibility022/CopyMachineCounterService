@@ -8,7 +8,7 @@ using MongoDB.Bson;
 
 namespace Copyinfo.Database
 {
-    class HTMLCounter
+    public class HTMLCounter
     {
         public ObjectId id { get; set; }
         public string full_counter { get; set; }

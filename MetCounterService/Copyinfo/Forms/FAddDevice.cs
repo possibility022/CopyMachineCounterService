@@ -17,6 +17,12 @@ namespace Copyinfo.Forms
             InitializeComponent();
         }
 
+        public FAddDevice(string device_serial_number)
+        {
+            InitializeComponent();
+            this.cAddDevice1.setSerialnumber(device_serial_number);
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             Database.Device d = cAddDevice1.getDevice();
@@ -26,8 +32,10 @@ namespace Copyinfo.Forms
             }
             else
             {
-                Global.database.SaveDevice(d);
-                this.Close();
+                if (Global.database.SaveDevice(d) == new MongoDB.Bson.ObjectId())
+                    MessageBox.Show("Operacja zapisywania nie powiodła się. Sprawdz czy urządzenie nie jest już dodane");
+                else
+                    this.Close();
             }
         }
     }

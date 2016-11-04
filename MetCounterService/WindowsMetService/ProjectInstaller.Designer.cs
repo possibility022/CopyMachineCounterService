@@ -40,9 +40,10 @@
             // serviceInstaller1
             // 
             this.serviceInstaller1.Description = "Proces pobierający dane z urządzeń. ";
-            this.serviceInstaller1.DisplayName = "Met Counter";
+            this.serviceInstaller1.DisplayName = "MetCounterService";
             this.serviceInstaller1.ServiceName = "MetCounterService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 
             // ProjectInstaller
             // 

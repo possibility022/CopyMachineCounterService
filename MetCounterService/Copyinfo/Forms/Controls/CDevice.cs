@@ -14,7 +14,6 @@ namespace Copyinfo.Forms.Controls
     {
 
         Database.Device device;
-        CAddress cAddress;
 
         public CDevice()
         {
@@ -44,8 +43,22 @@ namespace Copyinfo.Forms.Controls
             device.model = txtModel.Text;
             device.provider = txtProvider.Text;
             device.instalation_datetime = monthCalendar1.SelectionStart;
-            device.setAddress(cAddress.getAddress());
+            device.setAddress(cAddress1.getAddress());
             return device;
+        }
+
+        public void setSerialnumber(string serial_number)
+        {
+            this.txtSerialNumber.Text = serial_number;
+        }
+
+        private void setDevice()
+        {
+            txtProvider.Text = device.provider;
+            txtModel.Text = device.model;
+            txtSerialNumber.Text = device.serial_number;
+            monthCalendar1.SetDate(device.instalation_datetime);
+            cAddress1.setAddress(device.getAddress());
         }
 
 
@@ -56,10 +69,10 @@ namespace Copyinfo.Forms.Controls
         private bool checkFields()
         {
             if (checkTxtControl(txtInstallationDate) &&
-                checkTxtControl(txtInstallationPlace) &&
                 checkTxtControl(txtModel) &&
                 checkTxtControl(txtProvider) &&
-                checkTxtControl(txtSerialNumber))
+                checkTxtControl(txtSerialNumber) && 
+                checkAddress())
                 return true;
 
             return false;
@@ -67,7 +80,7 @@ namespace Copyinfo.Forms.Controls
 
         private bool checkAddress()
         {
-            Database.Address ad = cAddress.getAddress();
+            Database.Address ad = cAddress1.getAddress();
             if (ad.city != null)
                 if (ad.city.Length > 0)
                     return true;
@@ -92,77 +105,9 @@ namespace Copyinfo.Forms.Controls
             return true;
         }
 
-        private void hideAll()
-        {
-            foreach(Control c in Controls)
-            {
-                c.Hide();
-            }
-        }
-
-        private void showAll()
-        {
-            foreach(Control c in Controls)
-            {
-                c.Show();
-            }
-        }
-
-        private void hideAddressControl()
-        {
-            foreach(Control c in Controls)
-            {
-                if (c is CAddress)
-                    c.Hide();
-            }
-        }
-
         private void txtInstallationPlace_DoubleClick(object sender, EventArgs e)
         {
-            if (Controls.Contains(cAddress))
-            {
-                hideAll();
-                foreach (Control c in Controls)
-                {
-                    if (c is CAddress)
-                    {
-                        c.Show();
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                cAddress = new CAddress();
-                if (device != null)
-                    cAddress.setAddress(device.getAddress());
-                hideAll();
-                Controls.Add(cAddress);
 
-                foreach(Control c in Controls)
-                {
-                    if (c is CAddress)
-                    {
-                        c.Show();
-                        break;
-                    }
-                }
-            }
-        }
-
-        private void CAddDevice_Click(object sender, EventArgs e)
-        {
-            showAll();
-            hideAddressControl();
-
-            foreach(Control c in Controls)
-            {
-                if (c is CAddress)
-                {
-                    CAddress a = (CAddress)c;
-                    txtInstallationPlace.Text = a.getAddress().street + " " + a.getAddress().house_number + "/" + a.getAddress().apartment;
-                }
-            }
         }
 
         private void setDateInText()
