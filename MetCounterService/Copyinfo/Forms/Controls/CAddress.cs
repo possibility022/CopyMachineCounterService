@@ -46,7 +46,7 @@ namespace Copyinfo.Forms.Controls
 
         private void txtPost_TextChanged(object sender, EventArgs e)
         {
-            rewritePostCity = false;
+            
         }
 
         public Database.Address getAddress()

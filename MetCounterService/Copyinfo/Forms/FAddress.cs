@@ -16,5 +16,16 @@ namespace Copyinfo.Forms
         {
             InitializeComponent();
         }
+
+        public FAddress(Database.Address address)
+        {
+            InitializeComponent();
+            this.cAddress1.setAddress(address);
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

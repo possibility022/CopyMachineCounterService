@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 using System.Data;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -62,6 +57,21 @@ namespace Copyinfo.Database
 
         #region GetCollection
 
+        public List<Client> getAllClients()
+        {
+            MongoCollection<Client> collection = database.GetCollection<Client>(Collections.clients.ToString());
+            MongoCursor<Client> all = collection.FindAll();
+
+            List<Client> list = new List<Client>();
+
+            foreach (Client c in all)
+            {
+                list.Add(c);
+            }
+
+            return list;
+        }
+
         public List<MachineRecord> getAllReports()
         {
             MongoCollection<MachineRecord> collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
@@ -111,17 +121,19 @@ namespace Copyinfo.Database
 
             return list;
         }
+
         #endregion
 
         #region GetSetDocument
 
         #region Save
-        public ObjectId SaveDevice(Device d)
+
+        public string SaveDevice(Device d)
         {
             if (d != null)
             {
                 if (DeviceExists(d))
-                    return new ObjectId();
+                    return "";
                 ObjectId adressid = SaveAddress(d.getAddress());
                 var col = database.GetCollection(Collections.device.ToString());
                 d.instalation_address = adressid;
@@ -132,7 +144,7 @@ namespace Copyinfo.Database
             }
             else
             {
-                return new ObjectId();
+                return "";
             }
         }
 
@@ -199,16 +211,79 @@ namespace Copyinfo.Database
                 return new ObjectId();
             }
         }
+
+        public string SaveClient(Client c)
+        {
+            if (c != null)
+            {
+                c.address = SaveAddress(c.getAddress());
+                var col = database.GetCollection(Collections.clients.ToString());
+                var obj = c;
+                WriteConcernResult res = col.Save(obj);
+                Global.log("SaveClient: " + res.UpdatedExisting.ToString());
+                return obj.id;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         #endregion
 
         #region Get
+
+        public Client getClient(string nip_id)
+        {
+            if (nip_id != null)
+            {
+                var col = database.GetCollection<Client>(Collections.clients.ToString());
+                var query = Query<Device>.EQ(e => e.id, nip_id);
+                var members = col.Find(query);
+
+                foreach (Client d in members)
+                    return d;
+            }
+            return new Client();
+        }
+
+        public List<Device> getDevices(string[] serialnumbers)
+        {
+            List<Device> devices = new List<Device>();
+            if (serialnumbers != null)
+            {
+                var col = database.GetCollection<Device>(Collections.device.ToString());
+                var q = Query.In("_id", BsonArray.Create(serialnumbers));
+                var items = col.Find(q);
+
+                foreach (Device d in items)
+                    devices.Add(d);
+                return devices;
+            }
+
+            return devices;
+        }
+
+        public Device getDevice(string serialnumber)
+        {
+            if (serialnumber != null)
+            {
+                var col = database.GetCollection<Device>(Collections.device.ToString());
+                var query = Query<Device>.EQ(e => e.id, serialnumber);
+                var members = col.Find(query);
+                
+                foreach (Device d in members)
+                    return d;
+            }
+            return new Device();
+        }
+
         public Address getAddress(ObjectId id)
         {
             if (id != null)
             {
                 var collection = database.GetCollection<Address>(Collections.addresses.ToString());
                 var entityQuery = Query<Address>.EQ(e => e.id, id);
-
                 var members = collection.Find(entityQuery);
                 foreach (Address test in members)
                 {
@@ -276,7 +351,7 @@ namespace Copyinfo.Database
                 throw new MissingMemberException("The Device in Database.MongoTB.DeviceExists is null");
 
             var collection = database.GetCollection<Device>(Collections.device.ToString());
-            var entityQuery = Query<Device>.EQ(e => e.serial_number, d.serial_number);
+            var entityQuery = Query<Device>.EQ(e => e.id, d.id);
             var members = collection.Count(entityQuery);
             if (members > 0)
                 return true;

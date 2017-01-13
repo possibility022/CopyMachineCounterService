@@ -12,10 +12,9 @@ namespace Copyinfo.Database
     {
         public string provider { get; set; }                    // producent
         public string model { get; set; }                       // model
-        public string serial_number { get; set; }               // numer seryjny
+        public string id { get; set; }                          // numer seryjny
         public ObjectId instalation_address { get; set; }       // miejsce isntalacji
         public DateTime instalation_datetime { get; set; }      // data instalacji
-        public ObjectId id { get; set; }                        // _id
 
         private Address adress { get; set; }
 
@@ -23,10 +22,9 @@ namespace Copyinfo.Database
         {
             provider = "";
             model = "";
-            serial_number = "";
             instalation_address = new ObjectId();
             instalation_datetime = DateTime.Now;
-            id = new ObjectId();
+            id = "";
         }
 
         public void setAddress(Address a)

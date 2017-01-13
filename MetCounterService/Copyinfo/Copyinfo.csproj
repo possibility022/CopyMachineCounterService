@@ -75,8 +75,33 @@
     <Compile Include="AppSetings.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Database\Delegates.cs" />
     <Compile Include="Database\EmailData.cs" />
     <Compile Include="Forms\ChartBuilder.cs" />
+    <Compile Include="Forms\Controls\Allinone.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\Allinone.Designer.cs">
+      <DependentUpon>Allinone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\Buttons\TBButton_Small.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CClient.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CClient.Designer.cs">
+      <DependentUpon>CClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\Buttons\TBButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CClientList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CClientList.Designer.cs">
+      <DependentUpon>CClientList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Controls\CCompareReports.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -107,6 +132,9 @@
     <Compile Include="Forms\Controls\CHTMLView.Designer.cs">
       <DependentUpon>CHTMLView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\Combobox\TBCombobox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\Controls\CReports.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -127,6 +155,27 @@
     <Compile Include="Forms\Controls\CLineCompare_Report.Designer.cs">
       <DependentUpon>CLineCompare_Report.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\Labels\TBLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\Listbox\TBListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\ListView\TBClientListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\ListView\TBListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\MenuStrip\TBClientRightClickMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\MenuStrip\TBLabel_CopyMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\TextBoxes\TBTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\FAddDevice.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +187,24 @@
     </Compile>
     <Compile Include="Forms\FAddress.Designer.cs">
       <DependentUpon>FAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FCalendarWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FCalendarWindow.Designer.cs">
+      <DependentUpon>FCalendarWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FClient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FClient.Designer.cs">
+      <DependentUpon>FClient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FClientList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FClientList.Designer.cs">
+      <DependentUpon>FClientList.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FCompareReports.cs">
       <SubType>Form</SubType>
@@ -151,17 +218,29 @@
     <Compile Include="Forms\FCopyInfo.Designer.cs">
       <DependentUpon>FCopyInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FDeviceListSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FDeviceListSelect.Designer.cs">
+      <DependentUpon>FDeviceListSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FEditBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FEditBox.Designer.cs">
+      <DependentUpon>FEditBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FHTMLView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FHTMLView.Designer.cs">
       <DependentUpon>FHTMLView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FMachinesView.cs">
+    <Compile Include="Forms\FDevicesView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FMachinesView.Designer.cs">
-      <DependentUpon>FMachinesView.cs</DependentUpon>
+    <Compile Include="Forms\FDevicesView.Designer.cs">
+      <DependentUpon>FDevicesView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FReports.cs">
       <SubType>Form</SubType>
@@ -169,13 +248,32 @@
     <Compile Include="Forms\FReports.Designer.cs">
       <DependentUpon>FReports.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FRichTextView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FRichTextView.Designer.cs">
+      <DependentUpon>FRichTextView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GUI.cs" />
     <Compile Include="Forms\ListViewSorter.cs" />
     <Compile Include="Forms\Style.cs" />
     <Compile Include="Forms\TBListViewItem.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="Other\ArrayOperations.cs" />
+    <Compile Include="Other\ParsingMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticSettings.cs" />
+    <Compile Include="TBDelegates.cs" />
+    <EmbeddedResource Include="Forms\Controls\Allinone.resx">
+      <DependentUpon>Allinone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CClient.resx">
+      <DependentUpon>CClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CClientList.resx">
+      <DependentUpon>CClientList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CCompareReports.resx">
       <DependentUpon>CCompareReports.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,20 +301,38 @@
     <EmbeddedResource Include="Forms\FAddress.resx">
       <DependentUpon>FAddress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FCalendarWindow.resx">
+      <DependentUpon>FCalendarWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FClient.resx">
+      <DependentUpon>FClient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FClientList.resx">
+      <DependentUpon>FClientList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FCompareReports.resx">
       <DependentUpon>FCompareReports.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FCopyInfo.resx">
       <DependentUpon>FCopyInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FDeviceListSelect.resx">
+      <DependentUpon>FDeviceListSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FEditBox.resx">
+      <DependentUpon>FEditBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FHTMLView.resx">
       <DependentUpon>FHTMLView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FMachinesView.resx">
-      <DependentUpon>FMachinesView.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FDevicesView.resx">
+      <DependentUpon>FDevicesView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FReports.resx">
       <DependentUpon>FReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FRichTextView.resx">
+      <DependentUpon>FRichTextView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -28,44 +28,67 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnDownloadAll = new System.Windows.Forms.Button();
+            this.tbButton2 = new Copyinfo.Forms.Controls.Buttons.TBButton();
+            this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cReports1 = new Copyinfo.Forms.Controls.CReports();
-            this.btnDevices = new System.Windows.Forms.Button();
+            this.tbButton3 = new Copyinfo.Forms.Controls.Buttons.TBButton();
+            this.tbButton4 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.SuspendLayout();
             // 
-            // btnDownloadAll
+            // tbButton2
             // 
-            this.btnDownloadAll.BackColor = System.Drawing.Color.White;
-            this.btnDownloadAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDownloadAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnDownloadAll.Location = new System.Drawing.Point(12, 12);
-            this.btnDownloadAll.Name = "btnDownloadAll";
-            this.btnDownloadAll.Size = new System.Drawing.Size(98, 34);
-            this.btnDownloadAll.TabIndex = 1;
-            this.btnDownloadAll.Text = "Pobierz";
-            this.btnDownloadAll.UseVisualStyleBackColor = false;
-            this.btnDownloadAll.Click += new System.EventHandler(this.button1_Click);
+            this.tbButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton2.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.tbButton2.Location = new System.Drawing.Point(188, 11);
+            this.tbButton2.Name = "tbButton2";
+            this.tbButton2.Size = new System.Drawing.Size(170, 34);
+            this.tbButton2.TabIndex = 5;
+            this.tbButton2.Text = "Urządzenia";
+            this.tbButton2.UseVisualStyleBackColor = true;
+            this.tbButton2.Click += new System.EventHandler(this.btnDevices_Click);
+            // 
+            // tbButton1
+            // 
+            this.tbButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton1.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.tbButton1.Location = new System.Drawing.Point(12, 12);
+            this.tbButton1.Name = "tbButton1";
+            this.tbButton1.Size = new System.Drawing.Size(170, 34);
+            this.tbButton1.TabIndex = 4;
+            this.tbButton1.Text = "Pobierz";
+            this.tbButton1.UseVisualStyleBackColor = true;
+            this.tbButton1.Click += new System.EventHandler(this.button1_Click);
             // 
             // cReports1
             // 
             this.cReports1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cReports1.Location = new System.Drawing.Point(0, 52);
+            this.cReports1.Location = new System.Drawing.Point(0, 51);
             this.cReports1.Name = "cReports1";
-            this.cReports1.Size = new System.Drawing.Size(1128, 523);
+            this.cReports1.Size = new System.Drawing.Size(1128, 524);
             this.cReports1.TabIndex = 0;
             // 
-            // btnDevices
+            // tbButton3
             // 
-            this.btnDevices.BackColor = System.Drawing.Color.White;
-            this.btnDevices.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDevices.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnDevices.Location = new System.Drawing.Point(116, 12);
-            this.btnDevices.Name = "btnDevices";
-            this.btnDevices.Size = new System.Drawing.Size(170, 34);
-            this.btnDevices.TabIndex = 2;
-            this.btnDevices.Text = "Urządzenia";
-            this.btnDevices.UseVisualStyleBackColor = false;
-            this.btnDevices.Click += new System.EventHandler(this.btnDevices_Click);
+            this.tbButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton3.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.tbButton3.Location = new System.Drawing.Point(364, 11);
+            this.tbButton3.Name = "tbButton3";
+            this.tbButton3.Size = new System.Drawing.Size(170, 34);
+            this.tbButton3.TabIndex = 6;
+            this.tbButton3.Text = "Klienci";
+            this.tbButton3.UseVisualStyleBackColor = true;
+            this.tbButton3.Click += new System.EventHandler(this.tbButton3_Click);
+            // 
+            // tbButton4
+            // 
+            this.tbButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton4.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.tbButton4.Location = new System.Drawing.Point(680, 11);
+            this.tbButton4.Name = "tbButton4";
+            this.tbButton4.Size = new System.Drawing.Size(170, 34);
+            this.tbButton4.TabIndex = 7;
+            this.tbButton4.Text = "tbButton4";
+            this.tbButton4.UseVisualStyleBackColor = true;
             // 
             // FCopyInfo
             // 
@@ -73,8 +96,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1128, 575);
-            this.Controls.Add(this.btnDevices);
-            this.Controls.Add(this.btnDownloadAll);
+            this.Controls.Add(this.tbButton4);
+            this.Controls.Add(this.tbButton3);
+            this.Controls.Add(this.tbButton2);
+            this.Controls.Add(this.tbButton1);
             this.Controls.Add(this.cReports1);
             this.Name = "FCopyInfo";
             this.Text = "Copy Info";
@@ -85,7 +110,9 @@
         #endregion
 
         private Controls.CReports cReports1;
-        private System.Windows.Forms.Button btnDownloadAll;
-        private System.Windows.Forms.Button btnDevices;
+        private Controls.Buttons.TBButton tbButton1;
+        private Controls.Buttons.TBButton tbButton2;
+        private Controls.Buttons.TBButton tbButton3;
+        private Controls.Buttons.TBButton tbButton4;
     }
 }

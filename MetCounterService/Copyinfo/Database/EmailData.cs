@@ -23,6 +23,7 @@ namespace Copyinfo.Database
         {
             emailheader = new List<byte[]>();
             emailmessage = new List<byte[]>();
+            charset = "iso-8859-2";
         }
 
         public string getEmail()

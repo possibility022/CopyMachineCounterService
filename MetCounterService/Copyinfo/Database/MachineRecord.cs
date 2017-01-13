@@ -44,10 +44,16 @@ namespace Copyinfo.Database
         public int print_counter_black_and_white { get; set; }
         public int print_counter_color { get; set; }
         public ObjectId id { get; set; }
+        public string tonerlevel_c { get; set; }
+        public string tonerlevel_m { get; set; }
+        public string tonerlevel_y { get; set; }
+        public string tonerlevel_k { get; set; }
 
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
         public byte[] email_info { get; set; } // TO JEST ID OBIEKTU W BAZIE MONGO
+
+
 
         private EmailData email { get; set; }
 
@@ -99,7 +105,7 @@ namespace Copyinfo.Database
 
         public HTMLSerial getSerial()
         {
-            if (html_counter == null)
+            if (html_serial == null)
             {
                 html_serial = Global.database.getHTMLSerial(full_serialnumber);
             }

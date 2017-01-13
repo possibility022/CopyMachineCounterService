@@ -43,6 +43,7 @@
             this.btnOk.TabIndex = 14;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = false;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // cAddress1
             // 
@@ -67,8 +68,7 @@
         }
 
         #endregion
-
-        private Controls.CAddress cAddress1;
         private System.Windows.Forms.Button btnOk;
+        public Controls.CAddress cAddress1;
     }
 }

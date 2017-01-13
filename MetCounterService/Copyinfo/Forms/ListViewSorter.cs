@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Windows.Forms;
+using System;
 
 /// <summary>
 /// This class is an implementation of the 'IComparer' interface.
@@ -20,6 +21,8 @@ public class ListViewSorter : IComparer
     private CaseInsensitiveComparer ObjectCompare;
 
     private int[] columnsWithInt = new int[] { };
+    private int[] columnsWithDate = new int[] { };
+    Copyinfo.Forms.TBListViewItem.AdditionalItemClassType additionalItemType = Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.None;
 
     /// <summary>
     /// Class constructor.  Initializes various elements
@@ -41,6 +44,17 @@ public class ListViewSorter : IComparer
         this.columnsWithInt = columnsWithInt;
     }
 
+    public void setDates(int[] columnsWithDateTime)
+    {
+        this.columnsWithDate = columnsWithDateTime;
+    }
+
+    public void setAdditionalItemClass(Copyinfo.Forms.TBListViewItem.AdditionalItemClassType classType)
+    {
+        this.additionalItemType = classType;
+    }
+
+
     /// <summary>
     /// This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
     /// </summary>
@@ -49,12 +63,12 @@ public class ListViewSorter : IComparer
     /// <returns>The result of the comparison. "0" if equal, negative if 'x' is less than 'y' and positive if 'x' is greater than 'y'</returns>
     public int Compare(object x, object y)
     {
-        int compareResult;
-        ListViewItem listviewX, listviewY;
+        int compareResult = 0;
+        Copyinfo.Forms.TBListViewItem listviewX, listviewY;
 
         // Cast the objects to be compared to ListViewItem objects
-        listviewX = (ListViewItem)x;
-        listviewY = (ListViewItem)y;
+        listviewX = (Copyinfo.Forms.TBListViewItem)x;
+        listviewY = (Copyinfo.Forms.TBListViewItem)y;
 
         string a = listviewX.SubItems[ColumnToSort].Text;
         string b = listviewY.SubItems[ColumnToSort].Text;
@@ -63,9 +77,30 @@ public class ListViewSorter : IComparer
         if (itsColumnWithInt(ColumnToSort))
             compareResult = ObjectCompare.Compare(int.Parse(a), int.Parse(b));
         else
+        if (itsColumnWithDate(ColumnToSort))
+        {
+            switch(this.additionalItemType)
+            {
+                case Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.None:
+                    compareResult = 0;
+                    break;
+                case Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.MachineRecord:
+                    Copyinfo.Database.MachineRecord recordX = (Copyinfo.Database.MachineRecord)listviewX.additionalItem;
+                    Copyinfo.Database.MachineRecord recordY = (Copyinfo.Database.MachineRecord)listviewY.additionalItem;
+                    compareResult = DateTime.Compare(recordX.datetime, recordY.datetime);
+                    break;
+                case Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.Device:
+                    Copyinfo.Database.Device deviceX = (Copyinfo.Database.Device)listviewX.additionalItem;
+                    Copyinfo.Database.Device deviceY = (Copyinfo.Database.Device)listviewY.additionalItem;
+                    compareResult = DateTime.Compare(deviceX.instalation_datetime, deviceY.instalation_datetime);
+                    break;
+            }
+        }
+        else
+        {
             compareResult = ObjectCompare.Compare(a, b);
+        }
 
-        
         // Calculate correct return value based on object comparison
         if (OrderOfSort == SortOrder.Ascending)
         {
@@ -82,6 +117,48 @@ public class ListViewSorter : IComparer
             // Return '0' to indicate they are equal
             return 0;
         }
+
+        //int compareResult;
+        //System.Windows.Forms.ListViewItem listviewX, listviewY;
+
+        //// Cast the objects to be compared to ListViewItem objects
+        //listviewX = (System.Windows.Forms.ListViewItem)x;
+        //listviewY = (System.Windows.Forms.ListViewItem)y;
+
+        //string a = listviewX.SubItems[ColumnToSort].Text;
+        //string b = listviewY.SubItems[ColumnToSort].Text;
+
+        //// Compare the two items
+        //if (itsColumnWithInt(ColumnToSort))
+        //    compareResult = ObjectCompare.Compare(int.Parse(a), int.Parse(b));
+        //else
+        //if (itsColumnWithDate(ColumnToSort))
+        //{
+        //    Copyinfo.Forms.TBListViewItem_MachineRecord recordA = (Copyinfo.Forms.TBListViewItem_MachineRecord)x;
+        //    Copyinfo.Forms.TBListViewItem_MachineRecord recordB = (Copyinfo.Forms.TBListViewItem_MachineRecord)y;
+        //    compareResult = DateTime.Compare(recordA.record.datetime, recordB.record.datetime);
+        //}
+        //else
+        //{
+        //    compareResult = ObjectCompare.Compare(a, b);
+        //}
+
+        //// Calculate correct return value based on object comparison
+        //if (OrderOfSort == SortOrder.Ascending)
+        //{
+        //    // Ascending sort is selected, return normal result of compare operation
+        //    return compareResult;
+        //}
+        //else if (OrderOfSort == SortOrder.Descending)
+        //{
+        //    // Descending sort is selected, return negative result of compare operation
+        //    return (-compareResult);
+        //}
+        //else
+        //{
+        //    // Return '0' to indicate they are equal
+        //    return 0;
+        //}
     }
 
 
@@ -92,6 +169,14 @@ public class ListViewSorter : IComparer
             if (columnsWithInt[i] == index)
                 return true;
         }
+        return false;
+    }
+
+    private bool itsColumnWithDate(int index)
+    {
+        for (int i = 0; i < this.columnsWithDate.Length; i++)
+            if (columnsWithDate[i] == index)
+                return true;
         return false;
     }
 

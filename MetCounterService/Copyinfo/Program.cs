@@ -17,10 +17,6 @@ namespace Copyinfo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Database.MongoTB mongo = new Database.MongoTB();
-            mongo.t();
-            DateTime dtime = DateTime.Now;
-            string s = dtime.ToString("dd/MM/yyyy HH:mm");
             Application.Run(new Copyinfo.Forms.FCopyInfo());
         }
     }

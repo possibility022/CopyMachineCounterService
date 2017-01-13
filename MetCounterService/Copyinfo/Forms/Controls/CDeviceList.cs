@@ -15,11 +15,17 @@ namespace Copyinfo.Forms.Controls
         public CDeviceList()
         {
             InitializeComponent();
+            tbTBProvider.id = 0;
+            tbTBModel.id = 1;
+            tbTBSerialNumber.id = 2;
+            tbTBAddress.id = 3;
+            tbTBData.id = 4;
+//            tbListView1.setColumnsWithDate(new int[] { 4 });
         }
 
         public void loadList(List<Database.Device> list)
         {
-            listView2.Items.Clear();
+            tbListView1.Items.Clear();
             addToList(list);
         }
 
@@ -32,9 +38,9 @@ namespace Copyinfo.Forms.Controls
             {
                 //foreach (Database.Device d in list)
                 Database.Device d = devices[i];
-                values = new string[]{ d.provider, d.model, d.serial_number, d.getAddress().street, d.instalation_datetime.ToShortDateString()};
-                item = new TBListViewItem_Device(values, d);
-                listView2.Items.Add(item);
+                values = new string[]{ d.provider, d.model, d.id, d.getAddress().street, d.instalation_datetime.ToShortDateString()};
+                item = new TBListViewItem(values, d);
+                tbListView1.Items.Add(item);
             }
         }
 
@@ -42,7 +48,7 @@ namespace Copyinfo.Forms.Controls
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (listView2.FocusedItem.Bounds.Contains(e.Location) == true)
+                if (tbListView1.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
                     contextMenuStrip1.Show(Cursor.Position);
                 }
@@ -51,8 +57,9 @@ namespace Copyinfo.Forms.Controls
 
         private void showReportsForThisDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TBListViewItem_Device item = (TBListViewItem_Device)listView2.SelectedItems[0];
-            new FReports(Global.database.getReports(item.device.serial_number)).Show();
+            TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[0];
+            Database.Device device = (Database.Device)item.additionalItem;
+            new FReports(Global.database.getReports(device.id)).Show();
         }
 
         public void DeleteSelectedDevices()
@@ -61,10 +68,10 @@ namespace Copyinfo.Forms.Controls
             DialogResult r = MessageBox.Show("Czy napewno chcesz usunąć te urządzenie / urządzenia?", "Uwaga!", MessageBoxButtons.YesNoCancel);
             if (r == DialogResult.Yes)
             {
-                for (int i = 0; i < listView2.SelectedItems.Count; i++)
+                for (int i = 0; i < tbListView1.SelectedItems.Count; i++)
                 {
-                    TBListViewItem_Device item = (TBListViewItem_Device)listView2.SelectedItems[i];
-                    bool result = Global.database.DeleteDevice(item.device);
+                    TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[i];
+                    bool result = Global.database.DeleteDevice((Database.Device) item.additionalItem);
                     if(result)
                     {
                         toRemove.Add(item);
@@ -74,8 +81,38 @@ namespace Copyinfo.Forms.Controls
 
             foreach(ListViewItem i in toRemove)
             {
-                listView2.Items.Remove(i);
+                tbListView1.Items.Remove(i);
             }
+        }
+
+        private void alignTextBoxesAndListView()
+        {
+            tbListView1.Height = this.Height - tbTBAddress.Height - 2;
+            GUI.AlignTextBoxes(
+                this.tbListView1.getColumnSizeHeaders(),
+                new TextBox[] {
+                    tbTBProvider,
+                    tbTBModel,
+                    tbTBSerialNumber,
+                    tbTBAddress,
+                    tbTBData},
+                tbListView1.Location.Y - tbTBProvider.Size.Height, 0);
+        }
+
+        private void listView_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+        {
+            alignTextBoxesAndListView();
+        }
+
+        private void tbTBProvider_TextChanged(object sender, EventArgs e)
+        {
+            TextBoxes.TBTextBox s = (TextBoxes.TBTextBox)sender;
+            tbListView1.filter(s.id, s.Text);
+        }
+
+        private void CDeviceList_Resize(object sender, EventArgs e)
+        {
+            alignTextBoxesAndListView();
         }
     }
 }

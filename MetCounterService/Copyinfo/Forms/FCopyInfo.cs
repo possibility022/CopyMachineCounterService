@@ -12,7 +12,7 @@ namespace Copyinfo.Forms
 {
     public partial class FCopyInfo : Form
     {
-        static FMachinesView f_machines;
+        static FDevicesView f_machines;
 
         public FCopyInfo()
         {
@@ -27,8 +27,14 @@ namespace Copyinfo.Forms
 
         private void btnDevices_Click(object sender, EventArgs e)
         {
-            f_machines = new FMachinesView();
+            f_machines = new FDevicesView();
             f_machines.Show();
+        }
+
+        private void tbButton3_Click(object sender, EventArgs e)
+        {
+            FClientList clientWindows = new FClientList();
+            clientWindows.Show();
         }
     }
 }
