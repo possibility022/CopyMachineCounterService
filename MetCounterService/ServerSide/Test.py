@@ -68,6 +68,10 @@ def check_signature(doc):
         return False
         #print(doc)
 
+def overwrite(to, f):
+    for key in f.keys():
+        to[key] = f[key]
+
 from pymongo import MongoClient
 from MongoDatabase import MongoTB
 from bson.objectid import ObjectId
@@ -105,6 +109,10 @@ cursor = records.find()
 from Email import EmailParser
 mailbox = EmailParser()
 
+
+documentsarray = []
+newdocuments = []
+
 f = open('c:\\Tom\\log.log','w')
 f.write('test')
 for document in cursor:
@@ -114,11 +122,19 @@ for document in cursor:
             print('toon')
         data = mailbox.parse_email_to_device_data(email)
         if data['tonerlevel_c'] is not None:
-            data['_id'] = document['_id']
-            records.update_one(data, False)
-            f.write(data['_id'])
+            documentsarray.append(document)
+            newdocuments.append(data)
+            #data['_id'] = document['_id']
+            #records.update_one(data, False)
+            f.write(str(document['_id']))
         print('test')
 f.close()
+
+for i in range(len(documentsarray)):
+    overwrite(documentsarray[i], newdocuments[i])
+    records.delete_one(documentsarray[i])
+    records.insert_one(documentsarray[i])
+
 
 
         #'_id': b'+OK 161 00004971513ee34f
