@@ -227,11 +227,12 @@ class EmailParser:
             "scan_counter": "",
             "print_counter_black_and_white": "",
             "print_counter_color": "",
-            "tonerlevel_c": None,
-            "tonerlevel_m": None,
-            "tonerlevel_y": None,
-            "tonerlevel_k": None,
-            "email_info": b''
+            "tonerlevel_c": '',
+            "tonerlevel_m": '',
+            "tonerlevel_y": '',
+            "tonerlevel_k": '',
+            "email_info": b'',
+            'parsed': False
         }
 
         signature = self.get_signature_number(mail)
@@ -262,10 +263,10 @@ class EmailParser:
         printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
         print(tonerc_regex_group)
 
-        tonerc = None
-        tonerm = None
-        tonery = None
-        tonerk = None
+        tonerc = ''
+        tonerm = ''
+        tonery = ''
+        tonerk = ''
 
         #sprawdzanie tonerów, jeśli nie ma wpliku xml to omijamy.
         if len(tonerc_regex_group) > 0:
@@ -319,6 +320,7 @@ class EmailParser:
         logging.debug(printer_data)
 
         self.mongo.move_mail_parsed('sucess', mail)
+        printer_data['parsed'] = True
         return printer_data
 
     @staticmethod

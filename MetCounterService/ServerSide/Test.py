@@ -68,9 +68,10 @@ def check_signature(doc):
         return False
         #print(doc)
 
-def overwrite(to, f):
+def overwrite(to, f): 
     for key in f.keys():
         to[key] = f[key]
+    to.exception_in_parsing = f.exception_in_parsing
 
 from pymongo import MongoClient
 from MongoDatabase import MongoTB
@@ -113,27 +114,47 @@ mailbox = EmailParser()
 documentsarray = []
 newdocuments = []
 
-f = open('c:\\Tom\\log.log','w')
-f.write('test')
-for document in cursor:
-    if check_signature(document):
-        email = mongotb.get_email(document['email_info'])
-        if email['_id'] == b'+OK 188 000049a3513ee34f':
-            print('toon')
-        data = mailbox.parse_email_to_device_data(email)
-        if data['tonerlevel_c'] is not None:
-            documentsarray.append(document)
-            newdocuments.append(data)
-            #data['_id'] = document['_id']
-            #records.update_one(data, False)
-            f.write(str(document['_id']))
-        print('test')
-f.close()
+#f = open('c:\\tmp\\log.log','w')
+#f.write('test')
+#for document in cursor:
+#    if check_signature(document):
+#        email = mongotb.get_email(document['email_info'])
+#        if email['_id'] == b'+OK 188 000049a3513ee34f':
+#            print('toon')
+#        data = mailbox.parse_email_to_device_data(email)
+#        if data['tonerlevel_c'] is not '':
+#            documentsarray.append(document)
+#            newdocuments.append(data)
+#            #data['_id'] = document['_id']
+#            #records.update_one(data, False)
+#            f.write(str(document['_id']))
+#        print('test')
 
-for i in range(len(documentsarray)):
-    overwrite(documentsarray[i], newdocuments[i])
-    records.delete_one(documentsarray[i])
-    records.insert_one(documentsarray[i])
+#    #if not isinstance(document['full_counter'], ObjectId):
+#    #    print(document)
+#f.close()
+
+
+cursor_parsedmails = email_parsed_success_db.find()
+
+for parsed_id in cursor_parsedmails:
+    #if 'mail' in parsed_id.keys():
+    #    mongotb.insert_email(parsed_id)
+    email = mongotb.get_email(parsed_id['_id'])
+    if email['_id'] == b'+OK 193 000048a4513ee34f':
+        print(email['_id'])
+    data = mailbox.parse_email_to_device_data(email)
+    records.delete_one({'email_info': data['email_info']})
+    mongotb.import_to_database(data)
+    data = None
+    
+
+#for i in range(len(documentsarray)):
+#    overwrite(documentsarray[i], newdocuments[i])
+#    res = records.delete_one({'_id':documentsarray[i]['_id']})
+#    res = mongotb.import_to_database(documentsarray[i])
+#    print(res)
+    #records.insert_one(documentsarray[i])
 
 
 

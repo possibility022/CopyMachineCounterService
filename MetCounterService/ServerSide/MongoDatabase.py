@@ -44,6 +44,10 @@ class MongoTB:
 
         #if device.exception_in_parsing:
         #    return False
+        if not printer_data['parsed']:
+            return
+
+        printer_data.pop('parsed')
 
         try:
             # Wyciagam z [device] dane: [full_counter], [full_serialnumber]
@@ -118,6 +122,19 @@ class MongoTB:
 
     def get_email(self, mail_id):
         src = self.email_binary_db
-        return src.find_one({'_id': mail_id})
+
+        email = src.find_one({'_id': mail_id})
+
+        if email is None:
+            src = self.email_parsed_passed_db
+            email = src.find_one({'_id': mail_id})
+            if email is None:
+                src = self.email_parsed_success
+                email = src.find_one({'_id': mail_id})
+                if email is None:
+                    src = self.email_parsed_faild
+                    email = src.find_one({'_id': mail_id})
+        
+        return email
         
 

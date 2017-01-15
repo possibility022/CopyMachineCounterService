@@ -47,6 +47,8 @@
             this.col_printcolor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_scan = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_datetime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tbTBToner = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.col_toner = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,7 +164,8 @@
             this.col_printbw,
             this.col_printcolor,
             this.col_scan,
-            this.col_datetime});
+            this.col_datetime,
+            this.col_toner});
             this.tbListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tbListView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.tbListView1.FullRowSelect = true;
@@ -199,10 +202,25 @@
             this.col_datetime.Text = "Data odczytu";
             this.col_datetime.Width = 179;
             // 
+            // tbTBToner
+            // 
+            this.tbTBToner.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTBToner.id = 0;
+            this.tbTBToner.Location = new System.Drawing.Point(530, 0);
+            this.tbTBToner.Name = "tbTBToner";
+            this.tbTBToner.Size = new System.Drawing.Size(100, 25);
+            this.tbTBToner.TabIndex = 7;
+            // 
+            // col_toner
+            // 
+            this.col_toner.Text = "Toner Status";
+            this.col_toner.Width = 151;
+            // 
             // CReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tbTBToner);
             this.Controls.Add(this.tbTBDate);
             this.Controls.Add(this.tbTBScan);
             this.Controls.Add(this.tbTBColor);
@@ -237,5 +255,7 @@
         private TextBoxes.TBTextBox tbTBColor;
         private TextBoxes.TBTextBox tbTBScan;
         private TextBoxes.TBTextBox tbTBDate;
+        private TextBoxes.TBTextBox tbTBToner;
+        private System.Windows.Forms.ColumnHeader col_toner;
     }
 }

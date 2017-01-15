@@ -36,6 +36,7 @@ namespace Copyinfo.Forms.Controls
             tbTBColor.id = 2;
             tbTBScan.id = 3;
             tbTBDate.id = 4;
+            tbTBToner.id = 5;
         }
 
         public void fillList(List<MachineRecord> machines)
@@ -48,7 +49,8 @@ namespace Copyinfo.Forms.Controls
                     m.print_counter_black_and_white.ToString(),
                     m.print_counter_color.ToString(),
                     m.scan_counter.ToString(),
-                    m.datetime.ToString()
+                    m.datetime.ToString(),
+                    m.tonerlevel_c + " " + m.tonerlevel_k
                     },
                     m
                     );
@@ -164,7 +166,8 @@ namespace Copyinfo.Forms.Controls
                     tbTBBandW,
                     tbTBColor,
                     tbTBScan,
-                    tbTBDate },
+                    tbTBDate,
+                    tbTBToner},
                 tbListView1.Location.Y - tbTBSerialNumber.Size.Height, 0);
         }
 
