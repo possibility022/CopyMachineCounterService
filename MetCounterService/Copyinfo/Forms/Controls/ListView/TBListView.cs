@@ -34,7 +34,7 @@ namespace Copyinfo.Forms.Controls.ListView
             allListViewBuffered = this.Items.Cast<TBListViewItem>();
             this.ColumnClick += listView1_ColumnClick;
 
-            filters = new string[7];
+            filters = new string[9];
             for (int i = 0; i < filters.Length; i++)
                 filters[i] = "";
         }
@@ -78,8 +78,8 @@ namespace Copyinfo.Forms.Controls.ListView
             {
                 string[] parts = filters[indexOfFilter].Split('-');
 
-                DateTime olderDate = DateTime.ParseExact(parts[0], Style.DateTimeFormat, CultureInfo.CurrentCulture);
-                DateTime youngerDate = DateTime.ParseExact(parts[1], Style.DateTimeFormat, CultureInfo.CurrentCulture);
+                DateTime olderDate = DateTime.ParseExact(parts[0], Style.DateTimeFormat, Style.cultureInfo);
+                DateTime youngerDate = DateTime.ParseExact(parts[1], Style.DateTimeFormat, Style.cultureInfo);
 
                 olderDate = DateTime.SpecifyKind(olderDate, DateTimeKind.Utc);
                 youngerDate = DateTime.SpecifyKind(youngerDate, DateTimeKind.Utc);      

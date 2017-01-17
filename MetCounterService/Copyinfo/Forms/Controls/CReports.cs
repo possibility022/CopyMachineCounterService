@@ -36,7 +36,10 @@ namespace Copyinfo.Forms.Controls
             tbTBColor.id = 2;
             tbTBScan.id = 3;
             tbTBDate.id = 4;
-            tbTBToner.id = 5;
+            tbTBToner_k.id = 5;
+            tbTBToner_c.id = 6;
+            tbTBToner_m.id = 7;
+            tbTBToner_y.id = 8;
         }
 
         public void fillList(List<MachineRecord> machines)
@@ -50,7 +53,10 @@ namespace Copyinfo.Forms.Controls
                     m.print_counter_color.ToString(),
                     m.scan_counter.ToString(),
                     m.datetime.ToString(),
-                    m.tonerlevel_c + " " + m.tonerlevel_k
+                    m.tonerlevel_k,
+                    m.tonerlevel_c,
+                    m.tonerlevel_m,
+                    m.tonerlevel_y
                     },
                     m
                     );
@@ -167,7 +173,10 @@ namespace Copyinfo.Forms.Controls
                     tbTBColor,
                     tbTBScan,
                     tbTBDate,
-                    tbTBToner},
+                    tbTBToner_k,
+                    tbTBToner_c,
+                    tbTBToner_m,
+                    tbTBToner_y},
                 tbListView1.Location.Y - tbTBSerialNumber.Size.Height, 0);
         }
 

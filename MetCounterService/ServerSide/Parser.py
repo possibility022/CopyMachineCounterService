@@ -103,10 +103,10 @@ class DataParser:
             self.parse_datetime()
         except IndexError:
             logging.info('Index Error in parse(data) in Parser.')
-            self.exception_in_parsing = True
+            self.printer_data['parsed'] = True
         except:
             logging.info('Some error in parse(data) in Parser.')
-            self.exception_in_parsing = True
+            self.printer_data['parsed'] = True
 
     @staticmethod
     def getprefix(string):

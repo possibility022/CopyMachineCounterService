@@ -47,8 +47,14 @@
             this.col_printcolor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_scan = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.col_datetime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tbTBToner = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.col_toner = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_toner_k = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_toner_c = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_toner_m = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.col_toner_y = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tbTBToner_k = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.tbTBToner_c = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.tbTBToner_m = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.tbTBToner_y = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -165,7 +171,10 @@
             this.col_printcolor,
             this.col_scan,
             this.col_datetime,
-            this.col_toner});
+            this.col_toner_k,
+            this.col_toner_c,
+            this.col_toner_m,
+            this.col_toner_y});
             this.tbListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tbListView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.tbListView1.FullRowSelect = true;
@@ -202,25 +211,67 @@
             this.col_datetime.Text = "Data odczytu";
             this.col_datetime.Width = 179;
             // 
-            // tbTBToner
+            // col_toner_k
             // 
-            this.tbTBToner.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBToner.id = 0;
-            this.tbTBToner.Location = new System.Drawing.Point(530, 0);
-            this.tbTBToner.Name = "tbTBToner";
-            this.tbTBToner.Size = new System.Drawing.Size(100, 25);
-            this.tbTBToner.TabIndex = 7;
+            this.col_toner_k.Text = "Black Toner";
+            this.col_toner_k.Width = 151;
             // 
-            // col_toner
+            // col_toner_c
             // 
-            this.col_toner.Text = "Toner Status";
-            this.col_toner.Width = 151;
+            this.col_toner_c.Text = "Cyjan Toner";
+            // 
+            // col_toner_m
+            // 
+            this.col_toner_m.Text = "Magenta Toner";
+            // 
+            // col_toner_y
+            // 
+            this.col_toner_y.Text = "Yellow Toner";
+            // 
+            // tbTBToner_k
+            // 
+            this.tbTBToner_k.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTBToner_k.id = 0;
+            this.tbTBToner_k.Location = new System.Drawing.Point(530, 0);
+            this.tbTBToner_k.Name = "tbTBToner_k";
+            this.tbTBToner_k.Size = new System.Drawing.Size(100, 25);
+            this.tbTBToner_k.TabIndex = 7;
+            // 
+            // tbTBToner_c
+            // 
+            this.tbTBToner_c.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTBToner_c.id = 0;
+            this.tbTBToner_c.Location = new System.Drawing.Point(636, 0);
+            this.tbTBToner_c.Name = "tbTBToner_c";
+            this.tbTBToner_c.Size = new System.Drawing.Size(100, 25);
+            this.tbTBToner_c.TabIndex = 8;
+            // 
+            // tbTBToner_m
+            // 
+            this.tbTBToner_m.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTBToner_m.id = 0;
+            this.tbTBToner_m.Location = new System.Drawing.Point(709, 0);
+            this.tbTBToner_m.Name = "tbTBToner_m";
+            this.tbTBToner_m.Size = new System.Drawing.Size(100, 25);
+            this.tbTBToner_m.TabIndex = 9;
+            // 
+            // tbTBToner_y
+            // 
+            this.tbTBToner_y.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTBToner_y.id = 0;
+            this.tbTBToner_y.Location = new System.Drawing.Point(757, 0);
+            this.tbTBToner_y.Name = "tbTBToner_y";
+            this.tbTBToner_y.Size = new System.Drawing.Size(100, 25);
+            this.tbTBToner_y.TabIndex = 10;
             // 
             // CReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tbTBToner);
+            this.Controls.Add(this.tbTBToner_y);
+            this.Controls.Add(this.tbTBToner_m);
+            this.Controls.Add(this.tbTBToner_c);
+            this.Controls.Add(this.tbTBToner_k);
             this.Controls.Add(this.tbTBDate);
             this.Controls.Add(this.tbTBScan);
             this.Controls.Add(this.tbTBColor);
@@ -255,7 +306,13 @@
         private TextBoxes.TBTextBox tbTBColor;
         private TextBoxes.TBTextBox tbTBScan;
         private TextBoxes.TBTextBox tbTBDate;
-        private TextBoxes.TBTextBox tbTBToner;
-        private System.Windows.Forms.ColumnHeader col_toner;
+        private TextBoxes.TBTextBox tbTBToner_k;
+        private System.Windows.Forms.ColumnHeader col_toner_k;
+        private TextBoxes.TBTextBox tbTBToner_c;
+        private TextBoxes.TBTextBox tbTBToner_m;
+        private TextBoxes.TBTextBox tbTBToner_y;
+        private System.Windows.Forms.ColumnHeader col_toner_c;
+        private System.Windows.Forms.ColumnHeader col_toner_m;
+        private System.Windows.Forms.ColumnHeader col_toner_y;
     }
 }

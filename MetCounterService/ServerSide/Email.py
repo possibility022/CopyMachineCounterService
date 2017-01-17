@@ -261,14 +261,13 @@ class EmailParser:
         scancounter = self.addition_regex_group(data, scan_counter_regex_group)
         printcounter = self.addition_regex_group(data, print_counter_regex_group)
         printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
-        print(tonerc_regex_group)
 
         tonerc = ''
         tonerm = ''
         tonery = ''
         tonerk = ''
 
-        #sprawdzanie tonerów, jeśli nie ma wpliku xml to omijamy.
+        #sprawdzanie tonerów, jeśli nie ma w pliku xml to omijamy.
         if len(tonerc_regex_group) > 0:
             tonerc = self.parse_using_regex(data, tonerc_regex_group[0])
             if tonerc_regex_group[0][3] == 'true' and tonerc is None:

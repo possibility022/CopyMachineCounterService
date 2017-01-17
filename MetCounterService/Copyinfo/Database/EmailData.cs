@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using MongoDB.Bson;
+using MimeKit;
+using System.IO;
 
 namespace Copyinfo.Database
 {
@@ -12,6 +14,8 @@ namespace Copyinfo.Database
     {
         public BsonBinaryData id { get; set; }
         public BsonArray mail { get; set; }
+
+        MimeMessage mes;
 
         private List<byte[]> emailmessage = null;
         private List<byte[]> emailheader = null;
@@ -31,27 +35,71 @@ namespace Copyinfo.Database
             return read_email();
         }
 
+        public void parse_using_mime()
+        {
+            Stream stream = new MemoryStream();
+            byte[] newline = Encoding.UTF8.GetBytes("\r\n");
+
+            for (int i = 0; i < mail.AsBsonArray.Count; i++)
+            {
+                stream.Write(mail[i].AsByteArray, 0, mail[i].AsByteArray.Length);
+                stream.Write(newline, 0, newline.Length);
+            }
+            stream.Flush();
+            stream.Position = 0;
+
+            mes = MimeKit.MimeMessage.Load(stream);
+
+            var parserOptions = new ParserOptions();
+        }
+
         public void parse()
         {
-            emailheader = new List<byte[]>();
-            emailmessage = new List<byte[]>();
+            parse_using_mime();
+            //emailheader = new List<byte[]>();
+            //emailmessage = new List<byte[]>();
 
-            // Dla kazdej linijki tekstu: przekonwertuj na bytearray. Dodatkowo oddziel header od body
-            split_header_and_message();
-            setEncoding();
-            setCharset();
+            //// Dla kazdej linijki tekstu: przekonwertuj na bytearray. Dodatkowo oddziel header od body
+            //split_header_and_message();
+            //setEncoding();
+            //setCharset();
         }
 
         private string read_email()
         {
-            string message = "";
-            for(int i = 0; i < emailmessage.Count; i++)
-            {
-                byte[] bytes = get_bytes(i);
-                message += convert_line(bytes) + "\r\n";
-            }
 
-            return message;
+            //string message = "";
+            //for(int i = 0; i < emailmessage.Count; i++)
+            //{
+            //    byte[] bytes = get_bytes(i);
+            //    message += convert_line(bytes) + "\r\n";
+            //}
+
+            //return message;
+
+            return mes.TextBody;
+        }
+
+        public void getAttachments()
+        {
+            foreach (var attachment in mes.Attachments)
+            {
+                using (var stream = File.Create("fileName"))
+                {
+                    if (attachment is MessagePart)
+                    {
+                        var part = (MessagePart)attachment;
+
+                        part.Message.WriteTo(stream);
+                    }
+                    else
+                    {
+                        var part = (MimePart)attachment;
+
+                        part.ContentObject.DecodeTo(stream);
+                    }
+                }
+            }
         }
 
         private byte[] get_bytes(int index)

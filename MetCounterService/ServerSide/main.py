@@ -76,9 +76,12 @@ def parse_loop():
             sucess = mongo.import_to_database(device)
             if sucess:
                 os.rename(filepath, settings.workfolder + '/imported/' + f)
+            else:
+                os.rename(filepath, settings.workfolder + '/faild/' + f)
         sleep(30)
 
 if __name__ == "__main__":
+
     HOST = settings.HOST
     PORT = settings.PORT
     PORTMACTOWEBFILEDOWNLOAD = settings.PORTMACTOWEBFILEDOWNLOAD
