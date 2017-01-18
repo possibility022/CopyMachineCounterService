@@ -5,7 +5,6 @@ from Localdatabase import Database
 import logging
 import settings
 
-
 settings.init()
 
 
@@ -72,7 +71,6 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
         self.send(l)
         f.close()
         logging.debug('offering xml : done')
-
 
     def receive(self, size, decrypt=True):
             # print('Odbieranie danych size:', size)

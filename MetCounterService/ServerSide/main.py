@@ -2,6 +2,17 @@ import socket
 import threading
 import socketserver
 
+import logging
+
+import Authorization
+import Decoder as Decoder_File
+import Email
+import Localdatabase
+import MongoDatabase
+import Parser
+import ServerDataOffer
+import ServerDataReceiver
+
 from Decoder import Decoder
 from MongoDatabase import MongoTB
 
@@ -15,15 +26,12 @@ import settings
 import os
 from time import sleep
 import _thread
-import logging
+
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
-
-logging.basicConfig(filename='/home/over/deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
-settings.init()
 mongo = MongoTB()
 dec = Decoder()
 
@@ -31,7 +39,7 @@ dec = Decoder()
 def parse_loop_email():
     logging.info('parse_loop_email started')
     while True:
-        if Localdatabase.Database.getthread_pasue_value_email:
+        if Localdatabase.Database.getthread_pause_value_email():
             sleep(60)
             continue
         mailbox = EmailParser()
@@ -61,7 +69,7 @@ def parse_loop():
     logging.info('parse_loop started')
 
     while True:
-        if Localdatabase.Database.getthread_pasue_value_file:
+        if Localdatabase.Database.getthread_pause_value_file():
             sleep(60)
             continue
         dec.decode()
@@ -81,6 +89,9 @@ def parse_loop():
         sleep(30)
 
 if __name__ == "__main__":
+
+    logging.basicConfig(filename='/home/over/deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
+    settings.init()
 
     HOST = settings.HOST
     PORT = settings.PORT

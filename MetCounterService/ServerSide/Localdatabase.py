@@ -1,8 +1,8 @@
 import string
 import random
+import logging
 import settings
 import os.path
-import logging
 
 settings.init()
 
@@ -28,7 +28,7 @@ class Database:
             return key
 
     @staticmethod
-    def getthread_pasue_value_email():
+    def getthread_pause_value_email():
         file = settings.workfolder + '/working_threads.cfg'
         if os.path.isfile(file):
             f = open(file, 'r')
@@ -44,7 +44,7 @@ class Database:
         return False
 
     @staticmethod
-    def getthread_pasue_value_file():
+    def getthread_pause_value_file():
         file = settings.workfolder + '/working_threads.cfg'
         if os.path.isfile(file):
             f = open(file, 'r')
