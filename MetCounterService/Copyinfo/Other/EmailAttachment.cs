@@ -9,17 +9,25 @@ using System.IO;
 
 namespace Copyinfo.Other
 {
-    class EmailAttachment
+    public class EmailAttachment
     {
         MimeEntity attachment;
+        string fileName = "FileNameNotFound";
+
         public EmailAttachment(MimeKit.MimeEntity attachment)
         {
-            
+            this.attachment = attachment;
+
+            if (attachment is MimePart)
+            {
+                MimePart tmp = (MimePart)attachment;
+                fileName = tmp.FileName;
+            }
         }
 
-        public void toFile()
+        public string getFile()
         {
-            using (var stream = File.Create("fileName"))
+            using (var stream = File.Create(getAttachmentName()))
             {
                 if (attachment is MessagePart)
                 {
@@ -32,11 +40,13 @@ namespace Copyinfo.Other
                     part.ContentObject.DecodeTo(stream);
                 }
             }
+
+            return getAttachmentName();
         }
 
-        public void getAttachmentName()
+        public string getAttachmentName()
         {
-            attachment.ToString();
+            return fileName;
         }
     }
 }

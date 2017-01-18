@@ -9,5 +9,6 @@ namespace Copyinfo
     static class StaticSettings
     {
         static int ReportViewList_MAX_SIZE = 20;
+        public static string RedReaderPath = @"C:\Tom\RedReader\REDReader.exe";
     }
 }

@@ -189,10 +189,15 @@ namespace Copyinfo.Forms.Controls
         {
             TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            string html = record.getEmail().getEmail();
+            string emailText = record.getEmail().getEmail();
 
             //new FHTMLView(html).ShowDialog();
-            new FRichTextView(html).ShowDialog();
+            //new FRichTextView(html).ShowDialog();
+            FEmailView view = new FEmailView();
+            view.cEmailView1.setText(emailText);
+            view.cEmailView1.addAttachments(record.getEmail().getAttachments());
+            view.Show();
+            
         }
 
         private void tbTBDate_TextChanged(object sender, EventArgs e)

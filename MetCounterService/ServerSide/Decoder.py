@@ -31,8 +31,8 @@ class Decoder:
                 f = open(self.path_decoded_folder + '/' + file, 'wb')
                 f.write(decrypted)
                 f.close()
-        except:
-            logging.error('An error in decoding file')
+        except Exception as e:
+            logging.error('An error in decoding file. ' + traceback.format_exc())
 
 
     def delete_decoded_files(self):

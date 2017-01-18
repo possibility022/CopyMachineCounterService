@@ -25,7 +25,8 @@ class DataParser:
             "full_counter": "",
             "scan_counter": "",
             "print_counter_black_and_white": "",
-            "print_counter_color": ""}
+            "print_counter_color": "",
+            "parsed": False}
 
         self.parse(data)
 
@@ -101,12 +102,13 @@ class DataParser:
             self.parse_counter_scaner()
             self.parse_serial_number()
             self.parse_datetime()
+            self.printer_data['parsed'] = True
         except IndexError:
             logging.info('Index Error in parse(data) in Parser.')
-            self.printer_data['parsed'] = True
-        except:
-            logging.info('Some error in parse(data) in Parser.')
-            self.printer_data['parsed'] = True
+            self.printer_data['parsed'] = False
+        except Exception as e:
+            logging.info('Some error in parse(data) in Parser. ' + traceback.format_exc())
+            self.printer_data['parsed'] = False
 
     @staticmethod
     def getprefix(string):

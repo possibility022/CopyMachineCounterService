@@ -245,6 +245,12 @@
     <Compile Include="Forms\FEditBox.Designer.cs">
       <DependentUpon>FEditBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FEmailView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FEmailView.Designer.cs">
+      <DependentUpon>FEmailView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FHTMLView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -340,6 +346,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FEditBox.resx">
       <DependentUpon>FEditBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FEmailView.resx">
+      <DependentUpon>FEmailView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FHTMLView.resx">
       <DependentUpon>FHTMLView.cs</DependentUpon>

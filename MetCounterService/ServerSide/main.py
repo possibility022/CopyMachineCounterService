@@ -45,8 +45,8 @@ def parse_loop_email():
                 logging.debug('Pobrałem wiadomosc')
                 try:
                     data = mailbox.parse_email_to_device_data(mail)
-                except:
-                    logging.error('Błąd przy parsowaniu maila: ' + ids[i])
+                except Exception as e:
+                    logging.error('Błąd przy parsowaniu maila: ' + ids[i] + ' ' + traceback.format_exc())
                     data = None
                 if data is not None:
                     mongo.import_to_database(data)

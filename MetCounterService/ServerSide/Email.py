@@ -202,18 +202,22 @@ class EmailParser:
         return email
 
     def get_signature_number(self, mail):
-        mail = self.parse(mail)
-        signatures = self.xml_loader.get_all_signature()
+        try:
+            mail = self.parse(mail)
+            signatures = self.xml_loader.get_all_signature()
 
-        for sig_group in range(signatures.__len__()):
-            signature_find = 0
-            for single_signature in signatures[sig_group]:
-                for line in mail['mail']:
-                    match = re.findall(single_signature, line)
-                    if len(match) > 0:
-                        signature_find += 1
-            if signature_find == len(signatures[sig_group]):
-                return sig_group
+            for sig_group in range(signatures.__len__()):
+                signature_find = 0
+                for single_signature in signatures[sig_group]:
+                    for line in mail['mail']:
+                        match = re.findall(single_signature, line)
+                        if len(match) > 0:
+                            signature_find += 1
+                if signature_find == len(signatures[sig_group]):
+                    return sig_group
+        except Exception as e:
+            logging.error('Błąd przy szukaniu sygnatury. EmailParser ' + traceback.format_exc())
+            return -1
 
     def parse_email_to_device_data(self, mail):
         printer_data = {
@@ -236,31 +240,43 @@ class EmailParser:
         }
 
         signature = self.get_signature_number(mail)
-        logging.info('Znaleziono sygnature maila: {}'.format(signature))
+
+        if signature == -1:
+            return printer_data
 
         if signature is None:
             self.mongo.move_mail_parsed('passed', mail)
             return
 
-        datetime_regex_group = self.xml_loader.get_datetime(signature)
-        serial_number_regex_group = self.xml_loader.get_serialnumber(signature)
-        scan_counter_regex_group = self.xml_loader.get_scaner_counter(signature)
-        print_counter_regex_group = self.xml_loader.get_printer_counter(signature)
-        print_counter_color_regex_group = self.xml_loader.get_printer_counter_color(signature)
-        tonerc_regex_group = self.xml_loader.get_tonerlevel_c(signature)
-        tonerm_regex_group = self.xml_loader.get_tonerlevel_m(signature)
-        tonery_regex_group = self.xml_loader.get_tonerlevel_y(signature)
-        tonerk_regex_group = self.xml_loader.get_tonerlevel_k(signature)
+        logging.info('Znaleziono sygnature maila: {}'.format(signature))
+
+        try:
+            datetime_regex_group = self.xml_loader.get_datetime(signature)
+            serial_number_regex_group = self.xml_loader.get_serialnumber(signature)
+            scan_counter_regex_group = self.xml_loader.get_scaner_counter(signature)
+            print_counter_regex_group = self.xml_loader.get_printer_counter(signature)
+            print_counter_color_regex_group = self.xml_loader.get_printer_counter_color(signature)
+            tonerc_regex_group = self.xml_loader.get_tonerlevel_c(signature)
+            tonerm_regex_group = self.xml_loader.get_tonerlevel_m(signature)
+            tonery_regex_group = self.xml_loader.get_tonerlevel_y(signature)
+            tonerk_regex_group = self.xml_loader.get_tonerlevel_k(signature)
+        except Exception as e:
+            logging.error('Błąd przy wczytywaniu regexa. Email parser. ' + traceback.format_exc())
+            return
 
         data = ''
         for line in mail['mail']:
             data += '\n' + line
 
-        date_time = self.parse_using_regex(data, datetime_regex_group[0])
-        serialnumber = self.parse_using_regex(data, serial_number_regex_group[0])
-        scancounter = self.addition_regex_group(data, scan_counter_regex_group)
-        printcounter = self.addition_regex_group(data, print_counter_regex_group)
-        printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
+        try:
+            date_time = self.parse_using_regex(data, datetime_regex_group[0])
+            serialnumber = self.parse_using_regex(data, serial_number_regex_group[0])
+            scancounter = self.addition_regex_group(data, scan_counter_regex_group)
+            printcounter = self.addition_regex_group(data, print_counter_regex_group)
+            printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
+        except Exception as e:
+            logging.error('Błąd krytyczny przy parsowaniu regexa ' + traceback.format_exc())
+            return
 
         tonerc = ''
         tonerm = ''
@@ -268,25 +284,28 @@ class EmailParser:
         tonerk = ''
 
         #sprawdzanie tonerów, jeśli nie ma w pliku xml to omijamy.
-        if len(tonerc_regex_group) > 0:
-            tonerc = self.parse_using_regex(data, tonerc_regex_group[0])
-            if tonerc_regex_group[0][3] == 'true' and tonerc is None:
-                self.mongo.move_mail_parsed('fail', mail)
-        if len(tonerm_regex_group) > 0:
-            tonerm = self.parse_using_regex(data, tonerm_regex_group[0])
-            if tonerm_regex_group[0][3] == 'true' and tonerm is None:
-                self.mongo.move_mail_parsed('fail', mail)
-                return
-        if len(tonery_regex_group) > 0:
-            tonery = self.parse_using_regex(data, tonery_regex_group[0])
-            if tonery_regex_group[0][3] == 'true' and tonery is None:
-                self.mongo.move_mail_parsed('fail', mail)
-                return
-        if len(tonerk_regex_group) > 0:
-            tonerk = self.parse_using_regex(data, tonerk_regex_group[0])
-            if tonerk_regex_group[0][3] == 'true' and tonerk is None:
-                self.mongo.move_mail_parsed('fail', mail)
-                return
+        try:
+            if len(tonerc_regex_group) > 0:
+                tonerc = self.parse_using_regex(data, tonerc_regex_group[0])
+                if tonerc_regex_group[0][3] == 'true' and tonerc is None:
+                    self.mongo.move_mail_parsed('fail', mail)
+            if len(tonerm_regex_group) > 0:
+                tonerm = self.parse_using_regex(data, tonerm_regex_group[0])
+                if tonerm_regex_group[0][3] == 'true' and tonerm is None:
+                    self.mongo.move_mail_parsed('fail', mail)
+                    return
+            if len(tonery_regex_group) > 0:
+                tonery = self.parse_using_regex(data, tonery_regex_group[0])
+                if tonery_regex_group[0][3] == 'true' and tonery is None:
+                    self.mongo.move_mail_parsed('fail', mail)
+                    return
+            if len(tonerk_regex_group) > 0:
+                tonerk = self.parse_using_regex(data, tonerk_regex_group[0])
+                if tonerk_regex_group[0][3] == 'true' and tonerk is None:
+                    self.mongo.move_mail_parsed('fail', mail)
+                    return
+        except Exception as e:
+            logging.error('Błąd krytyczny przy wczytywaniu stanu tonerów. ' + traceback.format_exc())
         
         if datetime_regex_group[0][3] == 'true' and date_time is None:
             self.mongo.move_mail_parsed('fail', mail)
@@ -329,7 +348,7 @@ class EmailParser:
         all_data = re.findall(reggroup[1], data)
         try:
             to_return = all_data[order][group]
-        except:
+        except Exception as e:
             to_return = None
         return to_return
 
@@ -348,8 +367,8 @@ class EmailParser:
     def close(self):
         try:
             self.Mailbox.quit()
-        except:
-            logging.debug('Błąd przy zamykaniu mailboxa')
+        except Exception as e:
+            logging.debug('Błąd przy zamykaniu mailboxa. ' + traceback.format_exc())
 
 
 # eparser = EmailParser()

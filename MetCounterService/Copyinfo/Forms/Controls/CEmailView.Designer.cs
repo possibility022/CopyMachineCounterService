@@ -46,9 +46,11 @@
             this.tbListView1.FullRowSelect = true;
             this.tbListView1.Location = new System.Drawing.Point(598, 3);
             this.tbListView1.Name = "tbListView1";
-            this.tbListView1.Size = new System.Drawing.Size(68, 511);
+            this.tbListView1.Size = new System.Drawing.Size(298, 511);
             this.tbListView1.TabIndex = 1;
             this.tbListView1.UseCompatibleStateImageBehavior = false;
+            this.tbListView1.View = System.Windows.Forms.View.List;
+            this.tbListView1.DoubleClick += new System.EventHandler(this.tbListView1_DoubleClick);
             // 
             // CEmailView
             // 
@@ -57,7 +59,7 @@
             this.Controls.Add(this.tbListView1);
             this.Controls.Add(this.richTextBox1);
             this.Name = "CEmailView";
-            this.Size = new System.Drawing.Size(669, 517);
+            this.Size = new System.Drawing.Size(896, 517);
             this.ResumeLayout(false);
 
         }

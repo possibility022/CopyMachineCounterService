@@ -80,26 +80,17 @@ namespace Copyinfo.Database
             return mes.TextBody;
         }
 
-        public void getAttachments()
+        public List<Other.EmailAttachment> getAttachments()
         {
-            foreach (var attachment in mes.Attachments)
+            List<Other.EmailAttachment> attachments = new List<Other.EmailAttachment>();
+
+            foreach(var attachment in mes.Attachments)
             {
-                using (var stream = File.Create("fileName"))
-                {
-                    if (attachment is MessagePart)
-                    {
-                        var part = (MessagePart)attachment;
-
-                        part.Message.WriteTo(stream);
-                    }
-                    else
-                    {
-                        var part = (MimePart)attachment;
-
-                        part.ContentObject.DecodeTo(stream);
-                    }
-                }
+                Other.EmailAttachment att = new Other.EmailAttachment(attachment);
+                attachments.Add(att);
             }
+
+            return attachments;
         }
 
         private byte[] get_bytes(int index)
