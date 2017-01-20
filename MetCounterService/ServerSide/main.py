@@ -21,6 +21,7 @@ from ServerDataOffer import ThreadedTCPOfferHandler
 from Parser import DataParser
 from Email import EmailParser
 import Localdatabase
+from Localdatabase import Database
 
 import settings
 import os

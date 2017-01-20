@@ -37,7 +37,6 @@ class Database:
             if value == 'true':
                 return True
             else:
-                logging.info('email loop paused')
                 return False
         else:
             logging.error('There is no file: ' + file)
@@ -54,7 +53,6 @@ class Database:
             if value == 'true':
                 return True
             else:
-                logging.info('file loop paused')
                 return False
         else:
             logging.error('There is no file: ' + file)

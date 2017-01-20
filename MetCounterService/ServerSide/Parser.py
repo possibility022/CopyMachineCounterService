@@ -78,9 +78,17 @@ class DataParser:
 
     def parse_datetime(self):
         #26.09.2016 09:44
+        #ok, najprawdopodobniej jest błąd w kodzie usługi. Jest tam użyty format daty który jest obecnie na systemie. Więc w zależności od systemu delimiter może się zmieniać ; /. Należy to poprawić.
         data = self.printer_data['datetime']
+
         time_format = '%d.%m.%Y %H:%M'
-        self.printer_data['datetime'] = time.strptime(data, time_format)
+        try:
+            value = time.strptime(data, time_format)
+        except ValueError:
+            logging.error('Błąd przy parsowaniu daty. Problem usługi klienta')
+            value = time.strptime(data, time_format.replace('.', '-'))
+
+        self.printer_data['datetime'] = value
 
 
     def parse(self, data):
@@ -107,7 +115,7 @@ class DataParser:
             logging.info('Index Error in parse(data) in Parser.')
             self.printer_data['parsed'] = False
         except Exception as e:
-            logging.info('Some error in parse(data) in Parser. ' + traceback.format_exc())
+            logging.info('Some error in parse(data) in Parser. ' + e.format_exc())
             self.printer_data['parsed'] = False
 
     @staticmethod
