@@ -5,6 +5,7 @@ from Crypto.Cipher import PKCS1_v1_5
 import time
 import logging
 import settings
+from TBExceptions import ServerException
 
 settings.init()
 
@@ -56,25 +57,32 @@ class RSAv3:
     def decrypt(message, allow_slit = True):
         if message.__len__() > 128 and not allow_slit:
             logging.error('Error, slit not allowed. Data len is more than 128 bytes. Authorization.RSAv3.decrypt')
-            raise Exception('Error, slit not allowed. Data len is more than 128 bytes. Authorization.RSAv3.decrypt')
+            raise ServerException('Error, slit not allowed. Data len is more than 128 bytes. Authorization.RSAv3.decrypt')
 
         if message.__len__() == 0:
             logging.debug('Message len == 0. In staticmethod decrypt')
-            return 'Empty message to decrypt'
+            raise ServerException('Empty message to decrypt')
 
         if RSAv3.private_cipher is None:
             RSAv3.init_private_key()
 
-        if message.__len__() > 128:
-            return RSAv3.decrypt_big_data(message)
-        else:
-            return RSAv3.private_cipher.decrypt(message, False)
+        decrypted = None
+
+        try:
+            if message.__len__() > 128:
+                decrypted = RSAv3.decrypt_big_data(message)
+            else:
+                decrypted = RSAv3.private_cipher.decrypt(message, False)
+        except ServerException:
+            logging.log('An error in decrypting')
+
+        return decrypted
 
     @staticmethod
     def decrypt_big_data(input_bytes):
         if not input_bytes.__len__() % 128 == 0:
             logging.error('Nieprawidlowe dane wejsciowe. Oczekiwana długość tablicy to x * 128. Authorization.RSAv3.decrypt_big_data')
-            raise Exception('Nieprawidlowe dane wejsciowe. Oczekiwana długość tablicy to x * 128. Authorization.RSAv3.decrypt_big_data')
+            raise ServerException('Nieprawidlowe dane wejsciowe. Oczekiwana długość tablicy to x * 128. Authorization.RSAv3.decrypt_big_data')
         final = bytearray()
         steps_count = int(input_bytes.__len__() / 128)
         for i in range(0, steps_count):
@@ -84,11 +92,19 @@ class RSAv3:
                 time.sleep(0.0050)
             if decrypted is None:
                 logging.debug('Nie udało się odszyfrować dużych danych. :-/')
-                return None
+                raise ServerException('Nie udało się odszyfrować dużych danych. :-/')
             elif isinstance(decrypted, str):
-                logging.debug('Nieprawidłowe dane wejściowe. Oczeiwane dane: bytes. Otrzymano: str')
+                logging.debug('Nieprawidłowe dane wejściowe. Oczekiwane dane: bytes. Otrzymano: str')
+                raise ServerException('Nieprawidłowe dane wejściowe. Oczekiwane dane: bytes. Otrzymano: str')
+            elif isinstance(decrypted, bool):
+                logging.debug('Nieprawidłowe dane wejściowe. Oczekiwane dane: bytes. Otrzymano: str')
+                raise ServerException('Nieprawidłowe dane wejściowe. Oczekiwane dane: bytes. Otrzymano: str')
             else:
-                final.extend(decrypted)
+                try:
+                    final.extend(decrypted)
+                except Exception:
+                    logging.debug('Niepowodzenie przy rozszezaniu tablicy. decrypt_big_data.')
+                    raise ServerException('Niepowodzenie przy rozszezaniu tablicy. decrypt_big_data.')
 
         return final
 
@@ -105,18 +121,31 @@ class Handshake:
 
     keylengt = 50
     sucess = False
+    key_imported = False
 
     def __init__(self, m, e):
-        m = RSAv3.decrypt(m)
-        e = RSAv3.decrypt(e)
+        try:
+            m = RSAv3.decrypt(m)
+            e = RSAv3.decrypt(e)
+        except ServerException as e:
+            logging.info('Ops, decrypting some of parameters faild.')
+            self.key_imported = False
+            return
         self.handshake_key = self.createkey()
         self.clientRSA = RSAv3(m, e)
+        self.key_imported = True
 
     def encrypt(self, text):
+        if self.clientRSA is None:
+            raise ServerException('clientRSA is None')
         return self.clientRSA.encryp_data(text)
 
     def decrypt(self, text):
-        return RSAv3.decrypt(text)
+        try:
+            decrypted = RSAv3.decrypt(text)
+        except ServerException as e:
+            return None
+        return decrypted
 
     def sort(self, text):
         asciivalues = []

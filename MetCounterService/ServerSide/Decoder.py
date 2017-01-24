@@ -31,6 +31,8 @@ class Decoder:
                 f = open(self.path_decoded_folder + '/' + file, 'wb')
                 f.write(decrypted)
                 f.close()
+        except TypeError as e:
+            logging.info('I can\'t Write this Type to file. There was an error in decrypting propably')
         except Exception as e:
             logging.error('An error in decoding file. ' + traceback.format_exc())
 

@@ -19,6 +19,11 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
         key_moduls_encrypted = self.request.recv(256)
         key_exponent_encrypted = self.request.recv(128)
         self.handshake = Handshake(key_moduls_encrypted, key_exponent_encrypted)
+        
+        if not self.handshake.key_imported:
+            logging.critical('OTRZYMANE ELEMENTY KLUCZA SA NIEPRAWIDLOWE')
+            return
+
         self.send(self.handshake.getKeyToSend())
         data = self.request.recv(256)
         receivedkey = str(self.handshake.decrypt(data), 'ascii')

@@ -201,17 +201,23 @@
 ##sucess = mongo.import_to_database(device)
 ##print('stop')
 
-import MongoDatabase
-from Parser import DataParser
+#import MongoDatabase
+#from Parser import DataParser
 
 
-filepath = 'C:/Tom/c#/test/messages_20170113-1056580_faild'
+#filepath = 'C:/Tom/c#/test/messages_20170113-1056580_faild'
 
-while True:
+#while True:
     
-    reader = open(filepath, 'r')
-    data = reader.read()
-    reader.close()
-    device = DataParser(data)
-    sucess = mongo.import_to_database(device)
-    sleep(30)
+#    reader = open(filepath, 'r')
+#    data = reader.read()
+#    reader.close()
+#    device = DataParser(data)
+#    sucess = mongo.import_to_database(device)
+#    sleep(30)
+
+import io
+
+f = open('file', 'wb')
+f.write(None)
+f.close()

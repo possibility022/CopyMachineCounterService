@@ -39,6 +39,9 @@
     <Compile Include="ServerDataOffer.py" />
     <Compile Include="ServerDataReceiver.py" />
     <Compile Include="settings.py" />
+    <Compile Include="TBExceptions.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test.py" />
   </ItemGroup>
   <ItemGroup>
