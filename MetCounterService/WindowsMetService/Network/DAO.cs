@@ -8,7 +8,7 @@ namespace WindowsMetService.Network
 {
     static class DAO
     {
-        private const string dateFormat = @"dd/MM/yyyy HH:mm";
+        private const string dateFormat = @"dd.MM.yyyy HH:mm";
         static ServerStream connection = new ServerStream();
 
         enum DataPrefix { CounterData, SerialNumber, MAC, IP, DateTime, Description };
