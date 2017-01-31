@@ -45,7 +45,7 @@ class MongoTB:
         #if device.exception_in_parsing:
         #    return False
         if not printer_data['parsed']:
-            return
+            return False
 
         printer_data.pop('parsed')
 
