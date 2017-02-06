@@ -76,20 +76,27 @@ class DataParser:
             ser += parsed
         self.printer_data['serial_number'] = ser
 
-    def parse_datetime(self):
+    def parse_datetime_format(self, time_format):
         #26.09.2016 09:44
         #ok, najprawdopodobniej jest błąd w kodzie usługi. Jest tam użyty format daty który jest obecnie na systemie. Więc w zależności od systemu delimiter może się zmieniać ; /. Należy to poprawić.
         data = self.printer_data['datetime']
-
-        time_format = '%d.%m.%Y %H:%M'
-        try:
-            value = time.strptime(data, time_format)
-        except ValueError:
-            logging.error('Błąd przy parsowaniu daty. Problem usługi klienta')
-            value = time.strptime(data, time_format.replace('.', '-'))
-
+        value = time.strptime(data, time_format)
         self.printer_data['datetime'] = value
 
+    def parse_datetime(self):
+        try:
+            self.parse_datetime_format('%d.%m.%Y %H:%M')
+            return
+        except ValueError:
+            pass
+            #logging.error('Błąd przy parsowaniu daty. Problem usługi klienta? Format: %d.%m.%Y %H:%M')
+
+        try:
+            self.parse_datetime_format('%d-%m-%Y %H:%M')
+            return
+        except ValueError:
+            pass
+            #logging.error('Błąd przy parsowaniu daty. Problem usługi klienta? Format: %d-%m-%Y %H:%M')
 
     def parse(self, data):
         
@@ -115,7 +122,7 @@ class DataParser:
             logging.info('Index Error in parse(data) in Parser.')
             self.printer_data['parsed'] = False
         except Exception as e:
-            logging.info('Some error in parse(data) in Parser. ' + e.format_exc())
+            logging.info('Some error in parse(data) in Parser.')
             self.printer_data['parsed'] = False
 
     @staticmethod

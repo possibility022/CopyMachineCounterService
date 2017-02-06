@@ -216,7 +216,7 @@ class EmailParser:
                 if signature_find == len(signatures[sig_group]):
                     return sig_group
         except Exception as e:
-            logging.error('Błąd przy szukaniu sygnatury. EmailParser ' + traceback.format_exc())
+            logging.error('Błąd przy szukaniu sygnatury. EmailParser')
             return -1
 
     def parse_email_to_device_data(self, mail):
@@ -261,7 +261,7 @@ class EmailParser:
             tonery_regex_group = self.xml_loader.get_tonerlevel_y(signature)
             tonerk_regex_group = self.xml_loader.get_tonerlevel_k(signature)
         except Exception as e:
-            logging.error('Błąd przy wczytywaniu regexa. Email parser. ' + traceback.format_exc())
+            logging.error('Błąd przy wczytywaniu regexa. Email parser.')
             return
 
         data = ''
@@ -275,7 +275,7 @@ class EmailParser:
             printcounter = self.addition_regex_group(data, print_counter_regex_group)
             printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
         except Exception as e:
-            logging.error('Błąd krytyczny przy parsowaniu regexa ' + traceback.format_exc())
+            logging.error('Błąd krytyczny przy parsowaniu regexa')
             return
 
         tonerc = ''
@@ -305,7 +305,7 @@ class EmailParser:
                     self.mongo.move_mail_parsed('fail', mail)
                     return
         except Exception as e:
-            logging.error('Błąd krytyczny przy wczytywaniu stanu tonerów. ' + traceback.format_exc())
+            logging.error('Błąd krytyczny przy wczytywaniu stanu tonerów.')
         
         if datetime_regex_group[0][3] == 'true' and date_time is None:
             self.mongo.move_mail_parsed('fail', mail)
@@ -368,7 +368,7 @@ class EmailParser:
         try:
             self.Mailbox.quit()
         except Exception as e:
-            logging.debug('Błąd przy zamykaniu mailboxa. ' + traceback.format_exc())
+            logging.debug('Błąd przy zamykaniu mailboxa.')
 
 
 # eparser = EmailParser()

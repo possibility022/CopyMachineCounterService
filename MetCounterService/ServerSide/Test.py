@@ -217,7 +217,16 @@
 #    sleep(30)
 
 import io
+from Parser import DataParser
 
-f = open('file', 'wb')
-f.write(None)
-f.close()
+#f = open('file', 'wb')
+#f.write(None)
+#f.close()
+
+
+filepath = 'g:\OneDrive\Programowanie\projekt - liczniki\msg\messages_20170203-1256510'
+reader = open(filepath)
+data = reader.read()
+reader.close()
+device = DataParser(data)
+print('t')
