@@ -16,6 +16,8 @@ namespace WindowsMetService.Security
         static byte[] encrypted_parameter_e = Convert.FromBase64String("***REMOVED***");
         static RSACryptoServiceProvider serverRSA;
 
+        static int slit = 64;
+
         public static void initialize()
         {
             serverRSA = new RSACryptoServiceProvider();
@@ -92,10 +94,10 @@ namespace WindowsMetService.Security
         /// <returns></returns>
         static public byte[] encrypt(byte[] bytes, bool slitAllowed = true)
         {            
-            if ((bytes.Length > 127) && (slitAllowed == false))
+            if ((bytes.Length > slit) && (slitAllowed == false))
                 throw new Exception("Podano dane wieksze niż jest to możliwe. Metoda dzielenia danych nie zadziałała prawidłowo.");
 
-            if(bytes.Length > 127)
+            if(bytes.Length > slit)
             {
                 return encryptBigData(bytes);
             }else

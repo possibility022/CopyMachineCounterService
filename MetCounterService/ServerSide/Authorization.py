@@ -15,6 +15,7 @@ class RSAv3:
     private_key = None
     private_cipher = None
     sleep = 0
+    slit = 64
 
     def __init__(self, m_bytes, e_bytes):
         RSAv3.init_private_key()
@@ -26,10 +27,10 @@ class RSAv3:
     def encryp_data(self, bytestoencrypt, slit_allowed=True):
         if isinstance(bytestoencrypt, str):
             bytestoencrypt = bytestoencrypt.encode('utf-8')
-        if bytestoencrypt.__len__() > 127 and not slit_allowed:
+        if bytestoencrypt.__len__() > self.slit and not slit_allowed:
             raise Exception('encrypt - bytestoencrypt.len: {}, slitAllowd {}'.format(bytestoencrypt.__len__(), slit_allowed))
 
-        if bytestoencrypt.__len__() > 127:
+        if bytestoencrypt.__len__() > self.slit:
             return self.__encryptbigdata(bytestoencrypt)
         else:
             return self.client_cipher.encrypt(bytestoencrypt)
