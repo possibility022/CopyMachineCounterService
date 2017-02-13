@@ -12,7 +12,7 @@ class MongoTB:
         workfolder = settings.workfolder
 
         self.serverip = settings.MongoDatabaseAddress
-        self.serverport = 27017
+        self.serverport = 2772
         self.database_name = 'copyinfo'
         self.machine_records = 'machine_records'
         self.full_counter = 'full_counter'
@@ -26,6 +26,7 @@ class MongoTB:
 
         self.client = MongoClient(self.serverip, self.serverport)
         self.db = self.client[self.database_name]
+        self.db.authenticate('***REMOVED***', '***REMOVED***#121#')
         self.records = self.db[self.machine_records]
         self.countersdata = self.db[self.full_counter]
         self.serialdata = self.db[self.full_serial]

@@ -216,17 +216,24 @@
 #    sucess = mongo.import_to_database(device)
 #    sleep(30)
 
-import io
-from Parser import DataParser
+#import io
+#from Parser import DataParser
 
 #f = open('file', 'wb')
 #f.write(None)
 #f.close()
 
 
-filepath = 'g:\OneDrive\Programowanie\projekt - liczniki\msg\messages_20170203-1256510'
-reader = open(filepath)
-data = reader.read()
-reader.close()
-device = DataParser(data)
-print('t')
+#filepath = 'g:\OneDrive\Programowanie\projekt - liczniki\msg\messages_20170203-1256510'
+#reader = open(filepath)
+#data = reader.read()
+#reader.close()
+#device = DataParser(data)
+#print('t')
+
+from MongoDatabase import MongoTB
+mongo = MongoTB()
+
+el = mongo.records.find_one()
+
+print(el)
