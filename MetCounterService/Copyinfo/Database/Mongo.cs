@@ -20,12 +20,14 @@ namespace Copyinfo.Database
         protected static IMongoDatabase _database;
 
         const string ipadress = "***REMOVED***";
-        const string connectionString = "mongodb://" + ipadress;
+        const string port = "2772";
+        const string connectionString = "mongodb://" + ipadress + ":" + port;
         const string DATABASE_NAME = "copyinfo";
 
         private static MongoClient client;
         private static MongoServer server;
         private static MongoDatabase database;
+        private static IMongoDatabase iDatabase;
 
         enum Collections
         {
@@ -47,12 +49,24 @@ namespace Copyinfo.Database
 
         public static void Initialize()
         {
-            client = new MongoClient(connectionString);
+            MongoUrl url = new MongoUrl(connectionString);
+            var settings = MongoClientSettings.FromUrl(url);
+
+            MongoCredential credentials = MongoCredential.CreateCredential("copyinfo", "***REMOVED***", "***REMOVED***"); //TODO encrypt this things
+            List<MongoCredential> credentials_list = new List<MongoCredential>();
+            credentials_list.Add(credentials);
+            settings.Credentials = credentials_list;
+            
+            client = new MongoClient(settings);
             server = client.GetServer();
+
+            //database = client.GetDatabase(DATABASE_NAME);
             database = server.GetDatabase(DATABASE_NAME);
 
-            _client = new MongoClient(connectionString);
-            _database = _client.GetDatabase(DATABASE_NAME);
+            iDatabase = client.GetDatabase(DATABASE_NAME);
+
+            //_client = new MongoClient(connectionString);
+            //_database = _client.GetDatabase(DATABASE_NAME);
         }
 
         #region GetCollection
