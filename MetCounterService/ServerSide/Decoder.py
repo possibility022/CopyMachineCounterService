@@ -34,7 +34,7 @@ class Decoder:
         except TypeError as e:
             logging.info('I can\'t Write this Type to file. There was an error in decrypting propably')
         except Exception as e:
-            logging.error('An error in decoding file. ' + traceback.format_exc())
+            logging.error('An error in decoding file.')
 
 
     def delete_decoded_files(self):

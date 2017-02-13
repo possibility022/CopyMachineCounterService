@@ -118,7 +118,7 @@ class MongoTB:
         try:
             dst.insert_one({'_id': _id})
         except Exception as e:
-            logging.error('Ops, somethink wrong with inserting email. ' + traceback.format_exc())
+            logging.error('Ops, somethink wrong with inserting email.')
 
     def get_email(self, mail_id):
         src = self.email_binary_db

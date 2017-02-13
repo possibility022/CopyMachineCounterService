@@ -115,7 +115,7 @@ namespace WindowsMetService
             loadCFG_File();
             if (UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
                 DownloadAndSaveID();
-            Global.Log("Pobrano id");
+            
             loadIpsFromFile();
             downloadMacToWebXML();
             setupLocalLog();
@@ -341,10 +341,12 @@ namespace WindowsMetService
 
                 saveConfig(ConfigFile.clientID, Convert.ToBase64String(encrypted));
                 clientID = encrypted;
+                Global.Log("Pobrano ID");
                 return true;
             }
             else
             {
+                Global.Log("Nie udało pobrać nowego ID");
                 return false;
             }
         }
