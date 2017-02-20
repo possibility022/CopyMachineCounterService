@@ -72,7 +72,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
                     logging.info('Unknown command')
             except Exception as e:
                 # print("Unexpected error:", sys.exc_info()[0])
-                logging.error('Niespodziewany błąd: {}'.format(sys.exc_info()[0]))
+                logging.error('Niespodziewany błąd')
                 logging.error(e)
                 break
 

@@ -47,7 +47,3 @@ class Decoder:
             logging.error('Błąd przy usuwaniu plików po rozszyfrowywaniu. {}'.format(ex))
         for f in deleted:
             self.sucess.remove(f)
-
-decoder = Decoder()
-decoder.decode()
-decoder.delete_decoded_files()

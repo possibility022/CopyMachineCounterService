@@ -231,9 +231,15 @@
 #device = DataParser(data)
 #print('t')
 
-from MongoDatabase import MongoTB
-mongo = MongoTB()
+#from MongoDatabase import MongoTB
+#mongo = MongoTB()
 
-el = mongo.records.find_one()
+#el = mongo.records.find_one()
 
-print(el)
+#print(el)
+
+import re
+
+results = re.findall("([A-Z])([0-9])", "A12B54 25C7G8")
+
+print('stop')
