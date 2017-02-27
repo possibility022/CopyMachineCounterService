@@ -14,7 +14,7 @@ class DataParser:
     delimiter_end = '$|#'
 
     def __init__(self, data):
-        self.exception_in_parsing = False
+        #self.exception_in_parsing = False
         self.printer_data = {
             "datetime": "",
             "description": "",
