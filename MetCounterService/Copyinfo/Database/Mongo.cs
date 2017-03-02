@@ -22,7 +22,12 @@ namespace Copyinfo.Database
         const string ipadress = "***REMOVED***";
         const string port = "2772";
         const string connectionString = "mongodb://" + ipadress + ":" + port;
-        const string DATABASE_NAME = "copyinfo";
+
+        static string login, password, databaseName;
+
+        private const string DATABASE_enc = "***REMOVED***";
+        private const string LOGIN_enc = "***REMOVED***";
+        private const string PASSWORD_enc = "***REMOVED***";
 
         private static MongoClient client;
         private static MongoServer server;
@@ -49,6 +54,10 @@ namespace Copyinfo.Database
 
         public static void Initialize()
         {
+            login = Security.Encrypting.AES_Decrypt(LOGIN_enc);
+            password = Security.Encrypting.AES_Decrypt(PASSWORD_enc);
+            databaseName = Security.Encrypting.AES_Decrypt(DATABASE_enc);
+
             MongoUrl url = new MongoUrl(connectionString);
             var settings = MongoClientSettings.FromUrl(url);
 
@@ -61,9 +70,9 @@ namespace Copyinfo.Database
             server = client.GetServer();
 
             //database = client.GetDatabase(DATABASE_NAME);
-            database = server.GetDatabase(DATABASE_NAME);
+            database = server.GetDatabase(databaseName);
 
-            iDatabase = client.GetDatabase(DATABASE_NAME);
+            iDatabase = client.GetDatabase(databaseName);
 
             //_client = new MongoClient(connectionString);
             //_database = _client.GetDatabase(DATABASE_NAME);
@@ -499,7 +508,7 @@ namespace Copyinfo.Database
             MongoServer server = client.GetServer();
 
             // Use the server to access the 'machines' database
-            MongoDatabase database = server.GetDatabase(MongoTB.DATABASE_NAME);
+            MongoDatabase database = server.GetDatabase(MongoTB.databaseName);
             var collection = database.GetCollection<MachineRecord>("machine_records");
             var totalNumberOfPosts = collection.Count();
             
@@ -558,7 +567,7 @@ namespace Copyinfo.Database
             MongoServer server = client.GetServer();
 
             // Use the server to access the 'machines' database
-            MongoDatabase database = server.GetDatabase(MongoTB.DATABASE_NAME);
+            MongoDatabase database = server.GetDatabase(MongoTB.databaseName);
             var collection = database.GetCollection<MachineRecord>("machine_records");
             var totalNumberOfPosts = collection.Count();
 

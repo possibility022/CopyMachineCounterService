@@ -278,6 +278,12 @@
     <Compile Include="Forms\FDevicesView.Designer.cs">
       <DependentUpon>FDevicesView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FPasswordPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FPasswordPrompt.Designer.cs">
+      <DependentUpon>FPasswordPrompt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FReports.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -300,6 +306,7 @@
     <Compile Include="Other\ParsingMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Encrypting.cs" />
     <Compile Include="StaticSettings.cs" />
     <Compile Include="TBDelegates.cs" />
     <EmbeddedResource Include="Forms\Controls\Allinone.resx">
@@ -370,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FDevicesView.resx">
       <DependentUpon>FDevicesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FPasswordPrompt.resx">
+      <DependentUpon>FPasswordPrompt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FReports.resx">
       <DependentUpon>FReports.cs</DependentUpon>

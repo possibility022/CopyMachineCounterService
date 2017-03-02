@@ -25,7 +25,7 @@ namespace WindowsMetService
         private const string File_ConfigPath = "config.cfg";
         private static string WorkFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 
-        private static byte[] clientID = Security.Encrypting.Encrypt(UnicodeEncoding.UTF8.GetBytes("00000000000000000000"));
+        private static byte[] clientID = Security.Encrypting.Encrypt(Encoding.UTF8.GetBytes("00000000000000000000"));
         private static string clientDescription = "client description not set";
 
         private enum ConfigFile { clientID, clientDescription }
@@ -113,7 +113,7 @@ namespace WindowsMetService
 
             Security.RSAv3.initialize();
             loadCFG_File();
-            if (UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
+            if (Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
                 DownloadAndSaveID();
             
             loadIpsFromFile();
@@ -353,7 +353,7 @@ namespace WindowsMetService
 
         public static string getClientID()
         {
-            return UnicodeEncoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID));
+            return Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID));
         }
 
         public static System.Net.IPEndPoint getServerEndpoint(ServerType type)

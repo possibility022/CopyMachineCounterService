@@ -11,16 +11,20 @@ namespace WindowsMetService.Security
 {
     class Encrypting
     {
+
+        //TODO Uwaga, to może nie działać prawidłowo!
         public static string Encrypt(string text)
         {
-            byte[] encrypted = Encrypt(Encoding.Unicode.GetBytes(text));
+            byte[] encrypted = Encrypt(Encoding.UTF8.GetBytes(text));
             return Convert.ToBase64String(encrypted);
         }
 
+
+        //TODO Uwaga, to może nie działać prawidłowo!
         public static string Decrypt(string text)
         {
-            byte[] decrypted = Decrypt(Encoding.Unicode.GetBytes(text));
-            return Convert.ToBase64String(decrypted);
+            byte[] decrypted = Decrypt(Convert.FromBase64String(text));
+            return Encoding.UTF8.GetString(decrypted);
         }
         
         public static byte[] Encrypt(byte[] data)

@@ -37,8 +37,6 @@ namespace WindowsMetService
 
         public static void test()
         {
-            AllocConsole();
-
             LocalDatabase.Initialize();
             Console.WriteLine("Zainicjalizowano bazę danych");
             LocalDatabase.remove_old_logs();

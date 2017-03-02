@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Copyinfo.Forms.Controls.TextBoxes
 {
-    class TBTextBox : System.Windows.Forms.TextBox
+    public class TBTextBox : System.Windows.Forms.TextBox
     {
         public int id { get; set; }
 
