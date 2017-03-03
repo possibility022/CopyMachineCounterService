@@ -61,7 +61,7 @@ namespace Copyinfo.Database
             MongoUrl url = new MongoUrl(connectionString);
             var settings = MongoClientSettings.FromUrl(url);
 
-            MongoCredential credentials = MongoCredential.CreateCredential("copyinfo", "***REMOVED***", "***REMOVED***"); //TODO encrypt this things
+            MongoCredential credentials = MongoCredential.CreateCredential(databaseName, login, password); //TODO encrypt this things
             List<MongoCredential> credentials_list = new List<MongoCredential>();
             credentials_list.Add(credentials);
             settings.Credentials = credentials_list;
