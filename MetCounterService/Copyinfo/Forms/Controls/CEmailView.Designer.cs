@@ -28,17 +28,75 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CEmailView));
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
+            this.btnPreview = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.btnSettings = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.btnPrint = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.tbRichTextBoxPrint1 = new Copyinfo.Forms.Controls.RichTextBoxes.TBRichTextBoxPrint();
             this.tbListView1 = new Copyinfo.Forms.Controls.ListView.TBListView();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // printDialog1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(589, 511);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
+            this.printDialog1.Document = this.printDocument1;
+            this.printDialog1.UseEXDialog = true;
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Document = this.printDocument1;
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
+            // 
+            // pageSetupDialog1
+            // 
+            this.pageSetupDialog1.Document = this.printDocument1;
+            // 
+            // btnPreview
+            // 
+            this.btnPreview.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnPreview.Location = new System.Drawing.Point(710, 485);
+            this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(90, 32);
+            this.btnPreview.TabIndex = 5;
+            this.btnPreview.Text = "Podgląd";
+            this.btnPreview.UseVisualStyleBackColor = true;
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnSettings.Location = new System.Drawing.Point(806, 485);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(90, 32);
+            this.btnSettings.TabIndex = 4;
+            this.btnSettings.Text = "Ustawienia";
+            this.btnSettings.UseVisualStyleBackColor = true;
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnPrint.Location = new System.Drawing.Point(614, 485);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(90, 32);
+            this.btnPrint.TabIndex = 3;
+            this.btnPrint.Text = "Drukuj";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            // 
+            // tbRichTextBoxPrint1
+            // 
+            this.tbRichTextBoxPrint1.Location = new System.Drawing.Point(3, 3);
+            this.tbRichTextBoxPrint1.Name = "tbRichTextBoxPrint1";
+            this.tbRichTextBoxPrint1.Size = new System.Drawing.Size(589, 511);
+            this.tbRichTextBoxPrint1.TabIndex = 2;
+            this.tbRichTextBoxPrint1.Text = "";
             // 
             // tbListView1
             // 
@@ -56,8 +114,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnPreview);
+            this.Controls.Add(this.btnSettings);
+            this.Controls.Add(this.btnPrint);
+            this.Controls.Add(this.tbRichTextBoxPrint1);
             this.Controls.Add(this.tbListView1);
-            this.Controls.Add(this.richTextBox1);
             this.Name = "CEmailView";
             this.Size = new System.Drawing.Size(896, 517);
             this.ResumeLayout(false);
@@ -65,8 +126,14 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.RichTextBox richTextBox1;
         private ListView.TBListView tbListView1;
+        private RichTextBoxes.TBRichTextBoxPrint tbRichTextBoxPrint1;
+        private Buttons.TBButton_Small btnPrint;
+        private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
+        private Buttons.TBButton_Small btnSettings;
+        private Buttons.TBButton_Small btnPreview;
     }
 }

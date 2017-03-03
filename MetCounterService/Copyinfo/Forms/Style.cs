@@ -10,6 +10,7 @@ namespace Copyinfo.Forms
     static class Style
     {
         public static System.Drawing.Font defaultFont = new System.Drawing.Font("Segoe UI", 10);
+        public static System.Drawing.Font emailRichTextBoxFont = new System.Drawing.Font("Segoe UI", 8);
 
         public static System.Drawing.Color txtErrorColor = System.Drawing.Color.FromArgb(255, 82, 82);
         public static System.Windows.Forms.DataVisualization.Charting.SeriesChartType chartType_Multi = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;

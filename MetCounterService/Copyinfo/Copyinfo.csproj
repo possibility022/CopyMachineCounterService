@@ -203,6 +203,9 @@
     <Compile Include="Forms\Controls\MenuStrip\TBLabel_CopyMenu.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\Controls\RichTextBoxes\TBRichTextBoxPrint.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\Controls\TextBoxes\TBTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -304,6 +307,7 @@
     <Compile Include="Other\ArrayOperations.cs" />
     <Compile Include="Other\EmailAttachment.cs" />
     <Compile Include="Other\ParsingMethods.cs" />
+    <Compile Include="Other\Printing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Encrypting.cs" />

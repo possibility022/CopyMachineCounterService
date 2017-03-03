@@ -33,16 +33,17 @@
             // 
             // cEmailView1
             // 
-            this.cEmailView1.Location = new System.Drawing.Point(12, 12);
+            this.cEmailView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cEmailView1.Location = new System.Drawing.Point(0, 0);
             this.cEmailView1.Name = "cEmailView1";
-            this.cEmailView1.Size = new System.Drawing.Size(810, 517);
+            this.cEmailView1.Size = new System.Drawing.Size(901, 521);
             this.cEmailView1.TabIndex = 0;
             // 
             // FEmailView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(871, 564);
+            this.ClientSize = new System.Drawing.Size(901, 521);
             this.Controls.Add(this.cEmailView1);
             this.Name = "FEmailView";
             this.Text = "FEmailView";

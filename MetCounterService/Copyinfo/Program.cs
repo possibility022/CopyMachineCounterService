@@ -17,12 +17,6 @@ namespace Copyinfo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            //Forms.FPasswordPrompt password = new Forms.FPasswordPrompt();
-            //password.ShowDialog();
-
-            //Security.Encrypting.Initialize(password.tbTextBox1.Text);
-
             Application.Run(new Copyinfo.Forms.FCopyInfo());
         }
     }

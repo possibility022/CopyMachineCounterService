@@ -14,6 +14,8 @@ namespace Copyinfo.Database
     {
         public BsonBinaryData id { get; set; }
         public BsonArray mail { get; set; }
+        public string from = "";
+        public string subject = "";
 
         MimeMessage mes;
 
@@ -32,7 +34,7 @@ namespace Copyinfo.Database
 
         public string getEmail()
         {
-            return read_email();
+            return "Od: " + from + "\r\n" + "Temat: " + subject + "\r\n\r\n\r\n" + read_email();
         }
 
         public void parse_using_mime()
@@ -49,6 +51,9 @@ namespace Copyinfo.Database
             stream.Position = 0;
 
             mes = MimeKit.MimeMessage.Load(stream);
+
+            from = mes.From[0].ToString();
+            subject = mes.Subject;
 
             var parserOptions = new ParserOptions();
         }
