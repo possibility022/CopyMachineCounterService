@@ -14,6 +14,7 @@ namespace Copyinfo.Forms.Controls.Buttons
         {
             this.Font = Style.btnFont_Small;
             this.Size = Style.btnSize_Small;
+            this.FlatStyle = Style.btnFlatStyle;
         }
     }
 }

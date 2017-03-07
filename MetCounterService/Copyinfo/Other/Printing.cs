@@ -5,16 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Windows.Forms;
 
 namespace Copyinfo.Other
 {
     class Printing
     {
-        public static void print(string text)
+        private static void print(string text, PrintDialog dialog)
         {
             string stringToPrint = text;
 
             PrintDocument p = new PrintDocument();
+            p.PrinterSettings = dialog.PrinterSettings;
 
 
             p.PrintPage += delegate (object sender1, PrintPageEventArgs e)
@@ -54,6 +56,34 @@ namespace Copyinfo.Other
             {
                 throw new Exception("Exception Occured While Printing", ex);
             }
+        }
+
+        public static void print(string[] texts)
+        {
+            PrintDialog dialog = new PrintDialog();
+            dialog.UseEXDialog = true;
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            foreach (string text in texts)
+                print(text, dialog);
+        }
+
+        public static void print(List<string> texts)
+        {
+            print(texts.ToArray());
+        }
+
+        public static void print(string text)
+        {
+            PrintDialog dialog = new PrintDialog();
+            dialog.UseEXDialog = true;
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            print(text, dialog);
         }
     }
 }

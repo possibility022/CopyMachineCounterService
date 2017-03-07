@@ -33,6 +33,7 @@
             this.cReports1 = new Copyinfo.Forms.Controls.CReports();
             this.tbButton3 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton4 = new Copyinfo.Forms.Controls.Buttons.TBButton();
+            this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.SuspendLayout();
             // 
             // tbButton2
@@ -64,7 +65,7 @@
             this.cReports1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cReports1.Location = new System.Drawing.Point(0, 51);
             this.cReports1.Name = "cReports1";
-            this.cReports1.Size = new System.Drawing.Size(1128, 524);
+            this.cReports1.Size = new System.Drawing.Size(981, 524);
             this.cReports1.TabIndex = 0;
             // 
             // tbButton3
@@ -90,12 +91,25 @@
             this.tbButton4.Text = "tbButton4";
             this.tbButton4.UseVisualStyleBackColor = true;
             // 
+            // tbButton_Small1
+            // 
+            this.tbButton_Small1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton_Small1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbButton_Small1.Location = new System.Drawing.Point(879, 14);
+            this.tbButton_Small1.Name = "tbButton_Small1";
+            this.tbButton_Small1.Size = new System.Drawing.Size(90, 32);
+            this.tbButton_Small1.TabIndex = 8;
+            this.tbButton_Small1.Text = "Drukuj";
+            this.tbButton_Small1.UseVisualStyleBackColor = true;
+            this.tbButton_Small1.Click += new System.EventHandler(this.tbButton_Small1_Click);
+            // 
             // FCopyInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1128, 575);
+            this.ClientSize = new System.Drawing.Size(981, 575);
+            this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tbButton4);
             this.Controls.Add(this.tbButton3);
             this.Controls.Add(this.tbButton2);
@@ -114,5 +128,6 @@
         private Controls.Buttons.TBButton tbButton2;
         private Controls.Buttons.TBButton tbButton3;
         private Controls.Buttons.TBButton tbButton4;
+        private Controls.Buttons.TBButton_Small tbButton_Small1;
     }
 }

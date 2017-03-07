@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Copyinfo.Database;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -35,6 +36,32 @@ namespace Copyinfo.Forms
         {
             FClientList clientWindows = new FClientList();
             clientWindows.Show();
+        }
+
+        private void tbButton_Small1_Click(object sender, EventArgs e)
+        {
+            printSelected();
+        }
+
+        private void printSelected()
+        {
+            List<MachineRecord> records = cReports1.getSelected();
+            List<string> toPrint = new List<string>();
+
+            for (int i = 0; i < records.Count; i ++)
+            {
+                if (records[i].isParsedEmail() == true)
+                {
+                    toPrint.Add(records[i].getEmail().getEmail());
+                }
+            }
+
+            Other.Printing.print(toPrint);
+
+            if (toPrint.Count > 0)
+                MessageBox.Show("Zlecono do wydruku: " + records.Count.ToString() + " dokumentów.");
+            else
+                MessageBox.Show("Brak zaznaczonych rekordów.");
         }
     }
 }

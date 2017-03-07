@@ -42,6 +42,23 @@ namespace Copyinfo.Forms.Controls
             tbTBToner_y.id = 8;
         }
 
+        public List<MachineRecord> getSelected()
+        {
+            if (tbListView1.SelectedItems != null)
+                if (tbListView1.SelectedItems.Count > 0)
+                {
+                    List<MachineRecord> records = new List<MachineRecord>();
+                    foreach(ListViewItem item in tbListView1.SelectedItems)
+                    {
+                        ListView.TBListViewItem tbItem = (ListView.TBListViewItem)item;
+                        records.Add((MachineRecord)tbItem.additionalItem);
+                    }
+                    return records;
+                }
+
+            return new List<MachineRecord>();
+        }
+
         public void fillList(List<MachineRecord> machines)
         {
             this.tbListView1.Items.Clear();

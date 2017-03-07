@@ -26,6 +26,7 @@ namespace Copyinfo.Forms.Controls.ListView
 
         public TBListView() : base()
         {
+            
             this.Font = Style.listViewFont;
             this.View = View.Details;
             this.FullRowSelect = true;
