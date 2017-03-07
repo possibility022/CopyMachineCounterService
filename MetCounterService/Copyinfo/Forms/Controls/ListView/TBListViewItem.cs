@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Copyinfo.Forms
+namespace Copyinfo.Forms.Controls.ListView
 {
     //class TBListViewItem_MachineRecord : System.Windows.Forms.ListViewItem
     //{

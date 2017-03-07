@@ -22,7 +22,7 @@ namespace Copyinfo.Forms
         {
             List<Database.Device> devices = new List<Database.Device>();
 
-            foreach (TBListViewItem el in this.cDeviceList1.tbListView1.SelectedItems)
+            foreach (Controls.ListView.TBListViewItem el in this.cDeviceList1.tbListView1.SelectedItems)
                 devices.Add((Database.Device)el.additionalItem);
 
             return devices;

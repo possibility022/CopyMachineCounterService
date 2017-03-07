@@ -22,7 +22,7 @@ public class ListViewSorter : IComparer
 
     private int[] columnsWithInt = new int[] { };
     private int[] columnsWithDate = new int[] { };
-    Copyinfo.Forms.TBListViewItem.AdditionalItemClassType additionalItemType = Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.None;
+    Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType additionalItemType = Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.None;
 
     /// <summary>
     /// Class constructor.  Initializes various elements
@@ -49,7 +49,7 @@ public class ListViewSorter : IComparer
         this.columnsWithDate = columnsWithDateTime;
     }
 
-    public void setAdditionalItemClass(Copyinfo.Forms.TBListViewItem.AdditionalItemClassType classType)
+    public void setAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType classType)
     {
         this.additionalItemType = classType;
     }
@@ -64,11 +64,11 @@ public class ListViewSorter : IComparer
     public int Compare(object x, object y)
     {
         int compareResult = 0;
-        Copyinfo.Forms.TBListViewItem listviewX, listviewY;
+        Copyinfo.Forms.Controls.ListView.TBListViewItem listviewX, listviewY;
 
         // Cast the objects to be compared to ListViewItem objects
-        listviewX = (Copyinfo.Forms.TBListViewItem)x;
-        listviewY = (Copyinfo.Forms.TBListViewItem)y;
+        listviewX = (Copyinfo.Forms.Controls.ListView.TBListViewItem)x;
+        listviewY = (Copyinfo.Forms.Controls.ListView.TBListViewItem)y;
 
         string a = listviewX.SubItems[ColumnToSort].Text;
         string b = listviewY.SubItems[ColumnToSort].Text;
@@ -81,15 +81,15 @@ public class ListViewSorter : IComparer
         {
             switch(this.additionalItemType)
             {
-                case Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.None:
+                case Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.None:
                     compareResult = 0;
                     break;
-                case Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.MachineRecord:
+                case Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord:
                     Copyinfo.Database.MachineRecord recordX = (Copyinfo.Database.MachineRecord)listviewX.additionalItem;
                     Copyinfo.Database.MachineRecord recordY = (Copyinfo.Database.MachineRecord)listviewY.additionalItem;
                     compareResult = DateTime.Compare(recordX.datetime, recordY.datetime);
                     break;
-                case Copyinfo.Forms.TBListViewItem.AdditionalItemClassType.Device:
+                case Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.Device:
                     Copyinfo.Database.Device deviceX = (Copyinfo.Database.Device)listviewX.additionalItem;
                     Copyinfo.Database.Device deviceY = (Copyinfo.Database.Device)listviewY.additionalItem;
                     compareResult = DateTime.Compare(deviceX.instalation_datetime, deviceY.instalation_datetime);

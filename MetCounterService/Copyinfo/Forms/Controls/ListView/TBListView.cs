@@ -19,7 +19,7 @@ namespace Copyinfo.Forms.Controls.ListView
 
         int[] columnsWithDateSorting = new int[] {};
 
-        Copyinfo.Forms.TBListViewItem.AdditionalItemClassType additionalItemClass = TBListViewItem.AdditionalItemClassType.None;
+        Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType additionalItemClass = TBListViewItem.AdditionalItemClassType.None;
 
         string[] filters;
         bool filtersWasClear = true;

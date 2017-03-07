@@ -197,6 +197,9 @@
     <Compile Include="Forms\Controls\ListView\TBListView.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\Controls\ListView\TBReportsListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\Controls\MenuStrip\TBClientRightClickMenu.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -302,7 +305,7 @@
     <Compile Include="Forms\GUI.cs" />
     <Compile Include="Forms\ListViewSorter.cs" />
     <Compile Include="Forms\Style.cs" />
-    <Compile Include="Forms\TBListViewItem.cs" />
+    <Compile Include="Forms\Controls\ListView\TBListViewItem.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Other\ArrayOperations.cs" />
     <Compile Include="Other\EmailAttachment.cs" />

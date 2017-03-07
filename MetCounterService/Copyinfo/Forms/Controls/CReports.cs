@@ -22,14 +22,14 @@ namespace Copyinfo.Forms.Controls
             lvwColumnSorter = new ListViewSorter();
             lvwColumnSorter.setIntegers(new int[] { 1, 2, 3 });
             lvwColumnSorter.setDates(new int[] { 4 });
-            lvwColumnSorter.setAdditionalItemClass(TBListViewItem.AdditionalItemClassType.MachineRecord);
+            lvwColumnSorter.setAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
             this.tbListView1.setSorter(lvwColumnSorter);
             //this.tbListView1.ListViewItemSorter = lvwColumnSorter;
             this.tbListView1.MouseClick += listView1_MouseClick;
             //this.tbListView1.ColumnClick += listView1_ColumnClick;
 
             tbListView1.setColumnsWithDate(new int[] { 4 });
-            tbListView1.setAdditionalClass(TBListViewItem.AdditionalItemClassType.MachineRecord);
+            tbListView1.setAdditionalClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
 
             tbTBSerialNumber.id = 0;
             tbTBBandW.id = 1;
@@ -47,7 +47,7 @@ namespace Copyinfo.Forms.Controls
             this.tbListView1.Items.Clear();
             foreach(MachineRecord m in machines)
             {
-                TBListViewItem item = new TBListViewItem(new string[] {
+                Controls.ListView.TBListViewItem item = new Controls.ListView.TBListViewItem(new string[] {
                     m.serial_number,
                     m.print_counter_black_and_white.ToString(),
                     m.print_counter_color.ToString(),
@@ -67,7 +67,7 @@ namespace Copyinfo.Forms.Controls
 
         private void hTMLLicznikToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[0];
+            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
             string html = record.getCounter().full_counter;
 
@@ -76,7 +76,7 @@ namespace Copyinfo.Forms.Controls
 
         private void hTMLNumerSeryjnyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[0];
+            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
             string html = record.getSerial().full_serialnumber;
 
@@ -89,7 +89,7 @@ namespace Copyinfo.Forms.Controls
             {
                 if (tbListView1.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[0];
+                    Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
                     MachineRecord record = (MachineRecord)item.additionalItem;
                     if (record.isParsedEmail())
                         contextMenuStrip1.Items[0].Enabled = true;
@@ -102,7 +102,7 @@ namespace Copyinfo.Forms.Controls
 
         private void dodajUrzadzenieToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[0];
+            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
             FAddDevice form_add = new FAddDevice(record.serial_number);
             form_add.Show();
@@ -139,7 +139,7 @@ namespace Copyinfo.Forms.Controls
             
             for (int i = 0; i < tbListView1.SelectedItems.Count; i++)
             {
-                TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[i];
+                Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[i];
                 records[i] = (MachineRecord)item.additionalItem;
             }
 
@@ -157,7 +157,7 @@ namespace Copyinfo.Forms.Controls
             if (DialogResult.Yes ==
                 MessageBox.Show("Czy aby na pewno? Hmmm???", "WARNING", MessageBoxButtons.YesNo))
             {
-                foreach (TBListViewItem item in tbListView1.SelectedItems)
+                foreach (Controls.ListView.TBListViewItem item in tbListView1.SelectedItems)
                     Global.database.DeleteMachineRecord((MachineRecord)item.additionalItem);
             }
 
@@ -187,7 +187,7 @@ namespace Copyinfo.Forms.Controls
 
         private void emailMessageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TBListViewItem item = (TBListViewItem)tbListView1.SelectedItems[0];
+            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
             string emailText = record.getEmail().getEmail();
 
