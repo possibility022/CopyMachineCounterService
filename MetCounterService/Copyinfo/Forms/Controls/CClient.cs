@@ -94,7 +94,7 @@ namespace Copyinfo.Forms.Controls
             this.cDeviceList1.addToList(devices);
             foreach (Database.Device d in devices)
             {
-                client.addDevice(d.id);
+                client.addDevice(d.serial_number);
             }
         }
 

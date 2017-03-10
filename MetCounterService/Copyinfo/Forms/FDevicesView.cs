@@ -41,7 +41,8 @@ namespace Copyinfo.Forms
         private void btnDownload_Click(object sender, EventArgs e)
         {
             if (client == null)
-                cDeviceList1.loadList(Global.database.getAllDevices());
+                //cDeviceList1.loadList(Global.database.getAllDevices());
+                cDeviceList1.loadList(Database.FirebirdTB.test());
             else
                 cDeviceList1.loadList(client.getDevices());
         }

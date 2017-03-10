@@ -12,8 +12,8 @@ namespace Copyinfo.Database
     {
         public string provider { get; set; }                    // producent
         public string model { get; set; }                       // model
-        public string id { get; set; }                          // numer seryjny
-        public ObjectId instalation_address { get; set; }       // miejsce isntalacji
+        public string serial_number { get; set; }                          // numer seryjny
+        public int instalation_address { get; set; }       // miejsce isntalacji
         public DateTime instalation_datetime { get; set; }      // data instalacji
 
         private Address adress { get; set; }
@@ -22,22 +22,16 @@ namespace Copyinfo.Database
         {
             provider = "";
             model = "";
-            instalation_address = new ObjectId();
+            instalation_address = -1;
             instalation_datetime = DateTime.Now;
-            id = "";
-        }
-
-        public void setAddress(Address a)
-        {
-            this.adress = a;
-            instalation_address = a.id;
+            serial_number = "";
         }
 
         public Address getAddress()
         {
             if (adress == null)
             {
-                adress = Global.database.getAddress(instalation_address);
+                adress = FirebirdTB.getAddress(instalation_address);
             }
             return this.adress;
         }

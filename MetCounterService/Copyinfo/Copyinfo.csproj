@@ -52,6 +52,10 @@
       <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=5.8.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.5.8.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ListViewPrinter, Version=2.5.0.30093, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\OneDrive\Dll files\ListViewPrinter.dll</HintPath>
@@ -99,8 +103,17 @@
     <Compile Include="AppSetings.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Database\Address.cs" />
+    <Compile Include="Database\Client.cs" />
+    <Compile Include="Database\DAO.cs" />
     <Compile Include="Database\Delegates.cs" />
+    <Compile Include="Database\Device.cs" />
     <Compile Include="Database\EmailData.cs" />
+    <Compile Include="Database\FirebirdTB.cs" />
+    <Compile Include="Database\HTMLCounter.cs" />
+    <Compile Include="Database\HTMLSerial.cs" />
+    <Compile Include="Database\LocalDatabase.cs" />
+    <Compile Include="Database\MachineRecord.cs" />
     <Compile Include="Forms\ChartBuilder.cs" />
     <Compile Include="Forms\Controls\Allinone.cs">
       <SubType>UserControl</SubType>
@@ -156,6 +169,12 @@
     <Compile Include="Forms\Controls\CEmailView.Designer.cs">
       <DependentUpon>CEmailView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\CFBDevices.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CFBDevices.Designer.cs">
+      <DependentUpon>CFBDevices.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Controls\CHTMLView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -171,13 +190,6 @@
     <Compile Include="Forms\Controls\CReports.Designer.cs">
       <DependentUpon>CReports.cs</DependentUpon>
     </Compile>
-    <Compile Include="Database\Address.cs" />
-    <Compile Include="Database\Client.cs" />
-    <Compile Include="Database\Device.cs" />
-    <Compile Include="Database\HTMLCounter.cs" />
-    <Compile Include="Database\HTMLSerial.cs" />
-    <Compile Include="Database\LocalDatabase.cs" />
-    <Compile Include="Database\MachineRecord.cs" />
     <Compile Include="Database\Mongo.cs" />
     <Compile Include="Forms\Controls\CLineCompare_Report.cs">
       <SubType>UserControl</SubType>
@@ -340,6 +352,9 @@
     <EmbeddedResource Include="Forms\Controls\CEmailView.resx">
       <DependentUpon>CEmailView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CFBDevices.resx">
+      <DependentUpon>CFBDevices.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CHTMLView.resx">
       <DependentUpon>CHTMLView.cs</DependentUpon>
     </EmbeddedResource>
@@ -429,6 +444,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

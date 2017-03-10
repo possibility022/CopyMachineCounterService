@@ -80,7 +80,7 @@ namespace Copyinfo.Database
 
         #region GetCollection
 
-        public List<Client> getAllClients()
+        static public List<Client> getAllClients()
         {
             MongoCollection<Client> collection = database.GetCollection<Client>(Collections.clients.ToString());
             MongoCursor<Client> all = collection.FindAll();
@@ -95,7 +95,7 @@ namespace Copyinfo.Database
             return list;
         }
 
-        public List<MachineRecord> getAllReports()
+        static public List<MachineRecord> getAllReports()
         {
             MongoCollection<MachineRecord> collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
             MongoCursor<MachineRecord> all = collection.FindAll();
@@ -110,7 +110,7 @@ namespace Copyinfo.Database
             return list;
         }
 
-        public List<MachineRecord> getReports(string serial_number)
+        static public List<MachineRecord> getReports(string serial_number)
         {
             if (serial_number != null)
             {
@@ -130,7 +130,7 @@ namespace Copyinfo.Database
             return new List<MachineRecord>();
         }
 
-        public List<Device> getAllDevices()
+        static public List<Device> getAllDevices()
         {
             MongoCollection<Device> collection = database.GetCollection<Device>(Collections.device.ToString());
             MongoCursor<Device> all = collection.FindAll();
@@ -151,27 +151,27 @@ namespace Copyinfo.Database
 
         #region Save
 
-        public string SaveDevice(Device d)
-        {
-            if (d != null)
-            {
-                if (DeviceExists(d))
-                    return "";
-                ObjectId adressid = SaveAddress(d.getAddress());
-                var col = database.GetCollection(Collections.device.ToString());
-                d.instalation_address = adressid;
-                var dev = d;
-                WriteConcernResult res = col.Save(dev);
-                Global.log("SaveDevice: " +  res.UpdatedExisting.ToString());
-                return dev.id;
-            }
-            else
-            {
-                return "";
-            }
-        }
+        //static public string SaveDevice(Device d)
+        //{
+        //    if (d != null)
+        //    {
+        //        if (DeviceExists(d))
+        //            return "";
+        //        ObjectId adressid = SaveAddress(d.getAddress());
+        //        var col = database.GetCollection(Collections.device.ToString());
+        //        d.instalation_address = adressid;
+        //        var dev = d;
+        //        WriteConcernResult res = col.Save(dev);
+        //        Global.log("SaveDevice: " +  res.UpdatedExisting.ToString());
+        //        return dev.serial_number;
+        //    }
+        //    else
+        //    {
+        //        return "";
+        //    }
+        //}
 
-        private ObjectId SaveAddress(Address d)
+        static private ObjectId SaveAddress(Address d)
         {
             if (d != null)
             {
@@ -187,7 +187,7 @@ namespace Copyinfo.Database
             }
         }
 
-        private ObjectId SaveMachineRecord_Deleted(MachineRecord r)
+        static private ObjectId SaveMachineRecord_Deleted(MachineRecord r)
         {
             if (r != null)
             {
@@ -203,7 +203,7 @@ namespace Copyinfo.Database
             }
         }
 
-        private ObjectId SaveFullHTMLSerial_Deleted(HTMLSerial r)
+        static private ObjectId SaveFullHTMLSerial_Deleted(HTMLSerial r)
         {
             if (r != null)
             {
@@ -219,7 +219,7 @@ namespace Copyinfo.Database
             }
         }
 
-        private ObjectId SaveFullHTMLCounter_Deleted(HTMLCounter r)
+        static private ObjectId SaveFullHTMLCounter_Deleted(HTMLCounter r)
         {
             if (r != null)
             {
@@ -235,7 +235,7 @@ namespace Copyinfo.Database
             }
         }
 
-        public string SaveClient(Client c)
+        static public string SaveClient(Client c)
         {
             if (c != null)
             {
@@ -256,12 +256,12 @@ namespace Copyinfo.Database
 
         #region Get
 
-        public Client getClient(string nip_id)
+        static public Client getClient(string nip_id)
         {
             if (nip_id != null)
             {
                 var col = database.GetCollection<Client>(Collections.clients.ToString());
-                var query = Query<Device>.EQ(e => e.id, nip_id);
+                var query = Query<Device>.EQ(e => e.serial_number, nip_id);
                 var members = col.Find(query);
 
                 foreach (Client d in members)
@@ -270,7 +270,7 @@ namespace Copyinfo.Database
             return new Client();
         }
 
-        public List<Device> getDevices(string[] serialnumbers)
+        static public List<Device> getDevices(string[] serialnumbers)
         {
             List<Device> devices = new List<Device>();
             if (serialnumbers != null)
@@ -287,12 +287,12 @@ namespace Copyinfo.Database
             return devices;
         }
 
-        public Device getDevice(string serialnumber)
+        static public Device getDevice(string serialnumber)
         {
             if (serialnumber != null)
             {
                 var col = database.GetCollection<Device>(Collections.device.ToString());
-                var query = Query<Device>.EQ(e => e.id, serialnumber);
+                var query = Query<Device>.EQ(e => e.serial_number, serialnumber);
                 var members = col.Find(query);
                 
                 foreach (Device d in members)
@@ -301,7 +301,7 @@ namespace Copyinfo.Database
             return new Device();
         }
 
-        public Address getAddress(ObjectId id)
+        static public Address getAddress(ObjectId id)
         {
             if (id != null)
             {
@@ -317,7 +317,7 @@ namespace Copyinfo.Database
             return new Address();
         }
 
-        public HTMLCounter getHTMLCounter(ObjectId id)
+        static public HTMLCounter getHTMLCounter(ObjectId id)
         {
             if (id != null)
             {
@@ -334,7 +334,7 @@ namespace Copyinfo.Database
             return new HTMLCounter();
         }
 
-        public HTMLSerial getHTMLSerial(ObjectId id)
+        static public HTMLSerial getHTMLSerial(ObjectId id)
         {
             if (id != null)
             {
@@ -351,7 +351,7 @@ namespace Copyinfo.Database
             return new HTMLSerial();
         }
 
-        public EmailData getEmailData(byte[] id)
+        static public EmailData getEmailData(byte[] id)
         {
             if (id != null)
             {
@@ -368,13 +368,13 @@ namespace Copyinfo.Database
         }
         #endregion
 
-        public bool DeviceExists(Device d)
+        static public bool DeviceExists(Device d)
         {
             if (d == null)
                 throw new MissingMemberException("The Device in Database.MongoTB.DeviceExists is null");
 
             var collection = database.GetCollection<Device>(Collections.device.ToString());
-            var entityQuery = Query<Device>.EQ(e => e.id, d.id);
+            var entityQuery = Query<Device>.EQ(e => e.serial_number, d.serial_number);
             var members = collection.Count(entityQuery);
             if (members > 0)
                 return true;
@@ -386,26 +386,26 @@ namespace Copyinfo.Database
 
         #region DeleteDocument
 
-        public bool DeleteDevice(Device d)
+        static public bool DeleteDevice(Device d)
         {
             if (d == null)
                 throw new ArgumentNullException("The Device in Database.MongoTB.DeleteDevice is null");
 
             var collection = database.GetCollection<Device>(Collections.device.ToString());
-            var entityQuery = Query<Device>.EQ(e => e.id, d.id);
+            var entityQuery = Query<Device>.EQ(e => e.serial_number, d.serial_number);
             WriteConcernResult result = collection.Remove(entityQuery);
             if (result.DocumentsAffected == 1)
                 return true;
             return false;
         }
 
-        public void DeleteMachineRecords(MachineRecord[] r)
+        static public void DeleteMachineRecords(MachineRecord[] r)
         {
             foreach(MachineRecord el in r)
                 DeleteMachineRecord(el);
         }
 
-        public bool DeleteMachineRecord(MachineRecord r)
+        static public bool DeleteMachineRecord(MachineRecord r)
         {
             if (r == null)
                 throw new ArgumentNullException("Machine record in Database.MongoTB.DeleteMachineRecord is null");
@@ -423,7 +423,7 @@ namespace Copyinfo.Database
             return true;
         }
 
-        public bool DeleteHTMLSerial(HTMLSerial html)
+        static public bool DeleteHTMLSerial(HTMLSerial html)
         {
             if (html == null)
                 throw new ArgumentNullException("HTMLSerial in Database.MongoTB.DeleteMachineRecord is null");
@@ -437,7 +437,7 @@ namespace Copyinfo.Database
             return true;
         }
 
-        public bool DeleteHTMLCounter(HTMLCounter html)
+        static public bool DeleteHTMLCounter(HTMLCounter html)
         {
             if (html == null)
                 throw new ArgumentNullException("HTMLSerial in Database.MongoTB.DeleteMachineRecord is null");
@@ -451,7 +451,7 @@ namespace Copyinfo.Database
             return true;
         }
 
-        public bool DeleteHTMLSerial(ObjectId id)
+        static public bool DeleteHTMLSerial(ObjectId id)
         {
             HTMLSerial serial = getHTMLSerial(id);
             bool r = DeleteHTMLSerial(serial);
@@ -459,7 +459,7 @@ namespace Copyinfo.Database
             return r;
         }
 
-        public bool DeleteHTMLCounter(ObjectId id)
+        static public bool DeleteHTMLCounter(ObjectId id)
         {
             HTMLCounter counter = getHTMLCounter(id);
             bool r = DeleteHTMLCounter(counter);
@@ -470,13 +470,13 @@ namespace Copyinfo.Database
         #endregion
 
         #region test
-        public void t()
+        static public void t()
         {
             //test3dot1();
             //test();
             Initialize();
             //getAllReports();
-            test5();
+            //test5();
 
 
             var collection = database.GetCollection<EmailData>(Collections.emails_binary.ToString());
@@ -499,7 +499,7 @@ namespace Copyinfo.Database
             Console.WriteLine("blabla");
         }
 
-        public void test()
+        static public void test()
         {
             // Create a MongoClient object by using the connection string
             var client = new MongoClient(connectionString);

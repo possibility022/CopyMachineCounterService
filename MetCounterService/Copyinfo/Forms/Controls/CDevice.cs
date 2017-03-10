@@ -39,7 +39,7 @@ namespace Copyinfo.Forms.Controls
             if (checkFields() == false)
                 return null;
             Database.Device device = new Database.Device();
-            device.id = txtSerialNumber.Text;
+            device.serial_number = txtSerialNumber.Text;
             device.model = txtModel.Text;
             device.provider = txtProvider.Text;
             device.instalation_datetime = monthCalendar1.SelectionStart;
@@ -56,7 +56,7 @@ namespace Copyinfo.Forms.Controls
         {
             txtProvider.Text = device.provider;
             txtModel.Text = device.model;
-            txtSerialNumber.Text = device.id;
+            txtSerialNumber.Text = device.serial_number;
             monthCalendar1.SetDate(device.instalation_datetime);
             cAddress1.setAddress(device.getAddress());
         }

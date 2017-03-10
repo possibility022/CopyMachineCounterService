@@ -38,7 +38,8 @@ namespace Copyinfo.Forms.Controls
             {
                 //foreach (Database.Device d in list)
                 Database.Device d = devices[i];
-                values = new string[]{ d.provider, d.model, d.id, d.getAddress().street, d.instalation_datetime.ToShortDateString()};
+                //values = new string[]{ d.provider, d.model, d.id, d.getAddress().street, d.instalation_datetime.ToShortDateString()};
+                values = new string[] { d.provider, d.model, d.serial_number, "", "" };
                 item = new Controls.ListView.TBListViewItem(values, d);
                 tbListView1.Items.Add(item);
             }
@@ -59,7 +60,7 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             Database.Device device = (Database.Device)item.additionalItem;
-            new FReports(Global.database.getReports(device.id)).Show();
+            new FReports(Database.DAO.getReports(device.serial_number)).Show();
         }
 
         public void DeleteSelectedDevices()
