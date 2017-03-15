@@ -13,7 +13,7 @@ namespace Copyinfo.Database
         public string name { get; set; }
         public string id { get; set; }
         public bool ser_agr { get; set; } // umowa serwisowa - service agreement
-        public ObjectId address { get; set; }
+        public int address { get; set; }
         public string[] p_numbers { get; set; }
         public string[] f_numbers { get; set; }
         public string[] emails { get; set; }
@@ -39,7 +39,7 @@ namespace Copyinfo.Database
         public Address getAddress()
         {
             if (this.address_class == null)
-                this.address_class = Global.database.getAddress(address);
+                this.address_class = Database.DAO.getAddress(address);
             return address_class;
         }
 
@@ -51,7 +51,7 @@ namespace Copyinfo.Database
 
         public List<Device> getDevices()
         {
-            return Global.database.getDevices(this.devices);
+            return DAO.getDevices(this.devices);
         }
 
         public void addDevices(string[] devicesSerals)

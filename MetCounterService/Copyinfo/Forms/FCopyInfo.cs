@@ -23,7 +23,7 @@ namespace Copyinfo.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cReports1.fillList(Global.database.getAllReports());
+            cReports1.fillList(Database.DAO.getAllReports());
         }
 
         private void btnDevices_Click(object sender, EventArgs e)

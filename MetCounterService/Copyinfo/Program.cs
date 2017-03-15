@@ -15,7 +15,7 @@ namespace Copyinfo
         [STAThread]
         static void Main()
         {
-            Database.FirebirdTB.test();
+            //Database.FirebirdTB.test();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Copyinfo.Forms.FCopyInfo());

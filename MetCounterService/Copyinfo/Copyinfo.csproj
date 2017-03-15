@@ -106,6 +106,7 @@
     <Compile Include="Database\Address.cs" />
     <Compile Include="Database\Client.cs" />
     <Compile Include="Database\DAO.cs" />
+    <Compile Include="Database\DatabaseCache.cs" />
     <Compile Include="Database\Delegates.cs" />
     <Compile Include="Database\Device.cs" />
     <Compile Include="Database\EmailData.cs" />

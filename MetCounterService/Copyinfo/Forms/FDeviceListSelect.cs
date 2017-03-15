@@ -15,7 +15,7 @@ namespace Copyinfo.Forms
         public FDeviceListSelect()
         {
             InitializeComponent();
-            cDeviceList1.loadList(Global.database.getAllDevices());
+            cDeviceList1.loadList(Database.DAO.getAllDevices());
         }
 
         public List<Database.Device> getSelected()

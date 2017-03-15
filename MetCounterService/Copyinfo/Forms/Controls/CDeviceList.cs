@@ -39,7 +39,7 @@ namespace Copyinfo.Forms.Controls
                 //foreach (Database.Device d in list)
                 Database.Device d = devices[i];
                 //values = new string[]{ d.provider, d.model, d.id, d.getAddress().street, d.instalation_datetime.ToShortDateString()};
-                values = new string[] { d.provider, d.model, d.serial_number, "", "" };
+                values = new string[] { d.provider, d.model, d.serial_number, d.getAddress().street + " " + d.getAddress().city, d.instalation_datetime.ToString(Style.DateTimeFormat) };
                 item = new Controls.ListView.TBListViewItem(values, d);
                 tbListView1.Items.Add(item);
             }
@@ -72,7 +72,7 @@ namespace Copyinfo.Forms.Controls
                 for (int i = 0; i < tbListView1.SelectedItems.Count; i++)
                 {
                     Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[i];
-                    bool result = Global.database.DeleteDevice((Database.Device) item.additionalItem);
+                    bool result = Database.DAO.DeleteDevice((Database.Device) item.additionalItem);
                     if(result)
                     {
                         toRemove.Add(item);

@@ -14,9 +14,10 @@ namespace Copyinfo.Database
         public string model { get; set; }                       // model
         public string serial_number { get; set; }                          // numer seryjny
         public int instalation_address { get; set; }       // miejsce isntalacji
+        public bool service_agreement { get; set; }      // umowa serwisowa
         public DateTime instalation_datetime { get; set; }      // data instalacji
 
-        private Address adress { get; set; }
+        private Address address { get; set; }
 
         public Device()
         {
@@ -29,11 +30,16 @@ namespace Copyinfo.Database
 
         public Address getAddress()
         {
-            if (adress == null)
+            if (address == null)
             {
-                adress = FirebirdTB.getAddress(instalation_address);
+                address = FirebirdTB.getAddress(instalation_address);
             }
-            return this.adress;
+            return this.address;
+        }
+
+        public void setAddress(Address adress)
+        {
+            this.address = adress;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Copyinfo.Forms
 
         private void loadClient(string clientID)
         {
-            this.client = Global.database.getClient(clientID);
+            this.client = Database.DAO.getClient(clientID);
             this.cDeviceList1.loadList(client.getDevices());
             button1.Hide();
         }
@@ -42,7 +42,7 @@ namespace Copyinfo.Forms
         {
             if (client == null)
                 //cDeviceList1.loadList(Global.database.getAllDevices());
-                cDeviceList1.loadList(Database.FirebirdTB.test());
+                cDeviceList1.loadList(Database.DAO.getAllDevices());
             else
                 cDeviceList1.loadList(client.getDevices());
         }

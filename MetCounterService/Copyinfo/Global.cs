@@ -12,6 +12,7 @@ namespace Copyinfo
         public static void Initialize()
         {
             Database.MongoTB.Initialize();
+            Database.DatabaseCache.Initialize();
         }
 
         public static void log(string message)

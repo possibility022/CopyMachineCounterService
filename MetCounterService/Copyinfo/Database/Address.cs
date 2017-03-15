@@ -16,7 +16,7 @@ namespace Copyinfo.Database
         public string post_city { get; set; } //miejscowosc poczty
         public string house_number { get; set; }
         public string apartment { get; set; }
-        public MongoDB.Bson.ObjectId id { get; set; } // _id
+        public int id { get; set; } // _id
         
 
         public Address()

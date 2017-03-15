@@ -25,7 +25,7 @@ namespace Copyinfo.Forms
 
         private void SaveClient()
         {
-            Global.database.SaveClient(this.addClient1.getClient());
+            Database.DAO.SaveClient(this.addClient1.getClient());
         }
 
         private void tbButton1_Click(object sender, EventArgs e)

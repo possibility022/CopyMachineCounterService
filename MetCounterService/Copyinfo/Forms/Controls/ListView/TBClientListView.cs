@@ -31,7 +31,7 @@ namespace Copyinfo.Forms.Controls.ListView
         {
             if (rightClickMenu.getSelectedOption() == MenuStrip.TBClientRightClickMenu.ListOfOptions.Edit)
             {
-                new FClient(Global.database.getClient(SelectedItems[0].SubItems[1].Text)).ShowDialog();
+                new FClient(Database.DAO.getClient(SelectedItems[0].SubItems[1].Text)).ShowDialog();
             }
         }
 

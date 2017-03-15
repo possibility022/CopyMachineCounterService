@@ -175,7 +175,7 @@ namespace Copyinfo.Forms.Controls
                 MessageBox.Show("Czy aby na pewno? Hmmm???", "WARNING", MessageBoxButtons.YesNo))
             {
                 foreach (Controls.ListView.TBListViewItem item in tbListView1.SelectedItems)
-                    Global.database.DeleteMachineRecord((MachineRecord)item.additionalItem);
+                    Database.DAO.DeleteMachineRecord((MachineRecord)item.additionalItem);
             }
 
         }

@@ -86,7 +86,7 @@ namespace Copyinfo.Database
         {
             if (email == null)
             {
-                email = Global.database.getEmailData(email_info);
+                email = Database.DAO.getEmailData(email_info);
                 email.parse();
             }
 
@@ -97,7 +97,7 @@ namespace Copyinfo.Database
         {
             if (html_counter == null)
             {
-                html_counter = Global.database.getHTMLCounter(full_counter);
+                html_counter = Database.DAO.getHTMLCounter(full_counter);
             }
 
             return html_counter;
@@ -107,7 +107,7 @@ namespace Copyinfo.Database
         {
             if (html_serial == null)
             {
-                html_serial = Global.database.getHTMLSerial(full_serialnumber);
+                html_serial = Database.DAO.getHTMLSerial(full_serialnumber);
             }
 
             return html_serial;

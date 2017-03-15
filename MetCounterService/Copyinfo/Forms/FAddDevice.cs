@@ -32,7 +32,7 @@ namespace Copyinfo.Forms
             }
             else
             {
-                if (Global.database.SaveDevice(d) == "")
+                if (Database.DAO.SaveDevice(d) == "")
                     MessageBox.Show("Operacja zapisywania nie powiodła się. Sprawdz czy urządzenie nie jest już dodane");
                 else
                     this.Close();

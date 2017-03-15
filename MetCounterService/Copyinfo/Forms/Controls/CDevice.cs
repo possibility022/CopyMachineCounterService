@@ -43,7 +43,7 @@ namespace Copyinfo.Forms.Controls
             device.model = txtModel.Text;
             device.provider = txtProvider.Text;
             device.instalation_datetime = monthCalendar1.SelectionStart;
-            device.setAddress(cAddress1.getAddress());
+            //device.setAddress(cAddress1.getAddress());
             return device;
         }
 

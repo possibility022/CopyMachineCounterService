@@ -19,7 +19,7 @@ namespace Copyinfo.Forms
 
         private void tbButton1_Click(object sender, EventArgs e)
         {
-            List<Database.Client> list = Global.database.getAllClients();
+            List<Database.Client> list = Database.DAO.getAllClients();
             cClientList1.tbClientListView1.setList(list);
         }
 
