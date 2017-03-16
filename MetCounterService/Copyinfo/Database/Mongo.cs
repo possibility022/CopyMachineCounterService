@@ -71,8 +71,8 @@ namespace Copyinfo.Database
 
             iDatabase = client.GetDatabase(databaseName);
 
-            //_client = new MongoClient(connectionString);
-            //_database = _client.GetDatabase(DATABASE_NAME);
+            _client = new MongoClient(settings);
+            _database = _client.GetDatabase(databaseName);
         }
 
         #region GetCollection
@@ -113,6 +113,7 @@ namespace Copyinfo.Database
             {
                 var collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
                 var entityQuery = Query<MachineRecord>.EQ(e => e.serial_number, serial_number);
+                
 
                 var members = collection.Find(entityQuery);
                 List<MachineRecord> records = new List<MachineRecord>();
@@ -125,6 +126,27 @@ namespace Copyinfo.Database
             }
 
             return new List<MachineRecord>();
+        }
+
+        static internal MachineRecord getOneInMonth(string serial_number, DateTime month)
+        {
+            if (serial_number != null)
+            {
+                //var collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
+                //var filter = Builders<MachineRecord>.Filter.Gte(e => e.datetime, month) & Builders<MachineRecord>.Filter.Eq(e => e.serial_number, serial_number);
+                //var entityQuery = Query<MachineRecord>(filter);
+
+                var collection = _database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
+                var filter = Builders<MachineRecord>.Filter.Gte(e => e.datetime, month) & Builders<MachineRecord>.Filter.Eq(e => e.serial_number, serial_number);
+
+                IMongoCollection<MachineRecord> col;
+
+                MachineRecord record = collection.Find<MachineRecord>(filter).FirstOrDefault();
+
+                return record;
+            }
+
+            return null;
         }
 
         //static public List<Device> getAllDevices()

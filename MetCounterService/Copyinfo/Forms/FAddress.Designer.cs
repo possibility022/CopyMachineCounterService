@@ -50,7 +50,7 @@
             this.cAddress1.BackColor = System.Drawing.Color.White;
             this.cAddress1.Location = new System.Drawing.Point(12, 12);
             this.cAddress1.Name = "cAddress1";
-            this.cAddress1.Size = new System.Drawing.Size(369, 205);
+            this.cAddress1.Size = new System.Drawing.Size(539, 205);
             this.cAddress1.TabIndex = 0;
             // 
             // FAddress
@@ -58,7 +58,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(387, 282);
+            this.ClientSize = new System.Drawing.Size(548, 281);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.cAddress1);
             this.Name = "FAddress";

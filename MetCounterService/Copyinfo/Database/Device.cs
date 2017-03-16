@@ -41,5 +41,10 @@ namespace Copyinfo.Database
         {
             this.address = adress;
         }
+
+        public void getOneRecord(DateTime datetime)
+        {
+
+        }
     }
 }

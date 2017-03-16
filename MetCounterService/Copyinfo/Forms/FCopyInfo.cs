@@ -14,11 +14,24 @@ namespace Copyinfo.Forms
     public partial class FCopyInfo : Form
     {
         static FDevicesView f_machines;
+        static int freeAtTop;
 
         public FCopyInfo()
         {
             InitializeComponent();
+            Init();
             Global.Initialize();
+        }
+
+        protected void Init()
+        {
+            this.Resize += FCopyInfo_Resize;
+            freeAtTop = this.Height - cReports1.Height;
+        }
+
+        private void FCopyInfo_Resize(object sender, EventArgs e)
+        {
+            GUI.calculateHeight(cReports1, this, freeAtTop);
         }
 
         private void button1_Click(object sender, EventArgs e)

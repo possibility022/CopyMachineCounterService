@@ -54,7 +54,7 @@ namespace Copyinfo.Forms.Controls.ListView
             if (c.emails.Length > 0)
                 mail = c.emails[0];
 
-            ListViewItem item = new ListViewItem(new string[] { c.name, c.id, ad.street, ad.city, phone, mail, c.notes, c.ser_agr ? "tak" : "nie"});
+            TBListViewItem item = new TBListViewItem(new string[] { c.name, c.NIP, ad.street, ad.city, phone, mail, c.notes, c.ser_agr ? "tak" : "nie"}, c);
 
             this.Items.Add(item);
         }

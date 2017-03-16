@@ -65,7 +65,7 @@ namespace Copyinfo.Forms.Controls
                 tbCbMails.SelectedIndex = tbCbMails.Items.Count - 1;
 
             this.lName.Text = client.name;
-            this.lNIP.Text = client.id;
+            this.lNIP.Text = client.NIP;
             this.tbNote.Text = client.notes;
 
             this.checkBox1.Checked = client.ser_agr;
@@ -87,15 +87,16 @@ namespace Copyinfo.Forms.Controls
 
         private void showDeviceListForSelection()
         {
-            FDeviceListSelect devicesForm = new FDeviceListSelect();
-            devicesForm.ShowDialog();
+            MessageBox.Show("Ta opcja zostala usunieta");
+            //FDeviceListSelect devicesForm = new FDeviceListSelect();
+            //devicesForm.ShowDialog();
 
-            List<Database.Device> devices = devicesForm.getSelected();
-            this.cDeviceList1.addToList(devices);
-            foreach (Database.Device d in devices)
-            {
-                client.addDevice(d.serial_number);
-            }
+            //List<Database.Device> devices = devicesForm.getSelected();
+            //this.cDeviceList1.addToList(devices);
+            //foreach (Database.Device d in devices)
+            //{
+            //    client.addDevice(d.serial_number);
+            //}
         }
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
@@ -113,7 +114,7 @@ namespace Copyinfo.Forms.Controls
 
         public Database.Client getClient()
         {
-            client.id = lNIP.Text;
+            client.NIP = lNIP.Text;
             client.name = lName.Text;
 
             client.notes = tbNote.Text;

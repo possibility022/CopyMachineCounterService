@@ -93,6 +93,7 @@
             this.Controls.Add(this.btnAdd);
             this.Name = "FDevicesView";
             this.Text = "MachinesView";
+            this.Resize += new System.EventHandler(this.FDevicesView_Resize);
             this.ResumeLayout(false);
 
         }

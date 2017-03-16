@@ -14,15 +14,24 @@ namespace Copyinfo.Forms
     {
         Database.Client client = null;
 
+        int freeSpaceAtTop;
+
         public FDevicesView()
         {
             InitializeComponent();
+            Init();
         }
 
         public FDevicesView(string clientID)
         {
             InitializeComponent();
             loadClient(clientID);
+            Init();
+        }
+
+        private void Init()
+        {
+            freeSpaceAtTop = this.Height - cDeviceList1.Height;
         }
 
         private void loadClient(string clientID)
@@ -50,6 +59,11 @@ namespace Copyinfo.Forms
         private void button1_Click(object sender, EventArgs e)
         {
             cDeviceList1.DeleteSelectedDevices();
+        }
+
+        private void FDevicesView_Resize(object sender, EventArgs e)
+        {
+            GUI.calculateHeight(cDeviceList1, this, freeSpaceAtTop);
         }
     }
 }

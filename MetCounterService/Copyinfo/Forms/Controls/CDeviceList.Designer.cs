@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.wyświetlRaportyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wyświetlAdresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tbListView1 = new Copyinfo.Forms.Controls.ListView.TBListView();
             this.Provider = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Model = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -42,22 +43,33 @@
             this.tbTBSerialNumber = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.tbTBModel = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.tbTBProvider = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.ącaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.wyświetlRaportyToolStripMenuItem});
+            this.wyświetlRaportyToolStripMenuItem,
+            this.wyświetlAdresToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(163, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(163, 70);
             // 
             // wyświetlRaportyToolStripMenuItem
             // 
+            this.wyświetlRaportyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ącaToolStripMenuItem});
             this.wyświetlRaportyToolStripMenuItem.Name = "wyświetlRaportyToolStripMenuItem";
             this.wyświetlRaportyToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.wyświetlRaportyToolStripMenuItem.Text = "Wyświetl raporty";
             this.wyświetlRaportyToolStripMenuItem.Click += new System.EventHandler(this.showReportsForThisDeviceToolStripMenuItem_Click);
+            // 
+            // wyświetlAdresToolStripMenuItem
+            // 
+            this.wyświetlAdresToolStripMenuItem.Name = "wyświetlAdresToolStripMenuItem";
+            this.wyświetlAdresToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.wyświetlAdresToolStripMenuItem.Text = "Wyświetl adres";
+            this.wyświetlAdresToolStripMenuItem.Click += new System.EventHandler(this.showAddressForSelectedDevice);
             // 
             // tbListView1
             // 
@@ -154,6 +166,13 @@
             this.tbTBProvider.TabIndex = 2;
             this.tbTBProvider.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
             // 
+            // ącaToolStripMenuItem
+            // 
+            this.ącaToolStripMenuItem.Name = "ącaToolStripMenuItem";
+            this.ącaToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.ącaToolStripMenuItem.Text = "Wyświetl raport z tego miesiaca";
+            this.ącaToolStripMenuItem.Click += new System.EventHandler(this.showRecordFromThisMonth);
+            // 
             // CDeviceList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -187,5 +206,7 @@
         private System.Windows.Forms.ColumnHeader Address;
         private System.Windows.Forms.ColumnHeader DateTime;
         public ListView.TBListView tbListView1;
+        private System.Windows.Forms.ToolStripMenuItem wyświetlAdresToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ącaToolStripMenuItem;
     }
 }

@@ -36,9 +36,7 @@ namespace Copyinfo.Forms.Controls
             string[] values = { };
             for (int i = 0; i < devices.Count; i++)
             {
-                //foreach (Database.Device d in list)
                 Database.Device d = devices[i];
-                //values = new string[]{ d.provider, d.model, d.id, d.getAddress().street, d.instalation_datetime.ToShortDateString()};
                 values = new string[] { d.provider, d.model, d.serial_number, d.getAddress().street + " " + d.getAddress().city, d.instalation_datetime.ToString(Style.DateTimeFormat) };
                 item = new Controls.ListView.TBListViewItem(values, d);
                 tbListView1.Items.Add(item);
@@ -58,8 +56,7 @@ namespace Copyinfo.Forms.Controls
 
         private void showReportsForThisDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
-            Database.Device device = (Database.Device)item.additionalItem;
+            Database.Device device = getSelectedDevice();
             new FReports(Database.DAO.getReports(device.serial_number)).Show();
         }
 
@@ -67,24 +64,30 @@ namespace Copyinfo.Forms.Controls
         {
             List<ListViewItem> toRemove = new List<ListViewItem>();
             DialogResult r = MessageBox.Show("Czy napewno chcesz usunąć te urządzenie / urządzenia?", "Uwaga!", MessageBoxButtons.YesNoCancel);
-            if (r == DialogResult.Yes)
+            try
             {
-                for (int i = 0; i < tbListView1.SelectedItems.Count; i++)
+                if (r == DialogResult.Yes)
                 {
-                    Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[i];
-                    bool result = Database.DAO.DeleteDevice((Database.Device) item.additionalItem);
-                    if(result)
+                    for (int i = 0; i < tbListView1.SelectedItems.Count; i++)
                     {
-                        toRemove.Add(item);
+                        Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[i];
+                        bool result = Database.DAO.DeleteDevice((Database.Device)item.additionalItem);
+                        if (result)
+                        {
+                            toRemove.Add(item);
+                        }
                     }
                 }
-            }
 
-            foreach(ListViewItem i in toRemove)
+                foreach (ListViewItem i in toRemove)
+                {
+                    tbListView1.Items.Remove(i);
+                }
+            }catch(NotImplementedException notImplemented)
             {
-                tbListView1.Items.Remove(i);
+                MessageBox.Show("Ta funkcja nie została jescze zaimplementowana. " + notImplemented.Message);
             }
-        }
+        } // NOT IMPLEMENTED! and DONT DO THIS!
 
         private void alignTextBoxesAndListView()
         {
@@ -114,6 +117,36 @@ namespace Copyinfo.Forms.Controls
         private void CDeviceList_Resize(object sender, EventArgs e)
         {
             alignTextBoxesAndListView();
+        }
+
+        private void showAddressForSelectedDevice(object sender, EventArgs e)
+        {
+            if (this.tbListView1.SelectedItems.Count > 0)
+            {
+                Database.Device device = getSelectedDevice();
+                FAddress fAdress = new FAddress(device.getAddress());
+                fAdress.Show();
+            }
+        }
+
+        private void showRecordFromThisMonth(object sender, EventArgs e)
+        {
+            Database.Device device = getSelectedDevice();
+            DateTime datetime = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, 1);
+
+            Database.MachineRecord record = Database.DAO.GetOneRecord(device.serial_number, datetime);
+        }
+
+        private Database.Device getSelectedDevice()
+        {
+            if (this.tbListView1.SelectedItems.Count > 0)
+            {
+                Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
+                Database.Device device = (Database.Device)item.additionalItem;
+                return device;
+            }
+
+            return null;
         }
     }
 }
