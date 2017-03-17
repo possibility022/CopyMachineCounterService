@@ -39,17 +39,17 @@ public class ListViewSorter : IComparer
         ObjectCompare = new CaseInsensitiveComparer();
     }
 
-    public void setIntegers(int[] columnsWithInt)
+    public void SetIntegers(int[] columnsWithInt)
     {
         this.columnsWithInt = columnsWithInt;
     }
 
-    public void setDates(int[] columnsWithDateTime)
+    public void SetDates(int[] columnsWithDateTime)
     {
         this.columnsWithDate = columnsWithDateTime;
     }
 
-    public void setAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType classType)
+    public void SetAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType classType)
     {
         this.additionalItemType = classType;
     }
@@ -74,10 +74,10 @@ public class ListViewSorter : IComparer
         string b = listviewY.SubItems[ColumnToSort].Text;
 
         // Compare the two items
-        if (itsColumnWithInt(ColumnToSort))
+        if (ItsColumnWithInt(ColumnToSort))
             compareResult = ObjectCompare.Compare(int.Parse(a), int.Parse(b));
         else
-        if (itsColumnWithDate(ColumnToSort))
+        if (ItsColumnWithDate(ColumnToSort))
         {
             switch(this.additionalItemType)
             {
@@ -162,7 +162,7 @@ public class ListViewSorter : IComparer
     }
 
 
-    private bool itsColumnWithInt(int index)
+    private bool ItsColumnWithInt(int index)
     {
         for (int i = 0; i < this.columnsWithInt.Length; i++)
         {
@@ -172,7 +172,7 @@ public class ListViewSorter : IComparer
         return false;
     }
 
-    private bool itsColumnWithDate(int index)
+    private bool ItsColumnWithDate(int index)
     {
         for (int i = 0; i < this.columnsWithDate.Length; i++)
             if (columnsWithDate[i] == index)

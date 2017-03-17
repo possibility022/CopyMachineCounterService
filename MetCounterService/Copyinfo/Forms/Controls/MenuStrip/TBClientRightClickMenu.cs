@@ -50,7 +50,7 @@ namespace Copyinfo.Forms.Controls.MenuStrip
             menuClosed();
         }
 
-        public ListOfOptions getSelectedOption()
+        public ListOfOptions GetSelectedOption()
         {
             return SelectedOption;
         }

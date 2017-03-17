@@ -19,7 +19,7 @@ namespace Copyinfo.Forms.Controls
         public AddClient()
         {
             //InitializeComponent();
-            init();
+            Init();
             client = new Database.Client();
         }
         
@@ -27,11 +27,11 @@ namespace Copyinfo.Forms.Controls
         {
             //InitializeComponent();
             this.client = client;
-            fillControl(client);
-            init();
+            FillControl(client);
+            Init();
         }
 
-        private void init()
+        private void Init()
         {
             InitializeComponent();
             this.lName.SetCopyOn();
@@ -43,7 +43,7 @@ namespace Copyinfo.Forms.Controls
             freeSpaceAtTop = this.Height - cDeviceList1.Height;
         }
 
-        private void fillControl(Database.Client client)
+        private void FillControl(Database.Client client)
         {
             foreach (string s in client.f_numbers)
                 tbCbFax.Items.Add(s);
@@ -75,14 +75,14 @@ namespace Copyinfo.Forms.Controls
 
             this.checkBox1.Checked = client.ser_agr;
 
-            cDeviceList1.addToList(client.getDevices());
+            cDeviceList1.AddToList(client.GetDevices());
 
-            fillAddress();
+            FillAddress();
         }
 
-        private void fillAddress()
+        private void FillAddress()
         {
-            Database.Address address = client.getAddress();
+            Database.Address address = client.GetAddress();
             if (address != null)
             {
                 lStreet.Text = address.street;
@@ -90,7 +90,7 @@ namespace Copyinfo.Forms.Controls
             }
         }
 
-        private void showDeviceListForSelection()
+        private void ShowDeviceListForSelection()
         {
             MessageBox.Show("Ta opcja zostala usunieta");
             //FDeviceListSelect devicesForm = new FDeviceListSelect();
@@ -106,15 +106,15 @@ namespace Copyinfo.Forms.Controls
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            showDeviceListForSelection();
+            ShowDeviceListForSelection();
         }
 
         private void btnEditAddress_Click(object sender, EventArgs e)
         {
-            FAddress fAddres = new FAddress(client.getAddress());
+            FAddress fAddres = new FAddress(client.GetAddress());
             fAddres.ShowDialog();
-            client.setAddress(fAddres.cAddress1.getAddress());
-            fillAddress();
+            client.GetAddress(fAddres.cAddress1.GetAddress());
+            FillAddress();
         }
 
         public Database.Client getClient()
@@ -143,7 +143,7 @@ namespace Copyinfo.Forms.Controls
 
         private void AddClient_Resize(object sender, EventArgs e)
         {
-            GUI.calculateHeight(cDeviceList1, this, freeSpaceAtTop);
+            GUI.CalculateHeight(cDeviceList1, this, freeSpaceAtTop);
         }
     }
 }

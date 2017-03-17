@@ -37,29 +37,27 @@ namespace Copyinfo.Database
         public string description { get; set; }
         public string addressIP { get; set; }
         public string addressMAC { get; set; }
-        public string serial_number { get; set; }
-        public ObjectId full_serialnumber { get; set; }
-        public ObjectId full_counter { get; set; }
-        public int scan_counter { get; set; }
-        public int print_counter_black_and_white { get; set; }
-        public int print_counter_color { get; set; }
+        public string serialnumber { get; set; }
+        public ObjectId fullSerialNumberID { get; set; }
+        public ObjectId fullCounterID { get; set; }
+        public int scanCounter { get; set; }
+        public int printerCounterBlackAndWhite { get; set; }
+        public int printerCounterColor { get; set; }
         public ObjectId id { get; set; }
-        public string tonerlevel_c { get; set; }
-        public string tonerlevel_m { get; set; }
-        public string tonerlevel_y { get; set; }
-        public string tonerlevel_k { get; set; }
+        public string tonerLevelCyan { get; set; }
+        public string tonerLevelMagenta { get; set; }
+        public string tonerLevelYellow { get; set; }
+        public string tonerLevelBlack { get; set; }
 
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
         public byte[] email_info { get; set; } // TO JEST ID OBIEKTU W BAZIE MONGO
 
-
-
         private EmailData email { get; set; }
 
-        public Device getDevice()
+        public Device GetDevice()
         {
-            return DAO.getDevice(serial_number);
+            return DAO.GetDevice(serialnumber);
         }
 
         public MachineRecord()
@@ -68,18 +66,18 @@ namespace Copyinfo.Database
             description = "";
             addressIP = "";
             addressMAC = "";
-            serial_number = "";
-            full_counter = new ObjectId();
-            full_serialnumber = new ObjectId();
-            scan_counter = -1;
-            print_counter_black_and_white = -1;
-            print_counter_color = -1;
+            serialnumber = "";
+            fullCounterID = new ObjectId();
+            fullSerialNumberID = new ObjectId();
+            scanCounter = -1;
+            printerCounterBlackAndWhite = -1;
+            printerCounterColor = -1;
             id = new ObjectId();
             email = null;
             //email_info = new BsonBinaryData(new byte[] { 0 });
         }
 
-        public bool isParsedEmail()
+        public bool IsParsedEmail()
         {
             if (email_info == null)
                 return false;
@@ -87,75 +85,75 @@ namespace Copyinfo.Database
                 return true;
         }
 
-        public EmailData getEmail()
+        public EmailData GetEmail()
         {
             if (email == null)
             {
-                email = Database.DAO.getEmailData(email_info);
-                email.parse();
+                email = Database.DAO.GetEmailData(email_info);
+                email.Parse();
             }
 
             return email;
         }
 
-        public HTMLCounter getCounter()
+        public HTMLCounter GetCounter()
         {
             if (html_counter == null)
             {
-                html_counter = Database.DAO.getHTMLCounter(full_counter);
+                html_counter = Database.DAO.GetHTMLCounter(fullCounterID);
             }
 
             return html_counter;
         }
 
-        public HTMLSerial getSerial()
+        public HTMLSerial GetSerial()
         {
             if (html_serial == null)
             {
-                html_serial = Database.DAO.getHTMLSerial(full_serialnumber);
+                html_serial = Database.DAO.GetHTMLSerial(fullSerialNumberID);
             }
 
             return html_serial;
         }
 
-        public void print()
+        public void Print()
         {
-            Other.Printing.print(getTextToPrint());
+            Other.Printing.Print(GetTextToPrint());
         }
 
-        public string getTextToPrint()
+        public string GetTextToPrint()
         {
-            Device device = getDevice();
-            Client client = device.getClient();
-            Address address = device.getAddress();
+            Device device = GetDevice();
+            Client client = device.GetClient();
+            Address address = device.GetAddress();
 
             string newLine = "\r\n";
             string textToPrint =
                 "Klient: " + client.name + " NIP: " + client.NIP + newLine +
                 "Data: " + datetime.ToString(Forms.Style.DateTimeFormat) + newLine +
-                "Numer Seryjny: " + serial_number + newLine +
+                "Numer Seryjny: " + serialnumber + newLine +
                 "Producent: " + device.provider + newLine +
                 "Model: " + device.model + newLine +
                 "Adres: " + address.street + " " + address.house_number + "/" + address.apartment + " " + address.city + newLine +
-                "Licznik Skanowań: " + scan_counter + newLine +
-                "Licznik Czarno-Białe: " + print_counter_black_and_white + newLine +
-                "Licznik Kolorowe: " + print_counter_color + newLine +
-                "Toner Cyjan: " + tonerlevel_c + newLine +
-                "Toner Magenta: " + tonerlevel_m + newLine +
-                "Toner Yellow: " + tonerlevel_y + newLine +
-                "Toner Black: " + tonerlevel_k + newLine;
+                "Licznik Skanowań: " + scanCounter + newLine +
+                "Licznik Czarno-Białe: " + printerCounterBlackAndWhite + newLine +
+                "Licznik Kolorowe: " + printerCounterColor + newLine +
+                "Toner Cyjan: " + tonerLevelCyan + newLine +
+                "Toner Magenta: " + tonerLevelMagenta + newLine +
+                "Toner Yellow: " + tonerLevelYellow + newLine +
+                "Toner Black: " + tonerLevelBlack + newLine;
 
-            if (isParsedEmail())
+            if (IsParsedEmail())
             {
-                textToPrint += getEmail().getEmail();
+                textToPrint += GetEmail().GetEmail();
             }
 
             return textToPrint;
         }
 
-        public int getTotal()
+        public int GetTotal()
         {
-            return print_counter_black_and_white + print_counter_color;
+            return printerCounterBlackAndWhite + printerCounterColor;
         }
 
         public int CompareTo(MachineRecord other)

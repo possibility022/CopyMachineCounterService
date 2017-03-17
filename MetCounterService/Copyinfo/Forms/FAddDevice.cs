@@ -20,12 +20,12 @@ namespace Copyinfo.Forms
         public FAddDevice(string device_serial_number)
         {
             InitializeComponent();
-            this.cAddDevice1.setSerialnumber(device_serial_number);
+            this.cAddDevice1.SetSerialnumber(device_serial_number);
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            Database.Device d = cAddDevice1.getDevice();
+            Database.Device d = cAddDevice1.GetDevice();
             if (d == null)
             {
                 MessageBox.Show("Źle wypełnione dane");

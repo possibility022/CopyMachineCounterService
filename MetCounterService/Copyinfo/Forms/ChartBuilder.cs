@@ -27,17 +27,17 @@ namespace Copyinfo.Forms
 
         public ChartBuilder(Database.MachineRecord[] records)
         {
-            sortDevices(records);
-            sortReports();
+            SortDevices(records);
+            SortReports();
             BuildSeries();
         }
 
-        public Chart getChart()
+        public Chart GetChart()
         {
             return chart;
         }
 
-        public List<Series> getSeriesPrinterTotal()
+        public List<Series> GetSeriesPrinterTotal()
         {
             return series;
         }
@@ -45,18 +45,18 @@ namespace Copyinfo.Forms
         public int getMax() { return max; }
         public int getMin() { return min; }
 
-        private void sortDevices(Database.MachineRecord[] records)
+        private void SortDevices(Database.MachineRecord[] records)
         {
             foreach (Database.MachineRecord record in records)
             {
-                if (inList.Contains(record.serial_number))
+                if (inList.Contains(record.serialnumber))
                 {
-                    int listIndex = inList.IndexOf(record.serial_number);
+                    int listIndex = inList.IndexOf(record.serialnumber);
                     devices[listIndex].Add(record);
                 }
                 else
                 {
-                    inList.Add(record.serial_number);
+                    inList.Add(record.serialnumber);
                     List<Database.MachineRecord> list = new List<Database.MachineRecord>();
                     list.Add(record);
                     devices.Add(list);
@@ -64,23 +64,23 @@ namespace Copyinfo.Forms
             }
         }
 
-        private void sortReports()
+        private void SortReports()
         {
             for(int i = 0; i < devices.Count; i++)
                 devices[i].Sort(this.sorter);
         }
 
-        public Series buildColumnSeries_scan(Database.MachineRecord record1, Database.MachineRecord record2)
+        public Series BuildColumnSeries_scan(Database.MachineRecord record1, Database.MachineRecord record2)
         {
-            return buildTwoColumns(record1.datetime, record1.scan_counter, record2.datetime, record2.scan_counter);
+            return BuildTwoColumns(record1.datetime, record1.scanCounter, record2.datetime, record2.scanCounter);
         }
 
-        public Series buildColumnSeries_total(Database.MachineRecord record1, Database.MachineRecord record2)
+        public Series BuildColumnSeries_total(Database.MachineRecord record1, Database.MachineRecord record2)
         {
-            return buildTwoColumns(record1.datetime, record1.getTotal(), record2.datetime, record2.getTotal());
+            return BuildTwoColumns(record1.datetime, record1.GetTotal(), record2.datetime, record2.GetTotal());
         }
 
-        private Series buildTwoColumns(DateTime a, int value_a, DateTime b, int value_b)
+        private Series BuildTwoColumns(DateTime a, int value_a, DateTime b, int value_b)
         {
             Series s = new Series();
             s.XValueType = ChartValueType.Date;
@@ -99,7 +99,7 @@ namespace Copyinfo.Forms
                 int maximum = 0;
                 for (int report = 0; report < devices[i].Count; report++)
                 {
-                    int total = devices[i][report].getTotal();
+                    int total = devices[i][report].GetTotal();
                     if (minimum > total)
                         minimum = total;
                     if (maximum < total)

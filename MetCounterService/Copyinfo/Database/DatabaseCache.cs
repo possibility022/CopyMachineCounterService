@@ -13,8 +13,8 @@ namespace Copyinfo.Database
 
         public static void Initialize()
         {
-            serviceAgreementDevices = FirebirdTB.getServiceAgreementsDevices();
-            serviceAgreementClients = FirebirdTB.getServiceAgreementsClients();
+            serviceAgreementDevices = Firebird.getServiceAgreementsDevices();
+            serviceAgreementClients = Firebird.getServiceAgreementsClients();
         }
 
 

@@ -11,6 +11,5 @@ namespace Copyinfo.Database
         List<Address> adresses = new List<Address>();
         List<Client> clients = new List<Client>();
         List<Device> devices = new List<Device>();
-        
     }
 }

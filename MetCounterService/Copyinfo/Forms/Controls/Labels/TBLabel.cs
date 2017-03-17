@@ -15,10 +15,10 @@ namespace Copyinfo.Forms.Controls.Labels
         public void SetCopyOn()
         {
             this.MouseClick += TBLabel_MouseClick;
-            menu = new TBMenuStrip(this.Text, true, setValue);
+            menu = new TBMenuStrip(this.Text, true, SetValue);
         }
 
-        private void setValue(string value)
+        private void SetValue(string value)
         {
             this.Text = value;
         }

@@ -36,33 +36,33 @@ namespace Copyinfo.Forms
 
         private void loadClient(string clientID)
         {
-            this.client = Database.DAO.getClient(clientID);
-            this.cDeviceList1.loadList(client.getDevices());
+            this.client = Database.DAO.GetClient(clientID);
+            this.cDeviceList1.LoadList(client.GetDevices());
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
             if (client == null)
                 //cDeviceList1.loadList(Global.database.getAllDevices());
-                cDeviceList1.loadList(Database.DAO.getAllDevices());
+                cDeviceList1.LoadList(Database.DAO.GetAllDevices());
             else
-                cDeviceList1.loadList(client.getDevices());
+                cDeviceList1.LoadList(client.GetDevices());
         }
 
         private void FDevicesView_Resize(object sender, EventArgs e)
         {
-            GUI.calculateHeight(cDeviceList1, this, freeSpaceAtTop);
+            GUI.CalculateHeight(cDeviceList1, this, freeSpaceAtTop);
         }
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            List<Database.Device> list = cDeviceList1.getSelectedDevices();
+            List<Database.Device> list = cDeviceList1.GetSelectedDevices();
             print(list);
         }
 
         private void FDevicesView_ResizeEnd(object sender, EventArgs e)
         {
-            GUI.calculateHeight(cDeviceList1, this, freeSpaceAtTop);
+            GUI.CalculateHeight(cDeviceList1, this, freeSpaceAtTop);
         }
 
         private void print(List<Database.Device> list)
@@ -70,12 +70,12 @@ namespace Copyinfo.Forms
             List<string> toprint = new List<string>();
             foreach (Database.Device d in list)
             {
-                Database.MachineRecord record = d.getOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+                Database.MachineRecord record = d.GetOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
                 if (record != null)
-                    toprint.Add(record.getTextToPrint());
+                    toprint.Add(record.GetTextToPrint());
             }
 
-            Other.Printing.print(toprint);
+            Other.Printing.Print(toprint);
         }
     }
 }

@@ -15,10 +15,10 @@ namespace Copyinfo.Forms
         public FDeviceListSelect()
         {
             InitializeComponent();
-            cDeviceList1.loadList(Database.DAO.getAllDevices());
+            cDeviceList1.LoadList(Database.DAO.GetAllDevices());
         }
 
-        public List<Database.Device> getSelected()
+        public List<Database.Device> GetSelected()
         {
             List<Database.Device> devices = new List<Database.Device>();
 

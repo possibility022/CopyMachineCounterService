@@ -23,7 +23,7 @@ namespace Copyinfo.Forms.Controls.Combobox
                 addValue(this.Text);
         }
 
-        async private void changeColors()
+        async private void ChangeColors()
         {
             this.BackColor = Style.comboBoxBackColor;
             await System.Threading.Tasks.Task.Delay(300);
@@ -37,7 +37,7 @@ namespace Copyinfo.Forms.Controls.Combobox
                 if (Items.Contains(value) == false)
                 {
                     Items.Add(value);
-                    changeColors();
+                    ChangeColors();
                 }
             }
         }

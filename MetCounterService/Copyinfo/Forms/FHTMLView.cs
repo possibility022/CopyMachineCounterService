@@ -20,7 +20,7 @@ namespace Copyinfo.Forms
         public FHTMLView(string html)
         {
             InitializeComponent();
-            chtmlView1.setHTML(html);
+            chtmlView1.SetHTML(html);
         }
     }
 }

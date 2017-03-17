@@ -40,23 +40,23 @@ namespace Copyinfo.Forms.Controls.ListView
                 filters[i] = "";
         }
 
-        public void setAdditionalClass(TBListViewItem.AdditionalItemClassType additionalClass)
+        public void SetAdditionalClass(TBListViewItem.AdditionalItemClassType additionalClass)
         {
             this.additionalItemClass = additionalClass;
         }
 
-        public void setSorter (ListViewSorter sorter)
+        public void SetSorter (ListViewSorter sorter)
         {
             this.sorter = sorter;
             this.ListViewItemSorter = this.sorter;
         }
 
-        public void setColumnsWithDate(int[] columns)
+        public void SetColumnsWithDate(int[] columns)
         {
             this.columnsWithDateSorting = columns;
         }
 
-        private bool filterByDate(int indexOfFilter, object itemToMatch)
+        private bool FilterByDate(int indexOfFilter, object itemToMatch)
         {
             DateTime itemDatetime = new DateTime();
 
@@ -94,14 +94,14 @@ namespace Copyinfo.Forms.Controls.ListView
             return false;
         }
 
-        private bool checkFilter(TBListViewItem item)
+        private bool CheckFilter(TBListViewItem item)
         {
             bool match = false;
 
             for (int i = 0; i < item.SubItems.Count; i++)
                 if (filters[i] != "")
                     if (columnsWithDateSorting.Contains(i))
-                        match = filterByDate(i, item.additionalItem);
+                        match = FilterByDate(i, item.additionalItem);
                     else
                         if (item.SubItems[i].Text.IndexOf(filters[i],StringComparison.OrdinalIgnoreCase) >= 0)
                             match = true;
@@ -117,7 +117,7 @@ namespace Copyinfo.Forms.Controls.ListView
             this.buffor_array = new TBListViewItem[0];
         }
 
-        private bool filtersAreClear()
+        private bool FiltersAreClear()
         {
             bool areThyeReallyClear = true;
             foreach (string filter in filters)
@@ -135,21 +135,21 @@ namespace Copyinfo.Forms.Controls.ListView
             return areThyeReallyClear;
         }
 
-        private void clearFilters()
+        private void ClearFilters()
         {
                 this.Items.Clear();
                 this.Items.AddRange(this.buffor_array);
                 filtersWasClear = true;
         }
 
-        public void filter(int filterNumber, string Value)
+        public void Filter(int filterNumber, string Value)
         {
             filters[filterNumber] = Value;
             if (Value == "")
             {
-                if (filtersAreClear())
+                if (FiltersAreClear())
                 {
-                    clearFilters();
+                    ClearFilters();
                     return;
                 }
             }
@@ -175,7 +175,7 @@ namespace Copyinfo.Forms.Controls.ListView
 
             var matchedItems = from TBListViewItem in allListViewBuffered
                                where
-                               checkFilter(TBListViewItem)
+                               CheckFilter(TBListViewItem)
                                select TBListViewItem;
 
 
@@ -184,7 +184,7 @@ namespace Copyinfo.Forms.Controls.ListView
 
         }
 
-        public int[] getColumnSizeHeaders()
+        public int[] GetColumnSizeHeaders()
         {
             int[] headersSize = new int[this.Columns.Count];
             for (int i = 0; i < this.Columns.Count; i++)

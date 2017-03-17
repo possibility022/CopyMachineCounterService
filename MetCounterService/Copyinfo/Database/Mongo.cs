@@ -92,7 +92,7 @@ namespace Copyinfo.Database
         //    return list;
         //}
 
-        static internal List<MachineRecord> getAllReports()
+        static internal List<MachineRecord> GetAllReports()
         {
             MongoCollection<MachineRecord> collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
             MongoCursor<MachineRecord> all = collection.FindAll();
@@ -107,12 +107,12 @@ namespace Copyinfo.Database
             return list;
         }
 
-        static public List<MachineRecord> getReports(string serial_number)
+        static public List<MachineRecord> GetReports(string serial_number)
         {
             if (serial_number != null)
             {
                 var collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
-                var entityQuery = Query<MachineRecord>.EQ(e => e.serial_number, serial_number);
+                var entityQuery = Query<MachineRecord>.EQ(e => e.serialnumber, serial_number);
                 
 
                 var members = collection.Find(entityQuery);
@@ -128,7 +128,7 @@ namespace Copyinfo.Database
             return new List<MachineRecord>();
         }
 
-        static internal MachineRecord getOneInMonth(string serial_number, DateTime month)
+        static internal MachineRecord GetFirstInMonth(string serial_number, DateTime month)
         {
             if (serial_number != null)
             {
@@ -137,7 +137,7 @@ namespace Copyinfo.Database
                 //var entityQuery = Query<MachineRecord>(filter);
 
                 var collection = _database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
-                var filter = Builders<MachineRecord>.Filter.Gte(e => e.datetime, month) & Builders<MachineRecord>.Filter.Eq(e => e.serial_number, serial_number);
+                var filter = Builders<MachineRecord>.Filter.Gte(e => e.datetime, month) & Builders<MachineRecord>.Filter.Eq(e => e.serialnumber, serial_number);
 
                 IMongoCollection<MachineRecord> col;
 
@@ -213,7 +213,7 @@ namespace Copyinfo.Database
                 var col = database.GetCollection(CollectionsDeleted.machine_record_deleted.ToString());
                 var obj = r;
                 WriteConcernResult res = col.Save(obj);
-                Global.log("SaveMachineRecord_Deleted: " + res.UpdatedExisting.ToString());
+                Global.Log("SaveMachineRecord_Deleted: " + res.UpdatedExisting.ToString());
                 return (ObjectId) obj.id;
             }
             else
@@ -229,7 +229,7 @@ namespace Copyinfo.Database
                 var col = database.GetCollection(CollectionsDeleted.full_serial_deleted.ToString());
                 var obj = r;
                 WriteConcernResult res = col.Save(obj);
-                Global.log("SaveFullHTMLSerial_Deleted: " + res.UpdatedExisting.ToString());
+                Global.Log("SaveFullHTMLSerial_Deleted: " + res.UpdatedExisting.ToString());
                 return (ObjectId)obj.id;
             }
             else
@@ -245,7 +245,7 @@ namespace Copyinfo.Database
                 var col = database.GetCollection(CollectionsDeleted.full_counter_deleted.ToString());
                 var obj = r;
                 WriteConcernResult res = col.Save(obj);
-                Global.log("SaveFullHTMLCounter_Deleted: " + res.UpdatedExisting.ToString());
+                Global.Log("SaveFullHTMLCounter_Deleted: " + res.UpdatedExisting.ToString());
                 return (ObjectId)obj.id;
             }
             else
@@ -336,7 +336,7 @@ namespace Copyinfo.Database
         //    return new Address();
         //}
 
-        static public HTMLCounter getHTMLCounter(ObjectId id)
+        static public HTMLCounter GetHTMLCounter(ObjectId id)
         {
             if (id != null)
             {
@@ -353,7 +353,7 @@ namespace Copyinfo.Database
             return new HTMLCounter();
         }
 
-        static public HTMLSerial getHTMLSerial(ObjectId id)
+        static public HTMLSerial GetHTMLSerial(ObjectId id)
         {
             if (id != null)
             {
@@ -370,7 +370,7 @@ namespace Copyinfo.Database
             return new HTMLSerial();
         }
 
-        static public EmailData getEmailData(byte[] id)
+        static public EmailData GetEmailData(byte[] id)
         {
             if (id != null)
             {
@@ -434,8 +434,8 @@ namespace Copyinfo.Database
             WriteConcernResult result = collection.Remove(entityQuery);
 
             r.id = new ObjectId();
-            DeleteHTMLSerial(r.full_serialnumber);
-            DeleteHTMLCounter(r.full_counter);
+            DeleteHTMLSerial(r.fullSerialNumberID);
+            DeleteHTMLCounter(r.fullCounterID);
             SaveMachineRecord_Deleted(r);
             
 
@@ -472,7 +472,7 @@ namespace Copyinfo.Database
 
         static public bool DeleteHTMLSerial(ObjectId id)
         {
-            HTMLSerial serial = getHTMLSerial(id);
+            HTMLSerial serial = GetHTMLSerial(id);
             bool r = DeleteHTMLSerial(serial);
             SaveFullHTMLSerial_Deleted(serial);
             return r;
@@ -480,7 +480,7 @@ namespace Copyinfo.Database
 
         static public bool DeleteHTMLCounter(ObjectId id)
         {
-            HTMLCounter counter = getHTMLCounter(id);
+            HTMLCounter counter = GetHTMLCounter(id);
             bool r = DeleteHTMLCounter(counter);
             SaveFullHTMLCounter_Deleted(counter);
             return r;

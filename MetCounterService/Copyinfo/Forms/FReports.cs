@@ -15,7 +15,7 @@ namespace Copyinfo.Forms
         public FReports(List<Database.MachineRecord> records)
         {
             InitializeComponent();
-            cReports1.fillList(records);
+            cReports1.FillList(records);
         }
     }
 }

@@ -9,24 +9,24 @@ namespace Copyinfo.Database
 {
     class DAO
     {
-        public static Address getAddress(int id)
+        public static Address GetAddress(int id)
         {
-            return FirebirdTB.getAddress(id);
+            return Firebird.GetAddress(id);
         }
 
-        public static List<Device> getAllDevices()
+        public static List<Device> GetAllDevices()
         {
-            return FirebirdTB.GetAllDevices();
+            return Firebird.GetAllDevices();
         }
 
-        public static List<Device> getDevices(int idOfClient)
+        public static List<Device> GetDevices(int idOfClient)
         {
-            return FirebirdTB.getDevices(idOfClient);
+            return Firebird.GetDevices(idOfClient);
         }
 
-        internal static List<Client> getAllClients()
+        internal static List<Client> GetAllClients()
         {
-            return FirebirdTB.getAllClients();
+            return Firebird.GetAllClients();
         }
 
         internal static void SaveClient(Client client)
@@ -34,9 +34,9 @@ namespace Copyinfo.Database
             throw new NotImplementedException();
         }
 
-        public static Device getDevice(string serial_number)
+        public static Device GetDevice(string serial_number)
         {
-            return FirebirdTB.getDevice(serial_number);
+            return Firebird.GetDevice(serial_number);
         }
 
         internal static string SaveDevice(Device d)
@@ -44,19 +44,19 @@ namespace Copyinfo.Database
             throw new NotImplementedException();
         }
 
-        internal static Client getClient(int clientID)
+        internal static Client GetClient(int clientID)
         {
-            return FirebirdTB.getClient(clientID);
+            return Firebird.GetClient(clientID);
         }
 
-        internal static Client getClient(string clientNIP)
+        internal static Client GetClient(string clientNIP)
         {
-            return FirebirdTB.getClient(clientNIP);
+            return Firebird.GetClient(clientNIP);
         }
 
-        internal static List<MachineRecord> getAllReports()
+        internal static List<MachineRecord> GetAllReports()
         {
-            return MongoTB.getAllReports();
+            return MongoTB.GetAllReports();
         }
 
         internal static void DeleteMachineRecord(MachineRecord additionalItem)
@@ -64,19 +64,19 @@ namespace Copyinfo.Database
             MongoTB.DeleteMachineRecord(additionalItem);
         }
 
-        internal static EmailData getEmailData(byte[] email_info)
+        internal static EmailData GetEmailData(byte[] email_info)
         {
-            return MongoTB.getEmailData(email_info);
+            return MongoTB.GetEmailData(email_info);
         }
 
-        internal static HTMLCounter getHTMLCounter(ObjectId full_counter)
+        internal static HTMLCounter GetHTMLCounter(ObjectId full_counter)
         {
-            throw new NotImplementedException();
+            return MongoTB.GetHTMLCounter(full_counter);
         }
 
-        internal static HTMLSerial getHTMLSerial(ObjectId full_serialnumber)
+        internal static HTMLSerial GetHTMLSerial(ObjectId full_serialnumber)
         {
-            throw new NotImplementedException();
+            return MongoTB.GetHTMLSerial(full_serialnumber);
         }
 
         internal static bool DeleteDevice(Device additionalItem)
@@ -84,14 +84,14 @@ namespace Copyinfo.Database
             throw new NotImplementedException("DeleteDevice in DAO");
         }
 
-        internal static List<MachineRecord> getReports(string serial_number)
+        internal static List<MachineRecord> GetReports(string serial_number)
         {
-            return MongoTB.getReports(serial_number);
+            return MongoTB.GetReports(serial_number);
         }
 
-        internal static MachineRecord GetOneRecord(string serial_number, DateTime month)
+        internal static MachineRecord GetFirstInMonth(string serial_number, DateTime month)
         {
-            return MongoTB.getOneInMonth(serial_number, month);
+            return MongoTB.GetFirstInMonth(serial_number, month);
         }
     }
 }

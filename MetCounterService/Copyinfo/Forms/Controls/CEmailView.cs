@@ -26,30 +26,30 @@ namespace Copyinfo.Forms.Controls
             this.btnSettings.Click += new System.EventHandler(this.btnPageSetup_Click);
         }
 
-        public void setText(string text)
+        public void SetText(string text)
         {
             this.tbRichTextBoxPrint1.Text = text;
         }
 
-        public void addAttachment(Other.EmailAttachment attachment)
+        public void AddAttachment(Other.EmailAttachment attachment)
         {
             attachments.Add(attachment);
-            ListViewItem item = new ListViewItem(attachment.getAttachmentName());
+            ListViewItem item = new ListViewItem(attachment.GetAttachmentName());
             tbListView1.Items.Add(item);
         }
 
-        public void addAttachments(List<Other.EmailAttachment> attachments)
+        public void AddAttachments(List<Other.EmailAttachment> attachments)
         {
             foreach (Other.EmailAttachment att in attachments)
-                addAttachment(att);
+                AddAttachment(att);
         }
 
         private void tbListView1_DoubleClick(object sender, EventArgs e)
         {
             ListView.TBListView listView = (ListView.TBListView)sender;
-            string file_path = attachments[listView.SelectedItems[0].Index].getFile();
+            string file_path = attachments[listView.SelectedItems[0].Index].GetFile();
             System.IO.FileInfo file = new System.IO.FileInfo(file_path);
-            Global.openEmailAttachment(file.FullName);
+            Global.OpenEmailAttachment(file.FullName);
         }
 
         #region Printing

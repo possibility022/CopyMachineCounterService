@@ -42,31 +42,31 @@ namespace Copyinfo.Forms.Controls
                 this.record1 = record2;
             }
 
-            generate();
+            Generate();
         }
 
-        private void generate()
+        private void Generate()
         {
 
             //TOTAL
-            txtTotal1.Text = record1.getTotal().ToString();
-            txtTotal2.Text = record2.getTotal().ToString();
-            txtTotalDif.Text = (record2.getTotal() - record1.getTotal()).ToString();
+            txtTotal1.Text = record1.GetTotal().ToString();
+            txtTotal2.Text = record2.GetTotal().ToString();
+            txtTotalDif.Text = (record2.GetTotal() - record1.GetTotal()).ToString();
 
             //SCAN
-            txtScan1.Text = record1.scan_counter.ToString();
-            txtScan2.Text = record2.scan_counter.ToString();
-            txtScanDif.Text = (record2.scan_counter - record1.scan_counter).ToString();
+            txtScan1.Text = record1.scanCounter.ToString();
+            txtScan2.Text = record2.scanCounter.ToString();
+            txtScanDif.Text = (record2.scanCounter - record1.scanCounter).ToString();
 
             //Black and White
-            txtBaW1.Text = record1.print_counter_black_and_white.ToString();
-            txtBaW2.Text = record2.print_counter_black_and_white.ToString();
-            txtBaWDiff.Text = (record2.print_counter_black_and_white - record1.print_counter_black_and_white).ToString();
+            txtBaW1.Text = record1.printerCounterBlackAndWhite.ToString();
+            txtBaW2.Text = record2.printerCounterBlackAndWhite.ToString();
+            txtBaWDiff.Text = (record2.printerCounterBlackAndWhite - record1.printerCounterBlackAndWhite).ToString();
 
             //Color
-            txtColor1.Text = record1.print_counter_color.ToString();
-            txtColor2.Text = record2.print_counter_color.ToString();
-            txtColorDiff.Text = (record2.print_counter_color - record1.print_counter_color).ToString();
+            txtColor1.Text = record1.printerCounterColor.ToString();
+            txtColor2.Text = record2.printerCounterColor.ToString();
+            txtColorDiff.Text = (record2.printerCounterColor - record1.printerCounterColor).ToString();
 
             //Set labels (text = datetime)
             lRecord1.Text = record1.datetime.ToString(Style.DateTimeFormat);
@@ -78,11 +78,11 @@ namespace Copyinfo.Forms.Controls
 
             //Chart Printer
             ChartBuilder builder = new ChartBuilder();
-            Series s = builder.buildColumnSeries_total(record1, record2);
+            Series s = builder.BuildColumnSeries_total(record1, record2);
             chart1.Series.Add(s);
 
             //Chart Scan
-            s = builder.buildColumnSeries_scan(record1, record2);
+            s = builder.BuildColumnSeries_scan(record1, record2);
             chart2.Series.Add(s);
         }
 

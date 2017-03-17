@@ -32,12 +32,12 @@ namespace Copyinfo.Database
             charset = "iso-8859-2";
         }
 
-        public string getEmail()
+        public string GetEmail()
         {
-            return "Od: " + from + "\r\n" + "Temat: " + subject + "\r\n\r\n\r\n" + read_email();
+            return "Od: " + from + "\r\n" + "Temat: " + subject + "\r\n\r\n\r\n" + ReadEmail();
         }
 
-        public void parse_using_mime()
+        public void ParseUsingMime()
         {
             Stream stream = new MemoryStream();
             byte[] newline = Encoding.UTF8.GetBytes("\r\n");
@@ -58,9 +58,9 @@ namespace Copyinfo.Database
             var parserOptions = new ParserOptions();
         }
 
-        public void parse()
+        public void Parse()
         {
-            parse_using_mime();
+            ParseUsingMime();
             //emailheader = new List<byte[]>();
             //emailmessage = new List<byte[]>();
 
@@ -70,7 +70,7 @@ namespace Copyinfo.Database
             //setCharset();
         }
 
-        private string read_email()
+        private string ReadEmail()
         {
 
             //string message = "";
@@ -85,7 +85,7 @@ namespace Copyinfo.Database
             return mes.TextBody;
         }
 
-        public List<Other.EmailAttachment> getAttachments()
+        public List<Other.EmailAttachment> GetAttachments()
         {
             List<Other.EmailAttachment> attachments = new List<Other.EmailAttachment>();
 
@@ -98,7 +98,7 @@ namespace Copyinfo.Database
             return attachments;
         }
 
-        private byte[] get_bytes(int index)
+        private byte[] GetBytes(int index)
         {
             byte[] b = new byte[] { };
             switch(encoding)
@@ -114,7 +114,7 @@ namespace Copyinfo.Database
             return b;
         }
 
-        private string convert_line(byte[] line)
+        private string ConvertLine(byte[] line)
         {
             string text = null;
             Encoding en = Encoding.GetEncoding(charset);
@@ -123,7 +123,7 @@ namespace Copyinfo.Database
             return text;
         }
 
-        private void split_header_and_message()
+        private void SplitHeaderAndBody()
         {
             bool isHeader = true;
             for (int i = 0; i < mail.AsBsonArray.Count; i++)
@@ -143,7 +143,7 @@ namespace Copyinfo.Database
             }
         }
 
-        private void setEncoding()
+        private void SetEncoding()
         {
             foreach (byte[] bline in emailheader)
             {
@@ -158,7 +158,7 @@ namespace Copyinfo.Database
             }
         }
 
-        private void setCharset()
+        private void SetCharset()
         {
             foreach(byte[] bline in emailheader)
             {

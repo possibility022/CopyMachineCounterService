@@ -26,9 +26,9 @@ namespace Copyinfo.Forms
                 cLineCompare_Report1.Compare(records[0], records[1]);
         }
 
-        private void setCompareLines(Database.MachineRecord[] records)
+        private void SetCompareLines(Database.MachineRecord[] records)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

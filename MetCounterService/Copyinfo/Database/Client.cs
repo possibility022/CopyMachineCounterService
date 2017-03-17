@@ -36,19 +36,19 @@ namespace Copyinfo.Database
             //devices = new string[] { };
         }
 
-        public Address getAddress()
+        public Address GetAddress()
         {
             return address_class;
         }
 
-        public void setAddress(Address a)
+        public void GetAddress(Address a)
         {
             address_class = a;
         }
 
-        public List<Device> getDevices()
+        public List<Device> GetDevices()
         {
-            return DAO.getDevices(this.id);
+            return DAO.GetDevices(this.id);
         }
     }
 }

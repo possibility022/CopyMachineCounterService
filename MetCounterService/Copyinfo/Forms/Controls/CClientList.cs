@@ -27,8 +27,8 @@ namespace Copyinfo.Forms.Controls
 
         private void tbButton1_Click(object sender, EventArgs e)
         {
-            List<Database.Client> list = Database.DAO.getAllClients();
-            tbClientListView1.setList(list);
+            List<Database.Client> list = Database.DAO.GetAllClients();
+            tbClientListView1.SetList(list);
         }
 
         private void tbButton2_Click(object sender, EventArgs e)
@@ -37,10 +37,10 @@ namespace Copyinfo.Forms.Controls
             client.Show();
         }
 
-        private void alignTextBoxes()
+        private void AlignTextBoxes()
         {
             GUI.AlignTextBoxes(
-                this.tbClientListView1.getColumnSizeHeaders(),
+                this.tbClientListView1.GetColumnSizeHeaders(),
                 new TextBox[] {
                     tbTBClient,
                     tbTBNIP,
@@ -53,29 +53,29 @@ namespace Copyinfo.Forms.Controls
                 tbClientListView1.Location.Y - tbTBEmail.Size.Height, 0);
         }
 
-        private void alignListViewHeigh()
+        private void AlignListViewHeigh()
         {
             tbClientListView1.Height = this.Height - tbTBClient.Height - 5;
         }
 
         private void tbClientListView1_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
-            alignTextBoxes();
+            AlignTextBoxes();
         }
 
         private void CClientList_Resize(object sender, EventArgs e)
         {
-            alignTextBoxes();
-            alignListViewHeigh();
+            AlignTextBoxes();
+            AlignListViewHeigh();
         }
 
         private void tbTBClient_TextChanged(object sender, EventArgs e)
         {
             TextBoxes.TBTextBox s = (TextBoxes.TBTextBox)sender;
-            tbClientListView1.filter(s.id, s.Text);
+            tbClientListView1.Filter(s.id, s.Text);
         }
 
-        public List<Database.Client> getSelectedClients()
+        public List<Database.Client> GetSelectedClients()
         {
             List<Database.Client> clients = new List<Database.Client>();
             if (tbClientListView1.SelectedItems.Count > 0)

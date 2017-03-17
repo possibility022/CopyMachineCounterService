@@ -110,7 +110,7 @@
     <Compile Include="Database\Delegates.cs" />
     <Compile Include="Database\Device.cs" />
     <Compile Include="Database\EmailData.cs" />
-    <Compile Include="Database\FirebirdTB.cs" />
+    <Compile Include="Database\Firebird.cs" />
     <Compile Include="Database\HTMLCounter.cs" />
     <Compile Include="Database\HTMLSerial.cs" />
     <Compile Include="Database\LocalDatabase.cs" />
@@ -419,6 +419,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -8,7 +8,7 @@ namespace Copyinfo.Other
 {
     class ArrayOperations
     {
-        public static string[] addToArray(string[] array, ref string value)
+        public static string[] AddToArray(string[] array, ref string value)
         {
             List<string> buffor = array.ToList();
             buffor.Add(value);

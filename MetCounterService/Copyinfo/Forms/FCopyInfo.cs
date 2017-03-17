@@ -31,12 +31,12 @@ namespace Copyinfo.Forms
 
         private void FCopyInfo_Resize(object sender, EventArgs e)
         {
-            GUI.calculateHeight(cReports1, this, freeAtTop);
+            GUI.CalculateHeight(cReports1, this, freeAtTop);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cReports1.fillList(Database.DAO.getAllReports());
+            cReports1.FillList(Database.DAO.GetAllReports());
         }
 
         private void btnDevices_Click(object sender, EventArgs e)
@@ -53,20 +53,20 @@ namespace Copyinfo.Forms
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            printSelected();
+            PrintSelected();
         }
 
-        private void printSelected()
+        private void PrintSelected()
         {
-            List<MachineRecord> records = cReports1.getSelected();
+            List<MachineRecord> records = cReports1.GetSelected();
             List<string> toPrint = new List<string>();
 
             foreach(MachineRecord rec in records)
             {
-                toPrint.Add(rec.getTextToPrint());
+                toPrint.Add(rec.GetTextToPrint());
             }
 
-            Other.Printing.print(toPrint);
+            Other.Printing.Print(toPrint);
 
             if (toPrint.Count > 0)
                 MessageBox.Show("Zlecono do wydruku: " + records.Count.ToString() + " dokumentów.");

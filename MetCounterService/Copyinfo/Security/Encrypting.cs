@@ -34,22 +34,22 @@ namespace Copyinfo.Security
 
         public static byte[] AES_Decrypt(byte[] data)
         {
-            return AES_Decrypt(data, getPassword());
+            return AES_Decrypt(data, GetPassword());
         }
 
         public static byte[] AES_Encrypt(byte[] data)
         {
-            return AES_Encrypt(data, getPassword());
+            return AES_Encrypt(data, GetPassword());
         }
 
         public static string AES_Decrypt(string text)
         {
-            return Encoding.UTF8.GetString(AES_Decrypt(Convert.FromBase64String(text), getPassword()));
+            return Encoding.UTF8.GetString(AES_Decrypt(Convert.FromBase64String(text), GetPassword()));
         }
 
         public static string AES_Encrypt(string text)
         {
-            return Convert.ToBase64String(AES_Encrypt(Encoding.UTF8.GetBytes(text), getPassword()));
+            return Convert.ToBase64String(AES_Encrypt(Encoding.UTF8.GetBytes(text), GetPassword()));
         }
 
         private static byte[] AES_Decrypt(byte[] bytesToBeDecrypted, byte[] passwordBytes)
@@ -118,18 +118,18 @@ namespace Copyinfo.Security
             return encryptedBytes;
         }
 
-        private static string showPasswordPrompt()
+        private static string ShowPasswordPrompt()
         {
             Forms.FPasswordPrompt prompt = new Forms.FPasswordPrompt();
             prompt.ShowDialog();
             return prompt.tbTextBox1.Text;
         }
 
-        private static byte[] getPassword()
+        private static byte[] GetPassword()
         {
             if (DecryptedPassword == null)
             {
-                string passwordTypedByUser = showPasswordPrompt();
+                string passwordTypedByUser = ShowPasswordPrompt();
 
                 DecryptedPassword = AES_Decrypt(Convert.FromBase64String(EncryptedPassword), Encoding.UTF8.GetBytes(passwordTypedByUser));
             }

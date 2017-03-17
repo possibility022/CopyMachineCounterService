@@ -11,6 +11,6 @@ namespace Copyinfo.Database
     public class HTMLSerial
     {
         public ObjectId id { get; set; }
-        public string full_serialnumber { get; set; }
+        public string fullSerialnumber { get; set; }
     }
 }

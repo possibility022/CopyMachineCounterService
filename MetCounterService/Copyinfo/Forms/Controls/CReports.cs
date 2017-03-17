@@ -20,16 +20,16 @@ namespace Copyinfo.Forms.Controls
             InitializeComponent();
             ListViewSorter lvwColumnSorter = new ListViewSorter();
             lvwColumnSorter = new ListViewSorter();
-            lvwColumnSorter.setIntegers(new int[] { 1, 2, 3 });
-            lvwColumnSorter.setDates(new int[] { 4 });
-            lvwColumnSorter.setAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
-            this.tbListView1.setSorter(lvwColumnSorter);
+            lvwColumnSorter.SetIntegers(new int[] { 1, 2, 3 });
+            lvwColumnSorter.SetDates(new int[] { 4 });
+            lvwColumnSorter.SetAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
+            this.tbListView1.SetSorter(lvwColumnSorter);
             //this.tbListView1.ListViewItemSorter = lvwColumnSorter;
             this.tbListView1.MouseClick += listView1_MouseClick;
             //this.tbListView1.ColumnClick += listView1_ColumnClick;
 
-            tbListView1.setColumnsWithDate(new int[] { 4 });
-            tbListView1.setAdditionalClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
+            tbListView1.SetColumnsWithDate(new int[] { 4 });
+            tbListView1.SetAdditionalClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
 
             tbTBSerialNumber.id = 0;
             tbTBBandW.id = 1;
@@ -42,7 +42,7 @@ namespace Copyinfo.Forms.Controls
             tbTBToner_y.id = 8;
         }
 
-        public List<MachineRecord> getSelected()
+        public List<MachineRecord> GetSelected()
         {
             if (tbListView1.SelectedItems != null)
                 if (tbListView1.SelectedItems.Count > 0)
@@ -59,21 +59,21 @@ namespace Copyinfo.Forms.Controls
             return new List<MachineRecord>();
         }
 
-        public void fillList(List<MachineRecord> machines)
+        public void FillList(List<MachineRecord> machines)
         {
             this.tbListView1.Items.Clear();
             foreach(MachineRecord m in machines)
             {
                 Controls.ListView.TBListViewItem item = new Controls.ListView.TBListViewItem(new string[] {
-                    m.serial_number,
-                    m.print_counter_black_and_white.ToString(),
-                    m.print_counter_color.ToString(),
-                    m.scan_counter.ToString(),
+                    m.serialnumber,
+                    m.printerCounterBlackAndWhite.ToString(),
+                    m.printerCounterColor.ToString(),
+                    m.scanCounter.ToString(),
                     m.datetime.ToString(),
-                    m.tonerlevel_k,
-                    m.tonerlevel_c,
-                    m.tonerlevel_m,
-                    m.tonerlevel_y
+                    m.tonerLevelBlack,
+                    m.tonerLevelCyan,
+                    m.tonerLevelMagenta,
+                    m.tonerLevelYellow
                     },
                     m
                     );
@@ -86,7 +86,7 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            string html = record.getCounter().full_counter;
+            string html = record.GetCounter().fullCounter;
 
             new FHTMLView(html).ShowDialog();
         }
@@ -95,7 +95,7 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            string html = record.getSerial().full_serialnumber;
+            string html = record.GetSerial().fullSerialnumber;
 
             new FHTMLView(html).ShowDialog();
         }
@@ -108,7 +108,7 @@ namespace Copyinfo.Forms.Controls
                 {
                     Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
                     MachineRecord record = (MachineRecord)item.additionalItem;
-                    if (record.isParsedEmail())
+                    if (record.IsParsedEmail())
                         contextMenuStrip1.Items[0].Enabled = true;
                     else
                         contextMenuStrip1.Items[0].Enabled = false;
@@ -121,7 +121,7 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            FAddDevice form_add = new FAddDevice(record.serial_number);
+            FAddDevice form_add = new FAddDevice(record.serialnumber);
             form_add.Show();
         }
 
@@ -180,10 +180,10 @@ namespace Copyinfo.Forms.Controls
 
         }
 
-        private void alignTextBoxes()
+        private void AlignTextBoxes()
         {
             GUI.AlignTextBoxes(
-                this.tbListView1.getColumnSizeHeaders(),
+                this.tbListView1.GetColumnSizeHeaders(),
                 new TextBox[] {
                     tbTBSerialNumber,
                     tbTBBandW,
@@ -197,7 +197,7 @@ namespace Copyinfo.Forms.Controls
                 tbListView1.Location.Y - tbTBSerialNumber.Size.Height, 0);
         }
 
-        private void alignListViewHeight()
+        private void AlignListViewHeight()
         {
             this.tbListView1.Height = this.Size.Height - tbTBBandW.Height;
         }
@@ -206,13 +206,13 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            string emailText = record.getEmail().getEmail();
+            string emailText = record.GetEmail().GetEmail();
 
             //new FHTMLView(html).ShowDialog();
             //new FRichTextView(html).ShowDialog();
             FEmailView view = new FEmailView();
-            view.cEmailView1.setText(emailText);
-            view.cEmailView1.addAttachments(record.getEmail().getAttachments());
+            view.cEmailView1.SetText(emailText);
+            view.cEmailView1.AddAttachments(record.GetEmail().GetAttachments());
             view.Show();
             
         }
@@ -220,18 +220,18 @@ namespace Copyinfo.Forms.Controls
         private void tbTBDate_TextChanged(object sender, EventArgs e)
         {
             TextBoxes.TBTextBox s = (TextBoxes.TBTextBox)sender;
-            tbListView1.filter(s.id, s.Text);
+            tbListView1.Filter(s.id, s.Text);
         }
 
         private void tbListView1_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
-            alignTextBoxes();
+            AlignTextBoxes();
         }
 
         private void CReports_Resize(object sender, EventArgs e)
         {
-            alignTextBoxes();
-            alignListViewHeight();
+            AlignTextBoxes();
+            AlignListViewHeight();
         }
 
         private void tbTBDate_MouseClick(object sender, MouseEventArgs e)

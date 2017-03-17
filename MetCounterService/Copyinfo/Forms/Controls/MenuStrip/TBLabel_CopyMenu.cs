@@ -38,7 +38,7 @@ namespace Copyinfo.Forms.Controls.MenuStrip
             {
                 Forms.FEditBox editBox = new FEditBox();
                 editBox.ShowDialog();
-                setValue(editBox.getValue());
+                setValue(editBox.GetValue());
             }
         }
 

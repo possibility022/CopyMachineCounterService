@@ -25,7 +25,7 @@ namespace Copyinfo.Forms.Controls
         public CAddress(Database.Address a)
         {
             InitializeComponent();
-            setAddress(a);
+            SetAddress(a);
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -33,7 +33,7 @@ namespace Copyinfo.Forms.Controls
             
         }
 
-        private void rewrite(TextBox source, TextBox target)
+        private void Rewrite(TextBox source, TextBox target)
         {
             target.Text = source.Text;
         }
@@ -41,7 +41,7 @@ namespace Copyinfo.Forms.Controls
         private void txtCity_TextChanged(object sender, EventArgs e)
         {
             if (rewritePostCity)
-                rewrite(txtCity, txtPost);
+                Rewrite(txtCity, txtPost);
         }
 
         private void txtPost_TextChanged(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace Copyinfo.Forms.Controls
             
         }
 
-        public Database.Address getAddress()
+        public Database.Address GetAddress()
         {
             address.city = txtCity.Text;
             address.postcode = txtPostCode.Text;
@@ -61,7 +61,7 @@ namespace Copyinfo.Forms.Controls
             return address;
         }
 
-        public void setAddress(Database.Address a)
+        public void SetAddress(Database.Address a)
         {
             this.address = a;
 

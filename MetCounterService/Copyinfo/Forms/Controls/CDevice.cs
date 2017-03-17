@@ -17,26 +17,26 @@ namespace Copyinfo.Forms.Controls
 
         public CDevice()
         {
-            init();
+            Init();
         }
 
         public CDevice(Database.Device device)
         {
-            init();
+            Init();
             this.device = device;
         }
 
-        private void init()
+        private void Init()
         {
             InitializeComponent();
             monthCalendar1.MaxSelectionCount = 1;
             monthCalendar1.SelectionStart = DateTime.Today;
-            setDateInText();
+            SetDateInText();
         }
 
-        public Database.Device getDevice()
+        public Database.Device GetDevice()
         {
-            if (checkFields() == false)
+            if (CheckFields() == false)
                 return null;
             Database.Device device = new Database.Device();
             device.serial_number = txtSerialNumber.Text;
@@ -47,18 +47,18 @@ namespace Copyinfo.Forms.Controls
             return device;
         }
 
-        public void setSerialnumber(string serial_number)
+        public void SetSerialnumber(string serial_number)
         {
             this.txtSerialNumber.Text = serial_number;
         }
 
-        private void setDevice()
+        private void SetDevice()
         {
             txtProvider.Text = device.provider;
             txtModel.Text = device.model;
             txtSerialNumber.Text = device.serial_number;
             monthCalendar1.SetDate(device.instalation_datetime);
-            cAddress1.setAddress(device.getAddress());
+            cAddress1.SetAddress(device.GetAddress());
         }
 
 
@@ -66,21 +66,21 @@ namespace Copyinfo.Forms.Controls
         /// 
         /// </summary>
         /// <returns>Zwraca true jesli wszystkie pola sa wypełnione poprawnie</returns>
-        private bool checkFields()
+        private bool CheckFields()
         {
-            if (checkTxtControl(txtInstallationDate) &&
-                checkTxtControl(txtModel) &&
-                checkTxtControl(txtProvider) &&
-                checkTxtControl(txtSerialNumber) && 
-                checkAddress())
+            if (CheckTxtControl(txtInstallationDate) &&
+                CheckTxtControl(txtModel) &&
+                CheckTxtControl(txtProvider) &&
+                CheckTxtControl(txtSerialNumber) && 
+                CheckAddress())
                 return true;
 
             return false;
         }
 
-        private bool checkAddress()
+        private bool CheckAddress()
         {
-            Database.Address ad = cAddress1.getAddress();
+            Database.Address ad = cAddress1.GetAddress();
             if (ad.city != null)
                 if (ad.city.Length > 0)
                     return true;
@@ -94,7 +94,7 @@ namespace Copyinfo.Forms.Controls
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
-        private bool checkTxtControl(TextBox t)
+        private bool CheckTxtControl(TextBox t)
         {
             if (t.Text.Length == 0)
             {
@@ -110,14 +110,14 @@ namespace Copyinfo.Forms.Controls
 
         }
 
-        private void setDateInText()
+        private void SetDateInText()
         {
             txtInstallationDate.Text = monthCalendar1.SelectionStart.Date.Day.ToString() + " (" + monthCalendar1.SelectionStart.Date.DayOfWeek.ToString() + ") " + monthCalendar1.SelectionStart.Month.ToString();
         }
 
         private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
         {
-            setDateInText();
+            SetDateInText();
         }
     }
 }

@@ -29,9 +29,9 @@ namespace Copyinfo.Forms.Controls.ListView
 
         private void OnContextMenuClosed()
         {
-            if (rightClickMenu.getSelectedOption() == MenuStrip.TBClientRightClickMenu.ListOfOptions.Edit)
+            if (rightClickMenu.GetSelectedOption() == MenuStrip.TBClientRightClickMenu.ListOfOptions.Edit)
             {
-                new FClient(Database.DAO.getClient(SelectedItems[0].SubItems[1].Text)).ShowDialog();
+                new FClient(Database.DAO.GetClient(SelectedItems[0].SubItems[1].Text)).ShowDialog();
             }
         }
 
@@ -41,9 +41,9 @@ namespace Copyinfo.Forms.Controls.ListView
                 new FDevicesView(item.SubItems[1].Text).Show();
         }
 
-        private void addToList(Database.Client c)
+        private void AddToList(Database.Client c)
         {
-            Database.Address ad = c.getAddress();
+            Database.Address ad = c.GetAddress();
 
             string phone = "";
             string mail = "";
@@ -59,12 +59,12 @@ namespace Copyinfo.Forms.Controls.ListView
             this.Items.Add(item);
         }
 
-        public void setList(List<Database.Client> clients)
+        public void SetList(List<Database.Client> clients)
         {
             this.Items.Clear();
             foreach (Database.Client c in clients)
             {
-                addToList(c);
+                AddToList(c);
             }
         }
     }

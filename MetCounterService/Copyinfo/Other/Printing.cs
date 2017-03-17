@@ -11,7 +11,7 @@ namespace Copyinfo.Other
 {
     class Printing
     {
-        private static void print(string text, PrintDialog dialog)
+        private static void Print(string text, PrintDialog dialog)
         {
             string stringToPrint = text;
 
@@ -58,7 +58,7 @@ namespace Copyinfo.Other
             }
         }
 
-        public static void print(string[] texts)
+        public static void Print(string[] texts)
         {
             PrintDialog dialog = new PrintDialog();
             dialog.UseEXDialog = true;
@@ -67,15 +67,15 @@ namespace Copyinfo.Other
                 return;
 
             foreach (string text in texts)
-                print(text, dialog);
+                Print(text, dialog);
         }
 
-        public static void print(List<string> texts)
+        public static void Print(List<string> texts)
         {
-            print(texts.ToArray());
+            Print(texts.ToArray());
         }
 
-        public static void print(string text)
+        public static void Print(string text)
         {
             PrintDialog dialog = new PrintDialog();
             dialog.UseEXDialog = true;
@@ -83,7 +83,7 @@ namespace Copyinfo.Other
             if (dialog.ShowDialog() != DialogResult.OK)
                 return;
 
-            print(text, dialog);
+            Print(text, dialog);
         }
     }
 }

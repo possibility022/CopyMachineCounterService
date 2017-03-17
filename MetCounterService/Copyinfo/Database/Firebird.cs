@@ -8,7 +8,7 @@ using FirebirdSql.Data.FirebirdClient;
 
 namespace Copyinfo.Database
 {
-    class FirebirdTB
+    class Firebird
     {
         const string connectionString = "***REMOVED***Database=***REMOVED***;DataSource=***REMOVED***; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;";
         static FbConnection connection = new FbConnection(connectionString);
@@ -106,7 +106,7 @@ namespace Copyinfo.Database
                 client_id = reader.GetInt32(13)
             };
 
-            device.setAddress(address);
+            device.address = address;
 
             return device;
         }
@@ -130,7 +130,7 @@ namespace Copyinfo.Database
             return devices;
         }
 
-        internal static Device getDevice(string serial_number)
+        internal static Device GetDevice(string serial_number)
         {
             string sql = sql_select_device + sql_sekect_device_inner_join + " WHERE URZADZENIE_KLIENT.NR_FABRYCZNY='" + serial_number + "'";
 
@@ -182,7 +182,7 @@ namespace Copyinfo.Database
         /// </summary>
         /// <param name="id">Id klienta</param>
         /// <returns>Lista urządzeń klienta.</returns>
-        internal static List<Device> getDevices(int id)
+        internal static List<Device> GetDevices(int id)
         {
             string sql = sql_select_device + sql_sekect_device_inner_join;
             sql += " WHERE URZADZENIE_KLIENT.ID_KLIENT=" + id.ToString();
@@ -214,7 +214,7 @@ namespace Copyinfo.Database
                 "ADRES_KLIENT.ULICA " +                                       //6
                 "FROM ADRES_KLIENT";
 
-        internal static Address getAddress(int id)
+        internal static Address GetAddress(int id)
         {
             throw new NotImplementedException();
         }
@@ -266,12 +266,12 @@ namespace Copyinfo.Database
                 street = reader.GetString(14)
             };
 
-            c.setAddress(a);
+            c.GetAddress(a);
 
             return c;
         }
 
-        internal static List<Client> getAllClients()
+        internal static List<Client> GetAllClients()
         {
             string sql = sql_select_clients;
 
@@ -287,7 +287,7 @@ namespace Copyinfo.Database
             return clients;
         }
 
-        internal static Client getClient(int id)
+        internal static Client GetClient(int id)
         {
             string sql = sql_select_clients + " WHERE ID_KLIENT=" + id.ToString();
             FbDataReader reader = executeCommand(sql);
@@ -300,7 +300,7 @@ namespace Copyinfo.Database
             return client;
         }
 
-        internal static Client getClient(string nip)
+        internal static Client GetClient(string nip)
         {
             string sql = sql_select_clients + " WHERE NIP='" + nip + "'";
             FbDataReader reader = executeCommand(sql);

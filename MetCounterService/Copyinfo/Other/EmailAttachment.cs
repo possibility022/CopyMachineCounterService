@@ -25,9 +25,9 @@ namespace Copyinfo.Other
             }
         }
 
-        public string getFile()
+        public string GetFile()
         {
-            using (var stream = File.Create(getAttachmentName()))
+            using (var stream = File.Create(GetAttachmentName()))
             {
                 if (attachment is MessagePart)
                 {
@@ -41,10 +41,10 @@ namespace Copyinfo.Other
                 }
             }
 
-            return getAttachmentName();
+            return GetAttachmentName();
         }
 
-        public string getAttachmentName()
+        public string GetAttachmentName()
         {
             return fileName;
         }

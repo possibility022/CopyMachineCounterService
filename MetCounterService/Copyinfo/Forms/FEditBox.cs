@@ -23,7 +23,7 @@ namespace Copyinfo.Forms
             tbTextBox1.Text = text;
         }
 
-        public string getValue()
+        public string GetValue()
         {
             return tbTextBox1.Text;
         }

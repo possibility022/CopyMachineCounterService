@@ -24,13 +24,13 @@ namespace Copyinfo.Forms.Controls
 //            tbListView1.setColumnsWithDate(new int[] { 4 });
         }
 
-        public void loadList(List<Database.Device> list)
+        public void LoadList(List<Database.Device> list)
         {
             tbListView1.Items.Clear();
-            addToList(list);
+            AddToList(list);
         }
 
-        public void addToList(List<Database.Device> list)
+        public void AddToList(List<Database.Device> list)
         {
             List<Database.Device> devices = new List<Database.Device>(list);
             ListViewItem item;
@@ -38,7 +38,7 @@ namespace Copyinfo.Forms.Controls
             for (int i = 0; i < devices.Count; i++)
             {
                 Database.Device d = devices[i];
-                values = new string[] { d.provider, d.model, d.serial_number, d.getAddress().street + " " + d.getAddress().city, d.instalation_datetime.ToString(Style.DateTimeFormat), d.service_agreement ? "tak" : "nie" };
+                values = new string[] { d.provider, d.model, d.serial_number, d.GetAddress().street + " " + d.GetAddress().city, d.instalation_datetime.ToString(Style.DateTimeFormat), d.service_agreement ? "tak" : "nie" };
                 item = new Controls.ListView.TBListViewItem(values, d);
                 tbListView1.Items.Add(item);
             }
@@ -57,8 +57,8 @@ namespace Copyinfo.Forms.Controls
 
         private void showReportsForThisDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Database.Device device = getSelectedDevice();
-            new FReports(Database.DAO.getReports(device.serial_number)).Show();
+            Database.Device device = GetSelectedDevice();
+            new FReports(Database.DAO.GetReports(device.serial_number)).Show();
         }
 
         public void DeleteSelectedDevices()
@@ -90,11 +90,11 @@ namespace Copyinfo.Forms.Controls
             }
         } // NOT IMPLEMENTED! and DONT DO THIS!
 
-        private void alignTextBoxesAndListView()
+        private void AlignTextBoxesAndListView()
         {
             tbListView1.Height = this.Height - tbTBAddress.Height - 2;
             GUI.AlignTextBoxes(
-                this.tbListView1.getColumnSizeHeaders(),
+                this.tbListView1.GetColumnSizeHeaders(),
                 new TextBox[] {
                     tbTBProvider,
                     tbTBModel,
@@ -107,39 +107,39 @@ namespace Copyinfo.Forms.Controls
 
         private void listView_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
-            alignTextBoxesAndListView();
+            AlignTextBoxesAndListView();
         }
 
         private void tbTBProvider_TextChanged(object sender, EventArgs e)
         {
             TextBoxes.TBTextBox s = (TextBoxes.TBTextBox)sender;
-            tbListView1.filter(s.id, s.Text);
+            tbListView1.Filter(s.id, s.Text);
         }
 
         private void CDeviceList_Resize(object sender, EventArgs e)
         {
-            alignTextBoxesAndListView();
+            AlignTextBoxesAndListView();
         }
 
-        private void showAddressForSelectedDevice(object sender, EventArgs e)
+        private void ShowAddressForSelectedDevice(object sender, EventArgs e)
         {
             if (this.tbListView1.SelectedItems.Count > 0)
             {
-                Database.Device device = getSelectedDevice();
-                FAddress fAdress = new FAddress(device.getAddress());
+                Database.Device device = GetSelectedDevice();
+                FAddress fAdress = new FAddress(device.GetAddress());
                 fAdress.Show();
             }
         }
 
-        private void showRecordFromThisMonth(object sender, EventArgs e)
+        private void ShowRecordFromThisMonth(object sender, EventArgs e)
         {
-            Database.Device device = getSelectedDevice();
+            Database.Device device = GetSelectedDevice();
             DateTime datetime = new System.DateTime(System.DateTime.Now.Year, System.DateTime.Now.Month, 1);
 
-            Database.MachineRecord record = Database.DAO.GetOneRecord(device.serial_number, datetime);
+            Database.MachineRecord record = Database.DAO.GetFirstInMonth(device.serial_number, datetime);
         }
 
-        private Database.Device getSelectedDevice()
+        private Database.Device GetSelectedDevice()
         {
             if (this.tbListView1.SelectedItems.Count > 0)
             {
@@ -151,7 +151,7 @@ namespace Copyinfo.Forms.Controls
             return null;
         }
 
-        public List<Database.Device> getSelectedDevices()
+        public List<Database.Device> GetSelectedDevices()
         {
             List<Database.Device> devices = new List<Database.Device>();
 

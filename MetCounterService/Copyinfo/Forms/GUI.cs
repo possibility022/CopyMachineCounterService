@@ -32,7 +32,7 @@ namespace Copyinfo.Forms
             return padding;
         }
 
-        public static int calculateHeight(int formHeight, int freeSpaceAtTop)
+        public static int CalculateHeight(int formHeight, int freeSpaceAtTop)
         {
             int finalHeight = formHeight - freeSpaceAtTop;
             if (finalHeight > 0)
@@ -41,14 +41,14 @@ namespace Copyinfo.Forms
                 return 0;
         }
 
-        public static void calculateHeight(UserControl control, Form form, int freeSpaceAtTop)
+        public static void CalculateHeight(UserControl control, Form form, int freeSpaceAtTop)
         {
-            control.Height = calculateHeight(form.Height, freeSpaceAtTop);
+            control.Height = CalculateHeight(form.Height, freeSpaceAtTop);
         }
 
-        public static void calculateHeight(UserControl control, UserControl mainControl, int freeSpaceAtTop)
+        public static void CalculateHeight(UserControl control, UserControl mainControl, int freeSpaceAtTop)
         {
-            control.Height = calculateHeight(mainControl.Height, freeSpaceAtTop);
+            control.Height = CalculateHeight(mainControl.Height, freeSpaceAtTop);
         }
     }
 }

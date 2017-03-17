@@ -21,11 +21,11 @@ namespace Copyinfo.Forms.Controls
         public CHTMLView(string htmltext = "")
         {
             InitializeComponent();
-            setHTML(htmltext);
+            SetHTML(htmltext);
             webBrowser1.ScriptErrorsSuppressed = true;
         }
 
-        public void setHTML(string html)
+        public void SetHTML(string html)
         {
             this.webBrowser1.DocumentText = html;
         }

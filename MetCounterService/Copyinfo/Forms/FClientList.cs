@@ -22,37 +22,37 @@ namespace Copyinfo.Forms
 
         private void tbButton1_Click(object sender, EventArgs e)
         {
-            List<Database.Client> list = Database.DAO.getAllClients();
-            cClientList1.tbClientListView1.setList(list);
+            List<Database.Client> list = Database.DAO.GetAllClients();
+            cClientList1.tbClientListView1.SetList(list);
         }
 
         private void FClientList_Resize(object sender, EventArgs e)
         {
-            GUI.calculateHeight(cClientList1, this, freeSpaceAtTop);
+            GUI.CalculateHeight(cClientList1, this, freeSpaceAtTop);
         }
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            List<Database.Client> clients = cClientList1.getSelectedClients();
+            List<Database.Client> clients = cClientList1.GetSelectedClients();
             List<string> toPrint = new List<string>();
 
             foreach(Database.Client c in clients)
             {
-                List<Database.Device> devices = c.getDevices();
+                List<Database.Device> devices = c.GetDevices();
                 foreach(Database.Device d in devices)
                 {
-                    Database.MachineRecord rec = d.getOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+                    Database.MachineRecord rec = d.GetOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
                     if (rec != null)
-                        toPrint.Add(rec.getTextToPrint());
+                        toPrint.Add(rec.GetTextToPrint());
                 }
             }
 
-            Other.Printing.print(toPrint);
+            Other.Printing.Print(toPrint);
         }
 
         private void FClientList_ResizeEnd(object sender, EventArgs e)
         {
-            GUI.calculateHeight(cClientList1, this, freeSpaceAtTop);
+            GUI.CalculateHeight(cClientList1, this, freeSpaceAtTop);
         }
     }
 }

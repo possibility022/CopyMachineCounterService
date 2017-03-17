@@ -71,14 +71,14 @@
             this.ącaToolStripMenuItem.Name = "ącaToolStripMenuItem";
             this.ącaToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.ącaToolStripMenuItem.Text = "Wyświetl raport z tego miesiaca";
-            this.ącaToolStripMenuItem.Click += new System.EventHandler(this.showRecordFromThisMonth);
+            this.ącaToolStripMenuItem.Click += new System.EventHandler(this.ShowRecordFromThisMonth);
             // 
             // wyświetlAdresToolStripMenuItem
             // 
             this.wyświetlAdresToolStripMenuItem.Name = "wyświetlAdresToolStripMenuItem";
             this.wyświetlAdresToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.wyświetlAdresToolStripMenuItem.Text = "Wyświetl adres";
-            this.wyświetlAdresToolStripMenuItem.Click += new System.EventHandler(this.showAddressForSelectedDevice);
+            this.wyświetlAdresToolStripMenuItem.Click += new System.EventHandler(this.ShowAddressForSelectedDevice);
             // 
             // tbTBServiceAgreement
             // 

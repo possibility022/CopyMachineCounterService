@@ -15,12 +15,12 @@ namespace Copyinfo
             Database.DatabaseCache.Initialize();
         }
 
-        public static void log(string message)
+        public static void Log(string message)
         {
 
         }
 
-        public static void openEmailAttachment(string file)
+        public static void OpenEmailAttachment(string file)
         {
             file = "\"" + file + "\"";
             Process.Start(StaticSettings.RedReaderPath, file);

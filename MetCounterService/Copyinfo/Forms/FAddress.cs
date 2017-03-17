@@ -20,7 +20,7 @@ namespace Copyinfo.Forms
         public FAddress(Database.Address address)
         {
             InitializeComponent();
-            this.cAddress1.setAddress(address);
+            this.cAddress1.SetAddress(address);
         }
 
         private void btnOk_Click(object sender, EventArgs e)
