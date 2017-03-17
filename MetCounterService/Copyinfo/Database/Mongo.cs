@@ -112,7 +112,7 @@ namespace Copyinfo.Database
             if (serial_number != null)
             {
                 var collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
-                var entityQuery = Query<MachineRecord>.EQ(e => e.serialnumber, serial_number);
+                var entityQuery = Query<MachineRecord>.EQ(e => e.serial_number, serial_number);
                 
 
                 var members = collection.Find(entityQuery);
@@ -137,7 +137,7 @@ namespace Copyinfo.Database
                 //var entityQuery = Query<MachineRecord>(filter);
 
                 var collection = _database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
-                var filter = Builders<MachineRecord>.Filter.Gte(e => e.datetime, month) & Builders<MachineRecord>.Filter.Eq(e => e.serialnumber, serial_number);
+                var filter = Builders<MachineRecord>.Filter.Gte(e => e.datetime, month) & Builders<MachineRecord>.Filter.Eq(e => e.serial_number, serial_number);
 
                 IMongoCollection<MachineRecord> col;
 
@@ -434,10 +434,9 @@ namespace Copyinfo.Database
             WriteConcernResult result = collection.Remove(entityQuery);
 
             r.id = new ObjectId();
-            DeleteHTMLSerial(r.fullSerialNumberID);
-            DeleteHTMLCounter(r.fullCounterID);
+            DeleteHTMLSerial(r.full_serialnumber);
+            DeleteHTMLCounter(r.full_counter);
             SaveMachineRecord_Deleted(r);
-            
 
             return true;
         }

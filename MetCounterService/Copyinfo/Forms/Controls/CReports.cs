@@ -65,15 +65,15 @@ namespace Copyinfo.Forms.Controls
             foreach(MachineRecord m in machines)
             {
                 Controls.ListView.TBListViewItem item = new Controls.ListView.TBListViewItem(new string[] {
-                    m.serialnumber,
-                    m.printerCounterBlackAndWhite.ToString(),
-                    m.printerCounterColor.ToString(),
-                    m.scanCounter.ToString(),
+                    m.serial_number,
+                    m.print_counter_black_and_white.ToString(),
+                    m.print_counter_color.ToString(),
+                    m.scan_counter.ToString(),
                     m.datetime.ToString(),
-                    m.tonerLevelBlack,
-                    m.tonerLevelCyan,
-                    m.tonerLevelMagenta,
-                    m.tonerLevelYellow
+                    m.tonerlevel_k,
+                    m.tonerlevel_c,
+                    m.tonerlevel_m,
+                    m.tonerlevel_y
                     },
                     m
                     );
@@ -121,7 +121,7 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            FAddDevice form_add = new FAddDevice(record.serialnumber);
+            FAddDevice form_add = new FAddDevice(record.serial_number);
             form_add.Show();
         }
 

@@ -49,14 +49,14 @@ namespace Copyinfo.Forms
         {
             foreach (Database.MachineRecord record in records)
             {
-                if (inList.Contains(record.serialnumber))
+                if (inList.Contains(record.serial_number))
                 {
-                    int listIndex = inList.IndexOf(record.serialnumber);
+                    int listIndex = inList.IndexOf(record.serial_number);
                     devices[listIndex].Add(record);
                 }
                 else
                 {
-                    inList.Add(record.serialnumber);
+                    inList.Add(record.serial_number);
                     List<Database.MachineRecord> list = new List<Database.MachineRecord>();
                     list.Add(record);
                     devices.Add(list);
@@ -72,7 +72,7 @@ namespace Copyinfo.Forms
 
         public Series BuildColumnSeries_scan(Database.MachineRecord record1, Database.MachineRecord record2)
         {
-            return BuildTwoColumns(record1.datetime, record1.scanCounter, record2.datetime, record2.scanCounter);
+            return BuildTwoColumns(record1.datetime, record1.scan_counter, record2.datetime, record2.scan_counter);
         }
 
         public Series BuildColumnSeries_total(Database.MachineRecord record1, Database.MachineRecord record2)

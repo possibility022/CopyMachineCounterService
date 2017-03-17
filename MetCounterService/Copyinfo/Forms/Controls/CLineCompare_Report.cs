@@ -54,19 +54,19 @@ namespace Copyinfo.Forms.Controls
             txtTotalDif.Text = (record2.GetTotal() - record1.GetTotal()).ToString();
 
             //SCAN
-            txtScan1.Text = record1.scanCounter.ToString();
-            txtScan2.Text = record2.scanCounter.ToString();
-            txtScanDif.Text = (record2.scanCounter - record1.scanCounter).ToString();
+            txtScan1.Text = record1.scan_counter.ToString();
+            txtScan2.Text = record2.scan_counter.ToString();
+            txtScanDif.Text = (record2.scan_counter - record1.scan_counter).ToString();
 
             //Black and White
-            txtBaW1.Text = record1.printerCounterBlackAndWhite.ToString();
-            txtBaW2.Text = record2.printerCounterBlackAndWhite.ToString();
-            txtBaWDiff.Text = (record2.printerCounterBlackAndWhite - record1.printerCounterBlackAndWhite).ToString();
+            txtBaW1.Text = record1.print_counter_black_and_white.ToString();
+            txtBaW2.Text = record2.print_counter_black_and_white.ToString();
+            txtBaWDiff.Text = (record2.print_counter_black_and_white - record1.print_counter_black_and_white).ToString();
 
             //Color
-            txtColor1.Text = record1.printerCounterColor.ToString();
-            txtColor2.Text = record2.printerCounterColor.ToString();
-            txtColorDiff.Text = (record2.printerCounterColor - record1.printerCounterColor).ToString();
+            txtColor1.Text = record1.print_counter_color.ToString();
+            txtColor2.Text = record2.print_counter_color.ToString();
+            txtColorDiff.Text = (record2.print_counter_color - record1.print_counter_color).ToString();
 
             //Set labels (text = datetime)
             lRecord1.Text = record1.datetime.ToString(Style.DateTimeFormat);

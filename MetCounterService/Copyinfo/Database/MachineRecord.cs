@@ -37,17 +37,17 @@ namespace Copyinfo.Database
         public string description { get; set; }
         public string addressIP { get; set; }
         public string addressMAC { get; set; }
-        public string serialnumber { get; set; }
-        public ObjectId fullSerialNumberID { get; set; }
-        public ObjectId fullCounterID { get; set; }
-        public int scanCounter { get; set; }
-        public int printerCounterBlackAndWhite { get; set; }
-        public int printerCounterColor { get; set; }
+        public string serial_number { get; set; }
+        public ObjectId full_serialnumber { get; set; }
+        public ObjectId full_counter { get; set; }
+        public int scan_counter { get; set; }
+        public int print_counter_black_and_white { get; set; }
+        public int print_counter_color { get; set; }
         public ObjectId id { get; set; }
-        public string tonerLevelCyan { get; set; }
-        public string tonerLevelMagenta { get; set; }
-        public string tonerLevelYellow { get; set; }
-        public string tonerLevelBlack { get; set; }
+        public string tonerlevel_c { get; set; }
+        public string tonerlevel_m { get; set; }
+        public string tonerlevel_y { get; set; }
+        public string tonerlevel_k { get; set; }
 
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
@@ -57,7 +57,7 @@ namespace Copyinfo.Database
 
         public Device GetDevice()
         {
-            return DAO.GetDevice(serialnumber);
+            return DAO.GetDevice(serial_number);
         }
 
         public MachineRecord()
@@ -66,12 +66,12 @@ namespace Copyinfo.Database
             description = "";
             addressIP = "";
             addressMAC = "";
-            serialnumber = "";
-            fullCounterID = new ObjectId();
-            fullSerialNumberID = new ObjectId();
-            scanCounter = -1;
-            printerCounterBlackAndWhite = -1;
-            printerCounterColor = -1;
+            serial_number = "";
+            full_counter = new ObjectId();
+            full_serialnumber = new ObjectId();
+            scan_counter = -1;
+            print_counter_black_and_white = -1;
+            print_counter_color = -1;
             id = new ObjectId();
             email = null;
             //email_info = new BsonBinaryData(new byte[] { 0 });
@@ -100,7 +100,7 @@ namespace Copyinfo.Database
         {
             if (html_counter == null)
             {
-                html_counter = Database.DAO.GetHTMLCounter(fullCounterID);
+                html_counter = Database.DAO.GetHTMLCounter(full_serialnumber);
             }
 
             return html_counter;
@@ -110,7 +110,7 @@ namespace Copyinfo.Database
         {
             if (html_serial == null)
             {
-                html_serial = Database.DAO.GetHTMLSerial(fullSerialNumberID);
+                html_serial = Database.DAO.GetHTMLSerial(full_serialnumber);
             }
 
             return html_serial;
@@ -131,17 +131,17 @@ namespace Copyinfo.Database
             string textToPrint =
                 "Klient: " + client.name + " NIP: " + client.NIP + newLine +
                 "Data: " + datetime.ToString(Forms.Style.DateTimeFormat) + newLine +
-                "Numer Seryjny: " + serialnumber + newLine +
+                "Numer Seryjny: " + serial_number + newLine +
                 "Producent: " + device.provider + newLine +
                 "Model: " + device.model + newLine +
                 "Adres: " + address.street + " " + address.house_number + "/" + address.apartment + " " + address.city + newLine +
-                "Licznik Skanowań: " + scanCounter + newLine +
-                "Licznik Czarno-Białe: " + printerCounterBlackAndWhite + newLine +
-                "Licznik Kolorowe: " + printerCounterColor + newLine +
-                "Toner Cyjan: " + tonerLevelCyan + newLine +
-                "Toner Magenta: " + tonerLevelMagenta + newLine +
-                "Toner Yellow: " + tonerLevelYellow + newLine +
-                "Toner Black: " + tonerLevelBlack + newLine;
+                "Licznik Skanowań: " + scan_counter + newLine +
+                "Licznik Czarno-Białe: " + print_counter_black_and_white + newLine +
+                "Licznik Kolorowe: " + print_counter_color + newLine +
+                "Toner Cyjan: " + tonerlevel_c + newLine +
+                "Toner Magenta: " + tonerlevel_c + newLine +
+                "Toner Yellow: " + tonerlevel_m + newLine +
+                "Toner Black: " + tonerlevel_k + newLine;
 
             if (IsParsedEmail())
             {
@@ -153,7 +153,7 @@ namespace Copyinfo.Database
 
         public int GetTotal()
         {
-            return printerCounterBlackAndWhite + printerCounterColor;
+            return print_counter_black_and_white + print_counter_color;
         }
 
         public int CompareTo(MachineRecord other)
