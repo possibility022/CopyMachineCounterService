@@ -57,6 +57,11 @@ namespace Copyinfo.Database
 
         private EmailData email { get; set; }
 
+        public Device getDevice()
+        {
+            return DAO.getDevice(serial_number);
+        }
+
         public MachineRecord()
         {
             datetime = new DateTime();
@@ -111,6 +116,41 @@ namespace Copyinfo.Database
             }
 
             return html_serial;
+        }
+
+        public void print()
+        {
+            Other.Printing.print(getTextToPrint());
+        }
+
+        public string getTextToPrint()
+        {
+            Device device = getDevice();
+            Client client = device.getClient();
+            Address address = device.getAddress();
+
+            string newLine = "\r\n";
+            string textToPrint =
+                "Klient: " + client.name + " NIP: " + client.NIP + newLine +
+                "Data: " + datetime.ToString(Forms.Style.DateTimeFormat) + newLine +
+                "Numer Seryjny: " + serial_number + newLine +
+                "Producent: " + device.provider + newLine +
+                "Model: " + device.model + newLine +
+                "Adres: " + address.street + " " + address.house_number + "/" + address.apartment + " " + address.city + newLine +
+                "Licznik Skanowań: " + scan_counter + newLine +
+                "Licznik Czarno-Białe: " + print_counter_black_and_white + newLine +
+                "Licznik Kolorowe: " + print_counter_color + newLine +
+                "Toner Cyjan: " + tonerlevel_c + newLine +
+                "Toner Magenta: " + tonerlevel_m + newLine +
+                "Toner Yellow: " + tonerlevel_y + newLine +
+                "Toner Black: " + tonerlevel_k + newLine;
+
+            if (isParsedEmail())
+            {
+                textToPrint += getEmail().getEmail();
+            }
+
+            return textToPrint;
         }
 
         public int getTotal()

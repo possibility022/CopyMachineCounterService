@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.tbNote = new System.Windows.Forms.TextBox();
-            this.cDeviceList1 = new Copyinfo.Forms.Controls.CDeviceList();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.btnEditAddress = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.lCity = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.lStreet = new Copyinfo.Forms.Controls.Labels.TBLabel();
@@ -51,7 +51,7 @@
             this.tbLabel3 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbLabel2 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.cDeviceList1 = new Copyinfo.Forms.Controls.CDeviceList();
             this.SuspendLayout();
             // 
             // tbNote
@@ -62,16 +62,19 @@
             this.tbNote.Size = new System.Drawing.Size(303, 94);
             this.tbNote.TabIndex = 9;
             // 
-            // cDeviceList1
+            // checkBox1
             // 
-            this.cDeviceList1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cDeviceList1.Location = new System.Drawing.Point(0, 200);
-            this.cDeviceList1.Name = "cDeviceList1";
-            this.cDeviceList1.Size = new System.Drawing.Size(694, 197);
-            this.cDeviceList1.TabIndex = 30;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(194, 40);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(116, 17);
+            this.checkBox1.TabIndex = 31;
+            this.checkBox1.Text = "Umowa Serwisowa";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // btnEditAddress
             // 
+            this.btnEditAddress.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditAddress.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnEditAddress.Location = new System.Drawing.Point(414, 160);
             this.btnEditAddress.Name = "btnEditAddress";
@@ -123,6 +126,7 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnDelete.Location = new System.Drawing.Point(181, 160);
             this.btnDelete.Name = "btnDelete";
@@ -133,6 +137,7 @@
             // 
             // btnAdd
             // 
+            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnAdd.Location = new System.Drawing.Point(85, 160);
             this.btnAdd.Name = "btnAdd";
@@ -274,22 +279,19 @@
             this.tbLabel1.TabIndex = 0;
             this.tbLabel1.Text = "Nazwa";
             // 
-            // checkBox1
+            // cDeviceList1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(194, 40);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(116, 17);
-            this.checkBox1.TabIndex = 31;
-            this.checkBox1.Text = "Umowa Serwisowa";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cDeviceList1.Location = new System.Drawing.Point(7, 208);
+            this.cDeviceList1.Name = "cDeviceList1";
+            this.cDeviceList1.Size = new System.Drawing.Size(818, 399);
+            this.cDeviceList1.TabIndex = 32;
             // 
             // AddClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.cDeviceList1);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.btnEditAddress);
             this.Controls.Add(this.lCity);
             this.Controls.Add(this.lStreet);
@@ -313,7 +315,8 @@
             this.Controls.Add(this.tbLabel2);
             this.Controls.Add(this.tbLabel1);
             this.Name = "AddClient";
-            this.Size = new System.Drawing.Size(694, 397);
+            this.Size = new System.Drawing.Size(828, 610);
+            this.Resize += new System.EventHandler(this.AddClient_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,7 +346,7 @@
         private Labels.TBLabel lStreet;
         private Labels.TBLabel lCity;
         private Buttons.TBButton_Small btnEditAddress;
-        private CDeviceList cDeviceList1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private CDeviceList cDeviceList1;
     }
 }

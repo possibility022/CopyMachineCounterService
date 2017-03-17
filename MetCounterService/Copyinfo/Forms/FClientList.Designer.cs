@@ -28,22 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbButton2 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cClientList1 = new Copyinfo.Forms.Controls.CClientList();
+            this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.SuspendLayout();
-            // 
-            // tbButton2
-            // 
-            this.tbButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbButton2.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton2.Location = new System.Drawing.Point(188, 12);
-            this.tbButton2.Name = "tbButton2";
-            this.tbButton2.Size = new System.Drawing.Size(170, 34);
-            this.tbButton2.TabIndex = 2;
-            this.tbButton2.Text = "Dodaj Klienta";
-            this.tbButton2.UseVisualStyleBackColor = true;
-            this.tbButton2.Click += new System.EventHandler(this.tbButton2_Click);
             // 
             // tbButton1
             // 
@@ -65,16 +53,31 @@
             this.cClientList1.Size = new System.Drawing.Size(941, 291);
             this.cClientList1.TabIndex = 0;
             // 
+            // tbButton_Small1
+            // 
+            this.tbButton_Small1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton_Small1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbButton_Small1.Location = new System.Drawing.Point(768, 14);
+            this.tbButton_Small1.Name = "tbButton_Small1";
+            this.tbButton_Small1.Size = new System.Drawing.Size(161, 32);
+            this.tbButton_Small1.TabIndex = 2;
+            this.tbButton_Small1.Text = "Drukuj raporty";
+            this.tbButton_Small1.UseVisualStyleBackColor = true;
+            this.tbButton_Small1.Click += new System.EventHandler(this.tbButton_Small1_Click);
+            // 
             // FClientList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(941, 343);
-            this.Controls.Add(this.tbButton2);
+            this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tbButton1);
             this.Controls.Add(this.cClientList1);
             this.Name = "FClientList";
             this.Text = "FClientList";
+            this.ResizeEnd += new System.EventHandler(this.FClientList_ResizeEnd);
+            this.Resize += new System.EventHandler(this.FClientList_Resize);
             this.ResumeLayout(false);
 
         }
@@ -83,6 +86,6 @@
 
         private Controls.CClientList cClientList1;
         private Controls.Buttons.TBButton tbButton1;
-        private Controls.Buttons.TBButton tbButton2;
+        private Controls.Buttons.TBButton_Small tbButton_Small1;
     }
 }

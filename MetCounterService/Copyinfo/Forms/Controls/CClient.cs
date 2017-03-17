@@ -14,17 +14,21 @@ namespace Copyinfo.Forms.Controls
     {
         private Database.Client client;
 
+        int freeSpaceAtTop;
+
         public AddClient()
         {
+            //InitializeComponent();
             init();
             client = new Database.Client();
         }
         
         public void setClient(Database.Client client)
         {
+            //InitializeComponent();
             this.client = client;
             fillControl(client);
-            //init();
+            init();
         }
 
         private void init()
@@ -36,6 +40,7 @@ namespace Copyinfo.Forms.Controls
             this.tbCbSites.AddItemOnEnter(true);
             this.tbCbFax.AddItemOnEnter(true);
             this.tbCbPhones.AddItemOnEnter(true);
+            freeSpaceAtTop = this.Height - cDeviceList1.Height;
         }
 
         private void fillControl(Database.Client client)
@@ -134,6 +139,11 @@ namespace Copyinfo.Forms.Controls
             client.ser_agr = checkBox1.Checked;
 
             return client;
+        }
+
+        private void AddClient_Resize(object sender, EventArgs e)
+        {
+            GUI.calculateHeight(cDeviceList1, this, freeSpaceAtTop);
         }
     }
 }

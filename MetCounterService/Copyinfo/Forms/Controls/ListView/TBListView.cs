@@ -103,7 +103,7 @@ namespace Copyinfo.Forms.Controls.ListView
                     if (columnsWithDateSorting.Contains(i))
                         match = filterByDate(i, item.additionalItem);
                     else
-                        if (item.SubItems[i].Text.Contains(filters[i]))
+                        if (item.SubItems[i].Text.IndexOf(filters[i],StringComparison.OrdinalIgnoreCase) >= 0)
                             match = true;
                         else
                             return false;
@@ -176,13 +176,6 @@ namespace Copyinfo.Forms.Controls.ListView
             var matchedItems = from TBListViewItem in allListViewBuffered
                                where
                                checkFilter(TBListViewItem)
-                                //((filters[1] != "") && TBListViewItem.subitems[0].text.contains(filters[0]))
-                                //|| ((filters[1] != "") && TBListViewItem.subitems[1].text.contains(filters[1]))
-                                //|| ((filters[1] != "") && TBListViewItem.subitems[2].text.contains(filters[2]))
-                                //|| ((filters[1] != "") && TBListViewItem.subitems[3].text.contains(filters[3]))
-                                //|| ((filters[1] != "") && TBListViewItem.subitems[4].text.contains(filters[4]))
-                                //|| ((filters[1] != "") && TBListViewItem.subitems[5].text.contains(filters[5]))
-                                //|| ((filters[1] != "") && TBListViewItem.subitems[6].text.contains(filters[6]))
                                select TBListViewItem;
 
 

@@ -69,7 +69,9 @@ namespace Copyinfo.Database
                 "ADRES_KLIENT.KOD_POCZT, " +                                  //8
                 "ADRES_KLIENT.POCZTA, " +                                     //9
                 "ADRES_KLIENT.ULICA, " +                                     //10
-                "URZADZENIE_KLIENT.ID_URZADZENIE_KLIENT " +                 //11
+                "URZADZENIE_KLIENT.ID_URZADZENIE_KLIENT, " +                 //11
+                "URZADZENIE_KLIENT.ID_URZADZENIE_KLIENT_STATUS, " +           //12
+                "URZADZENIE_KLIENT.ID_KLIENT " +                            //13
                 "FROM URZADZENIE_KLIENT ";
 
 
@@ -99,7 +101,9 @@ namespace Copyinfo.Database
                 model = reader.GetString(1),
                 provider = reader.GetString(2),
                 instalation_datetime = reader.GetDateTime(3),
-                service_agreement = DatabaseCache.serviceAgreementDevices.Contains(reader.GetInt32(11))
+                service_agreement = DatabaseCache.serviceAgreementDevices.Contains(reader.GetInt32(11)),
+                status = reader.GetInt32(12),
+                client_id = reader.GetInt32(13)
             };
 
             device.setAddress(address);
@@ -117,7 +121,8 @@ namespace Copyinfo.Database
 
             while (reader.Read())
             {
-                devices.Add(readDevice(reader));
+                Device d = readDevice(reader);
+                if (d.status == 1) devices.Add(d);
             }
 
             reader.Close();
@@ -127,7 +132,7 @@ namespace Copyinfo.Database
 
         internal static Device getDevice(string serial_number)
         {
-            string sql = sql_select_device + "WHERE URZADZENIE_KLIENT.NR_FABRYCZNY=" + serial_number + " " + sql_sekect_device_inner_join;
+            string sql = sql_select_device + sql_sekect_device_inner_join + " WHERE URZADZENIE_KLIENT.NR_FABRYCZNY='" + serial_number + "'";
 
             FbDataReader reader = executeCommand(sql);
             Device device = null;
@@ -135,6 +140,8 @@ namespace Copyinfo.Database
             while (reader.Read())
             {
                 device = readDevice(reader);
+                if (device.status == 1)
+                    break;
             }
 
             reader.Close();
@@ -170,9 +177,13 @@ namespace Copyinfo.Database
             return devices;
         }
 
+        /// <summary>
+        /// Ta metoda pobiera urządzenia które są przypisane do klienta. (Aktywne urządzenia)
+        /// </summary>
+        /// <param name="id">Id klienta</param>
+        /// <returns>Lista urządzeń klienta.</returns>
         internal static List<Device> getDevices(int id)
         {
-
             string sql = sql_select_device + sql_sekect_device_inner_join;
             sql += " WHERE URZADZENIE_KLIENT.ID_KLIENT=" + id.ToString();
 
@@ -182,7 +193,8 @@ namespace Copyinfo.Database
 
             while (reader.Read())
             {
-                devices.Add(readDevice(reader));
+                Device d = readDevice(reader);
+                if (d.status == 1) devices.Add(d);
             }
 
             reader.Close();

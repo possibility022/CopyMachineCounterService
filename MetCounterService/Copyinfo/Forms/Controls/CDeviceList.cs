@@ -20,6 +20,7 @@ namespace Copyinfo.Forms.Controls
             tbTBSerialNumber.id = 2;
             tbTBAddress.id = 3;
             tbTBData.id = 4;
+            tbTBServiceAgreement.id = 5;
 //            tbListView1.setColumnsWithDate(new int[] { 4 });
         }
 
@@ -37,7 +38,7 @@ namespace Copyinfo.Forms.Controls
             for (int i = 0; i < devices.Count; i++)
             {
                 Database.Device d = devices[i];
-                values = new string[] { d.provider, d.model, d.serial_number, d.getAddress().street + " " + d.getAddress().city, d.instalation_datetime.ToString(Style.DateTimeFormat) };
+                values = new string[] { d.provider, d.model, d.serial_number, d.getAddress().street + " " + d.getAddress().city, d.instalation_datetime.ToString(Style.DateTimeFormat), d.service_agreement ? "tak" : "nie" };
                 item = new Controls.ListView.TBListViewItem(values, d);
                 tbListView1.Items.Add(item);
             }
@@ -99,7 +100,8 @@ namespace Copyinfo.Forms.Controls
                     tbTBModel,
                     tbTBSerialNumber,
                     tbTBAddress,
-                    tbTBData},
+                    tbTBData,
+                    tbTBServiceAgreement},
                 tbListView1.Location.Y - tbTBProvider.Size.Height, 0);
         }
 
@@ -147,6 +149,23 @@ namespace Copyinfo.Forms.Controls
             }
 
             return null;
+        }
+
+        public List<Database.Device> getSelectedDevices()
+        {
+            List<Database.Device> devices = new List<Database.Device>();
+
+            if(tbListView1.SelectedItems.Count > 0)
+            {
+                foreach(ListViewItem item in tbListView1.SelectedItems)
+                {
+                    Controls.ListView.TBListViewItem i = (Controls.ListView.TBListViewItem)item;
+                    Database.Device device = (Database.Device)i.additionalItem;
+                    devices.Add(device);
+                }
+            }
+
+            return devices;
         }
     }
 }

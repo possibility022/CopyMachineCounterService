@@ -74,5 +74,20 @@ namespace Copyinfo.Forms.Controls
             TextBoxes.TBTextBox s = (TextBoxes.TBTextBox)sender;
             tbClientListView1.filter(s.id, s.Text);
         }
+
+        public List<Database.Client> getSelectedClients()
+        {
+            List<Database.Client> clients = new List<Database.Client>();
+            if (tbClientListView1.SelectedItems.Count > 0)
+            {
+                foreach(ListViewItem item in tbClientListView1.SelectedItems)
+                {
+                    Controls.ListView.TBListViewItem i = (Controls.ListView.TBListViewItem)item;
+                    Database.Client client = (Database.Client)i.additionalItem;
+                    clients.Add(client);
+                }
+            }
+            return clients;
+        }
     }
 }

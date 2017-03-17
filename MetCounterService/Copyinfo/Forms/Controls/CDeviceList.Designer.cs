@@ -31,19 +31,21 @@
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.wyświetlRaportyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ącaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wyświetlAdresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbTBServiceAgreement = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.tbListView1 = new Copyinfo.Forms.Controls.ListView.TBListView();
             this.Provider = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Model = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Serial_number = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.DateTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ServiceAgreement = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tbTBData = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.tbTBAddress = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.tbTBSerialNumber = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.tbTBModel = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.tbTBProvider = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.ącaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +55,7 @@
             this.wyświetlRaportyToolStripMenuItem,
             this.wyświetlAdresToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(163, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(163, 48);
             // 
             // wyświetlRaportyToolStripMenuItem
             // 
@@ -64,12 +66,29 @@
             this.wyświetlRaportyToolStripMenuItem.Text = "Wyświetl raporty";
             this.wyświetlRaportyToolStripMenuItem.Click += new System.EventHandler(this.showReportsForThisDeviceToolStripMenuItem_Click);
             // 
+            // ącaToolStripMenuItem
+            // 
+            this.ącaToolStripMenuItem.Name = "ącaToolStripMenuItem";
+            this.ącaToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
+            this.ącaToolStripMenuItem.Text = "Wyświetl raport z tego miesiaca";
+            this.ącaToolStripMenuItem.Click += new System.EventHandler(this.showRecordFromThisMonth);
+            // 
             // wyświetlAdresToolStripMenuItem
             // 
             this.wyświetlAdresToolStripMenuItem.Name = "wyświetlAdresToolStripMenuItem";
             this.wyświetlAdresToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.wyświetlAdresToolStripMenuItem.Text = "Wyświetl adres";
             this.wyświetlAdresToolStripMenuItem.Click += new System.EventHandler(this.showAddressForSelectedDevice);
+            // 
+            // tbTBServiceAgreement
+            // 
+            this.tbTBServiceAgreement.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTBServiceAgreement.id = 0;
+            this.tbTBServiceAgreement.Location = new System.Drawing.Point(639, 3);
+            this.tbTBServiceAgreement.Name = "tbTBServiceAgreement";
+            this.tbTBServiceAgreement.Size = new System.Drawing.Size(100, 25);
+            this.tbTBServiceAgreement.TabIndex = 8;
+            this.tbTBServiceAgreement.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
             // 
             // tbListView1
             // 
@@ -78,13 +97,14 @@
             this.Model,
             this.Serial_number,
             this.Address,
-            this.DateTime});
+            this.DateTime,
+            this.ServiceAgreement});
             this.tbListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tbListView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.tbListView1.FullRowSelect = true;
             this.tbListView1.Location = new System.Drawing.Point(0, 31);
             this.tbListView1.Name = "tbListView1";
-            this.tbListView1.Size = new System.Drawing.Size(690, 169);
+            this.tbListView1.Size = new System.Drawing.Size(758, 169);
             this.tbListView1.TabIndex = 7;
             this.tbListView1.UseCompatibleStateImageBehavior = false;
             this.tbListView1.View = System.Windows.Forms.View.Details;
@@ -115,6 +135,10 @@
             // 
             this.DateTime.Text = "Data instalacji";
             this.DateTime.Width = 172;
+            // 
+            // ServiceAgreement
+            // 
+            this.ServiceAgreement.Text = "Umowa Serwisowa";
             // 
             // tbTBData
             // 
@@ -166,17 +190,11 @@
             this.tbTBProvider.TabIndex = 2;
             this.tbTBProvider.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
             // 
-            // ącaToolStripMenuItem
-            // 
-            this.ącaToolStripMenuItem.Name = "ącaToolStripMenuItem";
-            this.ącaToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
-            this.ącaToolStripMenuItem.Text = "Wyświetl raport z tego miesiaca";
-            this.ącaToolStripMenuItem.Click += new System.EventHandler(this.showRecordFromThisMonth);
-            // 
             // CDeviceList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tbTBServiceAgreement);
             this.Controls.Add(this.tbListView1);
             this.Controls.Add(this.tbTBData);
             this.Controls.Add(this.tbTBAddress);
@@ -184,7 +202,7 @@
             this.Controls.Add(this.tbTBModel);
             this.Controls.Add(this.tbTBProvider);
             this.Name = "CDeviceList";
-            this.Size = new System.Drawing.Size(690, 200);
+            this.Size = new System.Drawing.Size(758, 200);
             this.Resize += new System.EventHandler(this.CDeviceList_Resize);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -208,5 +226,7 @@
         public ListView.TBListView tbListView1;
         private System.Windows.Forms.ToolStripMenuItem wyświetlAdresToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ącaToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader ServiceAgreement;
+        private TextBoxes.TBTextBox tbTBServiceAgreement;
     }
 }

@@ -38,13 +38,6 @@ namespace Copyinfo.Forms
         {
             this.client = Database.DAO.getClient(clientID);
             this.cDeviceList1.loadList(client.getDevices());
-            button1.Hide();
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            FAddDevice newDevice = new FAddDevice();
-            newDevice.Show();
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
@@ -56,14 +49,33 @@ namespace Copyinfo.Forms
                 cDeviceList1.loadList(client.getDevices());
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            cDeviceList1.DeleteSelectedDevices();
-        }
-
         private void FDevicesView_Resize(object sender, EventArgs e)
         {
             GUI.calculateHeight(cDeviceList1, this, freeSpaceAtTop);
+        }
+
+        private void tbButton_Small1_Click(object sender, EventArgs e)
+        {
+            List<Database.Device> list = cDeviceList1.getSelectedDevices();
+            print(list);
+        }
+
+        private void FDevicesView_ResizeEnd(object sender, EventArgs e)
+        {
+            GUI.calculateHeight(cDeviceList1, this, freeSpaceAtTop);
+        }
+
+        private void print(List<Database.Device> list)
+        {
+            List<string> toprint = new List<string>();
+            foreach (Database.Device d in list)
+            {
+                Database.MachineRecord record = d.getOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+                if (record != null)
+                    toprint.Add(record.getTextToPrint());
+            }
+
+            Other.Printing.print(toprint);
         }
     }
 }

@@ -61,12 +61,9 @@ namespace Copyinfo.Forms
             List<MachineRecord> records = cReports1.getSelected();
             List<string> toPrint = new List<string>();
 
-            for (int i = 0; i < records.Count; i ++)
+            foreach(MachineRecord rec in records)
             {
-                if (records[i].isParsedEmail() == true)
-                {
-                    toPrint.Add(records[i].getEmail().getEmail());
-                }
+                toPrint.Add(rec.getTextToPrint());
             }
 
             Other.Printing.print(toPrint);

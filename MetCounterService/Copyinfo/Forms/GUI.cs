@@ -32,13 +32,23 @@ namespace Copyinfo.Forms
             return padding;
         }
 
+        public static int calculateHeight(int formHeight, int freeSpaceAtTop)
+        {
+            int finalHeight = formHeight - freeSpaceAtTop;
+            if (finalHeight > 0)
+                return finalHeight;
+            else
+                return 0;
+        }
+
         public static void calculateHeight(UserControl control, Form form, int freeSpaceAtTop)
         {
-            int finalHeight = form.Height - freeSpaceAtTop;
-            if (finalHeight > 0)
-                control.Height = finalHeight;
-            else
-                control.Height = 0;
+            control.Height = calculateHeight(form.Height, freeSpaceAtTop);
+        }
+
+        public static void calculateHeight(UserControl control, UserControl mainControl, int freeSpaceAtTop)
+        {
+            control.Height = calculateHeight(mainControl.Height, freeSpaceAtTop);
         }
     }
 }
