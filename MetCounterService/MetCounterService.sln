@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Copyinfo", "Copyinfo\Copyin
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ServerSide", "ServerSide\ServerSide.pyproj", "{BB45CD89-8ED3-4265-A4D7-FB734D8D523E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectListView2012", "ObjectListView\ObjectListView2012.csproj", "{18FEDA0C-D147-4286-B39A-01204808106A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{D0039D01-F7E7-42E7-BA90-F978312A7329}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB45CD89-8ED3-4265-A4D7-FB734D8D523E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB45CD89-8ED3-4265-A4D7-FB734D8D523E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FEDA0C-D147-4286-B39A-01204808106A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18FEDA0C-D147-4286-B39A-01204808106A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18FEDA0C-D147-4286-B39A-01204808106A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FEDA0C-D147-4286-B39A-01204808106A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

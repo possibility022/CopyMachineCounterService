@@ -90,6 +90,7 @@
             this.tbButton4.TabIndex = 7;
             this.tbButton4.Text = "tbButton4";
             this.tbButton4.UseVisualStyleBackColor = true;
+            this.tbButton4.Click += new System.EventHandler(this.tbButton4_Click);
             // 
             // tbButton_Small1
             // 

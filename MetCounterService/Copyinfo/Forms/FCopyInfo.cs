@@ -73,5 +73,10 @@ namespace Copyinfo.Forms
             else
                 MessageBox.Show("Brak zaznaczonych rekordów.");
         }
+
+        private void tbButton4_Click(object sender, EventArgs e)
+        {
+            new FTestingForm().Show();
+        }
     }
 }

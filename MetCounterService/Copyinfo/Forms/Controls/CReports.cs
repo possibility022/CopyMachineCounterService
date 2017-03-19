@@ -86,7 +86,7 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            string html = record.GetCounter().fullCounter;
+            string html = record.GetCounter().full_counter;
 
             new FHTMLView(html).ShowDialog();
         }
@@ -95,7 +95,7 @@ namespace Copyinfo.Forms.Controls
         {
             Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
             MachineRecord record = (MachineRecord)item.additionalItem;
-            string html = record.GetSerial().fullSerialnumber;
+            string html = record.GetSerial().full_serialnumber;
 
             new FHTMLView(html).ShowDialog();
         }
