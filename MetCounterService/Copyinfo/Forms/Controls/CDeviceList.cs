@@ -17,6 +17,16 @@ namespace Copyinfo.Forms.Controls
             InitializeComponent();
             GUI.SetTextBoxAndFastListView(tbTextBox1, fastObjectListView1, this);
             Style.InitFastObjectListView(fastObjectListView1, tbTextBox1);
+            SetConverters();
+        }
+
+        public void SetConverters()
+        {
+            olvInstallationDateTime.AspectToStringConverter = delegate (object x)
+            {
+                DateTime date = (DateTime)x;
+                return date.ToShortDateString();
+            };
         }
 
     }

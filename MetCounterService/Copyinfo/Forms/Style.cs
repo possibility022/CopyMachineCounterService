@@ -45,6 +45,7 @@ namespace Copyinfo.Forms
             lv.UseAlternatingBackColors = true;
             lv.AlternateRowBackColor = alternateRowBackColor;
             lv.Font = objectListViewFont;
+            lv.FullRowSelect = true;
             filterBox.TextChanged += delegate { lv.ModelFilter = TextMatchFilter.Contains(lv, filterBox.Text); };
         }
     }
