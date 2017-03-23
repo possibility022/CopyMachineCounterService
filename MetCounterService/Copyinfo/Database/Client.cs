@@ -19,6 +19,7 @@ namespace Copyinfo.Database
         public string[] emails { get; set; }
         public string[] wwwsites { get; set; }
         public string notes { get; set; }
+        public string address { get { return GetAddress().ToString(); } }
         //public string[] devices { get; set; }
 
         private Address address_class;

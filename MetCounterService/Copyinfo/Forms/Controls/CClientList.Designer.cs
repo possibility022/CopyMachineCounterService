@@ -28,204 +28,101 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbTBNote = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBEmail = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBPhone = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBCity = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBStreet = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBNIP = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBClient = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbClientListView1 = new Copyinfo.Forms.Controls.ListView.TBClientListView();
-            this.ClientName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ClientNip = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ClientStreet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ClientCity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ClientPhone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ClientEmail = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ClientNote = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ClientServiceAgrement = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tbTBServiceAgrement = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
+            this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.olvNIP = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvNote = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvPhones = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // tbTBNote
+            // fastObjectListView1
             // 
-            this.tbTBNote.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBNote.id = 0;
-            this.tbTBNote.Location = new System.Drawing.Point(151, 0);
-            this.tbTBNote.Name = "tbTBNote";
-            this.tbTBNote.Size = new System.Drawing.Size(100, 25);
-            this.tbTBNote.TabIndex = 9;
-            this.tbTBNote.TextChanged += new System.EventHandler(this.tbTBClient_TextChanged);
+            this.fastObjectListView1.AllColumns.Add(this.olvNIP);
+            this.fastObjectListView1.AllColumns.Add(this.olvName);
+            this.fastObjectListView1.AllColumns.Add(this.olvAddress);
+            this.fastObjectListView1.AllColumns.Add(this.olvNote);
+            this.fastObjectListView1.AllColumns.Add(this.olvPhones);
+            this.fastObjectListView1.CellEditUseWholeCell = false;
+            this.fastObjectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvNIP,
+            this.olvName,
+            this.olvAddress,
+            this.olvNote,
+            this.olvPhones});
+            this.fastObjectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fastObjectListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.fastObjectListView1.Location = new System.Drawing.Point(0, 31);
+            this.fastObjectListView1.Name = "fastObjectListView1";
+            this.fastObjectListView1.ShowGroups = false;
+            this.fastObjectListView1.Size = new System.Drawing.Size(1039, 344);
+            this.fastObjectListView1.TabIndex = 0;
+            this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
+            this.fastObjectListView1.View = System.Windows.Forms.View.Details;
+            this.fastObjectListView1.VirtualMode = true;
             // 
-            // tbTBEmail
+            // tbTextBox1
             // 
-            this.tbTBEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBEmail.id = 0;
-            this.tbTBEmail.Location = new System.Drawing.Point(245, 0);
-            this.tbTBEmail.Name = "tbTBEmail";
-            this.tbTBEmail.Size = new System.Drawing.Size(100, 25);
-            this.tbTBEmail.TabIndex = 8;
-            this.tbTBEmail.TextChanged += new System.EventHandler(this.tbTBClient_TextChanged);
+            this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTextBox1.id = 0;
+            this.tbTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.tbTextBox1.Name = "tbTextBox1";
+            this.tbTextBox1.Size = new System.Drawing.Size(749, 25);
+            this.tbTextBox1.TabIndex = 1;
             // 
-            // tbTBPhone
+            // olvNIP
             // 
-            this.tbTBPhone.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBPhone.id = 0;
-            this.tbTBPhone.Location = new System.Drawing.Point(327, 0);
-            this.tbTBPhone.Name = "tbTBPhone";
-            this.tbTBPhone.Size = new System.Drawing.Size(100, 25);
-            this.tbTBPhone.TabIndex = 7;
-            this.tbTBPhone.TextChanged += new System.EventHandler(this.tbTBClient_TextChanged);
+            this.olvNIP.AspectName = "NIP";
+            this.olvNIP.Text = "NIP";
+            this.olvNIP.Width = 87;
             // 
-            // tbTBCity
+            // olvName
             // 
-            this.tbTBCity.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBCity.id = 0;
-            this.tbTBCity.Location = new System.Drawing.Point(151, 0);
-            this.tbTBCity.Name = "tbTBCity";
-            this.tbTBCity.Size = new System.Drawing.Size(100, 25);
-            this.tbTBCity.TabIndex = 6;
-            this.tbTBCity.TextChanged += new System.EventHandler(this.tbTBClient_TextChanged);
+            this.olvName.AspectName = "name";
+            this.olvName.Text = "Nazwa";
+            this.olvName.Width = 159;
             // 
-            // tbTBStreet
+            // olvAddress
             // 
-            this.tbTBStreet.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBStreet.id = 0;
-            this.tbTBStreet.Location = new System.Drawing.Point(196, 0);
-            this.tbTBStreet.Name = "tbTBStreet";
-            this.tbTBStreet.Size = new System.Drawing.Size(100, 25);
-            this.tbTBStreet.TabIndex = 5;
-            this.tbTBStreet.TextChanged += new System.EventHandler(this.tbTBClient_TextChanged);
+            this.olvAddress.AspectName = "address";
+            this.olvAddress.Text = "Adres";
+            this.olvAddress.Width = 221;
             // 
-            // tbTBNIP
+            // olvNote
             // 
-            this.tbTBNIP.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBNIP.id = 0;
-            this.tbTBNIP.Location = new System.Drawing.Point(291, 0);
-            this.tbTBNIP.Name = "tbTBNIP";
-            this.tbTBNIP.Size = new System.Drawing.Size(100, 25);
-            this.tbTBNIP.TabIndex = 4;
-            this.tbTBNIP.TextChanged += new System.EventHandler(this.tbTBClient_TextChanged);
+            this.olvNote.AspectName = "notes";
+            this.olvNote.Text = "Notka";
+            this.olvNote.Width = 192;
             // 
-            // tbTBClient
+            // olvPhones
             // 
-            this.tbTBClient.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBClient.id = 0;
-            this.tbTBClient.Location = new System.Drawing.Point(0, 0);
-            this.tbTBClient.Name = "tbTBClient";
-            this.tbTBClient.Size = new System.Drawing.Size(133, 25);
-            this.tbTBClient.TabIndex = 3;
-            this.tbTBClient.TextChanged += new System.EventHandler(this.tbTBClient_TextChanged);
-            // 
-            // tbClientListView1
-            // 
-            this.tbClientListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ClientName,
-            this.ClientNip,
-            this.ClientStreet,
-            this.ClientCity,
-            this.ClientPhone,
-            this.ClientEmail,
-            this.ClientNote,
-            this.ClientServiceAgrement});
-            this.tbClientListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tbClientListView1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbClientListView1.FullRowSelect = true;
-            this.tbClientListView1.Location = new System.Drawing.Point(0, 31);
-            this.tbClientListView1.Name = "tbClientListView1";
-            this.tbClientListView1.Size = new System.Drawing.Size(1039, 344);
-            this.tbClientListView1.TabIndex = 0;
-            this.tbClientListView1.UseCompatibleStateImageBehavior = false;
-            this.tbClientListView1.View = System.Windows.Forms.View.Details;
-            this.tbClientListView1.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.tbClientListView1_ColumnWidthChanged);
-            // 
-            // ClientName
-            // 
-            this.ClientName.Text = "Klient";
-            this.ClientName.Width = 132;
-            // 
-            // ClientNip
-            // 
-            this.ClientNip.Text = "NIP";
-            this.ClientNip.Width = 122;
-            // 
-            // ClientStreet
-            // 
-            this.ClientStreet.Text = "Ulica";
-            this.ClientStreet.Width = 136;
-            // 
-            // ClientCity
-            // 
-            this.ClientCity.Text = "City";
-            this.ClientCity.Width = 116;
-            // 
-            // ClientPhone
-            // 
-            this.ClientPhone.Text = "Telefon";
-            this.ClientPhone.Width = 83;
-            // 
-            // ClientEmail
-            // 
-            this.ClientEmail.Text = "Email";
-            this.ClientEmail.Width = 120;
-            // 
-            // ClientNote
-            // 
-            this.ClientNote.Text = "Notatka";
-            this.ClientNote.Width = 192;
-            // 
-            // ClientServiceAgrement
-            // 
-            this.ClientServiceAgrement.Text = "Umowa serwisowa";
-            this.ClientServiceAgrement.Width = 123;
-            // 
-            // tbTBServiceAgrement
-            // 
-            this.tbTBServiceAgrement.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBServiceAgrement.id = 0;
-            this.tbTBServiceAgrement.Location = new System.Drawing.Point(433, 0);
-            this.tbTBServiceAgrement.Name = "tbTBServiceAgrement";
-            this.tbTBServiceAgrement.Size = new System.Drawing.Size(100, 25);
-            this.tbTBServiceAgrement.TabIndex = 10;
+            this.olvPhones.AspectName = "p_numbers";
+            this.olvPhones.Text = "Telefony";
+            this.olvPhones.Width = 131;
             // 
             // CClientList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tbTBServiceAgrement);
-            this.Controls.Add(this.tbTBNote);
-            this.Controls.Add(this.tbTBEmail);
-            this.Controls.Add(this.tbTBPhone);
-            this.Controls.Add(this.tbTBCity);
-            this.Controls.Add(this.tbTBStreet);
-            this.Controls.Add(this.tbTBNIP);
-            this.Controls.Add(this.tbTBClient);
-            this.Controls.Add(this.tbClientListView1);
+            this.Controls.Add(this.tbTextBox1);
+            this.Controls.Add(this.fastObjectListView1);
             this.Name = "CClientList";
             this.Size = new System.Drawing.Size(1039, 375);
-            this.Resize += new System.EventHandler(this.CClientList_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.ColumnHeader ClientName;
-        private System.Windows.Forms.ColumnHeader ClientNip;
-        private System.Windows.Forms.ColumnHeader ClientStreet;
-        private System.Windows.Forms.ColumnHeader ClientCity;
-        private System.Windows.Forms.ColumnHeader ClientPhone;
-        private System.Windows.Forms.ColumnHeader ClientEmail;
-        private System.Windows.Forms.ColumnHeader ClientNote;
-        private TextBoxes.TBTextBox tbTBClient;
-        private TextBoxes.TBTextBox tbTBNIP;
-        private TextBoxes.TBTextBox tbTBStreet;
-        private TextBoxes.TBTextBox tbTBCity;
-        private TextBoxes.TBTextBox tbTBPhone;
-        private TextBoxes.TBTextBox tbTBEmail;
-        private TextBoxes.TBTextBox tbTBNote;
-        public ListView.TBClientListView tbClientListView1;
-        private System.Windows.Forms.ColumnHeader ClientServiceAgrement;
-        private TextBoxes.TBTextBox tbTBServiceAgrement;
+        private TextBoxes.TBTextBox tbTextBox1;
+        private BrightIdeasSoftware.OLVColumn olvNIP;
+        private BrightIdeasSoftware.OLVColumn olvName;
+        private BrightIdeasSoftware.OLVColumn olvAddress;
+        private BrightIdeasSoftware.OLVColumn olvNote;
+        private BrightIdeasSoftware.OLVColumn olvPhones;
+        public BrightIdeasSoftware.FastObjectListView fastObjectListView1;
     }
 }

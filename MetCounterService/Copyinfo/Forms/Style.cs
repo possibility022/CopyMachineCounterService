@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
+using BrightIdeasSoftware;
 
 namespace Copyinfo.Forms
 {
@@ -33,7 +34,18 @@ namespace Copyinfo.Forms
 
         public static System.Drawing.Color comboBoxBackColor = System.Drawing.Color.Green;
 
+        public static System.Drawing.Color alternateRowBackColor = System.Drawing.Color.FromArgb(192, 255, 192);
+        public static System.Drawing.Font objectListViewFont = defaultFont;
+
         public static CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("pl-PL");
-        
+
+        public static void InitFastObjectListView(FastObjectListView lv, System.Windows.Forms.TextBox filterBox)
+        {
+            lv.UseFiltering = true;
+            lv.UseAlternatingBackColors = true;
+            lv.AlternateRowBackColor = alternateRowBackColor;
+            lv.Font = objectListViewFont;
+            filterBox.TextChanged += delegate { lv.ModelFilter = TextMatchFilter.Contains(lv, filterBox.Text); };
+        }
     }
 }

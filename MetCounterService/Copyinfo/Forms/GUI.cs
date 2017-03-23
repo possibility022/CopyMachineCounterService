@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrightIdeasSoftware;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,6 +50,14 @@ namespace Copyinfo.Forms
         public static void CalculateHeight(UserControl control, UserControl mainControl, int freeSpaceAtTop)
         {
             control.Height = CalculateHeight(mainControl.Height, freeSpaceAtTop);
+        }
+
+        public static void SetTextBoxAndFastListView(TextBox tx, FastObjectListView lv, UserControl control)
+        {
+            tx.Location = new System.Drawing.Point(0, 0);
+            lv.Height = control.Height - tx.Height;
+
+            control.Resize += delegate { lv.Height = control.Height - tx.Height; };
         }
     }
 }

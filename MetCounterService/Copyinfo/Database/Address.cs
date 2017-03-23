@@ -17,6 +17,8 @@ namespace Copyinfo.Database
         public string house_number { get; set; }
         public string apartment { get; set; }
         public int id { get; set; } // _id
+
+        private string address_string { get; set; } = "";
         
 
         public Address()
@@ -27,6 +29,13 @@ namespace Copyinfo.Database
             post_city = "";
             house_number = "";
             apartment = "";
+        }
+
+        public override string ToString()
+        {
+            if (address_string.Length == 0)
+                address_string = street + " " + house_number + (apartment.Length > 0 ? "\\" + apartment : "") + " " + city;
+            return address_string;
         }
     }
 }

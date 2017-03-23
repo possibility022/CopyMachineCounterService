@@ -22,8 +22,7 @@ namespace Copyinfo.Forms
 
         private void tbButton1_Click(object sender, EventArgs e)
         {
-            List<Database.Client> list = Database.DAO.GetAllClients();
-            cClientList1.tbClientListView1.SetList(list);
+            cClientList1.fastObjectListView1.SetObjects(Database.DAO.GetAllClients());
         }
 
         private void FClientList_Resize(object sender, EventArgs e)
@@ -33,10 +32,9 @@ namespace Copyinfo.Forms
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            List<Database.Client> clients = cClientList1.GetSelectedClients();
             List<string> toPrint = new List<string>();
 
-            foreach(Database.Client c in clients)
+            foreach(Database.Client c in cClientList1.fastObjectListView1.SelectedObjects)
             {
                 List<Database.Device> devices = c.GetDevices();
                 foreach(Database.Device d in devices)

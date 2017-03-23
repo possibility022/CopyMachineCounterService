@@ -113,12 +113,6 @@
     <Compile Include="Database\LocalDatabase.cs" />
     <Compile Include="Database\MachineRecord.cs" />
     <Compile Include="Forms\ChartBuilder.cs" />
-    <Compile Include="Forms\Controls\Allinone.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\Controls\Allinone.Designer.cs">
-      <DependentUpon>Allinone.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Controls\Buttons\TBButton_Small.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -332,9 +326,6 @@
     <Compile Include="Security\Encrypting.cs" />
     <Compile Include="StaticSettings.cs" />
     <Compile Include="TBDelegates.cs" />
-    <EmbeddedResource Include="Forms\Controls\Allinone.resx">
-      <DependentUpon>Allinone.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CClient.resx">
       <DependentUpon>CClient.cs</DependentUpon>
     </EmbeddedResource>
