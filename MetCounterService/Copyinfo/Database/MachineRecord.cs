@@ -125,7 +125,7 @@ namespace Copyinfo.Database
         {
             Device device = GetDevice();
             Client client = device.GetClient();
-            Address address = device.GetAddress();
+            Address address = device.address;
 
             string newLine = "\r\n";
             string textToPrint =

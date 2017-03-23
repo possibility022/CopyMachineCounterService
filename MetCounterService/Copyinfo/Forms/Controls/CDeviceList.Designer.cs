@@ -28,205 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.wyświetlRaportyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ącaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wyświetlAdresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbTBServiceAgreement = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbListView1 = new Copyinfo.Forms.Controls.ListView.TBListView();
-            this.Provider = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Model = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Serial_number = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Address = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.DateTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ServiceAgreement = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tbTBData = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBAddress = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBSerialNumber = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBModel = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBProvider = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.contextMenuStrip1.SuspendLayout();
+            this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
+            this.olvSerialNumber = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvProvider = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvModel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvInstallationDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvServiceAgreement = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // contextMenuStrip1
+            // tbTextBox1
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.wyświetlRaportyToolStripMenuItem,
-            this.wyświetlAdresToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(163, 48);
+            this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTextBox1.id = 0;
+            this.tbTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.tbTextBox1.Name = "tbTextBox1";
+            this.tbTextBox1.Size = new System.Drawing.Size(567, 25);
+            this.tbTextBox1.TabIndex = 1;
             // 
-            // wyświetlRaportyToolStripMenuItem
+            // fastObjectListView1
             // 
-            this.wyświetlRaportyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ącaToolStripMenuItem});
-            this.wyświetlRaportyToolStripMenuItem.Name = "wyświetlRaportyToolStripMenuItem";
-            this.wyświetlRaportyToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.wyświetlRaportyToolStripMenuItem.Text = "Wyświetl raporty";
-            this.wyświetlRaportyToolStripMenuItem.Click += new System.EventHandler(this.showReportsForThisDeviceToolStripMenuItem_Click);
+            this.fastObjectListView1.AllColumns.Add(this.olvSerialNumber);
+            this.fastObjectListView1.AllColumns.Add(this.olvProvider);
+            this.fastObjectListView1.AllColumns.Add(this.olvModel);
+            this.fastObjectListView1.AllColumns.Add(this.olvAddress);
+            this.fastObjectListView1.AllColumns.Add(this.olvInstallationDateTime);
+            this.fastObjectListView1.AllColumns.Add(this.olvServiceAgreement);
+            this.fastObjectListView1.CellEditUseWholeCell = false;
+            this.fastObjectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvSerialNumber,
+            this.olvProvider,
+            this.olvModel,
+            this.olvAddress,
+            this.olvInstallationDateTime,
+            this.olvServiceAgreement});
+            this.fastObjectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fastObjectListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.fastObjectListView1.Location = new System.Drawing.Point(0, 31);
+            this.fastObjectListView1.Name = "fastObjectListView1";
+            this.fastObjectListView1.ShowGroups = false;
+            this.fastObjectListView1.Size = new System.Drawing.Size(758, 169);
+            this.fastObjectListView1.TabIndex = 0;
+            this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
+            this.fastObjectListView1.View = System.Windows.Forms.View.Details;
+            this.fastObjectListView1.VirtualMode = true;
             // 
-            // ącaToolStripMenuItem
+            // olvSerialNumber
             // 
-            this.ącaToolStripMenuItem.Name = "ącaToolStripMenuItem";
-            this.ącaToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
-            this.ącaToolStripMenuItem.Text = "Wyświetl raport z tego miesiaca";
-            this.ącaToolStripMenuItem.Click += new System.EventHandler(this.ShowRecordFromThisMonth);
+            this.olvSerialNumber.AspectName = "serial_number";
+            this.olvSerialNumber.Text = "Numer Seryjny";
+            this.olvSerialNumber.Width = 121;
             // 
-            // wyświetlAdresToolStripMenuItem
+            // olvProvider
             // 
-            this.wyświetlAdresToolStripMenuItem.Name = "wyświetlAdresToolStripMenuItem";
-            this.wyświetlAdresToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.wyświetlAdresToolStripMenuItem.Text = "Wyświetl adres";
-            this.wyświetlAdresToolStripMenuItem.Click += new System.EventHandler(this.ShowAddressForSelectedDevice);
+            this.olvProvider.AspectName = "provider";
+            this.olvProvider.Text = "Producent";
+            this.olvProvider.Width = 91;
             // 
-            // tbTBServiceAgreement
+            // olvModel
             // 
-            this.tbTBServiceAgreement.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBServiceAgreement.id = 0;
-            this.tbTBServiceAgreement.Location = new System.Drawing.Point(639, 3);
-            this.tbTBServiceAgreement.Name = "tbTBServiceAgreement";
-            this.tbTBServiceAgreement.Size = new System.Drawing.Size(100, 25);
-            this.tbTBServiceAgreement.TabIndex = 8;
-            this.tbTBServiceAgreement.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
+            this.olvModel.AspectName = "model";
+            this.olvModel.Text = "Model";
+            this.olvModel.Width = 105;
             // 
-            // tbListView1
+            // olvAddress
             // 
-            this.tbListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Provider,
-            this.Model,
-            this.Serial_number,
-            this.Address,
-            this.DateTime,
-            this.ServiceAgreement});
-            this.tbListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tbListView1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbListView1.FullRowSelect = true;
-            this.tbListView1.Location = new System.Drawing.Point(0, 31);
-            this.tbListView1.Name = "tbListView1";
-            this.tbListView1.Size = new System.Drawing.Size(758, 169);
-            this.tbListView1.TabIndex = 7;
-            this.tbListView1.UseCompatibleStateImageBehavior = false;
-            this.tbListView1.View = System.Windows.Forms.View.Details;
-            this.tbListView1.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.listView_ColumnWidthChanged);
-            this.tbListView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView2_MouseClick);
+            this.olvAddress.AspectName = "address";
+            this.olvAddress.Text = "Adres";
+            this.olvAddress.Width = 178;
             // 
-            // Provider
+            // olvInstallationDateTime
             // 
-            this.Provider.Text = "Producent";
-            this.Provider.Width = 96;
+            this.olvInstallationDateTime.AspectName = "instalation_datetime";
+            this.olvInstallationDateTime.Text = "Data instalacji";
+            this.olvInstallationDateTime.Width = 99;
             // 
-            // Model
+            // olvServiceAgreement
             // 
-            this.Model.Text = "Model";
-            this.Model.Width = 101;
-            // 
-            // Serial_number
-            // 
-            this.Serial_number.Text = "Numer Seryjny";
-            this.Serial_number.Width = 133;
-            // 
-            // Address
-            // 
-            this.Address.Text = "Adres";
-            this.Address.Width = 184;
-            // 
-            // DateTime
-            // 
-            this.DateTime.Text = "Data instalacji";
-            this.DateTime.Width = 172;
-            // 
-            // ServiceAgreement
-            // 
-            this.ServiceAgreement.Text = "Umowa Serwisowa";
-            // 
-            // tbTBData
-            // 
-            this.tbTBData.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBData.id = 0;
-            this.tbTBData.Location = new System.Drawing.Point(533, 0);
-            this.tbTBData.Name = "tbTBData";
-            this.tbTBData.Size = new System.Drawing.Size(100, 25);
-            this.tbTBData.TabIndex = 6;
-            this.tbTBData.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
-            // 
-            // tbTBAddress
-            // 
-            this.tbTBAddress.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBAddress.id = 0;
-            this.tbTBAddress.Location = new System.Drawing.Point(374, 0);
-            this.tbTBAddress.Name = "tbTBAddress";
-            this.tbTBAddress.Size = new System.Drawing.Size(100, 25);
-            this.tbTBAddress.TabIndex = 5;
-            this.tbTBAddress.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
-            // 
-            // tbTBSerialNumber
-            // 
-            this.tbTBSerialNumber.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBSerialNumber.id = 0;
-            this.tbTBSerialNumber.Location = new System.Drawing.Point(248, 0);
-            this.tbTBSerialNumber.Name = "tbTBSerialNumber";
-            this.tbTBSerialNumber.Size = new System.Drawing.Size(100, 25);
-            this.tbTBSerialNumber.TabIndex = 4;
-            this.tbTBSerialNumber.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
-            // 
-            // tbTBModel
-            // 
-            this.tbTBModel.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBModel.id = 0;
-            this.tbTBModel.Location = new System.Drawing.Point(128, 0);
-            this.tbTBModel.Name = "tbTBModel";
-            this.tbTBModel.Size = new System.Drawing.Size(100, 25);
-            this.tbTBModel.TabIndex = 3;
-            this.tbTBModel.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
-            // 
-            // tbTBProvider
-            // 
-            this.tbTBProvider.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBProvider.id = 0;
-            this.tbTBProvider.Location = new System.Drawing.Point(3, 0);
-            this.tbTBProvider.Name = "tbTBProvider";
-            this.tbTBProvider.Size = new System.Drawing.Size(100, 25);
-            this.tbTBProvider.TabIndex = 2;
-            this.tbTBProvider.TextChanged += new System.EventHandler(this.tbTBProvider_TextChanged);
+            this.olvServiceAgreement.AspectName = "service_agreement";
+            this.olvServiceAgreement.CheckBoxes = true;
+            this.olvServiceAgreement.Text = "Umowa Serwisowa";
+            this.olvServiceAgreement.TriStateCheckBoxes = true;
+            this.olvServiceAgreement.Width = 110;
             // 
             // CDeviceList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tbTBServiceAgreement);
-            this.Controls.Add(this.tbListView1);
-            this.Controls.Add(this.tbTBData);
-            this.Controls.Add(this.tbTBAddress);
-            this.Controls.Add(this.tbTBSerialNumber);
-            this.Controls.Add(this.tbTBModel);
-            this.Controls.Add(this.tbTBProvider);
+            this.Controls.Add(this.tbTextBox1);
+            this.Controls.Add(this.fastObjectListView1);
             this.Name = "CDeviceList";
             this.Size = new System.Drawing.Size(758, 200);
-            this.Resize += new System.EventHandler(this.CDeviceList_Resize);
-            this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem wyświetlRaportyToolStripMenuItem;
-        private TextBoxes.TBTextBox tbTBProvider;
-        private TextBoxes.TBTextBox tbTBModel;
-        private TextBoxes.TBTextBox tbTBSerialNumber;
-        private TextBoxes.TBTextBox tbTBAddress;
-        private TextBoxes.TBTextBox tbTBData;
-        private System.Windows.Forms.ColumnHeader Provider;
-        private System.Windows.Forms.ColumnHeader Model;
-        private System.Windows.Forms.ColumnHeader Serial_number;
-        private System.Windows.Forms.ColumnHeader Address;
-        private System.Windows.Forms.ColumnHeader DateTime;
-        public ListView.TBListView tbListView1;
-        private System.Windows.Forms.ToolStripMenuItem wyświetlAdresToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ącaToolStripMenuItem;
-        private System.Windows.Forms.ColumnHeader ServiceAgreement;
-        private TextBoxes.TBTextBox tbTBServiceAgreement;
+        private TextBoxes.TBTextBox tbTextBox1;
+        private BrightIdeasSoftware.OLVColumn olvSerialNumber;
+        private BrightIdeasSoftware.OLVColumn olvProvider;
+        private BrightIdeasSoftware.OLVColumn olvModel;
+        private BrightIdeasSoftware.OLVColumn olvAddress;
+        private BrightIdeasSoftware.OLVColumn olvInstallationDateTime;
+        private BrightIdeasSoftware.OLVColumn olvServiceAgreement;
+        public BrightIdeasSoftware.FastObjectListView fastObjectListView1;
     }
 }

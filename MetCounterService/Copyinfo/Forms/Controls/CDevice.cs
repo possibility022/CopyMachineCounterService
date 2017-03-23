@@ -58,7 +58,7 @@ namespace Copyinfo.Forms.Controls
             txtModel.Text = device.model;
             txtSerialNumber.Text = device.serial_number;
             monthCalendar1.SetDate(device.instalation_datetime);
-            cAddress1.SetAddress(device.GetAddress());
+            cAddress1.SetAddress(device.address);
         }
 
 

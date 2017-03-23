@@ -37,16 +37,16 @@ namespace Copyinfo.Forms
         private void loadClient(string clientID)
         {
             this.client = Database.DAO.GetClient(clientID);
-            this.cDeviceList1.LoadList(client.GetDevices());
+            this.cDeviceList1.fastObjectListView1.SetObjects(client.GetDevices());
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
             if (client == null)
                 //cDeviceList1.loadList(Global.database.getAllDevices());
-                cDeviceList1.LoadList(Database.DAO.GetAllDevices());
+                cDeviceList1.fastObjectListView1.SetObjects(Database.DAO.GetAllDevices());
             else
-                cDeviceList1.LoadList(client.GetDevices());
+                cDeviceList1.fastObjectListView1.SetObjects(client.GetDevices());
         }
 
         private void FDevicesView_Resize(object sender, EventArgs e)
@@ -56,7 +56,9 @@ namespace Copyinfo.Forms
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            List<Database.Device> list = cDeviceList1.GetSelectedDevices();
+            List<Database.Device> list = new List<Database.Device>();
+            foreach (Database.Device dev in cDeviceList1.fastObjectListView1.SelectedItems)
+                list.Add(dev);
             print(list);
         }
 

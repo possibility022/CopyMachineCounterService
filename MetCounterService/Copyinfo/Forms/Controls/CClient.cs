@@ -75,7 +75,7 @@ namespace Copyinfo.Forms.Controls
 
             this.checkBox1.Checked = client.ser_agr;
 
-            cDeviceList1.AddToList(client.GetDevices());
+            cDeviceList1.fastObjectListView1.AddObjects(client.GetDevices());
 
             FillAddress();
         }

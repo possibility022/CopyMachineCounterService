@@ -30,15 +30,6 @@ namespace Copyinfo.Database
             serial_number = "";
         }
 
-        public Address GetAddress()
-        {
-            if (address == null)
-            {
-                address = Firebird.GetAddress(instalationAddressId);
-            }
-            return this.address;
-        }
-
         public MachineRecord GetOneRecord(DateTime datetime)
         {
             return DAO.GetFirstInMonth(serial_number, datetime);

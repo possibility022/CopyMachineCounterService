@@ -15,15 +15,15 @@ namespace Copyinfo.Forms
         public FDeviceListSelect()
         {
             InitializeComponent();
-            cDeviceList1.LoadList(Database.DAO.GetAllDevices());
+            cDeviceList1.fastObjectListView1.SetObjects(Database.DAO.GetAllDevices());
         }
 
         public List<Database.Device> GetSelected()
         {
             List<Database.Device> devices = new List<Database.Device>();
 
-            foreach (Controls.ListView.TBListViewItem el in this.cDeviceList1.tbListView1.SelectedItems)
-                devices.Add((Database.Device)el.additionalItem);
+            foreach (Database.Device dev in cDeviceList1.fastObjectListView1.SelectedItems)
+                devices.Add(dev);
 
             return devices;
         }
