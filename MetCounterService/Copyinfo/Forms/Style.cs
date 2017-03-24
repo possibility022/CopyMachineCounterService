@@ -11,7 +11,8 @@ namespace Copyinfo.Forms
     static class Style
     {
         public static System.Drawing.Font defaultFont = new System.Drawing.Font("Segoe UI", 10);
-        public static System.Drawing.Font emailRichTextBoxFont = new System.Drawing.Font("Segoe UI", 8);
+        public static System.Drawing.Font defaultSmallFont = new System.Drawing.Font("Segoe UI", 8);
+        public static System.Drawing.Font emailRichTextBoxFont = defaultSmallFont;
 
         public static System.Drawing.Color txtErrorColor = System.Drawing.Color.FromArgb(255, 82, 82);
         public static System.Windows.Forms.DataVisualization.Charting.SeriesChartType chartType_Multi = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -35,7 +36,7 @@ namespace Copyinfo.Forms
         public static System.Drawing.Color comboBoxBackColor = System.Drawing.Color.Green;
 
         public static System.Drawing.Color alternateRowBackColor = System.Drawing.Color.FromArgb(192, 255, 192);
-        public static System.Drawing.Font objectListViewFont = defaultFont;
+        public static System.Drawing.Font objectListViewFont = defaultSmallFont;
 
         public static CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("pl-PL");
 
@@ -45,6 +46,7 @@ namespace Copyinfo.Forms
             lv.UseAlternatingBackColors = true;
             lv.AlternateRowBackColor = alternateRowBackColor;
             lv.Font = objectListViewFont;
+            lv.FullRowSelect = true;
             filterBox.TextChanged += delegate { lv.ModelFilter = TextMatchFilter.Contains(lv, filterBox.Text); };
         }
     }

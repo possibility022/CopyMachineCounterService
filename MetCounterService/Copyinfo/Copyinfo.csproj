@@ -294,12 +294,6 @@
     <Compile Include="Forms\FPasswordPrompt.Designer.cs">
       <DependentUpon>FPasswordPrompt.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FReports.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FReports.Designer.cs">
-      <DependentUpon>FReports.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FRichTextView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -397,9 +391,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FPasswordPrompt.resx">
       <DependentUpon>FPasswordPrompt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FReports.resx">
-      <DependentUpon>FReports.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FRichTextView.resx">
       <DependentUpon>FRichTextView.cs</DependentUpon>

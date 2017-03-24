@@ -23,69 +23,23 @@ namespace Copyinfo.Forms.Controls
             lvwColumnSorter.SetIntegers(new int[] { 1, 2, 3 });
             lvwColumnSorter.SetDates(new int[] { 4 });
             lvwColumnSorter.SetAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
-            this.tbListView1.SetSorter(lvwColumnSorter);
+            
             //this.tbListView1.ListViewItemSorter = lvwColumnSorter;
-            this.tbListView1.MouseClick += listView1_MouseClick;
+            this.fastObjectListView1.MouseClick += listView1_MouseClick;
             //this.tbListView1.ColumnClick += listView1_ColumnClick;
 
-            tbListView1.SetColumnsWithDate(new int[] { 4 });
-            tbListView1.SetAdditionalClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
-
-            tbTBSerialNumber.id = 0;
-            tbTBBandW.id = 1;
-            tbTBColor.id = 2;
-            tbTBScan.id = 3;
-            tbTBDate.id = 4;
-            tbTBToner_k.id = 5;
-            tbTBToner_c.id = 6;
-            tbTBToner_m.id = 7;
-            tbTBToner_y.id = 8;
+            GUI.SetTextBoxAndFastListView(tbTextBox1, fastObjectListView1, this);
+            Style.InitFastObjectListView(fastObjectListView1, tbTextBox1);
         }
 
-        public List<MachineRecord> GetSelected()
+        public void FillList(List<MachineRecord> records)
         {
-            if (tbListView1.SelectedItems != null)
-                if (tbListView1.SelectedItems.Count > 0)
-                {
-                    List<MachineRecord> records = new List<MachineRecord>();
-                    foreach(ListViewItem item in tbListView1.SelectedItems)
-                    {
-                        ListView.TBListViewItem tbItem = (ListView.TBListViewItem)item;
-                        records.Add((MachineRecord)tbItem.additionalItem);
-                    }
-                    return records;
-                }
-
-            return new List<MachineRecord>();
-        }
-
-        public void FillList(List<MachineRecord> machines)
-        {
-            this.tbListView1.Items.Clear();
-            foreach(MachineRecord m in machines)
-            {
-                Controls.ListView.TBListViewItem item = new Controls.ListView.TBListViewItem(new string[] {
-                    m.serial_number,
-                    m.print_counter_black_and_white.ToString(),
-                    m.print_counter_color.ToString(),
-                    m.scan_counter.ToString(),
-                    m.datetime.ToString(),
-                    m.tonerlevel_k,
-                    m.tonerlevel_c,
-                    m.tonerlevel_m,
-                    m.tonerlevel_y
-                    },
-                    m
-                    );
-
-                tbListView1.Items.Add(item);
-            }
+            fastObjectListView1.SetObjects(records);
         }
 
         private void hTMLLicznikToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
-            MachineRecord record = (MachineRecord)item.additionalItem;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
             string html = record.GetCounter().full_counter;
 
             new FHTMLView(html).ShowDialog();
@@ -93,8 +47,7 @@ namespace Copyinfo.Forms.Controls
 
         private void hTMLNumerSeryjnyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
-            MachineRecord record = (MachineRecord)item.additionalItem;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
             string html = record.GetSerial().full_serialnumber;
 
             new FHTMLView(html).ShowDialog();
@@ -104,10 +57,9 @@ namespace Copyinfo.Forms.Controls
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (tbListView1.FocusedItem.Bounds.Contains(e.Location) == true)
+                if (fastObjectListView1.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
-                    MachineRecord record = (MachineRecord)item.additionalItem;
+                    MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
                     if (record.IsParsedEmail())
                         contextMenuStrip1.Items[0].Enabled = true;
                     else
@@ -119,46 +71,17 @@ namespace Copyinfo.Forms.Controls
 
         private void dodajUrzadzenieToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
-            MachineRecord record = (MachineRecord)item.additionalItem;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
             FAddDevice form_add = new FAddDevice(record.serial_number);
             form_add.Show();
         }
 
-        private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            //if (e.Column == lvwColumnSorter.SortColumn)
-            //{
-            //    // Reverse the current sort direction for this column.
-            //    if (lvwColumnSorter.Order == SortOrder.Ascending)
-            //    {
-            //        lvwColumnSorter.Order = SortOrder.Descending;
-            //    }
-            //    else
-            //    {
-            //        lvwColumnSorter.Order = SortOrder.Ascending;
-            //    }
-            //}
-            //else
-            //{
-            //    // Set the column number that is to be sorted; default to ascending.
-            //    lvwColumnSorter.SortColumn = e.Column;
-            //    lvwColumnSorter.Order = SortOrder.Ascending;
-            //}
-
-            //// Perform the sort with these new sort options.
-            //this.tbListView1.Sort();
-        }
-
         private void porownajWybraneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Database.MachineRecord[] records = new Database.MachineRecord[tbListView1.SelectedItems.Count];
-            
-            for (int i = 0; i < tbListView1.SelectedItems.Count; i++)
-            {
-                Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[i];
-                records[i] = (MachineRecord)item.additionalItem;
-            }
+            Database.MachineRecord[] records = new Database.MachineRecord[fastObjectListView1.SelectedObjects.Count];
+
+            for (int i = 0; i < records.Length; i++)
+                records[i] = (MachineRecord) fastObjectListView1.SelectedObjects[i];
 
             FCompareReports compareWindow = new FCompareReports(records);
             compareWindow.Show();
@@ -174,38 +97,15 @@ namespace Copyinfo.Forms.Controls
             if (DialogResult.Yes ==
                 MessageBox.Show("Czy aby na pewno? Hmmm???", "WARNING", MessageBoxButtons.YesNo))
             {
-                foreach (Controls.ListView.TBListViewItem item in tbListView1.SelectedItems)
-                    Database.DAO.DeleteMachineRecord((MachineRecord)item.additionalItem);
+                foreach (MachineRecord rec in fastObjectListView1.SelectedObjects)
+                    Database.DAO.DeleteMachineRecord(rec);
             }
 
         }
 
-        private void AlignTextBoxes()
-        {
-            GUI.AlignTextBoxes(
-                this.tbListView1.GetColumnSizeHeaders(),
-                new TextBox[] {
-                    tbTBSerialNumber,
-                    tbTBBandW,
-                    tbTBColor,
-                    tbTBScan,
-                    tbTBDate,
-                    tbTBToner_k,
-                    tbTBToner_c,
-                    tbTBToner_m,
-                    tbTBToner_y},
-                tbListView1.Location.Y - tbTBSerialNumber.Size.Height, 0);
-        }
-
-        private void AlignListViewHeight()
-        {
-            this.tbListView1.Height = this.Size.Height - tbTBBandW.Height;
-        }
-
         private void emailMessageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Controls.ListView.TBListViewItem item = (Controls.ListView.TBListViewItem)tbListView1.SelectedItems[0];
-            MachineRecord record = (MachineRecord)item.additionalItem;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
             string emailText = record.GetEmail().GetEmail();
 
             //new FHTMLView(html).ShowDialog();
@@ -217,34 +117,19 @@ namespace Copyinfo.Forms.Controls
             
         }
 
-        private void tbTBDate_TextChanged(object sender, EventArgs e)
-        {
-            TextBoxes.TBTextBox s = (TextBoxes.TBTextBox)sender;
-            tbListView1.Filter(s.id, s.Text);
-        }
-
-        private void tbListView1_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
-        {
-            AlignTextBoxes();
-        }
-
-        private void CReports_Resize(object sender, EventArgs e)
-        {
-            AlignTextBoxes();
-            AlignListViewHeight();
-        }
-
         private void tbTBDate_MouseClick(object sender, MouseEventArgs e)
         {
-            FCalendarWindow calWindow = new FCalendarWindow();
-            calWindow.Location = Cursor.Position;
-            calWindow.StartPosition = FormStartPosition.Manual;
-            calWindow.ShowDialog();
+            //Ta metoda pokazywała okienko z kalendarzem dzięki czemu można było filtrować datą. TODO zaimplementować to w object list view.
 
-            if (calWindow.dateSelected)
-            {
-                tbTBDate.Text = calWindow.dateTimeSelectedSTART.ToString(Style.DateTimeFormat) + "-" + calWindow.dateTimeSelectedEND.ToString(Style.DateTimeFormat);
-            }
+            //FCalendarWindow calWindow = new FCalendarWindow();
+            //calWindow.Location = Cursor.Position;
+            //calWindow.StartPosition = FormStartPosition.Manual;
+            //calWindow.ShowDialog();
+
+            //if (calWindow.dateSelected)
+            //{
+            //    tbTBDate.Text = calWindow.dateTimeSelectedSTART.ToString(Style.DateTimeFormat) + "-" + calWindow.dateTimeSelectedEND.ToString(Style.DateTimeFormat);
+            //}
         }
     }
 }

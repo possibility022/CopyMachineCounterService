@@ -58,10 +58,9 @@ namespace Copyinfo.Forms
 
         private void PrintSelected()
         {
-            List<MachineRecord> records = cReports1.GetSelected();
             List<string> toPrint = new List<string>();
 
-            foreach(MachineRecord rec in records)
+            foreach(MachineRecord rec in cReports1.fastObjectListView1.SelectedObjects)
             {
                 toPrint.Add(rec.GetTextToPrint());
             }
@@ -69,7 +68,7 @@ namespace Copyinfo.Forms
             Other.Printing.Print(toPrint);
 
             if (toPrint.Count > 0)
-                MessageBox.Show("Zlecono do wydruku: " + records.Count.ToString() + " dokumentów.");
+                MessageBox.Show("Zlecono do wydruku: " + toPrint.Count.ToString() + " dokumentów.");
             else
                 MessageBox.Show("Brak zaznaczonych rekordów.");
         }

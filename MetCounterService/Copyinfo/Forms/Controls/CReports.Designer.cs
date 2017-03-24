@@ -36,26 +36,19 @@
             this.dodajUrządzenieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.porównajWybraneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuńToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbTBDate = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBScan = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBColor = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBBandW = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBSerialNumber = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbListView1 = new Copyinfo.Forms.Controls.ListView.TBListView();
-            this.col_serialnumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_printbw = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_printcolor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_scan = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_datetime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_toner_k = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_toner_c = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_toner_m = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.col_toner_y = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tbTBToner_k = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBToner_c = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBToner_m = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.tbTBToner_y = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
+            this.olvSerialNumber = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvBandW = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColor = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvScan = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTonerLevel_K = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTonerLevel_C = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTonerLevel_M = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTonerLevel_Y = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -112,176 +105,111 @@
             this.usuńToolStripMenuItem.Text = "Usuń";
             this.usuńToolStripMenuItem.Click += new System.EventHandler(this.usunToolStripMenuItem_Click);
             // 
-            // tbTBDate
+            // fastObjectListView1
             // 
-            this.tbTBDate.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBDate.id = 0;
-            this.tbTBDate.Location = new System.Drawing.Point(424, 0);
-            this.tbTBDate.Name = "tbTBDate";
-            this.tbTBDate.Size = new System.Drawing.Size(100, 25);
-            this.tbTBDate.TabIndex = 6;
-            this.tbTBDate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbTBDate_MouseClick);
-            this.tbTBDate.TextChanged += new System.EventHandler(this.tbTBDate_TextChanged);
+            this.fastObjectListView1.AllColumns.Add(this.olvSerialNumber);
+            this.fastObjectListView1.AllColumns.Add(this.olvDateTime);
+            this.fastObjectListView1.AllColumns.Add(this.olvBandW);
+            this.fastObjectListView1.AllColumns.Add(this.olvColor);
+            this.fastObjectListView1.AllColumns.Add(this.olvScan);
+            this.fastObjectListView1.AllColumns.Add(this.olvTonerLevel_K);
+            this.fastObjectListView1.AllColumns.Add(this.olvTonerLevel_C);
+            this.fastObjectListView1.AllColumns.Add(this.olvTonerLevel_M);
+            this.fastObjectListView1.AllColumns.Add(this.olvTonerLevel_Y);
+            this.fastObjectListView1.CellEditUseWholeCell = false;
+            this.fastObjectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvSerialNumber,
+            this.olvDateTime,
+            this.olvBandW,
+            this.olvColor,
+            this.olvScan,
+            this.olvTonerLevel_K,
+            this.olvTonerLevel_C,
+            this.olvTonerLevel_M,
+            this.olvTonerLevel_Y});
+            this.fastObjectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.fastObjectListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.fastObjectListView1.Location = new System.Drawing.Point(0, 31);
+            this.fastObjectListView1.Name = "fastObjectListView1";
+            this.fastObjectListView1.ShowGroups = false;
+            this.fastObjectListView1.Size = new System.Drawing.Size(823, 400);
+            this.fastObjectListView1.TabIndex = 1;
+            this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
+            this.fastObjectListView1.View = System.Windows.Forms.View.Details;
+            this.fastObjectListView1.VirtualMode = true;
             // 
-            // tbTBScan
+            // olvSerialNumber
             // 
-            this.tbTBScan.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBScan.id = 0;
-            this.tbTBScan.Location = new System.Drawing.Point(318, 0);
-            this.tbTBScan.Name = "tbTBScan";
-            this.tbTBScan.Size = new System.Drawing.Size(100, 25);
-            this.tbTBScan.TabIndex = 5;
-            this.tbTBScan.TextChanged += new System.EventHandler(this.tbTBDate_TextChanged);
+            this.olvSerialNumber.AspectName = "serial_number";
+            this.olvSerialNumber.Text = "Numer Seryjny";
+            this.olvSerialNumber.Width = 109;
             // 
-            // tbTBColor
+            // olvDateTime
             // 
-            this.tbTBColor.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBColor.id = 0;
-            this.tbTBColor.Location = new System.Drawing.Point(212, 0);
-            this.tbTBColor.Name = "tbTBColor";
-            this.tbTBColor.Size = new System.Drawing.Size(100, 25);
-            this.tbTBColor.TabIndex = 4;
-            this.tbTBColor.TextChanged += new System.EventHandler(this.tbTBDate_TextChanged);
+            this.olvDateTime.AspectName = "datetime";
+            this.olvDateTime.Text = "Data odczytu";
+            this.olvDateTime.Width = 121;
             // 
-            // tbTBBandW
+            // olvBandW
             // 
-            this.tbTBBandW.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBBandW.id = 0;
-            this.tbTBBandW.Location = new System.Drawing.Point(106, 0);
-            this.tbTBBandW.Name = "tbTBBandW";
-            this.tbTBBandW.Size = new System.Drawing.Size(100, 25);
-            this.tbTBBandW.TabIndex = 3;
-            this.tbTBBandW.TextChanged += new System.EventHandler(this.tbTBDate_TextChanged);
+            this.olvBandW.AspectName = "print_counter_black_and_white";
+            this.olvBandW.Text = "B&W";
+            this.olvBandW.Width = 91;
             // 
-            // tbTBSerialNumber
+            // olvColor
             // 
-            this.tbTBSerialNumber.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBSerialNumber.id = 0;
-            this.tbTBSerialNumber.Location = new System.Drawing.Point(0, 0);
-            this.tbTBSerialNumber.Name = "tbTBSerialNumber";
-            this.tbTBSerialNumber.Size = new System.Drawing.Size(100, 25);
-            this.tbTBSerialNumber.TabIndex = 2;
-            this.tbTBSerialNumber.TextChanged += new System.EventHandler(this.tbTBDate_TextChanged);
+            this.olvColor.AspectName = "print_counter_color";
+            this.olvColor.Text = "Kolor";
+            this.olvColor.Width = 93;
             // 
-            // tbListView1
+            // olvScan
             // 
-            this.tbListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.col_serialnumber,
-            this.col_printbw,
-            this.col_printcolor,
-            this.col_scan,
-            this.col_datetime,
-            this.col_toner_k,
-            this.col_toner_c,
-            this.col_toner_m,
-            this.col_toner_y});
-            this.tbListView1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tbListView1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbListView1.FullRowSelect = true;
-            this.tbListView1.Location = new System.Drawing.Point(0, 31);
-            this.tbListView1.Name = "tbListView1";
-            this.tbListView1.Size = new System.Drawing.Size(823, 400);
-            this.tbListView1.TabIndex = 1;
-            this.tbListView1.UseCompatibleStateImageBehavior = false;
-            this.tbListView1.View = System.Windows.Forms.View.Details;
-            this.tbListView1.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.tbListView1_ColumnWidthChanged);
+            this.olvScan.AspectName = "scan_counter";
+            this.olvScan.Text = "Skany";
+            this.olvScan.Width = 88;
             // 
-            // col_serialnumber
+            // olvTonerLevel_K
             // 
-            this.col_serialnumber.Text = "Numer Serii";
-            this.col_serialnumber.Width = 114;
+            this.olvTonerLevel_K.AspectName = "tonerlevel_k";
+            this.olvTonerLevel_K.Text = "Czarny";
+            this.olvTonerLevel_K.Width = 67;
             // 
-            // col_printbw
+            // olvTonerLevel_C
             // 
-            this.col_printbw.Text = "Licznik B&W";
-            this.col_printbw.Width = 89;
+            this.olvTonerLevel_C.AspectName = "tonerlevel_c";
+            this.olvTonerLevel_C.Text = "Cyjan";
+            this.olvTonerLevel_C.Width = 56;
             // 
-            // col_printcolor
+            // olvTonerLevel_M
             // 
-            this.col_printcolor.Text = "Licznik Kolor";
-            this.col_printcolor.Width = 107;
+            this.olvTonerLevel_M.AspectName = "tonerlevel_m";
+            this.olvTonerLevel_M.Text = "Magenta";
+            this.olvTonerLevel_M.Width = 61;
             // 
-            // col_scan
+            // olvTonerLevel_Y
             // 
-            this.col_scan.Text = "Licznik Skan";
-            this.col_scan.Width = 151;
+            this.olvTonerLevel_Y.AspectName = "tonerlevel_y";
+            this.olvTonerLevel_Y.Text = "Żółty";
             // 
-            // col_datetime
+            // tbTextBox1
             // 
-            this.col_datetime.Text = "Data odczytu";
-            this.col_datetime.Width = 179;
-            // 
-            // col_toner_k
-            // 
-            this.col_toner_k.Text = "Black Toner";
-            this.col_toner_k.Width = 151;
-            // 
-            // col_toner_c
-            // 
-            this.col_toner_c.Text = "Cyjan Toner";
-            // 
-            // col_toner_m
-            // 
-            this.col_toner_m.Text = "Magenta Toner";
-            // 
-            // col_toner_y
-            // 
-            this.col_toner_y.Text = "Yellow Toner";
-            // 
-            // tbTBToner_k
-            // 
-            this.tbTBToner_k.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBToner_k.id = 0;
-            this.tbTBToner_k.Location = new System.Drawing.Point(530, 0);
-            this.tbTBToner_k.Name = "tbTBToner_k";
-            this.tbTBToner_k.Size = new System.Drawing.Size(100, 25);
-            this.tbTBToner_k.TabIndex = 7;
-            // 
-            // tbTBToner_c
-            // 
-            this.tbTBToner_c.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBToner_c.id = 0;
-            this.tbTBToner_c.Location = new System.Drawing.Point(636, 0);
-            this.tbTBToner_c.Name = "tbTBToner_c";
-            this.tbTBToner_c.Size = new System.Drawing.Size(100, 25);
-            this.tbTBToner_c.TabIndex = 8;
-            // 
-            // tbTBToner_m
-            // 
-            this.tbTBToner_m.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBToner_m.id = 0;
-            this.tbTBToner_m.Location = new System.Drawing.Point(709, 0);
-            this.tbTBToner_m.Name = "tbTBToner_m";
-            this.tbTBToner_m.Size = new System.Drawing.Size(100, 25);
-            this.tbTBToner_m.TabIndex = 9;
-            // 
-            // tbTBToner_y
-            // 
-            this.tbTBToner_y.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTBToner_y.id = 0;
-            this.tbTBToner_y.Location = new System.Drawing.Point(757, 0);
-            this.tbTBToner_y.Name = "tbTBToner_y";
-            this.tbTBToner_y.Size = new System.Drawing.Size(100, 25);
-            this.tbTBToner_y.TabIndex = 10;
+            this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTextBox1.id = 0;
+            this.tbTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.tbTextBox1.Name = "tbTextBox1";
+            this.tbTextBox1.Size = new System.Drawing.Size(473, 25);
+            this.tbTextBox1.TabIndex = 2;
             // 
             // CReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tbTBToner_y);
-            this.Controls.Add(this.tbTBToner_m);
-            this.Controls.Add(this.tbTBToner_c);
-            this.Controls.Add(this.tbTBToner_k);
-            this.Controls.Add(this.tbTBDate);
-            this.Controls.Add(this.tbTBScan);
-            this.Controls.Add(this.tbTBColor);
-            this.Controls.Add(this.tbTBBandW);
-            this.Controls.Add(this.tbTBSerialNumber);
-            this.Controls.Add(this.tbListView1);
+            this.Controls.Add(this.tbTextBox1);
+            this.Controls.Add(this.fastObjectListView1);
             this.Name = "CReports";
             this.Size = new System.Drawing.Size(823, 431);
-            this.Resize += new System.EventHandler(this.CReports_Resize);
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -295,24 +223,16 @@
         private System.Windows.Forms.ToolStripMenuItem porównajWybraneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usuńToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem emailMessageToolStripMenuItem;
-        private ListView.TBListView tbListView1;
-        private System.Windows.Forms.ColumnHeader col_serialnumber;
-        private System.Windows.Forms.ColumnHeader col_printbw;
-        private System.Windows.Forms.ColumnHeader col_printcolor;
-        private System.Windows.Forms.ColumnHeader col_scan;
-        private System.Windows.Forms.ColumnHeader col_datetime;
-        private TextBoxes.TBTextBox tbTBSerialNumber;
-        private TextBoxes.TBTextBox tbTBBandW;
-        private TextBoxes.TBTextBox tbTBColor;
-        private TextBoxes.TBTextBox tbTBScan;
-        private TextBoxes.TBTextBox tbTBDate;
-        private TextBoxes.TBTextBox tbTBToner_k;
-        private System.Windows.Forms.ColumnHeader col_toner_k;
-        private TextBoxes.TBTextBox tbTBToner_c;
-        private TextBoxes.TBTextBox tbTBToner_m;
-        private TextBoxes.TBTextBox tbTBToner_y;
-        private System.Windows.Forms.ColumnHeader col_toner_c;
-        private System.Windows.Forms.ColumnHeader col_toner_m;
-        private System.Windows.Forms.ColumnHeader col_toner_y;
+        public BrightIdeasSoftware.FastObjectListView fastObjectListView1;
+        private TextBoxes.TBTextBox tbTextBox1;
+        private BrightIdeasSoftware.OLVColumn olvSerialNumber;
+        private BrightIdeasSoftware.OLVColumn olvDateTime;
+        private BrightIdeasSoftware.OLVColumn olvBandW;
+        private BrightIdeasSoftware.OLVColumn olvColor;
+        private BrightIdeasSoftware.OLVColumn olvScan;
+        private BrightIdeasSoftware.OLVColumn olvTonerLevel_K;
+        private BrightIdeasSoftware.OLVColumn olvTonerLevel_C;
+        private BrightIdeasSoftware.OLVColumn olvTonerLevel_M;
+        private BrightIdeasSoftware.OLVColumn olvTonerLevel_Y;
     }
 }
