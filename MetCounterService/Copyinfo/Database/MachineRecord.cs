@@ -100,7 +100,7 @@ namespace Copyinfo.Database
         {
             if (html_counter == null)
             {
-                html_counter = Database.DAO.GetHTMLCounter(full_serialnumber);
+                html_counter = Database.DAO.GetHTMLCounter(full_counter);
             }
 
             return html_counter;
