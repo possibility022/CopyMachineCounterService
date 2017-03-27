@@ -58,32 +58,39 @@ namespace Copyinfo.Other
             }
         }
 
-        public static void Print(string[] texts)
+        public static DialogResult Print(string[] texts)
         {
             PrintDialog dialog = new PrintDialog();
             dialog.UseEXDialog = true;
 
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return;
+            DialogResult result = dialog.ShowDialog();
+
+            if (result != DialogResult.OK)
+                return result; 
 
             foreach (string text in texts)
                 Print(text, dialog);
+
+            return result;
         }
 
-        public static void Print(List<string> texts)
+        public static DialogResult Print(List<string> texts)
         {
-            Print(texts.ToArray());
+            return Print(texts.ToArray());
         }
 
-        public static void Print(string text)
+        public static DialogResult Print(string text)
         {
             PrintDialog dialog = new PrintDialog();
             dialog.UseEXDialog = true;
 
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return;
+            DialogResult result = dialog.ShowDialog();
+
+            if (result != DialogResult.OK)
+                return result;
 
             Print(text, dialog);
+            return result;
         }
     }
 }
