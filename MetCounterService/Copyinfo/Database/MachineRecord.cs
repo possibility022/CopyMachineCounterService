@@ -121,6 +121,11 @@ namespace Copyinfo.Database
             Other.Printing.Print(GetTextToPrint());
         }
 
+        public void ShowClient()
+        {
+            new Forms.FClient(GetDevice().GetClient()).Show();
+        }
+
         public string GetTextToPrint()
         {
             Device device = GetDevice();

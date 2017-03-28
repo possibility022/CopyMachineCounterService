@@ -46,6 +46,7 @@
             this.olvTonerLevel_C = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_M = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_Y = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.showClient = new System.Windows.Forms.ToolStripMenuItem();
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
@@ -54,6 +55,7 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showClient,
             this.emailMessageToolStripMenuItem,
             this.hTMLLicznikToolStripMenuItem,
             this.hTMLNumerSeryjnyToolStripMenuItem,
@@ -61,7 +63,7 @@
             this.porównajWybraneToolStripMenuItem,
             this.usuńToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(189, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(189, 158);
             // 
             // emailMessageToolStripMenuItem
             // 
@@ -191,6 +193,13 @@
             this.olvTonerLevel_Y.AspectName = "tonerlevel_y";
             this.olvTonerLevel_Y.Text = "Żółty";
             // 
+            // showClient
+            // 
+            this.showClient.Name = "showClient";
+            this.showClient.Size = new System.Drawing.Size(188, 22);
+            this.showClient.Text = "Wyświetl Klienta";
+            this.showClient.Click += new System.EventHandler(this.showDevice_Click);
+            // 
             // tbTextBox1
             // 
             this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
@@ -234,5 +243,6 @@
         private BrightIdeasSoftware.OLVColumn olvTonerLevel_C;
         private BrightIdeasSoftware.OLVColumn olvTonerLevel_M;
         private BrightIdeasSoftware.OLVColumn olvTonerLevel_Y;
+        private System.Windows.Forms.ToolStripMenuItem showClient;
     }
 }

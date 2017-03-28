@@ -213,6 +213,7 @@ class EmailParser:
                         match = re.findall(single_signature, line)
                         if len(match) > 0:
                             signature_find += 1
+                            break
                 if signature_find == len(signatures[sig_group]):
                     return sig_group
         except Exception as e:
@@ -354,15 +355,18 @@ class EmailParser:
 
     def addition_regex_group(self, data, reggroup_s):
         value = 0
-        for reg_group in reggroup_s:
-            parsed = self.parse_using_regex(data, reg_group)
-            if parsed is not None:
-                value += int(parsed)
-            else:
-                return None
+        try:
+            for reg_group in reggroup_s:
+                parsed = self.parse_using_regex(data, reg_group)
+                if parsed is not None:
+                    value += int(parsed)
+                else:
+                    return None
 
-        if value != 0:
-            return value
+            if value != 0:
+                return value
+        except Exception as e:
+            logging.debug('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e.__traceback__)
 
     def close(self):
         try:

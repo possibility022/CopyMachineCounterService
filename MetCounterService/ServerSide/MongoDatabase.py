@@ -1,5 +1,6 @@
 from Parser import DataParser
 from pymongo import MongoClient
+from pymongo import errors
 import logging
 import settings
 
@@ -85,8 +86,11 @@ class MongoTB:
         logging.info('Count: serialdata: {}'.format(self.serialdata.count()))
 
     def insert_email(self, mail):
-        inserted_id = self.email_binary_db.insert_one(mail).inserted_id
-        logging.info('Inserted email to binary: {}'.format(inserted_id))
+        try:
+            inserted_id = self.email_binary_db.insert_one(mail).inserted_id
+            logging.info('Inserted email to binary: {}'.format(inserted_id))
+        except errors.DuplicateKeyError as e:
+            logging.info('Duplicate Key Error in inser_email(mail).')
 
     def get_emails(self, source='binary'):
         src = None

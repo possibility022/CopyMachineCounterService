@@ -236,10 +236,24 @@
 
 #el = mongo.records.find_one()
 
-#print(el)
+import logging
+from time import sleep
+from Email import EmailParser
+from MongoDatabase import MongoTB
 
-import re
+mongo = MongoTB()
 
-results = re.findall("([A-Z])([0-9])", "A12B54 25C7G8")
+logging.basicConfig(filename='deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
 
-print('stop')
+logging.info('parse_loop_email started')
+while True:
+    mailbox = EmailParser()
+    ids = mailbox.get_emails_id()
+    for i in range(len(ids)):
+        logging.info('Nie znalazlem maila. Pobieram wiadomosc.')
+        mail = mailbox.get_email_pop3(i + 1)
+        logging.debug('Pobralem wiadomosc')
+        data = mailbox.parse_email_to_device_data(mail)
+        print(data)
+    mailbox.close()
+    sleep(30 * 60)

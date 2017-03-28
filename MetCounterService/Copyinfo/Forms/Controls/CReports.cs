@@ -18,12 +18,6 @@ namespace Copyinfo.Forms.Controls
         public CReports()
         {
             InitializeComponent();
-            ListViewSorter lvwColumnSorter = new ListViewSorter();
-            lvwColumnSorter = new ListViewSorter();
-            lvwColumnSorter.SetIntegers(new int[] { 1, 2, 3 });
-            lvwColumnSorter.SetDates(new int[] { 4 });
-            lvwColumnSorter.SetAdditionalItemClass(Copyinfo.Forms.Controls.ListView.TBListViewItem.AdditionalItemClassType.MachineRecord);
-            
             //this.tbListView1.ListViewItemSorter = lvwColumnSorter;
             this.fastObjectListView1.MouseClick += listView1_MouseClick;
             //this.tbListView1.ColumnClick += listView1_ColumnClick;
@@ -35,6 +29,7 @@ namespace Copyinfo.Forms.Controls
         public void FillList(List<MachineRecord> records)
         {
             fastObjectListView1.SetObjects(records);
+            fastObjectListView1.Sort(olvDateTime, SortOrder.Descending);
         }
 
         private void hTMLLicznikToolStripMenuItem_Click(object sender, EventArgs e)
@@ -130,6 +125,12 @@ namespace Copyinfo.Forms.Controls
             //{
             //    tbTBDate.Text = calWindow.dateTimeSelectedSTART.ToString(Style.DateTimeFormat) + "-" + calWindow.dateTimeSelectedEND.ToString(Style.DateTimeFormat);
             //}
+        }
+
+        private void showDevice_Click(object sender, EventArgs e)
+        {
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
+            record.ShowClient();
         }
     }
 }

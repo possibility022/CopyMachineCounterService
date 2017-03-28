@@ -28,6 +28,23 @@
 		<regscancounter require="true" inorder="0" group="1">(\[Total Scan\/Fax Counter\], )([0-9]{1,20})</regscancounter>
 		<regserialnumber require="true" inorder="0" group="1">(\[Serial Number\], )([0-9a-zA-Z]{1,20})</regserialnumber>
 	</konicaminolta>
+	<toshiba>
+		<signature>(Date          :)</signature>
+        <signature>(Machine Model :)</signature>
+        <signature>(SerialNumber  :)</signature>
+		<signature>(Total Counter :)</signature>
+        <datetime format="%d/%m/%Y %H:%M" require="true" inorder="0" group="1">(Date          : )([0-9]{1,2}\/[0-9]{1,2}\/20[0-9]{1,2} [0-2][0-9]:[0-6][0-9])</datetime>
+		<regprintcountercolor require="false" inorder="0" group="1"></regprintcountercolor>
+		<regprintcounter require="true" inorder="0" group="2">(Total Counter : )([0]{0,5})([0-9]{0,10})</regprintcounter>
+		<regscancounter require="true" inorder="0" group="1">(Net Scan)   ([0-9]{1,10}) ([0-9]{1,10})</regscancounter>
+		<regscancounter require="true" inorder="0" group="2">(Net Scan)   ([0-9]{1,10}) ([0-9]{1,10})</regscancounter>
+		<regscancounter require="true" inorder="1" group="1">(Net Scan)   ([0-9]{1,10}) ([0-9]{1,10})</regscancounter>
+		<regscancounter require="true" inorder="1" group="2">(Net Scan)   ([0-9]{1,10}) ([0-9]{1,10})</regscancounter>
+		<regscancounter require="true" inorder="0" group="1">(FAX Scan)   ([0-9]{1,10}) ([0-9]{1,10})</regscancounter>
+		<regscancounter require="true" inorder="0" group="2">(FAX Scan)   ([0-9]{1,10}) ([0-9]{1,10})</regscancounter>
+		<regserialnumber require="true" inorder="0" group="1">(SerialNumber  : )([A-Za-z0-9]{1,20})</regserialnumber>
+
+	</toshiba>
 </copymachine>
 <!--
 data przesylana z sharpa:

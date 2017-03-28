@@ -38,19 +38,27 @@
 			<regserialnumber inorder="0" group="2">(Numer seryjny&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)(\s{0,5})([0-9a-zA-Z]{0,20})(\s{0,5})(&lt;\/p&gt;)</regserialnumber>
 		</mac>
 		<mac serialnumber="/cgi-bin/dynamic/printer/config/reports/devicestatistics.html" counter="/cgi-bin/dynamic/printer/config/reports/devicestatistics.html"><!-- kopiarka x654 -->
-			00-21-b7-9c-a6-7c
+			00-21-b7
 			<regprintcounter inorder="7" group="2">(W sumie&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)(\s{0,5})([0-9]{0,20})(\s{0,5})(&lt;\/p&gt;)</regprintcounter>
+			<regscancounter inorder="0" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
 			<regscancounter inorder="1" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
 			<regscancounter inorder="2" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
-			<regscancounter inorder="3" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
+			<regserialnumber inorder="0" group="2">(Numer seryjny&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)(\s{0,5})([0-9a-zA-Z]{0,20})(\s{0,5})(&lt;\/p&gt;)</regserialnumber>
+		</mac>
+		<mac serialnumber="/cgi-bin/dynamic/printer/config/reports/devicestatistics.html" counter="/cgi-bin/dynamic/printer/config/reports/devicestatistics.html"><!-- kopiarka x654 -->
+			00-21-b7-9c-a6-7c
+			<regprintcounter inorder="7" group="2">(W sumie&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)(\s{0,5})([0-9]{0,20})(\s{0,5})(&lt;\/p&gt;)</regprintcounter>
+			<regscancounter inorder="0" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
+			<regscancounter inorder="1" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
+			<regscancounter inorder="2" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
 			<regserialnumber inorder="0" group="2">(Numer seryjny&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)(\s{0,5})([0-9a-zA-Z]{0,20})(\s{0,5})(&lt;\/p&gt;)</regserialnumber>
 		</mac>
 		<mac serialnumber="/cgi-bin/dynamic/printer/config/reports/devicestatistics.html" counter="/cgi-bin/dynamic/printer/config/reports/devicestatistics.html"><!-- kopiarka x656 -->
 			00-21-b7-52-4d-b5
 			<regprintcounter inorder="7" group="2">(W sumie&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)(\s{0,5})([0-9]{0,20})(\s{0,5})(&lt;\/p&gt;)</regprintcounter>
+			<regscancounter inorder="0" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
 			<regscancounter inorder="1" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
 			<regscancounter inorder="2" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
-			<regscancounter inorder="3" group="5">((redni USB&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Sie\S{0,5}&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)|(Faks&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;))(\s{0,5})([0-9]{0,20})</regscancounter>
 			<regserialnumber inorder="0" group="2">(Numer seryjny&lt;\/p&gt;&lt;\/td&gt;&lt;td&gt;&lt;p&gt;)(\s{0,5})([0-9a-zA-Z]{0,20})(\s{0,5})(&lt;\/p&gt;)</regserialnumber>
 		</mac>
 	</lexmark>
