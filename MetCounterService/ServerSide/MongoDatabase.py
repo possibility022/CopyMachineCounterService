@@ -21,6 +21,7 @@ class MongoTB:
         self.email_parsed_success = 'emails_sucess'
         self.email_parsed_faild = 'emails_faild'
         self.email_parsed_passed = 'emails_passed'
+        self.machine_records_other = 'machine_records_other'
 
         self.decoded_dir = workfolder + '/decoded'
 
@@ -34,6 +35,7 @@ class MongoTB:
         self.email_parsed_success_db = self.db[self.email_parsed_success]
         self.email_parsed_faild_db = self.db[self.email_parsed_faild]
         self.email_parsed_passed_db = self.db[self.email_parsed_passed]
+        self.records_other = self.db[self.machine_records_other]
 
     def import_to_database(self, device):
         if isinstance(device, DataParser):
@@ -61,11 +63,21 @@ class MongoTB:
             printer_data['full_counter'] = cdata_id
             printer_data['full_serialnumber'] = sdata_id
 
-            id = self.records.insert_one(printer_data).inserted_id
+            #id = self.records.insert_one(printer_data).inserted_id
+            id = self.get_destination(printer_data).insert_one(printer_data).inserted_id
+            
             logging.info('Zapisalem nowy dokument. {}'.format(id))
             return True
         except SyntaxError:
             return False
+
+    def get_destination(self, printer_data):
+        record_datetime = printer_data['datetime']
+        if record_datetime.day < 5 or record_datetime.day > 28 or record_datetime.weekday() == 0:
+            return self.records
+        else:
+            return self.records_other
+
 
     def count(self):
         logging.info('Count: records: {}'.format(self.records.count()))
