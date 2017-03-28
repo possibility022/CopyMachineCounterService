@@ -39,31 +39,38 @@ dec = Decoder()
 
 def parse_loop_email():
     logging.info('parse_loop_email started')
-    while True:
-        if Localdatabase.Database.getthread_pause_value_email():
-            sleep(60)
-            continue
-        mailbox = EmailParser()
-        ids = mailbox.get_emails_id()
-        for i in range(len(ids)):
-            email = mailbox.check_email_parsed(ids[i])
-            if email is None:
-                data = None
-                logging.info('Nie znalazłem maila. Pobieram wiadomość.')
-                mail = mailbox.get_email_pop3(i + 1)
-                logging.debug('Pobrałem wiadomosc')
-                try:
-                    data = mailbox.parse_email_to_device_data(mail)
-                except Exception as e:
-                    logging.error('Błąd przy parsowaniu maila: ' + ids[i])
+    
+    try:
+
+        while True:
+            if Localdatabase.Database.getthread_pause_value_email():
+                sleep(60)
+                continue
+            mailbox = EmailParser()
+            ids = mailbox.get_emails_id()
+            for i in range(len(ids)):
+                email = mailbox.check_email_parsed(ids[i])
+                if email is None:
                     data = None
-                if data is not None:
-                    mongo.import_to_database(data)
-            else:
-                logging.info('Mail znaleziony, omijam i usuwam: %s', email['_id'])
-                mailbox.del_email(i + 1)
-        mailbox.close()
-        sleep(5 * 60)
+                    logging.info('Nie znalazłem maila. Pobieram wiadomość.')
+                    mail = mailbox.get_email_pop3(i + 1)
+                    logging.debug('Pobrałem wiadomosc')
+                    try:
+                        data = mailbox.parse_email_to_device_data(mail)
+                    except Exception as e:
+                        logging.error('Błąd przy parsowaniu maila: ' + ids[i])
+                        data = None
+                    if data is not None:
+                        mongo.import_to_database(data)
+                else:
+                    logging.info('Mail znaleziony, omijam i usuwam: %s', email['_id'])
+                    mailbox.del_email(i + 1)
+            mailbox.close()
+            sleep(5 * 60)
+    except Exception as e:
+        logging.error('P1 - Błąd krytyczny w pętli parsowania email. %s', e)
+        logging.error('P2 - Błąd krytyczny w pętli parsowania email. %s', e.message)
+        logging.error('P3 - Błąd krytyczny w pętli parsowania email. %s', e.__traceback__)
 
 
 def parse_loop():
