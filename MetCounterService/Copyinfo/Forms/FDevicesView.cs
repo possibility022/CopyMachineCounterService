@@ -57,7 +57,7 @@ namespace Copyinfo.Forms
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
             List<Database.Device> list = new List<Database.Device>();
-            foreach (Database.Device dev in cDeviceList1.fastObjectListView1.SelectedItems)
+            foreach (Database.Device dev in cDeviceList1.fastObjectListView1.SelectedObjects)
                 list.Add(dev);
             print(list);
         }

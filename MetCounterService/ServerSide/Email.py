@@ -6,6 +6,7 @@ import os
 from datetime import datetime as DATETIME
 import logging
 import settings
+import email
 # MONGO EMAIL DOCUMENT STYLE
 # mail = {'mail': [], '_id': ''}
 
@@ -94,46 +95,6 @@ class EmailParser:
         self.mongo = MongoTB()
         self.xml_loader = XMLLoader()
 
-    # def load_messages(self):
-    #     self.msgcount = len(self.Mailbox.list()[1])
-    #
-    #     for i in range(self.msgcount - 1):
-    #         full_msg = []
-    #         doc = self.Mailbox.retr(i + 1)
-    #         msg_id = self.Mailbox.uidl(i + 1)
-    #
-    #         header = self.get_header(i + 1)
-    #
-    #         encoding = EmailParser.get_encoding(doc[1])
-    #
-    #         mail = {'mail': [], '_id': ''}
-    #         mail['mail'] = doc[1]
-    #         mail['_id'] = msg_id
-    #         self.mongo.insert_email(mail)
-
-        #     for index in range(header[1].__len__(), doc[1].__len__()):
-        #         if isinstance(doc[1][index], bytes):
-        #             try:
-        #                 decoded = doc[1][index].decode(encoding)
-        #             except UnicodeDecodeError:
-        #                 decoded = str(doc[1][index])
-        #             full_msg.append(decoded)
-        #
-        #     print('Saving:', msg_id)
-        #
-        #     f = open(self.messagespath + msg_id.decode('utf-8'), 'wb')
-        #     for line in doc[1]:
-        #         f.write(line + b'\n')
-        #     f.close()
-        #
-        # files = os.listdir(self.messagespath_binary)
-        # for el in files:
-        #     f = open(self.messagespath_binary + el, 'rb')
-        #     all = f.read()
-        #     f.close()
-        #     encoding = self.get_encoding(all)
-        #     print(encoding)
-
     def get_email_pop3(self, which):
         doc = self.Mailbox.retr(which)
         msg_id = self.Mailbox.uidl(which)
@@ -186,20 +147,26 @@ class EmailParser:
     def check_email_parsed(self, id_):
         return self.mongo.check_id_parsed(id_)
 
-    def parse(self, email):
-        encoding = self.get_encoding(email['mail'])
-        lines = []
-        for line in email['mail']:
-            try:
-                line = line.decode(encoding)
-            except UnicodeDecodeError:
-                line = str(line)
-            except LookupError:
-                line = str(line)
-            lines.append(line)
+    def parse(self, mail):
+        encoding = self.get_encoding(mail['mail'])
 
-        email['mail'] = lines
-        return email
+        byte_message = b'\n'.join(mail['mail'])
+        message = email.message_from_bytes(byte_message)
+
+        for part in message.walk():
+            if part.get_content_type() == 'text/plain':
+                body = part.get_payload(decode=True)
+                break   
+
+        #body = message.get_payload(0).get_payload(decode=True)
+        body = body.decode(encoding)
+
+        lines = body.split('\n')
+
+        mail['body'] = body
+        mail['body-lines'] = lines
+
+        return mail
 
     def get_signature_number(self, mail):
         try:
@@ -209,7 +176,7 @@ class EmailParser:
             for sig_group in range(signatures.__len__()):
                 signature_find = 0
                 for single_signature in signatures[sig_group]:
-                    for line in mail['mail']:
+                    for line in mail['body-lines']:
                         match = re.findall(single_signature, line)
                         if len(match) > 0:
                             signature_find += 1
@@ -217,7 +184,7 @@ class EmailParser:
                 if signature_find == len(signatures[sig_group]):
                     return sig_group
         except Exception as e:
-            logging.error('Błąd przy szukaniu sygnatury. EmailParser')
+            logging.error('Błąd przy szukaniu sygnatury. EmailParser', e)
             return -1
 
     def parse_email_to_device_data(self, mail):
@@ -265,9 +232,7 @@ class EmailParser:
             logging.error('Błąd przy wczytywaniu regexa. Email parser.')
             return
 
-        data = ''
-        for line in mail['mail']:
-            data += '\n' + line
+        data = mail['body']        
 
         try:
             date_time = self.parse_using_regex(data, datetime_regex_group[0])
@@ -308,6 +273,7 @@ class EmailParser:
         except Exception as e:
             logging.error('Błąd krytyczny przy wczytywaniu stanu tonerów.')
         
+
         if datetime_regex_group[0][3] == 'true' and date_time is None:
             self.mongo.move_mail_parsed('fail', mail)
             return
