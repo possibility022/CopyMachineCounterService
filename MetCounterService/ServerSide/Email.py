@@ -159,9 +159,17 @@ class EmailParser:
                 break   
 
         #body = message.get_payload(0).get_payload(decode=True)
-        body = body.decode(encoding)
+        if encoding is not '':
+            body = body.decode(encoding)
+        else:
+            body = body.decode('utf-8')
 
-        lines = body.split('\n')
+        if isinstance(body, str):
+            lines = body.split('\n')
+        elif isinstance(body,bytes):
+            lines = body.split(b'\n')
+        else:
+            raise Exception('Email został niepoprawnie przetworzony')
 
         mail['body'] = body
         mail['body-lines'] = lines
@@ -285,9 +293,14 @@ class EmailParser:
         elif print_counter_regex_group[0][3] == 'true' and printcounter is None:
             self.mongo.move_mail_parsed('fail', mail)
             return
-        elif print_counter_color_regex_group[0][3] == 'true' and printcountercolor is None:
-            self.mongo.move_mail_parsed('fail', mail)
-            return
+
+        if len(print_counter_color_regex_group) > 0:
+            if len(print_counter_color_regex_group[0]) > 2:
+                if print_counter_color_regex_group[0][3] == 'true' and printcountercolor is None:
+                    self.mongo.move_mail_parsed('fail', mail)
+                    return
+        else:
+            printcountercolor = 0
 
         printer_data['datetime'] = DATETIME.strptime(date_time, self.xml_loader.get_datetime_format(signature))
         printer_data['serial_number'] = serialnumber

@@ -68,9 +68,7 @@ def parse_loop_email():
             mailbox.close()
             sleep(5 * 60)
     except Exception as e:
-        logging.error('P1 - Błąd krytyczny w pętli parsowania email. %s', e)
-        logging.error('P2 - Błąd krytyczny w pętli parsowania email. %s', e.message)
-        logging.error('P3 - Błąd krytyczny w pętli parsowania email. %s', e.__traceback__)
+        logging.error('P1 - Błąd krytyczny w pętli parsowania email.', e)
 
 
 def parse_loop():
