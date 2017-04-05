@@ -123,7 +123,13 @@ namespace Copyinfo.Database
 
         public void ShowClient()
         {
-            new Forms.FClient(GetDevice().GetClient()).Show();
+            try
+            {
+                new Forms.FClient(GetDevice().GetClient()).Show();
+            } catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Nie znalazłem klienta.");
+            }
         }
 
         public string GetTextToPrint()
