@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
-            this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.olvNIP = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvNote = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvPhones = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,15 +64,6 @@
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
             this.fastObjectListView1.VirtualMode = true;
-            // 
-            // tbTextBox1
-            // 
-            this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbTextBox1.id = 0;
-            this.tbTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.tbTextBox1.Name = "tbTextBox1";
-            this.tbTextBox1.Size = new System.Drawing.Size(749, 25);
-            this.tbTextBox1.TabIndex = 1;
             // 
             // olvNIP
             // 
@@ -102,6 +95,20 @@
             this.olvPhones.Text = "Telefony";
             this.olvPhones.Width = 131;
             // 
+            // tbTextBox1
+            // 
+            this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbTextBox1.id = 0;
+            this.tbTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.tbTextBox1.Name = "tbTextBox1";
+            this.tbTextBox1.Size = new System.Drawing.Size(749, 25);
+            this.tbTextBox1.TabIndex = 1;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 26);
+            // 
             // CClientList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -124,5 +131,6 @@
         private BrightIdeasSoftware.OLVColumn olvNote;
         private BrightIdeasSoftware.OLVColumn olvPhones;
         public BrightIdeasSoftware.FastObjectListView fastObjectListView1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

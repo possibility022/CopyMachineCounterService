@@ -49,6 +49,7 @@ namespace Copyinfo.Database
         public string tonerlevel_y { get; set; }
         public string tonerlevel_k { get; set; }
 
+
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
         public byte[] email_info { get; set; } // TO JEST ID OBIEKTU W BAZIE MONGO

@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showClient = new System.Windows.Forms.ToolStripMenuItem();
             this.emailMessageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hTMLLicznikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hTMLNumerSeryjnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +47,6 @@
             this.olvTonerLevel_C = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_M = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_Y = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.showClient = new System.Windows.Forms.ToolStripMenuItem();
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
@@ -65,6 +65,13 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(189, 158);
             // 
+            // showClient
+            // 
+            this.showClient.Name = "showClient";
+            this.showClient.Size = new System.Drawing.Size(188, 22);
+            this.showClient.Text = "Wyświetl Klienta";
+            this.showClient.Click += new System.EventHandler(this.showDevice_Click);
+            // 
             // emailMessageToolStripMenuItem
             // 
             this.emailMessageToolStripMenuItem.Name = "emailMessageToolStripMenuItem";
@@ -77,14 +84,14 @@
             this.hTMLLicznikToolStripMenuItem.Name = "hTMLLicznikToolStripMenuItem";
             this.hTMLLicznikToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.hTMLLicznikToolStripMenuItem.Text = "HTML Licznik";
-            this.hTMLLicznikToolStripMenuItem.Click += new System.EventHandler(this.hTMLLicznikToolStripMenuItem_Click);
+            this.hTMLLicznikToolStripMenuItem.Click += new System.EventHandler(this.HtmlLicznikToolStripMenuItem_Click);
             // 
             // hTMLNumerSeryjnyToolStripMenuItem
             // 
             this.hTMLNumerSeryjnyToolStripMenuItem.Name = "hTMLNumerSeryjnyToolStripMenuItem";
             this.hTMLNumerSeryjnyToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.hTMLNumerSeryjnyToolStripMenuItem.Text = "HTML Numer Seryjny";
-            this.hTMLNumerSeryjnyToolStripMenuItem.Click += new System.EventHandler(this.hTMLNumerSeryjnyToolStripMenuItem_Click);
+            this.hTMLNumerSeryjnyToolStripMenuItem.Click += new System.EventHandler(this.HtmlNumerSeryjnyToolStripMenuItem_Click);
             // 
             // dodajUrządzenieToolStripMenuItem
             // 
@@ -192,13 +199,6 @@
             // 
             this.olvTonerLevel_Y.AspectName = "tonerlevel_y";
             this.olvTonerLevel_Y.Text = "Żółty";
-            // 
-            // showClient
-            // 
-            this.showClient.Name = "showClient";
-            this.showClient.Size = new System.Drawing.Size(188, 22);
-            this.showClient.Text = "Wyświetl Klienta";
-            this.showClient.Click += new System.EventHandler(this.showDevice_Click);
             // 
             // tbTextBox1
             // 

@@ -32,7 +32,7 @@ namespace Copyinfo.Forms.Controls
             fastObjectListView1.Sort(olvDateTime, SortOrder.Descending);
         }
 
-        private void hTMLLicznikToolStripMenuItem_Click(object sender, EventArgs e)
+        private void HtmlLicznikToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
             string html = record.GetCounter().full_counter;
@@ -40,7 +40,7 @@ namespace Copyinfo.Forms.Controls
             new FHTMLView(html).ShowDialog();
         }
 
-        private void hTMLNumerSeryjnyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void HtmlNumerSeryjnyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
             string html = record.GetSerial().full_serialnumber;
@@ -56,9 +56,17 @@ namespace Copyinfo.Forms.Controls
                 {
                     MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
                     if (record.IsParsedEmail())
-                        contextMenuStrip1.Items[0].Enabled = true;
+                    {
+                        contextMenuStrip1.Items["emailMessageToolStripMenuItem"].Enabled = true;
+                        contextMenuStrip1.Items["hTMLLicznikToolStripMenuItem"].Enabled = false;
+                        contextMenuStrip1.Items["hTMLNumerSeryjnyToolStripMenuItem"].Enabled = false;
+                    }
                     else
-                        contextMenuStrip1.Items[0].Enabled = false;
+                    {
+                        contextMenuStrip1.Items["emailMessageToolStripMenuItem"].Enabled = false;
+                        contextMenuStrip1.Items["hTMLLicznikToolStripMenuItem"].Enabled = true;
+                        contextMenuStrip1.Items["hTMLNumerSeryjnyToolStripMenuItem"].Enabled = true;
+                    }
                     contextMenuStrip1.Show(Cursor.Position);
                 }
             }

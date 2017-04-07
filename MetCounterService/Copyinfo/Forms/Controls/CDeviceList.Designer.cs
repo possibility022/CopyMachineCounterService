@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
             this.olvSerialNumber = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -36,6 +37,7 @@
             this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvInstallationDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvServiceAgreement = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -113,6 +115,11 @@
             this.olvServiceAgreement.TriStateCheckBoxes = true;
             this.olvServiceAgreement.Width = 110;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 26);
+            // 
             // CDeviceList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -136,5 +143,6 @@
         private BrightIdeasSoftware.OLVColumn olvInstallationDateTime;
         private BrightIdeasSoftware.OLVColumn olvServiceAgreement;
         public BrightIdeasSoftware.FastObjectListView fastObjectListView1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

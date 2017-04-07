@@ -35,6 +35,11 @@ namespace Copyinfo.Database
             return DAO.GetFirstInMonth(serial_number, datetime);
         }
 
+        public List<MachineRecord> GetRecords()
+        {
+            return DAO.GetReports(serial_number);
+        }
+
         public Client GetClient()
         {
             return DAO.GetClient(client_id);
