@@ -299,6 +299,8 @@ class EmailParser:
                 if print_counter_color_regex_group[0][3] == 'true' and printcountercolor is None:
                     self.mongo.move_mail_parsed('fail', mail)
                     return
+                elif print_counter_color_regex_group[0][3] == 'false' and printcountercolor is None:
+                    printcountercolor = 0
         else:
             printcountercolor = 0
 
