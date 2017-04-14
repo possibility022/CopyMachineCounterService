@@ -7,6 +7,7 @@ from datetime import datetime as DATETIME
 import logging
 import settings
 import email
+from TBExceptions import ServerException
 # MONGO EMAIL DOCUMENT STYLE
 # mail = {'mail': [], '_id': ''}
 
@@ -148,6 +149,7 @@ class EmailParser:
         return self.mongo.check_id_parsed(id_)
 
     def parse(self, mail):
+        body = None
         encoding = self.get_encoding(mail['mail'])
 
         byte_message = b'\n'.join(mail['mail'])
@@ -159,17 +161,20 @@ class EmailParser:
                 break   
 
         #body = message.get_payload(0).get_payload(decode=True)
-        if encoding is not '':
-            body = body.decode(encoding)
+        if body is not None:
+            if encoding is not '':
+                body = body.decode(encoding)
+            else:
+                body = body.decode('utf-8')
         else:
-            body = body.decode('utf-8')
+            raise ServerException('Serwer nie zdekodował wiadomości. Prawdopodobnie jest innego rodzaju niż text/plain')
 
         if isinstance(body, str):
             lines = body.split('\n')
         elif isinstance(body,bytes):
             lines = body.split(b'\n')
         else:
-            raise Exception('Email został niepoprawnie przetworzony')
+            raise ServerException('Email został niepoprawnie przetworzony')
 
         mail['body'] = body
         mail['body-lines'] = lines
