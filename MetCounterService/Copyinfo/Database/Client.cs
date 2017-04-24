@@ -20,7 +20,6 @@ namespace Copyinfo.Database
         public string[] wwwsites { get; set; }
         public string notes { get; set; }
         public string address { get { return GetAddress().ToString(); } }
-        //public string[] devices { get; set; }
 
         private Address address_class;
 
@@ -42,7 +41,7 @@ namespace Copyinfo.Database
             return address_class;
         }
 
-        public void GetAddress(Address a)
+        public void SetAddress(Address a)
         {
             address_class = a;
         }

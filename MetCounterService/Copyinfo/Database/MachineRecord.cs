@@ -49,6 +49,66 @@ namespace Copyinfo.Database
         public string tonerlevel_y { get; set; }
         public string tonerlevel_k { get; set; }
 
+        protected string _clientName { get; set; }
+        protected string _deviceAddress { get; set; }
+        protected string _modelName { get; set; }
+
+
+        public string modelName { get
+            {
+                if (_modelName == null)
+                {
+                    Device dev = GetDevice();
+                    if (dev != null)
+                    {
+                        _modelName = dev.model;
+                        return _modelName;
+                    }
+
+                    _modelName = "";
+                    return "";
+                }
+                else
+                    return _modelName;
+            } }
+        public string deviceAddress { get
+            {
+                if (_deviceAddress == null)
+                {
+                    Device dev = GetDevice();
+                    if (dev != null)
+                    {
+                        _deviceAddress = dev.address.ToString();
+                        return _deviceAddress;
+                    }
+
+                    _deviceAddress = "";
+                    return "";
+                }
+                else
+                    return _deviceAddress;
+            } }
+        public string clientName { get {
+                if (_clientName == null)
+                {
+                    Device dev = GetDevice();
+                    if (dev != null)
+                    {
+                        Client cli = dev.GetClient();
+                        if (cli != null)
+                        {
+                            _clientName = cli.name;
+                            return cli.name;
+                        }
+                    }
+
+                    _clientName = "";
+                    return "";
+                }
+                else
+                    return _clientName;
+            } }
+
 
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
@@ -58,7 +118,7 @@ namespace Copyinfo.Database
 
         public Device GetDevice()
         {
-            return DAO.GetDevice(serial_number);
+            return DAO.GetDevice(serial_number, true);
         }
 
         public MachineRecord()
@@ -75,6 +135,12 @@ namespace Copyinfo.Database
             print_counter_color = -1;
             id = new ObjectId();
             email = null;
+            tonerlevel_c = "";
+            tonerlevel_m = "";
+            tonerlevel_k = "";
+            tonerlevel_y = "";
+            print_counter_black_and_white = 0;
+            print_counter_color = 0;
             //email_info = new BsonBinaryData(new byte[] { 0 });
         }
 
@@ -126,7 +192,10 @@ namespace Copyinfo.Database
         {
             try
             {
-                new Forms.FClient(GetDevice().GetClient()).Show();
+                Database.Client client = GetDevice().GetClient();
+                Forms.FClient f = new Forms.FClient(client);
+                f.Show();
+
             } catch (NullReferenceException ex)
             {
                 MessageBox.Show("Nie znalazłem klienta.");

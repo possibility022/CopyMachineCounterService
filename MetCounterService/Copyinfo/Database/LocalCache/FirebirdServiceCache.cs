@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Copyinfo.Database
+namespace Copyinfo.Database.LocalCache
 {
-    class DatabaseCache
+    class FirebirdServiceCache
     {
         public static List<int> serviceAgreementDevices { get; private set; }
         public static List<int> serviceAgreementClients { get; private set; }
@@ -16,7 +16,5 @@ namespace Copyinfo.Database
             serviceAgreementDevices = Firebird.getServiceAgreementsDevices();
             serviceAgreementClients = Firebird.getServiceAgreementsClients();
         }
-
-
     }
 }

@@ -12,7 +12,8 @@ namespace Copyinfo
         public static void Initialize()
         {
             Database.MongoTB.Initialize();
-            Database.DatabaseCache.Initialize();
+            Database.LocalCache.FirebirdServiceCache.Initialize();
+            Database.DAO.Initialize();
         }
 
         public static void Log(string message)

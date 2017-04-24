@@ -18,6 +18,7 @@ namespace Copyinfo.Database
         public DateTime instalation_datetime { get; set; }      // data instalacji
         public int status { get; set; }
         public int client_id { get; set; }
+        public int id { get; set; }
 
         public Address address { get; set; }
 
@@ -42,7 +43,7 @@ namespace Copyinfo.Database
 
         public Client GetClient()
         {
-            return DAO.GetClient(client_id);
+            return DAO.GetClient(client_id, true);
         }
     }
 }

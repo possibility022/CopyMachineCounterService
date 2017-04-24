@@ -34,7 +34,7 @@ namespace Copyinfo.Forms.Controls
 
         private void HtmlLicznikToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
             string html = record.GetCounter().full_counter;
 
             new FHTMLView(html).ShowDialog();
@@ -42,7 +42,7 @@ namespace Copyinfo.Forms.Controls
 
         private void HtmlNumerSeryjnyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
             string html = record.GetSerial().full_serialnumber;
 
             new FHTMLView(html).ShowDialog();
@@ -54,7 +54,7 @@ namespace Copyinfo.Forms.Controls
             {
                 if (fastObjectListView1.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
+                    MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
                     if (record.IsParsedEmail())
                     {
                         contextMenuStrip1.Items["emailMessageToolStripMenuItem"].Enabled = true;
@@ -74,7 +74,7 @@ namespace Copyinfo.Forms.Controls
 
         private void dodajUrzadzenieToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
             FAddDevice form_add = new FAddDevice(record.serial_number);
             form_add.Show();
         }
@@ -108,7 +108,7 @@ namespace Copyinfo.Forms.Controls
 
         private void emailMessageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
             string emailText = record.GetEmail().GetEmail();
 
             //new FHTMLView(html).ShowDialog();
@@ -137,7 +137,7 @@ namespace Copyinfo.Forms.Controls
 
         private void showDevice_Click(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObject;
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
             record.ShowClient();
         }
     }

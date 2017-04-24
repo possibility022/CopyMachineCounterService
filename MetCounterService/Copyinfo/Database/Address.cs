@@ -20,7 +20,6 @@ namespace Copyinfo.Database
 
         private string address_string { get; set; } = "";
         
-
         public Address()
         {
             street = "";
@@ -36,6 +35,27 @@ namespace Copyinfo.Database
             if (address_string.Length == 0)
                 address_string = street + " " + house_number + (apartment.Length > 0 ? "\\" + apartment : "") + " " + city;
             return address_string;
+        }
+
+        public static bool operator ==(Address a, Address b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            return a.id == b.id;
+        }
+
+        public static bool operator !=(Address a, Address b)
+        {
+            return !(a == b);
         }
     }
 }

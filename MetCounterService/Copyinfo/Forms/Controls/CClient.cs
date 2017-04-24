@@ -83,11 +83,13 @@ namespace Copyinfo.Forms.Controls
         private void FillAddress()
         {
             Database.Address address = client.GetAddress();
+
             if (address != null)
             {
                 lStreet.Text = address.street;
                 lCity.Text = address.city;
             }
+            
         }
 
         private void ShowDeviceListForSelection()
@@ -113,7 +115,7 @@ namespace Copyinfo.Forms.Controls
         {
             FAddress fAddres = new FAddress(client.GetAddress());
             fAddres.ShowDialog();
-            client.GetAddress(fAddres.cAddress1.GetAddress());
+            client.SetAddress(fAddres.cAddress1.GetAddress());
             FillAddress();
         }
 

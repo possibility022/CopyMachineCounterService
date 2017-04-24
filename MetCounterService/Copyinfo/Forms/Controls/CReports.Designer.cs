@@ -38,6 +38,7 @@
             this.porównajWybraneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuńToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
+            this.olvClientName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvSerialNumber = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvBandW = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -47,6 +48,8 @@
             this.olvTonerLevel_C = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_M = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_Y = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvDeviceModel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
@@ -116,6 +119,9 @@
             // 
             // fastObjectListView1
             // 
+            this.fastObjectListView1.AllColumns.Add(this.olvClientName);
+            this.fastObjectListView1.AllColumns.Add(this.olvAddress);
+            this.fastObjectListView1.AllColumns.Add(this.olvDeviceModel);
             this.fastObjectListView1.AllColumns.Add(this.olvSerialNumber);
             this.fastObjectListView1.AllColumns.Add(this.olvDateTime);
             this.fastObjectListView1.AllColumns.Add(this.olvBandW);
@@ -127,6 +133,9 @@
             this.fastObjectListView1.AllColumns.Add(this.olvTonerLevel_Y);
             this.fastObjectListView1.CellEditUseWholeCell = false;
             this.fastObjectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvClientName,
+            this.olvAddress,
+            this.olvDeviceModel,
             this.olvSerialNumber,
             this.olvDateTime,
             this.olvBandW,
@@ -146,6 +155,11 @@
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
             this.fastObjectListView1.VirtualMode = true;
+            // 
+            // olvClientName
+            // 
+            this.olvClientName.AspectName = "clientName";
+            this.olvClientName.Text = "Klient";
             // 
             // olvSerialNumber
             // 
@@ -200,6 +214,16 @@
             this.olvTonerLevel_Y.AspectName = "tonerlevel_y";
             this.olvTonerLevel_Y.Text = "Żółty";
             // 
+            // olvDeviceModel
+            // 
+            this.olvDeviceModel.AspectName = "modelName";
+            this.olvDeviceModel.Text = "Model";
+            // 
+            // olvAddress
+            // 
+            this.olvAddress.AspectName = "deviceAddress";
+            this.olvAddress.Text = "Adres";
+            // 
             // tbTextBox1
             // 
             this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
@@ -244,5 +268,8 @@
         private BrightIdeasSoftware.OLVColumn olvTonerLevel_M;
         private BrightIdeasSoftware.OLVColumn olvTonerLevel_Y;
         private System.Windows.Forms.ToolStripMenuItem showClient;
+        private BrightIdeasSoftware.OLVColumn olvClientName;
+        private BrightIdeasSoftware.OLVColumn olvDeviceModel;
+        private BrightIdeasSoftware.OLVColumn olvAddress;
     }
 }

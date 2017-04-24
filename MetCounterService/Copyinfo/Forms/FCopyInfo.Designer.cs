@@ -62,6 +62,7 @@
             // 
             // cReports1
             // 
+            this.cReports1.BackColor = System.Drawing.Color.Transparent;
             this.cReports1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cReports1.Location = new System.Drawing.Point(0, 51);
             this.cReports1.Name = "cReports1";
@@ -108,7 +109,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(190)))), ((int)(((byte)(215)))));
             this.ClientSize = new System.Drawing.Size(981, 575);
             this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tbButton4);

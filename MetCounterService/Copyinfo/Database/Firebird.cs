@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FirebirdSql.Data;
 using FirebirdSql.Data.FirebirdClient;
+using Copyinfo.Database.LocalCache;
 
 namespace Copyinfo.Database
 {
@@ -76,7 +77,7 @@ namespace Copyinfo.Database
                 "FROM URZADZENIE_KLIENT ";
 
 
-        const string sql_sekect_device_inner_join =
+        const string sql_select_device_inner_join =
                 "INNER JOIN MODEL_URZADZENIA " +
                 "ON URZADZENIE_KLIENT.ID_MODEL_URZADZENIA=MODEL_URZADZENIA.ID_MODEL_URZADZENIA " +
                 "INNER JOIN MARKA_URZADZENIA " +
@@ -84,7 +85,7 @@ namespace Copyinfo.Database
                 "INNER JOIN ADRES_KLIENT " +
                 "ON URZADZENIE_KLIENT.ID_MIEJSCE_INSTALACJI=ADRES_KLIENT.ID_ADRES_KLIENT ";
 
-        private static Device readDevice(FbDataReader reader)
+        private static Device ReadDevice(FbDataReader reader)
         {
             Address address = new Address();
 
@@ -95,14 +96,15 @@ namespace Copyinfo.Database
             address.postcode = reader.GetString(8);
             address.post_city = reader.GetString(9);
             address.street = reader.GetString(10);
-
+                
             Device device = new Device
             {
                 serial_number = reader.GetString(0),
                 model = reader.GetString(1),
                 provider = reader.GetString(2),
                 instalation_datetime = reader.GetDateTime(3),
-                service_agreement = DatabaseCache.serviceAgreementDevices.Contains(reader.GetInt32(11)),
+                id = reader.GetInt32(11),
+                service_agreement = FirebirdServiceCache.serviceAgreementDevices.Contains(reader.GetInt32(11)),
                 status = reader.GetInt32(12),
                 client_id = reader.GetInt32(13)
             };
@@ -114,7 +116,7 @@ namespace Copyinfo.Database
 
         internal static List<Device> GetAllDevices()
         {
-            string sql = sql_select_device + sql_sekect_device_inner_join;
+            string sql = sql_select_device + sql_select_device_inner_join;
 
             FbDataReader reader = executeCommand(sql);
 
@@ -122,7 +124,7 @@ namespace Copyinfo.Database
 
             while (reader.Read())
             {
-                Device d = readDevice(reader);
+                Device d = ReadDevice(reader);
                 if (d.status == 1) devices.Add(d);
             }
 
@@ -133,14 +135,14 @@ namespace Copyinfo.Database
 
         internal static Device GetDevice(string serial_number)
         {
-            string sql = sql_select_device + sql_sekect_device_inner_join + " WHERE URZADZENIE_KLIENT.NR_FABRYCZNY='" + serial_number + "'";
+            string sql = sql_select_device + sql_select_device_inner_join + " WHERE URZADZENIE_KLIENT.NR_FABRYCZNY='" + serial_number + "'";
 
             FbDataReader reader = executeCommand(sql);
             Device device = null;
 
             while (reader.Read())
             {
-                device = readDevice(reader);
+                device = ReadDevice(reader);
                 if (device.status == 1)
                     break;
             }
@@ -161,7 +163,7 @@ namespace Copyinfo.Database
                 sql += " OR URZADZENIE_KLIENT.NR_FABRYCZNY=" + serial_numbers[i];
             }
 
-            sql += " " + sql_sekect_device_inner_join;
+            sql += " " + sql_select_device_inner_join;
 
             FbDataReader reader = executeCommand(sql);
 
@@ -169,7 +171,7 @@ namespace Copyinfo.Database
 
             while (reader.Read())
             {
-                devices.Add(readDevice(reader));
+                devices.Add(ReadDevice(reader));
             }
 
             reader.Close();
@@ -185,7 +187,7 @@ namespace Copyinfo.Database
         /// <returns>Lista urządzeń klienta.</returns>
         internal static List<Device> GetDevices(int id)
         {
-            string sql = sql_select_device + sql_sekect_device_inner_join;
+            string sql = sql_select_device + sql_select_device_inner_join;
             sql += " WHERE URZADZENIE_KLIENT.ID_KLIENT=" + id.ToString();
 
             FbDataReader reader = executeCommand(sql);
@@ -194,7 +196,7 @@ namespace Copyinfo.Database
 
             while (reader.Read())
             {
-                Device d = readDevice(reader);
+                Device d = ReadDevice(reader);
                 if (d.status == 1) devices.Add(d);
             }
 
@@ -246,7 +248,7 @@ namespace Copyinfo.Database
             Client c = new Client
             {
                 id = reader.GetInt32(0),
-                ser_agr = DatabaseCache.serviceAgreementClients.Contains(reader.GetInt32(0)),
+                ser_agr = FirebirdServiceCache.serviceAgreementClients.Contains(reader.GetInt32(0)),
                 NIP = reader.GetString(1),
                 name = reader.GetString(2) + " " + reader.GetString(3),
                 p_numbers = reader.GetString(4).Split(','),
@@ -267,7 +269,7 @@ namespace Copyinfo.Database
                 street = reader.GetString(14)
             };
 
-            c.GetAddress(a);
+            c.SetAddress(a);
 
             return c;
         }
@@ -373,7 +375,6 @@ namespace Copyinfo.Database
 
             return devices;
         }
-
         #endregion
     }
 }
