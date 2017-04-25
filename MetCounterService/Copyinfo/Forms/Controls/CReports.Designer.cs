@@ -30,15 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showDeviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showClient = new System.Windows.Forms.ToolStripMenuItem();
             this.emailMessageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hTMLLicznikToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hTMLNumerSeryjnyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dodajUrządzenieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.porównajWybraneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuńToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
             this.olvClientName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvDeviceModel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvSerialNumber = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvBandW = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -48,8 +50,6 @@
             this.olvTonerLevel_C = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_M = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_Y = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvDeviceModel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
@@ -58,15 +58,22 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showDeviceToolStripMenuItem,
             this.showClient,
             this.emailMessageToolStripMenuItem,
             this.hTMLLicznikToolStripMenuItem,
             this.hTMLNumerSeryjnyToolStripMenuItem,
-            this.dodajUrządzenieToolStripMenuItem,
             this.porównajWybraneToolStripMenuItem,
             this.usuńToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(189, 158);
+            // 
+            // showDeviceToolStripMenuItem
+            // 
+            this.showDeviceToolStripMenuItem.Name = "showDeviceToolStripMenuItem";
+            this.showDeviceToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.showDeviceToolStripMenuItem.Text = "Pokaż urządzenie";
+            this.showDeviceToolStripMenuItem.Click += new System.EventHandler(this.showDeviceToolStripMenuItem_Click);
             // 
             // showClient
             // 
@@ -96,15 +103,9 @@
             this.hTMLNumerSeryjnyToolStripMenuItem.Text = "HTML Numer Seryjny";
             this.hTMLNumerSeryjnyToolStripMenuItem.Click += new System.EventHandler(this.HtmlNumerSeryjnyToolStripMenuItem_Click);
             // 
-            // dodajUrządzenieToolStripMenuItem
-            // 
-            this.dodajUrządzenieToolStripMenuItem.Name = "dodajUrządzenieToolStripMenuItem";
-            this.dodajUrządzenieToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.dodajUrządzenieToolStripMenuItem.Text = "Dodaj urządzenie";
-            this.dodajUrządzenieToolStripMenuItem.Click += new System.EventHandler(this.dodajUrzadzenieToolStripMenuItem_Click);
-            // 
             // porównajWybraneToolStripMenuItem
             // 
+            this.porównajWybraneToolStripMenuItem.Enabled = false;
             this.porównajWybraneToolStripMenuItem.Name = "porównajWybraneToolStripMenuItem";
             this.porównajWybraneToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.porównajWybraneToolStripMenuItem.Text = "Porównaj wybrane";
@@ -119,11 +120,11 @@
             // 
             // fastObjectListView1
             // 
+            this.fastObjectListView1.AllColumns.Add(this.olvDateTime);
             this.fastObjectListView1.AllColumns.Add(this.olvClientName);
             this.fastObjectListView1.AllColumns.Add(this.olvAddress);
             this.fastObjectListView1.AllColumns.Add(this.olvDeviceModel);
             this.fastObjectListView1.AllColumns.Add(this.olvSerialNumber);
-            this.fastObjectListView1.AllColumns.Add(this.olvDateTime);
             this.fastObjectListView1.AllColumns.Add(this.olvBandW);
             this.fastObjectListView1.AllColumns.Add(this.olvColor);
             this.fastObjectListView1.AllColumns.Add(this.olvScan);
@@ -133,11 +134,11 @@
             this.fastObjectListView1.AllColumns.Add(this.olvTonerLevel_Y);
             this.fastObjectListView1.CellEditUseWholeCell = false;
             this.fastObjectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvDateTime,
             this.olvClientName,
             this.olvAddress,
             this.olvDeviceModel,
             this.olvSerialNumber,
-            this.olvDateTime,
             this.olvBandW,
             this.olvColor,
             this.olvScan,
@@ -150,7 +151,7 @@
             this.fastObjectListView1.Location = new System.Drawing.Point(0, 31);
             this.fastObjectListView1.Name = "fastObjectListView1";
             this.fastObjectListView1.ShowGroups = false;
-            this.fastObjectListView1.Size = new System.Drawing.Size(823, 400);
+            this.fastObjectListView1.Size = new System.Drawing.Size(1003, 400);
             this.fastObjectListView1.TabIndex = 1;
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
@@ -159,17 +160,35 @@
             // olvClientName
             // 
             this.olvClientName.AspectName = "clientName";
+            this.olvClientName.DisplayIndex = 0;
             this.olvClientName.Text = "Klient";
+            this.olvClientName.Width = 134;
+            // 
+            // olvAddress
+            // 
+            this.olvAddress.AspectName = "deviceAddress";
+            this.olvAddress.DisplayIndex = 1;
+            this.olvAddress.Text = "Adres";
+            this.olvAddress.Width = 150;
+            // 
+            // olvDeviceModel
+            // 
+            this.olvDeviceModel.AspectName = "modelName";
+            this.olvDeviceModel.DisplayIndex = 2;
+            this.olvDeviceModel.Text = "Model";
+            this.olvDeviceModel.Width = 66;
             // 
             // olvSerialNumber
             // 
             this.olvSerialNumber.AspectName = "serial_number";
+            this.olvSerialNumber.DisplayIndex = 3;
             this.olvSerialNumber.Text = "Numer Seryjny";
             this.olvSerialNumber.Width = 109;
             // 
             // olvDateTime
             // 
             this.olvDateTime.AspectName = "datetime";
+            this.olvDateTime.DisplayIndex = 4;
             this.olvDateTime.Text = "Data odczytu";
             this.olvDateTime.Width = 121;
             // 
@@ -214,16 +233,6 @@
             this.olvTonerLevel_Y.AspectName = "tonerlevel_y";
             this.olvTonerLevel_Y.Text = "Żółty";
             // 
-            // olvDeviceModel
-            // 
-            this.olvDeviceModel.AspectName = "modelName";
-            this.olvDeviceModel.Text = "Model";
-            // 
-            // olvAddress
-            // 
-            this.olvAddress.AspectName = "deviceAddress";
-            this.olvAddress.Text = "Adres";
-            // 
             // tbTextBox1
             // 
             this.tbTextBox1.Font = new System.Drawing.Font("Segoe UI", 10F);
@@ -240,7 +249,7 @@
             this.Controls.Add(this.tbTextBox1);
             this.Controls.Add(this.fastObjectListView1);
             this.Name = "CReports";
-            this.Size = new System.Drawing.Size(823, 431);
+            this.Size = new System.Drawing.Size(1003, 431);
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).EndInit();
             this.ResumeLayout(false);
@@ -252,7 +261,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem hTMLLicznikToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hTMLNumerSeryjnyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem dodajUrządzenieToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem porównajWybraneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usuńToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem emailMessageToolStripMenuItem;
@@ -271,5 +279,6 @@
         private BrightIdeasSoftware.OLVColumn olvClientName;
         private BrightIdeasSoftware.OLVColumn olvDeviceModel;
         private BrightIdeasSoftware.OLVColumn olvAddress;
+        private System.Windows.Forms.ToolStripMenuItem showDeviceToolStripMenuItem;
     }
 }

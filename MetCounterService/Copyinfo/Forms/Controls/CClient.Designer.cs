@@ -80,7 +80,7 @@
             this.btnEditAddress.Name = "btnEditAddress";
             this.btnEditAddress.Size = new System.Drawing.Size(224, 32);
             this.btnEditAddress.TabIndex = 29;
-            this.btnEditAddress.Text = "Edytuj Adress";
+            this.btnEditAddress.Text = "Pokaż Adress";
             this.btnEditAddress.UseVisualStyleBackColor = true;
             this.btnEditAddress.Click += new System.EventHandler(this.btnEditAddress_Click);
             // 

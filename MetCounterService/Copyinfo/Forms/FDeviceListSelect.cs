@@ -35,8 +35,7 @@ namespace Copyinfo.Forms
 
         private void tbButton2_Click(object sender, EventArgs e)
         {
-            FAddDevice addDeviceForm = new FAddDevice();
-            addDeviceForm.ShowDialog();
+
         }
     }
 }

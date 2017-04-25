@@ -19,6 +19,14 @@ namespace Copyinfo.Database
         public int status { get; set; }
         public int client_id { get; set; }
         public int id { get; set; }
+        private string _client { get; set; }
+        public string client { get { if (_client == null)
+                {
+                    _client = GetClient().name;
+                }
+                return _client;
+            }
+            }
 
         public Address address { get; set; }
 

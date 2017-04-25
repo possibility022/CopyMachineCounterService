@@ -18,14 +18,12 @@ namespace Copyinfo.Forms.Controls
 
         public AddClient()
         {
-            //InitializeComponent();
             Init();
             client = new Database.Client();
         }
         
         public void setClient(Database.Client client)
         {
-            //InitializeComponent();
             this.client = client;
             FillControl(client);
             Init();
@@ -113,10 +111,7 @@ namespace Copyinfo.Forms.Controls
 
         private void btnEditAddress_Click(object sender, EventArgs e)
         {
-            FAddress fAddres = new FAddress(client.GetAddress());
-            fAddres.ShowDialog();
-            client.SetAddress(fAddres.cAddress1.GetAddress());
-            FillAddress();
+            new FAddress(client.GetAddress()).Show();
         }
 
         public Database.Client getClient()

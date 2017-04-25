@@ -32,147 +32,153 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtPostCode = new System.Windows.Forms.TextBox();
-            this.txtCity = new System.Windows.Forms.TextBox();
-            this.txtStreet = new System.Windows.Forms.TextBox();
-            this.txtPost = new System.Windows.Forms.TextBox();
-            this.txtHouseNumber = new System.Windows.Forms.TextBox();
-            this.txtApartment = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.tblStreet = new Copyinfo.Forms.Controls.Labels.TBLabel();
+            this.tblCity = new Copyinfo.Forms.Controls.Labels.TBLabel();
+            this.tblPostCode = new Copyinfo.Forms.Controls.Labels.TBLabel();
+            this.tblPostCity = new Copyinfo.Forms.Controls.Labels.TBLabel();
+            this.tblHouseNumber = new Copyinfo.Forms.Controls.Labels.TBLabel();
+            this.tblApartmentNumber = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.SuspendLayout();
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label4.Location = new System.Drawing.Point(8, 105);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(161, 20);
+            this.label4.Size = new System.Drawing.Size(156, 21);
             this.label4.TabIndex = 17;
             this.label4.Text = "Poczta (miejscowość)";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label3.Location = new System.Drawing.Point(8, 73);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(107, 20);
+            this.label3.Size = new System.Drawing.Size(107, 21);
             this.label3.TabIndex = 16;
             this.label3.Text = "Kod pocztowy";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.Location = new System.Drawing.Point(8, 41);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(98, 20);
+            this.label2.Size = new System.Drawing.Size(98, 21);
             this.label2.TabIndex = 15;
             this.label2.Text = "Miejscowość";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.Location = new System.Drawing.Point(8, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 20);
+            this.label1.Size = new System.Drawing.Size(44, 21);
             this.label1.TabIndex = 14;
             this.label1.Text = "Ulica";
-            // 
-            // txtPostCode
-            // 
-            this.txtPostCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txtPostCode.Location = new System.Drawing.Point(195, 70);
-            this.txtPostCode.Name = "txtPostCode";
-            this.txtPostCode.Size = new System.Drawing.Size(163, 26);
-            this.txtPostCode.TabIndex = 12;
-            // 
-            // txtCity
-            // 
-            this.txtCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txtCity.Location = new System.Drawing.Point(195, 38);
-            this.txtCity.Name = "txtCity";
-            this.txtCity.Size = new System.Drawing.Size(163, 26);
-            this.txtCity.TabIndex = 11;
-            this.txtCity.TextChanged += new System.EventHandler(this.txtCity_TextChanged);
-            // 
-            // txtStreet
-            // 
-            this.txtStreet.BackColor = System.Drawing.Color.White;
-            this.txtStreet.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txtStreet.Location = new System.Drawing.Point(195, 6);
-            this.txtStreet.Name = "txtStreet";
-            this.txtStreet.Size = new System.Drawing.Size(163, 26);
-            this.txtStreet.TabIndex = 10;
-            // 
-            // txtPost
-            // 
-            this.txtPost.BackColor = System.Drawing.Color.White;
-            this.txtPost.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txtPost.Location = new System.Drawing.Point(195, 102);
-            this.txtPost.Name = "txtPost";
-            this.txtPost.Size = new System.Drawing.Size(163, 26);
-            this.txtPost.TabIndex = 18;
-            this.txtPost.TextChanged += new System.EventHandler(this.txtPost_TextChanged);
-            // 
-            // txtHouseNumber
-            // 
-            this.txtHouseNumber.BackColor = System.Drawing.Color.White;
-            this.txtHouseNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txtHouseNumber.Location = new System.Drawing.Point(378, 6);
-            this.txtHouseNumber.Name = "txtHouseNumber";
-            this.txtHouseNumber.Size = new System.Drawing.Size(36, 26);
-            this.txtHouseNumber.TabIndex = 19;
-            // 
-            // txtApartment
-            // 
-            this.txtApartment.BackColor = System.Drawing.Color.White;
-            this.txtApartment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.txtApartment.Location = new System.Drawing.Point(440, 6);
-            this.txtApartment.Name = "txtApartment";
-            this.txtApartment.Size = new System.Drawing.Size(36, 26);
-            this.txtApartment.TabIndex = 20;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(374, 41);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5.Location = new System.Drawing.Point(393, 31);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(158, 20);
+            this.label5.Size = new System.Drawing.Size(161, 21);
             this.label5.TabIndex = 21;
             this.label5.Text = "nr domu / Mieszkania";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(420, 9);
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label6.Location = new System.Drawing.Point(458, 9);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(13, 20);
+            this.label6.Size = new System.Drawing.Size(16, 21);
             this.label6.TabIndex = 22;
             this.label6.Text = "/";
+            // 
+            // tblStreet
+            // 
+            this.tblStreet.AutoSize = true;
+            this.tblStreet.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tblStreet.Location = new System.Drawing.Point(128, 9);
+            this.tblStreet.Name = "tblStreet";
+            this.tblStreet.Size = new System.Drawing.Size(70, 21);
+            this.tblStreet.TabIndex = 23;
+            this.tblStreet.Text = "tbLabel1";
+            // 
+            // tblCity
+            // 
+            this.tblCity.AutoSize = true;
+            this.tblCity.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tblCity.Location = new System.Drawing.Point(128, 41);
+            this.tblCity.Name = "tblCity";
+            this.tblCity.Size = new System.Drawing.Size(70, 21);
+            this.tblCity.TabIndex = 24;
+            this.tblCity.Text = "tbLabel2";
+            // 
+            // tblPostCode
+            // 
+            this.tblPostCode.AutoSize = true;
+            this.tblPostCode.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tblPostCode.Location = new System.Drawing.Point(128, 73);
+            this.tblPostCode.Name = "tblPostCode";
+            this.tblPostCode.Size = new System.Drawing.Size(70, 21);
+            this.tblPostCode.TabIndex = 25;
+            this.tblPostCode.Text = "tbLabel3";
+            // 
+            // tblPostCity
+            // 
+            this.tblPostCity.AutoSize = true;
+            this.tblPostCity.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tblPostCity.Location = new System.Drawing.Point(170, 105);
+            this.tblPostCity.Name = "tblPostCity";
+            this.tblPostCity.Size = new System.Drawing.Size(70, 21);
+            this.tblPostCity.TabIndex = 26;
+            this.tblPostCity.Text = "tbLabel4";
+            // 
+            // tblHouseNumber
+            // 
+            this.tblHouseNumber.AutoSize = true;
+            this.tblHouseNumber.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tblHouseNumber.Location = new System.Drawing.Point(390, 12);
+            this.tblHouseNumber.Name = "tblHouseNumber";
+            this.tblHouseNumber.Size = new System.Drawing.Size(62, 19);
+            this.tblHouseNumber.TabIndex = 27;
+            this.tblHouseNumber.Text = "tbLabel5";
+            // 
+            // tblApartmentNumber
+            // 
+            this.tblApartmentNumber.AutoSize = true;
+            this.tblApartmentNumber.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tblApartmentNumber.Location = new System.Drawing.Point(480, 12);
+            this.tblApartmentNumber.Name = "tblApartmentNumber";
+            this.tblApartmentNumber.Size = new System.Drawing.Size(62, 19);
+            this.tblApartmentNumber.TabIndex = 28;
+            this.tblApartmentNumber.Text = "tbLabel6";
             // 
             // CAddress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.tblApartmentNumber);
+            this.Controls.Add(this.tblHouseNumber);
+            this.Controls.Add(this.tblPostCity);
+            this.Controls.Add(this.tblPostCode);
+            this.Controls.Add(this.tblCity);
+            this.Controls.Add(this.tblStreet);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtApartment);
-            this.Controls.Add(this.txtHouseNumber);
-            this.Controls.Add(this.txtPost);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtPostCode);
-            this.Controls.Add(this.txtCity);
-            this.Controls.Add(this.txtStreet);
             this.Name = "CAddress";
             this.Size = new System.Drawing.Size(554, 142);
             this.ResumeLayout(false);
@@ -186,13 +192,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtPostCode;
-        private System.Windows.Forms.TextBox txtCity;
-        private System.Windows.Forms.TextBox txtStreet;
-        private System.Windows.Forms.TextBox txtPost;
-        private System.Windows.Forms.TextBox txtHouseNumber;
-        private System.Windows.Forms.TextBox txtApartment;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private Labels.TBLabel tblStreet;
+        private Labels.TBLabel tblCity;
+        private Labels.TBLabel tblPostCode;
+        private Labels.TBLabel tblPostCity;
+        private Labels.TBLabel tblHouseNumber;
+        private Labels.TBLabel tblApartmentNumber;
     }
 }

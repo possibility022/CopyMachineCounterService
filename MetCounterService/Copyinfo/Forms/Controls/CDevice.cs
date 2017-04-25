@@ -20,89 +20,48 @@ namespace Copyinfo.Forms.Controls
             Init();
         }
 
-        public CDevice(Database.Device device)
-        {
-            Init();
-            this.device = device;
-        }
-
         private void Init()
         {
             InitializeComponent();
+        }
+
+        public void SetDevice(Database.Device device)
+        {
+            this.device = device;
+
             monthCalendar1.MaxSelectionCount = 1;
             monthCalendar1.SelectionStart = DateTime.Today;
             SetDateInText();
+            if (device == null)
+            {
+                cReports1.Visible = false;
+            }
+            else
+            {
+                cReports1.SwitchViewMode();
+                cReports1.FillList(device.GetRecords());
+            }
+
+            SetDevice();
         }
 
-        public Database.Device GetDevice()
+        public void FillReports()
         {
-            if (CheckFields() == false)
-                return null;
-            Database.Device device = new Database.Device();
-            device.serial_number = txtSerialNumber.Text;
-            device.model = txtModel.Text;
-            device.provider = txtProvider.Text;
-            device.instalation_datetime = monthCalendar1.SelectionStart;
-            //device.setAddress(cAddress1.getAddress());
-            return device;
-        }
-
-        public void SetSerialnumber(string serial_number)
-        {
-            this.txtSerialNumber.Text = serial_number;
+            
         }
 
         private void SetDevice()
         {
-            txtProvider.Text = device.provider;
-            txtModel.Text = device.model;
-            txtSerialNumber.Text = device.serial_number;
+            tblProvider.Text = device.provider;
+            tblModel.Text = device.model;
+            tblSerialNumber.Text = device.serial_number;
             monthCalendar1.SetDate(device.instalation_datetime);
             cAddress1.SetAddress(device.address);
-        }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns>Zwraca true jesli wszystkie pola sa wypełnione poprawnie</returns>
-        private bool CheckFields()
-        {
-            if (CheckTxtControl(txtInstallationDate) &&
-                CheckTxtControl(txtModel) &&
-                CheckTxtControl(txtProvider) &&
-                CheckTxtControl(txtSerialNumber) && 
-                CheckAddress())
-                return true;
-
-            return false;
-        }
-
-        private bool CheckAddress()
-        {
-            Database.Address ad = cAddress1.GetAddress();
-            if (ad.city != null)
-                if (ad.city.Length > 0)
-                    return true;
-            return false;
-        }
-
-
-
-        /// <summary>
-        /// Zwraca true jeśli pole jest prawidłowe
-        /// </summary>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        private bool CheckTxtControl(TextBox t)
-        {
-            if (t.Text.Length == 0)
-            {
-                txtProvider.BackColor = Style.txtErrorColor;
-                return false;
-            }
-
-            return true;
+            Database.Client client = device.GetClient();
+            tblClientName.Text = client.name;
+            tblNipName.Text = client.NIP;
+            tblAddress.Text = client.address;
         }
 
         private void txtInstallationPlace_DoubleClick(object sender, EventArgs e)
@@ -118,6 +77,11 @@ namespace Copyinfo.Forms.Controls
         private void monthCalendar1_DateSelected(object sender, DateRangeEventArgs e)
         {
             SetDateInText();
+        }
+
+        private void tbButton1_Click(object sender, EventArgs e)
+        {
+            new FClient(device.GetClient()).Show();
         }
     }
 }

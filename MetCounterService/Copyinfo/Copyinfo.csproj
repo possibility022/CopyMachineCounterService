@@ -13,19 +13,22 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>\\192.168.1.253\Backup\ProgramyTomka\CopyInfo\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -46,6 +49,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>6F1A861A032242DDC148915B1161DEA1B0BD0391</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Copyinfo_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
@@ -212,12 +227,6 @@
     <Compile Include="Forms\Controls\TextBoxes\TBTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\FAddDevice.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FAddDevice.Designer.cs">
-      <DependentUpon>FAddDevice.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FAddress.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -259,6 +268,12 @@
     </Compile>
     <Compile Include="Forms\FDeviceListSelect.Designer.cs">
       <DependentUpon>FDeviceListSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FDeviceView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FDeviceView.Designer.cs">
+      <DependentUpon>FDeviceView.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FEditBox.cs">
       <SubType>Form</SubType>
@@ -352,9 +367,6 @@
     <EmbeddedResource Include="Forms\Controls\CLineCompare_Report.resx">
       <DependentUpon>CLineCompare_Report.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FAddDevice.resx">
-      <DependentUpon>FAddDevice.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FAddress.resx">
       <DependentUpon>FAddress.cs</DependentUpon>
     </EmbeddedResource>
@@ -375,6 +387,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FDeviceListSelect.resx">
       <DependentUpon>FDeviceListSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FDeviceView.resx">
+      <DependentUpon>FDeviceView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FEditBox.resx">
       <DependentUpon>FEditBox.cs</DependentUpon>
@@ -410,6 +425,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="ClassDiagram1.cd" />
+    <None Include="Copyinfo_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

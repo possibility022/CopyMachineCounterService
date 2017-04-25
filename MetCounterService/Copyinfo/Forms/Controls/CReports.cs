@@ -15,6 +15,14 @@ namespace Copyinfo.Forms.Controls
 {
     public partial class CReports : UserControl
     {
+        enum ViewMode
+        {
+            Simple,
+            WithClientsName
+        }
+
+        ViewMode viewMode = ViewMode.WithClientsName;
+
         public CReports()
         {
             InitializeComponent();
@@ -74,9 +82,7 @@ namespace Copyinfo.Forms.Controls
 
         private void dodajUrzadzenieToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
-            FAddDevice form_add = new FAddDevice(record.serial_number);
-            form_add.Show();
+
         }
 
         private void porownajWybraneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -139,6 +145,42 @@ namespace Copyinfo.Forms.Controls
         {
             MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
             record.ShowClient();
+        }
+
+        private void showDeviceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
+            new FDeviceView(record.GetDevice()).Show() ;
+        }
+
+        public void SwitchViewMode()
+        {
+            if (viewMode == ViewMode.Simple)
+                viewMode = ViewMode.WithClientsName;
+            else if (viewMode == ViewMode.WithClientsName)
+                viewMode = ViewMode.Simple;
+
+            ApplyViewMode();
+        }
+
+        private void ApplyViewMode()
+        {
+            if (viewMode == ViewMode.Simple)
+            {
+                olvClientName.IsVisible = false;
+                olvAddress.IsVisible = false;
+                olvDeviceModel.IsVisible = false;
+                olvSerialNumber.IsVisible = false;
+                fastObjectListView1.RebuildColumns();
+            }
+            else if(viewMode == ViewMode.WithClientsName)
+            {
+                olvAddress.IsVisible = true;
+                olvClientName.IsVisible = true;
+                olvDeviceModel.IsVisible = true;
+                olvSerialNumber.IsVisible = true;
+                fastObjectListView1.RebuildColumns();
+            }
         }
     }
 }

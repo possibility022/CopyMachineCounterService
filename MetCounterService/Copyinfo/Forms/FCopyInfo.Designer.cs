@@ -28,13 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.tbButton4 = new Copyinfo.Forms.Controls.Buttons.TBButton();
+            this.tbButton3 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton2 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cReports1 = new Copyinfo.Forms.Controls.CReports();
-            this.tbButton3 = new Copyinfo.Forms.Controls.Buttons.TBButton();
-            this.tbButton4 = new Copyinfo.Forms.Controls.Buttons.TBButton();
-            this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.SuspendLayout();
+            // 
+            // tbButton_Small1
+            // 
+            this.tbButton_Small1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton_Small1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbButton_Small1.Location = new System.Drawing.Point(879, 14);
+            this.tbButton_Small1.Name = "tbButton_Small1";
+            this.tbButton_Small1.Size = new System.Drawing.Size(90, 32);
+            this.tbButton_Small1.TabIndex = 8;
+            this.tbButton_Small1.Text = "Drukuj";
+            this.tbButton_Small1.UseVisualStyleBackColor = true;
+            this.tbButton_Small1.Click += new System.EventHandler(this.tbButton_Small1_Click);
+            // 
+            // tbButton4
+            // 
+            this.tbButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton4.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.tbButton4.Location = new System.Drawing.Point(680, 11);
+            this.tbButton4.Name = "tbButton4";
+            this.tbButton4.Size = new System.Drawing.Size(170, 34);
+            this.tbButton4.TabIndex = 7;
+            this.tbButton4.Text = "tbButton4";
+            this.tbButton4.UseVisualStyleBackColor = true;
+            this.tbButton4.Click += new System.EventHandler(this.tbButton4_Click);
+            // 
+            // tbButton3
+            // 
+            this.tbButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton3.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.tbButton3.Location = new System.Drawing.Point(364, 11);
+            this.tbButton3.Name = "tbButton3";
+            this.tbButton3.Size = new System.Drawing.Size(170, 34);
+            this.tbButton3.TabIndex = 6;
+            this.tbButton3.Text = "Klienci";
+            this.tbButton3.UseVisualStyleBackColor = true;
+            this.tbButton3.Click += new System.EventHandler(this.tbButton3_Click);
             // 
             // tbButton2
             // 
@@ -56,7 +92,7 @@
             this.tbButton1.Name = "tbButton1";
             this.tbButton1.Size = new System.Drawing.Size(170, 34);
             this.tbButton1.TabIndex = 4;
-            this.tbButton1.Text = "Pobierz";
+            this.tbButton1.Text = "Odśwież";
             this.tbButton1.UseVisualStyleBackColor = true;
             this.tbButton1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -69,47 +105,11 @@
             this.cReports1.Size = new System.Drawing.Size(981, 524);
             this.cReports1.TabIndex = 0;
             // 
-            // tbButton3
-            // 
-            this.tbButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbButton3.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton3.Location = new System.Drawing.Point(364, 11);
-            this.tbButton3.Name = "tbButton3";
-            this.tbButton3.Size = new System.Drawing.Size(170, 34);
-            this.tbButton3.TabIndex = 6;
-            this.tbButton3.Text = "Klienci";
-            this.tbButton3.UseVisualStyleBackColor = true;
-            this.tbButton3.Click += new System.EventHandler(this.tbButton3_Click);
-            // 
-            // tbButton4
-            // 
-            this.tbButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbButton4.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton4.Location = new System.Drawing.Point(680, 11);
-            this.tbButton4.Name = "tbButton4";
-            this.tbButton4.Size = new System.Drawing.Size(170, 34);
-            this.tbButton4.TabIndex = 7;
-            this.tbButton4.Text = "tbButton4";
-            this.tbButton4.UseVisualStyleBackColor = true;
-            this.tbButton4.Click += new System.EventHandler(this.tbButton4_Click);
-            // 
-            // tbButton_Small1
-            // 
-            this.tbButton_Small1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbButton_Small1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbButton_Small1.Location = new System.Drawing.Point(879, 14);
-            this.tbButton_Small1.Name = "tbButton_Small1";
-            this.tbButton_Small1.Size = new System.Drawing.Size(90, 32);
-            this.tbButton_Small1.TabIndex = 8;
-            this.tbButton_Small1.Text = "Drukuj";
-            this.tbButton_Small1.UseVisualStyleBackColor = true;
-            this.tbButton_Small1.Click += new System.EventHandler(this.tbButton_Small1_Click);
-            // 
             // FCopyInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(117)))), ((int)(((byte)(190)))), ((int)(((byte)(215)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(255)))), ((int)(((byte)(206)))));
             this.ClientSize = new System.Drawing.Size(981, 575);
             this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tbButton4);

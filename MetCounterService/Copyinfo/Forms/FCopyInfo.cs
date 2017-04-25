@@ -21,6 +21,7 @@ namespace Copyinfo.Forms
             InitializeComponent();
             Init();
             Global.Initialize();
+            button1_Click(null, null);
         }
 
         protected void Init()

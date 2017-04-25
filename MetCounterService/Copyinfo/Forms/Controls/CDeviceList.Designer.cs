@@ -38,6 +38,7 @@
             this.olvInstallationDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvServiceAgreement = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.olvClient = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,6 +54,7 @@
             // fastObjectListView1
             // 
             this.fastObjectListView1.AllColumns.Add(this.olvSerialNumber);
+            this.fastObjectListView1.AllColumns.Add(this.olvClient);
             this.fastObjectListView1.AllColumns.Add(this.olvProvider);
             this.fastObjectListView1.AllColumns.Add(this.olvModel);
             this.fastObjectListView1.AllColumns.Add(this.olvAddress);
@@ -61,6 +63,7 @@
             this.fastObjectListView1.CellEditUseWholeCell = false;
             this.fastObjectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvSerialNumber,
+            this.olvClient,
             this.olvProvider,
             this.olvModel,
             this.olvAddress,
@@ -118,7 +121,12 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // olvClient
+            // 
+            this.olvClient.AspectName = "client";
+            this.olvClient.Text = "Client";
             // 
             // CDeviceList
             // 
@@ -144,5 +152,6 @@
         private BrightIdeasSoftware.OLVColumn olvServiceAgreement;
         public BrightIdeasSoftware.FastObjectListView fastObjectListView1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private BrightIdeasSoftware.OLVColumn olvClient;
     }
 }
