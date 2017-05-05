@@ -156,6 +156,7 @@
             this.olvDate.AspectName = "DateOfServiceClosed";
             this.olvDate.DisplayIndex = 1;
             this.olvDate.Text = "Data";
+            this.olvDate.Width = 118;
             // 
             // olvTechnican
             // 

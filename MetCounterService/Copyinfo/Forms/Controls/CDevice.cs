@@ -16,7 +16,7 @@ namespace Copyinfo.Forms.Controls
 
         Database.Device device;
         List<Database.ServiceReport> serviceReports = new List<Database.ServiceReport>();
-        readonly string[] textToFilterServiceReports = new string[3] {"toner","tonerów","tonery"};
+        readonly string[] textToFilterServiceReports = new string[2] {"toner","tonerów"};
 
         public CDevice()
         {
@@ -24,13 +24,14 @@ namespace Copyinfo.Forms.Controls
 
             objectListView1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
             objectListView1.Sort(olvDate, SortOrder.Descending);
-            objectListView1.FormatCell += RowCollorFormat;
+            objectListView1.FormatRow += SetSpecialColorForRow;
             
         }
 
-        private void RowCollorFormat(object sender, FormatCellEventArgs e)
+        private void SetSpecialColorForRow(object sender, FormatRowEventArgs e)
         {
-            //if (StringContainsToner serviceReports[e.RowIndex].Description)
+            if (StringContainsToner(serviceReports[e.RowIndex].Description))
+                e.Item.BackColor = Style.yellowColor;
         }
 
         private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -69,7 +70,7 @@ namespace Copyinfo.Forms.Controls
         private bool StringContainsToner(string str)
         {
             foreach (string filter in textToFilterServiceReports)
-                if (str.Contains(filter))
+                if (str.ToLower().Contains(filter))
                     return true;
             return false;
         }

@@ -37,6 +37,7 @@ namespace Copyinfo.Forms
 
         public static System.Drawing.Color alternateRowBackColor = System.Drawing.Color.FromArgb(192, 255, 192);
         public static System.Drawing.Font objectListViewFont = defaultSmallFont;
+        public static System.Drawing.Color yellowColor = System.Drawing.Color.FromArgb(251, 237, 187);
 
         public static System.Drawing.Color objectListViewFontColorForDeviceServiceRaports = System.Drawing.Color.FromArgb(66, 134, 244);
 
