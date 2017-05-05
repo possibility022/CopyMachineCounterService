@@ -246,12 +246,49 @@ mongo = MongoTB()
 logging.basicConfig(filename='deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
 
 logging.info('parse_loop_email started')
-while True:
-    mailbox = EmailParser()
-    ids = mailbox.get_emails_id()
-    for i in range(len(ids)):
-        mail = mailbox.get_email_pop3(i + 1)
-        data = mailbox.parse_email_to_device_data(mail)
-        print(data)
-    mailbox.close()
-    sleep(30 * 60)
+#while True:
+#    mailbox = EmailParser()
+#    ids = mailbox.get_emails_id()
+#    for i in range(len(ids)):
+#        mail = mailbox.get_email_pop3(i + 1)
+#        data = mailbox.parse_email_to_device_data(mail)
+#        print(data)
+#    mailbox.close()
+#    sleep(30 * 60)
+
+
+def parse_loop_email():   
+    try:
+            mailbox = EmailParser()
+            ids = mailbox.get_emails_id()
+            for i in range(len(ids)):
+                email = mailbox.check_email_parsed(ids[i])
+                if email is None:
+                    data = None                    
+                    print('Nie znalazłem maila. ID: %s', ids[i])
+                    if mongo.check_email_is_on_suspect_list(ids[i]):
+                        print('Mail jest na liście podejrzanych maili, zostanie całkowicie ominięty w obsłudze')
+                        continue
+                    mail = mailbox.get_email_pop3(i + 1)
+                    if mail is None:
+                        mongo.insert_email_to_suspect(ids[i])
+                        print('Mail został dodany na listę maili podejrzanych. ID: %s', ids[i])
+                        continue
+                    try:
+                        data = mailbox.parse_email_to_device_data(mail)
+                    except Exception as e:
+                        print('Błąd przy parsowaniu maila: ' + ids[i])
+                        data = None
+                    if data is not None:
+                        mongo.import_to_database(data)
+                    else:
+                        print('Usuwam maila. Dane po konwersji do danych recordu są puste.', ids[i])
+                        mailbox.del_email(i + 1)
+                else:
+                    print('Mail znaleziony, omijam i usuwam: %s', email['_id'])
+                    mailbox.del_email(i + 1)
+            mailbox.close()
+            sleep(5 * 60)
+    except Exception as e:
+        print('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
+parse_loop_email()

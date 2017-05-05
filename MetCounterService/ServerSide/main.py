@@ -41,7 +41,6 @@ def parse_loop_email():
     logging.info('parse_loop_email started')
     
     try:
-
         while True:
             if Localdatabase.Database.getthread_pause_value_email():
                 sleep(60)
@@ -51,10 +50,16 @@ def parse_loop_email():
             for i in range(len(ids)):
                 email = mailbox.check_email_parsed(ids[i])
                 if email is None:
-                    data = None
-                    logging.info('Nie znalazłem maila. Pobieram wiadomość.')
+                    data = None                    
+                    logging.info('Nie znalazłem maila. ID: %s', ids[i])
+                    if mongo.check_email_is_on_suspect_list(ids[i]):
+                        logging.info('Mail jest na liście podejrzanych maili, zostanie całkowicie ominięty w obsłudze')
+                        continue
                     mail = mailbox.get_email_pop3(i + 1)
-                    logging.debug('Pobrałem wiadomosc')
+                    if main is None:
+                        mongo.insert_email_to_suspect(ids[i])
+                        logging.info('Mail został dodany na listę maili podejrzanych. ID: %s', ids[i])
+                        continue
                     try:
                         data = mailbox.parse_email_to_device_data(mail)
                     except Exception as e:
@@ -62,13 +67,16 @@ def parse_loop_email():
                         data = None
                     if data is not None:
                         mongo.import_to_database(data)
+                    else:
+                        logging.info('Usuwam maila. Dane po konwersji do danych recordu są puste.', email['_id'])
+                        mailbox.del_email(i + 1)
                 else:
                     logging.info('Mail znaleziony, omijam i usuwam: %s', email['_id'])
                     mailbox.del_email(i + 1)
             mailbox.close()
             sleep(5 * 60)
     except Exception as e:
-        logging.error('P1 - Błąd krytyczny w pętli parsowania email. %s', e)
+        logging.error('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
 
 
 def parse_loop():
