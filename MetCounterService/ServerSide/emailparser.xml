@@ -50,6 +50,16 @@
 		<regtonerlevely require="false" inorder="0" group="1">(Pozostały toner \(Y\) = )([0-9]{1,2}-[0-9]{1,3}%)</regtonerlevely>
 		<regtonerlevelk require="false" inorder="0" group="1">(Pozostały toner \(Bk\) = )([0-9]{1,2}-[0-9]{1,3}%)</regtonerlevelk>
 	</sharp>
+	<konicaminolta> <!-- to jest specjalny dla developa ineo 224 A5C4121114208 MA INNY FORMAT DATY!-->
+		<signature>\[Model Name\], </signature>
+        <signature>\[Serial Number\], A5C4121114208</signature>
+        <signature>\[Send Date\], </signature>
+        <datetime format="%d/%m/%y" require="true" inorder="0" group="1">(\[Send Date\],)([0-3][0-9]\/[0-2][0-9]\/[1-2][0-9])</datetime>
+		<regprintcountercolor require="true" inorder="0" group="1">(\[Total Color Counter\],)([0-9]{1,20})</regprintcountercolor>
+		<regprintcounter require="true" inorder="0" group="1">(\[Total Black Counter\],)([0-9]{1,20})</regprintcounter>
+		<regscancounter require="true" inorder="0" group="1">(\[Total Scan\/Fax Counter\],)([0-9]{1,20})</regscancounter>
+		<regserialnumber require="true" inorder="0" group="1">(\[Serial Number\],)([0-9a-zA-Z]{1,20})</regserialnumber>
+	</konicaminolta>
 	<konicaminolta>
 		<signature>\[Model Name\], </signature>
         <signature>\[Serial Number\], </signature>

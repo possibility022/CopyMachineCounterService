@@ -161,13 +161,17 @@ class EmailParser:
                 break   
 
         #body = message.get_payload(0).get_payload(decode=True)
-        if body is not None:
-            if encoding is not '':
-                body = body.decode(encoding)
+        try:
+            if body is not None:
+                if encoding is not '':
+                    body = body.decode(encoding)
+                else:
+                    body = body.decode('utf-8')
             else:
-                body = body.decode('utf-8')
-        else:
+                raise ServerException('Serwer nie zdekodował wiadomości. Prawdopodobnie jest innego rodzaju niż text/plain')
+        except UnicodeDecodeError as e:
             raise ServerException('Serwer nie zdekodował wiadomości. Prawdopodobnie jest innego rodzaju niż text/plain')
+
 
         if isinstance(body, str):
             lines = body.split('\n')
@@ -197,7 +201,7 @@ class EmailParser:
                 if signature_find == len(signatures[sig_group]):
                     return sig_group
         except Exception as e:
-            logging.error('Błąd przy szukaniu sygnatury. EmailParser', e)
+            logging.error('Błąd przy szukaniu sygnatury. EmailParser %s', e)
             return -1
 
     def parse_email_to_device_data(self, mail):
@@ -309,17 +313,21 @@ class EmailParser:
         else:
             printcountercolor = 0
 
-        printer_data['datetime'] = DATETIME.strptime(date_time, self.xml_loader.get_datetime_format(signature))
-        printer_data['serial_number'] = serialnumber
-        printer_data['scan_counter'] = scancounter
-        printer_data['print_counter_black_and_white'] = printcounter
-        printer_data['print_counter_color'] = printcountercolor
-        printer_data['description'] = 'parsed from email from server. Signature: ' + str(signature) + 'EMail ID: ' + str(mail['_id'])
-        printer_data['email_info'] = mail['_id']
-        printer_data['tonerlevel_c'] = tonerc
-        printer_data['tonerlevel_m'] = tonerm
-        printer_data['tonerlevel_y'] = tonery
-        printer_data['tonerlevel_k'] = tonerk
+        try:
+            printer_data['datetime'] = DATETIME.strptime(date_time, self.xml_loader.get_datetime_format(signature))
+            printer_data['serial_number'] = serialnumber
+            printer_data['scan_counter'] = scancounter
+            printer_data['print_counter_black_and_white'] = printcounter
+            printer_data['print_counter_color'] = printcountercolor
+            printer_data['description'] = 'parsed from email from server. Signature: ' + str(signature) + 'EMail ID: ' + str(mail['_id'])
+            printer_data['email_info'] = mail['_id']
+            printer_data['tonerlevel_c'] = tonerc
+            printer_data['tonerlevel_m'] = tonerm
+            printer_data['tonerlevel_y'] = tonery
+            printer_data['tonerlevel_k'] = tonerk
+        except ValueError as error:
+            logging.info('Jest problem z parsowaniem. Mail: %s', mail['_id']) 
+            return
 
         logging.debug('Parsed data:')
         logging.debug(printer_data)
