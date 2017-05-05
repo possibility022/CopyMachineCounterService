@@ -56,7 +56,7 @@ def parse_loop_email():
                         logging.info('Mail jest na liście podejrzanych maili, zostanie całkowicie ominięty w obsłudze')
                         continue
                     mail = mailbox.get_email_pop3(i + 1)
-                    if main is None:
+                    if mail is None:
                         mongo.insert_email_to_suspect(ids[i])
                         logging.info('Mail został dodany na listę maili podejrzanych. ID: %s', ids[i])
                         continue
