@@ -250,10 +250,7 @@ while True:
     mailbox = EmailParser()
     ids = mailbox.get_emails_id()
     for i in range(len(ids)):
-        if i == b'+OK 31 0000246858217c35':
-            print('toon')
         mail = mailbox.get_email_pop3(i + 1)
-        logging.debug('Pobralem wiadomosc')
         data = mailbox.parse_email_to_device_data(mail)
         print(data)
     mailbox.close()

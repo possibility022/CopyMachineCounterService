@@ -124,5 +124,6 @@ if __name__ == "__main__":
     logging.info("Server loop running in thread: {}".format(server_file_thread.name))
     
     _thread.start_new_thread(parse_loop, ())
-    _thread.start_new_thread(parse_loop_email(), ())
+    _thread.start_new_thread(parse_loop_email, ())
+
 
