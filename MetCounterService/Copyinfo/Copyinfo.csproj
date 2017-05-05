@@ -25,7 +25,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -129,6 +129,7 @@
     <Compile Include="Database\HTMLSerial.cs" />
     <Compile Include="Database\LocalCache\ICache.cs" />
     <Compile Include="Database\MachineRecord.cs" />
+    <Compile Include="Database\ServiceReport.cs" />
     <Compile Include="Forms\ChartBuilder.cs" />
     <Compile Include="Forms\Controls\Buttons\TBButton_Small.cs">
       <SubType>Component</SubType>

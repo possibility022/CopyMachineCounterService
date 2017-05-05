@@ -38,6 +38,8 @@ namespace Copyinfo.Forms
         public static System.Drawing.Color alternateRowBackColor = System.Drawing.Color.FromArgb(192, 255, 192);
         public static System.Drawing.Font objectListViewFont = defaultSmallFont;
 
+        public static System.Drawing.Color objectListViewFontColorForDeviceServiceRaports = System.Drawing.Color.FromArgb(66, 134, 244);
+
         public static CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture("pl-PL");
 
         public static void InitFastObjectListView(FastObjectListView lv, System.Windows.Forms.TextBox filterBox)

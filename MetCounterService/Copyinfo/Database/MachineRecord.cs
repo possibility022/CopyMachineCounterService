@@ -205,8 +205,28 @@ namespace Copyinfo.Database
         public string GetTextToPrint()
         {
             Device device = GetDevice();
-            Client client = device.GetClient();
-            Address address = device.address;
+            Client client;
+            Address address;
+
+            if (device != null)
+            {
+                client = device.GetClient();
+                if (client != null)
+                {
+                    address = client.GetAddress();
+                }
+                else
+                {
+                    address = new Address();
+                }
+            }
+            else
+            {
+                device = new Device();
+                client = new Client();
+                address = new Address();
+            }
+
 
             string newLine = "\r\n";
             string textToPrint =

@@ -318,6 +318,57 @@ namespace Copyinfo.Database
 
         #endregion
 
+        #region raporty
+
+        const string sql_select_raports = "SELECT ZLECENIE_SERWISOWE.ID_URZADZENIE_KLIENT, " + //0
+            "ZLECENIE_SERWISOWE.DATA_ZAMKNIECIA_ZLEC, " +              //1
+            "ZLECENIE_SERWISOWE.ZGLASZANA_USTERKA, " +                 //2
+            "ZLECENIE_SERWISOWE.OPIS_CZYNNOSCI_SERWISOWYCH, " +        //3
+            "ZLECENIE_SERWISOWE.LICZNIK_BIEZACY, " +                   //4
+            "ZLECENIE_SERWISOWE.ID_SERWISANT, " +                      //5
+            "PRACOWNIK.IMIE " +                                        //6
+            "FROM ZLECENIE_SERWISOWE " +
+            "INNER JOIN PRACOWNIK " +
+            "ON ZLECENIE_SERWISOWE.ID_SERWISANT=PRACOWNIK.ID_PRACOWNIK " +
+            "WHERE ID_URZADZENIE_KLIENT=";
+
+        protected static ServiceReport ReadServiceReport(FbDataReader reader)
+        {
+            int counter = 0;
+            try
+            {
+                counter = reader.GetInt32(4);
+            }catch (InvalidCastException ex) { };
+
+            ServiceReport report = new ServiceReport
+            {
+                DateOfServiceClosed = reader.GetDateTime(1),
+                ReportedProblem = reader.GetString(2),
+                Description = reader.GetString(3),
+                Counter = counter,
+                Technican = reader.GetString(6)
+            };
+
+            return report;
+        }
+
+        public static List<ServiceReport> GetServiceReports(int id)
+        {
+            string sql = sql_select_raports + id.ToString() + " ORDER BY ZLECENIE_SERWISOWE.DATA_ZAMKNIECIA_ZLEC DESC";
+
+            FbDataReader reader = executeCommand(sql);
+            List<ServiceReport> list = new List<ServiceReport>();
+
+            while(reader.Read())
+            {
+                list.Add(ReadServiceReport(reader));
+            }
+
+            return list;
+        }
+
+        #endregion
+
         #region test
 
         public static List<Device> test()

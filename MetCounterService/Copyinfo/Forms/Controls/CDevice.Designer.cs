@@ -35,6 +35,12 @@
             this.label5 = new System.Windows.Forms.Label();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.txtInstallationDate = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
+            this.olvDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTechnican = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.cReports1 = new Copyinfo.Forms.Controls.CReports();
             this.tblSerialNumber = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tblModel = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tblProvider = new Copyinfo.Forms.Controls.Labels.TBLabel();
@@ -46,7 +52,7 @@
             this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cAddress1 = new Copyinfo.Forms.Controls.CAddress();
-            this.cReports1 = new Copyinfo.Forms.Controls.CReports();
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -115,6 +121,61 @@
             this.txtInstallationDate.Size = new System.Drawing.Size(269, 26);
             this.txtInstallationDate.TabIndex = 12;
             this.txtInstallationDate.Visible = false;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(695, 292);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(255, 302);
+            this.richTextBox1.TabIndex = 26;
+            this.richTextBox1.Text = "";
+            // 
+            // objectListView1
+            // 
+            this.objectListView1.AllColumns.Add(this.olvDate);
+            this.objectListView1.AllColumns.Add(this.olvTechnican);
+            this.objectListView1.AllColumns.Add(this.olvDescription);
+            this.objectListView1.CellEditUseWholeCell = false;
+            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvDate,
+            this.olvTechnican});
+            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListView1.FullRowSelect = true;
+            this.objectListView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.objectListView1.Location = new System.Drawing.Point(695, 38);
+            this.objectListView1.Name = "objectListView1";
+            this.objectListView1.ShowGroups = false;
+            this.objectListView1.Size = new System.Drawing.Size(255, 248);
+            this.objectListView1.TabIndex = 27;
+            this.objectListView1.UseCellFormatEvents = true;
+            this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.View = System.Windows.Forms.View.Details;
+            // 
+            // olvDate
+            // 
+            this.olvDate.AspectName = "DateOfServiceClosed";
+            this.olvDate.DisplayIndex = 1;
+            this.olvDate.Text = "Data";
+            // 
+            // olvTechnican
+            // 
+            this.olvTechnican.AspectName = "Technican";
+            this.olvTechnican.DisplayIndex = 0;
+            this.olvTechnican.Text = "Serwisant";
+            this.olvTechnican.Width = 109;
+            // 
+            // olvDescription
+            // 
+            this.olvDescription.AspectName = "Description";
+            this.olvDescription.IsVisible = false;
+            this.olvDescription.Text = "Opis";
+            // 
+            // cReports1
+            // 
+            this.cReports1.Location = new System.Drawing.Point(0, 332);
+            this.cReports1.Name = "cReports1";
+            this.cReports1.Size = new System.Drawing.Size(683, 265);
+            this.cReports1.TabIndex = 24;
             // 
             // tblSerialNumber
             // 
@@ -226,18 +287,13 @@
             this.cAddress1.Size = new System.Drawing.Size(369, 147);
             this.cAddress1.TabIndex = 13;
             // 
-            // cReports1
-            // 
-            this.cReports1.Location = new System.Drawing.Point(0, 332);
-            this.cReports1.Name = "cReports1";
-            this.cReports1.Size = new System.Drawing.Size(683, 265);
-            this.cReports1.TabIndex = 24;
-            // 
             // CDevice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.objectListView1);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.cReports1);
             this.Controls.Add(this.tblSerialNumber);
             this.Controls.Add(this.tblModel);
@@ -258,7 +314,8 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CDevice";
-            this.Size = new System.Drawing.Size(687, 597);
+            this.Size = new System.Drawing.Size(953, 597);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,5 +341,10 @@
         private Labels.TBLabel tblModel;
         private Labels.TBLabel tblSerialNumber;
         private CReports cReports1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private BrightIdeasSoftware.OLVColumn olvTechnican;
+        private BrightIdeasSoftware.OLVColumn olvDate;
+        private BrightIdeasSoftware.OLVColumn olvDescription;
+        private BrightIdeasSoftware.ObjectListView objectListView1;
     }
 }

@@ -123,5 +123,10 @@ namespace Copyinfo.Database
         {
             return MongoTB.GetFirstInMonth(serial_number, month);
         }
+
+        internal static List<ServiceReport> GetServiceReport(int deviceId)
+        {
+            return Firebird.GetServiceReports(deviceId);
+        }
     }
 }

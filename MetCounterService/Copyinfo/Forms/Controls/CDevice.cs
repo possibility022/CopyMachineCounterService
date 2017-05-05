@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BrightIdeasSoftware;
 
 namespace Copyinfo.Forms.Controls
 {
@@ -14,15 +15,27 @@ namespace Copyinfo.Forms.Controls
     {
 
         Database.Device device;
+        List<Database.ServiceReport> serviceReports = new List<Database.ServiceReport>();
+        readonly string[] textToFilterServiceReports = new string[3] {"toner","tonerów","tonery"};
 
         public CDevice()
         {
-            Init();
+            InitializeComponent();
+
+            objectListView1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
+            objectListView1.Sort(olvDate, SortOrder.Descending);
+            objectListView1.FormatCell += RowCollorFormat;
+            
         }
 
-        private void Init()
+        private void RowCollorFormat(object sender, FormatCellEventArgs e)
         {
-            InitializeComponent();
+            //if (StringContainsToner serviceReports[e.RowIndex].Description)
+        }
+
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FillReport();
         }
 
         public void SetDevice(Database.Device device)
@@ -40,14 +53,39 @@ namespace Copyinfo.Forms.Controls
             {
                 cReports1.SwitchViewMode();
                 cReports1.FillList(device.GetRecords());
+                serviceReports = Database.DAO.GetServiceReport(device.id);
+                FillServiceReportsList();
             }
 
             SetDevice();
         }
 
-        public void FillReports()
+        private void FillServiceReportsList()
         {
-            
+            objectListView1.Items.Clear();
+            objectListView1.AddObjects(serviceReports);
+        }
+
+        private bool StringContainsToner(string str)
+        {
+            foreach (string filter in textToFilterServiceReports)
+                if (str.Contains(filter))
+                    return true;
+            return false;
+        }
+
+        public void FillReport()
+        {
+            richTextBox1.Text = "";
+            Database.ServiceReport report = (Database.ServiceReport)objectListView1.SelectedObject;
+            if (report != null)
+            {
+                string text = "Licznik: " + report.Counter.ToString() + "\r\n\r\n";
+                text += "Wykonane czynności: " + "\r\n" + report.Description + "\r\n\r\n";
+                text += "Opis usterki: " + report.ReportedProblem + "\r\n";
+
+                richTextBox1.Text = text;
+            }
         }
 
         private void SetDevice()
