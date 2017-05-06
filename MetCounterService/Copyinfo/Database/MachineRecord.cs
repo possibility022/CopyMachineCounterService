@@ -48,6 +48,7 @@ namespace Copyinfo.Database
         public string tonerlevel_m { get; set; }
         public string tonerlevel_y { get; set; }
         public string tonerlevel_k { get; set; }
+        public bool parsed_by_email { get; set; }
 
         protected string _clientName { get; set; }
         protected string _deviceAddress { get; set; }
@@ -146,10 +147,7 @@ namespace Copyinfo.Database
 
         public bool IsParsedEmail()
         {
-            if (email_info == null)
-                return false;
-            else
-                return true;
+            return parsed_by_email;
         }
 
         public EmailData GetEmail()

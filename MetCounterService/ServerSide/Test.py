@@ -256,7 +256,7 @@ logging.info('parse_loop_email started')
 #    mailbox.close()
 #    sleep(30 * 60)
 
-mongo.clear_database()
+
 
 
 def parse_loop_email():

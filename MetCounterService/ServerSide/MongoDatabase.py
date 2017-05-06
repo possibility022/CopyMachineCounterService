@@ -179,24 +179,24 @@ class MongoTB:
         else:
             raise ServerException('Probowano sprawdzić mail na liście podejrzanych ale parametr nie jest ani bytearray ani bytes')
         
-    def clear_database(self):
-        cdata_id = self.countersdata.insert_one({"full_counter": 'parsedfromemail'}).inserted_id
-        sdata_id = self.serialdata.insert_one({"full_serialnumber": 'parsedfromemail'}).inserted_id
+    #def clear_database(self):
+    #    cdata_id = self.countersdata.insert_one({"full_counter": 'parsedfromemail'}).inserted_id
+    #    sdata_id = self.serialdata.insert_one({"full_serialnumber": 'parsedfromemail'}).inserted_id
 
-        i = 0
+    #    i = 0
 
-        all_record = self.records_other.find()
-        for rec in all_record:
-            if 'parsed from email' in rec['description']:
-                self.countersdata.delete_one({'_id': rec['full_counter']})
-                self.serialdata.delete_one({'_id': rec['full_serialnumber']})
-                rec['full_counter'] = cdata_id
-                rec['full_serialnumber'] = sdata_id
-                rec['parsed_by_email'] = True
-                print('mail')
-            else:
-                print('usluga')
-                rec['parsed_by_email'] = False
-            i += 1
-            print(i)
-            self.records_other.replace_one({'_id': rec['_id']}, rec, False)
+    #    all_record = self.records_other.find()
+    #    for rec in all_record:
+    #        if 'parsed from email' in rec['description']:
+    #            self.countersdata.delete_one({'_id': rec['full_counter']})
+    #            self.serialdata.delete_one({'_id': rec['full_serialnumber']})
+    #            rec['full_counter'] = cdata_id
+    #            rec['full_serialnumber'] = sdata_id
+    #            rec['parsed_by_email'] = True
+    #            print('mail')
+    #        else:
+    #            print('usluga')
+    #            rec['parsed_by_email'] = False
+    #        i += 1
+    #        print(i)
+    #        self.records_other.replace_one({'_id': rec['_id']}, rec, False)
