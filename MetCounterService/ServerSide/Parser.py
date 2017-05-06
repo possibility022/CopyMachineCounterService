@@ -26,6 +26,7 @@ class DataParser:
             "scan_counter": "",
             "print_counter_black_and_white": "",
             "print_counter_color": "",
+            "parsed_by_email" : False,
             "parsed": False}
 
         self.parse(data)

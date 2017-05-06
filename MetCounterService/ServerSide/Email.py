@@ -233,13 +233,14 @@ class EmailParser:
             "tonerlevel_y": '',
             "tonerlevel_k": '',
             "email_info": b'',
+            "parsed_by_email" : True,
             'parsed': False
         }
 
         signature = self.get_signature_number(mail)
 
         if signature == -1:
-            return printer_data
+            return
 
         if signature is None:
             self.mongo.move_mail_parsed('passed', mail)
@@ -331,7 +332,7 @@ class EmailParser:
             printer_data['scan_counter'] = scancounter
             printer_data['print_counter_black_and_white'] = printcounter
             printer_data['print_counter_color'] = printcountercolor
-            printer_data['description'] = 'parsed from email from server. Signature: ' + str(signature) + 'EMail ID: ' + str(mail['_id'])
+            printer_data['description'] = 'parsed from email server. Signature: ' + str(signature) + ' EMail ID: ' + str(mail['_id'])
             printer_data['email_info'] = mail['_id']
             printer_data['tonerlevel_c'] = tonerc
             printer_data['tonerlevel_m'] = tonerm

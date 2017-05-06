@@ -41,6 +41,9 @@ class MongoTB:
         self.email_suspect_db = self.db[self.email_suspect]
         self.records_other = self.db[self.machine_records_other]
 
+        self.empty_full_counter_ID = self.countersdata.find_one({'full_counter':'ParsedFromEmail'})
+        self.empty_full_serial_ID = self.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+
     def import_to_database(self, device):
         if isinstance(device, DataParser):
             printer_data = device.printer_data
@@ -57,17 +60,20 @@ class MongoTB:
         printer_data.pop('parsed')
 
         try:
-            # Wyciagam z [device] dane: [full_counter], [full_serialnumber]
-            # Zapisuje je w osobnych kolekcjach
-            # wartości w [full_counter], [full_serialnumber] w [device]
-            # zamieniam na ObjectID zapisanych nowych dokumentow
-            cdata_id = self.countersdata.insert_one({"full_counter": printer_data['full_counter']}).inserted_id
-            sdata_id = self.serialdata.insert_one(
-                {"full_serialnumber": printer_data['full_serialnumber']}).inserted_id
-            printer_data['full_counter'] = cdata_id
-            printer_data['full_serialnumber'] = sdata_id
+            if printer_data['parsed_by_email']:
+                # Jeśli dane zostały wyciągnięte z maila to full counter i full serial wskazują na istniejące już pole.
+                printer_data['full_counter'] = self.empty_full_counter_ID
+                printer_data['full_serialnumber'] = self.empty_full_serial_ID
+            else:
+                # Wyciagam z [device] dane: [full_counter], [full_serialnumber]
+                # Zapisuje je w osobnych kolekcjach
+                # wartości w [full_counter], [full_serialnumber] w [device]
+                # zamieniam na ObjectID zapisanych nowych dokumentow
+                cdata_id = self.countersdata.insert_one({"full_counter": printer_data['full_counter']}).inserted_id
+                sdata_id = self.serialdata.insert_one({"full_serialnumber": printer_data['full_serialnumber']}).inserted_id
+                printer_data['full_counter'] = cdata_id
+                printer_data['full_serialnumber'] = sdata_id
 
-            #id = self.records.insert_one(printer_data).inserted_id
             id = self.get_destination(printer_data).insert_one(printer_data).inserted_id
             
             logging.info('Zapisalem nowy dokument. {}'.format(id))
@@ -77,7 +83,7 @@ class MongoTB:
 
     def get_destination(self, printer_data):
         record_datetime = printer_data['datetime']
-        if record_datetime.day < 5 or record_datetime.day > 28 or record_datetime.weekday() == 0:
+        if record_datetime.day < 6 or record_datetime.day > 28 or record_datetime.weekday() == 0:
             return self.records
         else:
             return self.records_other
@@ -173,4 +179,24 @@ class MongoTB:
         else:
             raise ServerException('Probowano sprawdzić mail na liście podejrzanych ale parametr nie jest ani bytearray ani bytes')
         
+    def clear_database(self):
+        cdata_id = self.countersdata.insert_one({"full_counter": 'parsedfromemail'}).inserted_id
+        sdata_id = self.serialdata.insert_one({"full_serialnumber": 'parsedfromemail'}).inserted_id
 
+        i = 0
+
+        all_record = self.records_other.find()
+        for rec in all_record:
+            if 'parsed from email' in rec['description']:
+                self.countersdata.delete_one({'_id': rec['full_counter']})
+                self.serialdata.delete_one({'_id': rec['full_serialnumber']})
+                rec['full_counter'] = cdata_id
+                rec['full_serialnumber'] = sdata_id
+                rec['parsed_by_email'] = True
+                print('mail')
+            else:
+                print('usluga')
+                rec['parsed_by_email'] = False
+            i += 1
+            print(i)
+            self.records_other.replace_one({'_id': rec['_id']}, rec, False)

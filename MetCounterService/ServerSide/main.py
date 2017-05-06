@@ -68,10 +68,10 @@ def parse_loop_email():
                     if data is not None:
                         mongo.import_to_database(data)
                     else:
-                        logging.info('Usuwam maila. Dane po konwersji do danych recordu są puste.', email['_id'])
+                        logging.info('Usuwam maila. Dane po konwersji do danych recordu są puste. %s', ids[i])
                         mailbox.del_email(i + 1)
                 else:
-                    logging.info('Mail znaleziony, omijam i usuwam: %s', email['_id'])
+                    logging.info('Mail znaleziony, omijam i usuwam: %s', ids[i])
                     mailbox.del_email(i + 1)
             mailbox.close()
             sleep(5 * 60)
