@@ -88,10 +88,10 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label4.Location = new System.Drawing.Point(6, 69);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(126, 21);
+            this.label4.Size = new System.Drawing.Size(141, 21);
             this.label4.TabIndex = 9;
             this.label4.Text = "Miejsce instalacji";
             // 
@@ -212,7 +212,7 @@
             // 
             this.tblAddress.AutoSize = true;
             this.tblAddress.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tblAddress.Location = new System.Drawing.Point(70, 299);
+            this.tblAddress.Location = new System.Drawing.Point(70, 273);
             this.tblAddress.Name = "tblAddress";
             this.tblAddress.Size = new System.Drawing.Size(70, 21);
             this.tblAddress.TabIndex = 20;
@@ -222,7 +222,7 @@
             // 
             this.tblNipName.AutoSize = true;
             this.tblNipName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tblNipName.Location = new System.Drawing.Point(70, 278);
+            this.tblNipName.Location = new System.Drawing.Point(70, 252);
             this.tblNipName.Name = "tblNipName";
             this.tblNipName.Size = new System.Drawing.Size(70, 21);
             this.tblNipName.TabIndex = 19;
@@ -231,10 +231,10 @@
             // tblClientName
             // 
             this.tblClientName.AutoSize = true;
-            this.tblClientName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tblClientName.Location = new System.Drawing.Point(70, 257);
+            this.tblClientName.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tblClientName.Location = new System.Drawing.Point(70, 231);
             this.tblClientName.Name = "tblClientName";
-            this.tblClientName.Size = new System.Drawing.Size(70, 21);
+            this.tblClientName.Size = new System.Drawing.Size(76, 21);
             this.tblClientName.TabIndex = 18;
             this.tblClientName.Text = "tbLabel4";
             // 
@@ -242,7 +242,7 @@
             // 
             this.tbLabel3.AutoSize = true;
             this.tbLabel3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbLabel3.Location = new System.Drawing.Point(6, 299);
+            this.tbLabel3.Location = new System.Drawing.Point(6, 273);
             this.tbLabel3.Name = "tbLabel3";
             this.tbLabel3.Size = new System.Drawing.Size(50, 21);
             this.tbLabel3.TabIndex = 17;
@@ -252,7 +252,7 @@
             // 
             this.tbLabel2.AutoSize = true;
             this.tbLabel2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbLabel2.Location = new System.Drawing.Point(6, 278);
+            this.tbLabel2.Location = new System.Drawing.Point(6, 252);
             this.tbLabel2.Name = "tbLabel2";
             this.tbLabel2.Size = new System.Drawing.Size(35, 21);
             this.tbLabel2.TabIndex = 16;
@@ -262,7 +262,7 @@
             // 
             this.tbLabel1.AutoSize = true;
             this.tbLabel1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbLabel1.Location = new System.Drawing.Point(6, 257);
+            this.tbLabel1.Location = new System.Drawing.Point(6, 231);
             this.tbLabel1.Name = "tbLabel1";
             this.tbLabel1.Size = new System.Drawing.Size(49, 21);
             this.tbLabel1.TabIndex = 15;
@@ -283,9 +283,9 @@
             // cAddress1
             // 
             this.cAddress1.BackColor = System.Drawing.Color.White;
-            this.cAddress1.Location = new System.Drawing.Point(10, 91);
+            this.cAddress1.Location = new System.Drawing.Point(10, 93);
             this.cAddress1.Name = "cAddress1";
-            this.cAddress1.Size = new System.Drawing.Size(369, 147);
+            this.cAddress1.Size = new System.Drawing.Size(369, 118);
             this.cAddress1.TabIndex = 13;
             // 
             // CDevice

@@ -18,6 +18,8 @@ namespace Copyinfo.Forms
         {
             InitializeComponent();
             freeSpaceAtTop = this.Height - cClientList1.Height;
+
+            cClientList1.fastObjectListView1.SetObjects(Database.DAO.GetAllClients());
         }
 
         private void tbButton1_Click(object sender, EventArgs e)

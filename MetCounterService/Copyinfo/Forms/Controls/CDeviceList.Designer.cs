@@ -32,13 +32,13 @@
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
             this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
             this.olvSerialNumber = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvClient = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvProvider = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvModel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvInstallationDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvServiceAgreement = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.olvClient = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,6 +86,12 @@
             this.olvSerialNumber.Text = "Numer Seryjny";
             this.olvSerialNumber.Width = 121;
             // 
+            // olvClient
+            // 
+            this.olvClient.AspectName = "client";
+            this.olvClient.Text = "Client";
+            this.olvClient.Width = 121;
+            // 
             // olvProvider
             // 
             this.olvProvider.AspectName = "provider";
@@ -122,11 +128,6 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // olvClient
-            // 
-            this.olvClient.AspectName = "client";
-            this.olvClient.Text = "Client";
             // 
             // CDeviceList
             // 

@@ -31,6 +31,7 @@
             this.btnDownload = new System.Windows.Forms.Button();
             this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.cDeviceList1 = new Copyinfo.Forms.Controls.CDeviceList();
+            this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.SuspendLayout();
             // 
             // btnDownload
@@ -38,11 +39,11 @@
             this.btnDownload.BackColor = System.Drawing.Color.White;
             this.btnDownload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnDownload.Location = new System.Drawing.Point(12, 12);
+            this.btnDownload.Location = new System.Drawing.Point(139, 8);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(170, 34);
             this.btnDownload.TabIndex = 5;
-            this.btnDownload.Text = "Pobierz";
+            this.btnDownload.Text = "Odśwież";
             this.btnDownload.UseVisualStyleBackColor = false;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
@@ -66,12 +67,23 @@
             this.cDeviceList1.Size = new System.Drawing.Size(809, 333);
             this.cDeviceList1.TabIndex = 4;
             // 
+            // tbLabel1
+            // 
+            this.tbLabel1.AutoSize = true;
+            this.tbLabel1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbLabel1.Location = new System.Drawing.Point(12, 12);
+            this.tbLabel1.Name = "tbLabel1";
+            this.tbLabel1.Size = new System.Drawing.Size(121, 30);
+            this.tbLabel1.TabIndex = 10;
+            this.tbLabel1.Text = "Urządzenia";
+            // 
             // FDevicesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(809, 385);
+            this.Controls.Add(this.tbLabel1);
             this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.cDeviceList1);
@@ -80,6 +92,7 @@
             this.ResizeEnd += new System.EventHandler(this.FDevicesView_ResizeEnd);
             this.Resize += new System.EventHandler(this.FDevicesView_Resize);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -87,5 +100,6 @@
         private Controls.CDeviceList cDeviceList1;
         private System.Windows.Forms.Button btnDownload;
         private Controls.Buttons.TBButton_Small tbButton_Small1;
+        private Controls.Labels.TBLabel tbLabel1;
     }
 }
