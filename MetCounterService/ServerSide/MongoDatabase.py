@@ -62,8 +62,8 @@ class MongoTB:
         try:
             if printer_data['parsed_by_email']:
                 # Jeśli dane zostały wyciągnięte z maila to full counter i full serial wskazują na istniejące już pole.
-                printer_data['full_counter'] = self.empty_full_counter_ID
-                printer_data['full_serialnumber'] = self.empty_full_serial_ID
+                printer_data['full_counter'] = self.empty_full_counter_ID['_id']
+                printer_data['full_serialnumber'] = self.empty_full_serial_ID['_id']
             else:
                 # Wyciagam z [device] dane: [full_counter], [full_serialnumber]
                 # Zapisuje je w osobnych kolekcjach
