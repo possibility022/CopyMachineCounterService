@@ -6,6 +6,7 @@ import os
 from datetime import datetime as DATETIME
 import logging
 import settings
+from poplib import error_proto
 import email
 from TBExceptions import ServerException
 # MONGO EMAIL DOCUMENT STYLE
@@ -89,6 +90,9 @@ class XMLLoader:
 class EmailParser:
 
     def __init__(self):
+        #self.Mailbox = poplib.POP3('***REMOVED***', 110)
+        #self.Mailbox.user('***REMOVED***')
+        #self.Mailbox.pass_('***REMOVED***')
         self.Mailbox = poplib.POP3('***REMOVED***', 110)
         self.Mailbox.user('***REMOVED***')
         self.Mailbox.pass_('***REMOVED***')
@@ -97,11 +101,15 @@ class EmailParser:
         self.xml_loader = XMLLoader()
 
     def get_email_pop3(self, which):
-        doc = self.Mailbox.retr(which)
-        msg_id = self.Mailbox.uidl(which)
-        mail = {'mail': doc[1], '_id': msg_id}
-        self.insert_mail_to_binary(mail)
-        return mail
+        try:
+            doc = self.Mailbox.retr(which)
+            msg_id = self.Mailbox.uidl(which)
+            mail = {'mail': doc[1], '_id': msg_id}
+            self.insert_mail_to_binary(mail)
+            return mail
+        except error_proto as error:
+            logging.info('Powstał jakiś problem przy pobieraniu maila. Info: %s', error)
+            return None
 
     def del_email(self, which):
         self.Mailbox.dele(which)
@@ -205,6 +213,10 @@ class EmailParser:
             return -1
 
     def parse_email_to_device_data(self, mail):
+
+        if mail is None:
+            return
+
         printer_data = {
             "datetime": "",
             "description": "",

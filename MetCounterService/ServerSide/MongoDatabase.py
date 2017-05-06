@@ -1,6 +1,7 @@
 from Parser import DataParser
 from pymongo import MongoClient
 from pymongo import errors
+from TBExceptions import ServerException
 import logging
 import settings
 
@@ -22,6 +23,7 @@ class MongoTB:
         self.email_parsed_success = 'emails_sucess'
         self.email_parsed_faild = 'emails_faild'
         self.email_parsed_passed = 'emails_passed'
+        self.email_suspect = 'emails_suspect'
         self.machine_records_other = 'machine_records_other'
 
         self.decoded_dir = workfolder + '/decoded'
@@ -36,6 +38,7 @@ class MongoTB:
         self.email_parsed_success_db = self.db[self.email_parsed_success]
         self.email_parsed_faild_db = self.db[self.email_parsed_faild]
         self.email_parsed_passed_db = self.db[self.email_parsed_passed]
+        self.email_suspect_db = self.db[self.email_suspect]
         self.records_other = self.db[self.machine_records_other]
 
     def import_to_database(self, device):
@@ -153,5 +156,21 @@ class MongoTB:
                     email = src.find_one({'_id': mail_id})
         
         return email
+
+    def insert_email_to_suspect(self, mail_id_in_bytes):
+        if isinstance(mail_id_in_bytes, bytearray) or isinstance(mail_id_in_bytes, bytes):
+            self.email_suspect_db.insert_one({'_id' : mail_id_in_bytes})
+        else:
+            raise ServerException('Probowano dodać mail do listy podejrzanych ale parametr nie jest ani bytearray ani bytes')
+
+    def check_email_is_on_suspect_list(self, mail_id_in_bytes):
+        if isinstance(mail_id_in_bytes, bytearray) or isinstance(mail_id_in_bytes, bytes):
+            email = self.email_suspect_db.find_one({'_id' : mail_id_in_bytes})
+            if email is not None:
+                return True
+            else:
+                return False
+        else:
+            raise ServerException('Probowano sprawdzić mail na liście podejrzanych ale parametr nie jest ani bytearray ani bytes')
         
 
