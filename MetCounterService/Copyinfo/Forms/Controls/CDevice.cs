@@ -91,16 +91,19 @@ namespace Copyinfo.Forms.Controls
 
         private void SetDevice()
         {
-            tblProvider.Text = device.provider;
-            tblModel.Text = device.model;
-            tblSerialNumber.Text = device.serial_number;
-            monthCalendar1.SetDate(device.instalation_datetime);
-            cAddress1.SetAddress(device.address);
+            if (device != null)
+            {
+                tblProvider.Text = device.provider;
+                tblModel.Text = device.model;
+                tblSerialNumber.Text = device.serial_number;
+                monthCalendar1.SetDate(device.instalation_datetime);
+                cAddress1.SetAddress(device.address);
 
-            Database.Client client = device.GetClient();
-            tblClientName.Text = client.name;
-            tblNipName.Text = client.NIP;
-            tblAddress.Text = client.address;
+                Database.Client client = device.GetClient();
+                tblClientName.Text = client.name;
+                tblNipName.Text = client.NIP;
+                tblAddress.Text = client.address;
+            }
         }
 
         private void txtInstallationPlace_DoubleClick(object sender, EventArgs e)

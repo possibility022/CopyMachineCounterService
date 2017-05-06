@@ -20,6 +20,8 @@ namespace Copyinfo.Forms
         {
             InitializeComponent();
             Init();
+
+            btnDownload_Click(null, null);
         }
 
         public FDevicesView(string clientID)

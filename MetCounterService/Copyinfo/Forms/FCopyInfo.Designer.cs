@@ -34,6 +34,7 @@
             this.tbButton2 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cReports1 = new Copyinfo.Forms.Controls.CReports();
+            this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.SuspendLayout();
             // 
             // tbButton_Small1
@@ -64,7 +65,7 @@
             // 
             this.tbButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tbButton3.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton3.Location = new System.Drawing.Point(364, 11);
+            this.tbButton3.Location = new System.Drawing.Point(462, 9);
             this.tbButton3.Name = "tbButton3";
             this.tbButton3.Size = new System.Drawing.Size(170, 34);
             this.tbButton3.TabIndex = 6;
@@ -76,7 +77,7 @@
             // 
             this.tbButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tbButton2.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton2.Location = new System.Drawing.Point(188, 11);
+            this.tbButton2.Location = new System.Drawing.Point(286, 9);
             this.tbButton2.Name = "tbButton2";
             this.tbButton2.Size = new System.Drawing.Size(170, 34);
             this.tbButton2.TabIndex = 5;
@@ -88,7 +89,7 @@
             // 
             this.tbButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tbButton1.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton1.Location = new System.Drawing.Point(12, 12);
+            this.tbButton1.Location = new System.Drawing.Point(110, 9);
             this.tbButton1.Name = "tbButton1";
             this.tbButton1.Size = new System.Drawing.Size(170, 34);
             this.tbButton1.TabIndex = 4;
@@ -100,17 +101,28 @@
             // 
             this.cReports1.BackColor = System.Drawing.Color.Transparent;
             this.cReports1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.cReports1.Location = new System.Drawing.Point(0, 51);
+            this.cReports1.Location = new System.Drawing.Point(0, 52);
             this.cReports1.Name = "cReports1";
-            this.cReports1.Size = new System.Drawing.Size(981, 524);
+            this.cReports1.Size = new System.Drawing.Size(966, 577);
             this.cReports1.TabIndex = 0;
+            // 
+            // tbLabel1
+            // 
+            this.tbLabel1.AutoSize = true;
+            this.tbLabel1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbLabel1.Location = new System.Drawing.Point(12, 9);
+            this.tbLabel1.Name = "tbLabel1";
+            this.tbLabel1.Size = new System.Drawing.Size(92, 30);
+            this.tbLabel1.TabIndex = 9;
+            this.tbLabel1.Text = "Raporty";
             // 
             // FCopyInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(255)))), ((int)(((byte)(206)))));
-            this.ClientSize = new System.Drawing.Size(981, 575);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(966, 629);
+            this.Controls.Add(this.tbLabel1);
             this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tbButton4);
             this.Controls.Add(this.tbButton3);
@@ -120,6 +132,7 @@
             this.Name = "FCopyInfo";
             this.Text = "Copy Info";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -131,5 +144,6 @@
         private Controls.Buttons.TBButton tbButton3;
         private Controls.Buttons.TBButton tbButton4;
         private Controls.Buttons.TBButton_Small tbButton_Small1;
+        private Controls.Labels.TBLabel tbLabel1;
     }
 }
