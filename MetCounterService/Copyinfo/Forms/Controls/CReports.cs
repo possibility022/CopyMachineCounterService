@@ -32,6 +32,11 @@ namespace Copyinfo.Forms.Controls
 
             GUI.SetTextBoxAndFastListView(tbTextBox1, fastObjectListView1, this);
             Style.InitFastObjectListView(fastObjectListView1, tbTextBox1);
+
+            this.olvDateTime.AspectToStringConverter = delegate (object x) {
+                DateTime date = (DateTime)x;
+                return date.ToString(Style.DateTimeFormat);
+            };
         }
 
         public void FillList(List<MachineRecord> records)
