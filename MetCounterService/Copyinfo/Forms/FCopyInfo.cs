@@ -78,5 +78,13 @@ namespace Copyinfo.Forms
         {
             new FTestingForm().Show();
         }
+
+        private void FCopyInfo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Czy na pewno chcesz zamknąć główne okienko? Spowoduje to zamknięcie całego programu.", "Uwaga", MessageBoxButtons.YesNo) != DialogResult.Yes)
+            {
+                e.Cancel = true;
+            }
+        }
     }
 }

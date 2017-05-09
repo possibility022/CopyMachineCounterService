@@ -21,7 +21,7 @@ namespace Copyinfo.Forms.Controls
             SetContextMenu();
         }
 
-        public void SetConverters()
+        private void SetConverters()
         {
             olvInstallationDateTime.AspectToStringConverter = delegate (object x)
             {
@@ -30,7 +30,7 @@ namespace Copyinfo.Forms.Controls
             };
         }
 
-        public void SetContextMenu()
+        private void SetContextMenu()
         {
             var item = contextMenuStrip1.Items.Add("Klient");
             item.Click += ShowClient;
@@ -41,7 +41,19 @@ namespace Copyinfo.Forms.Controls
             item = contextMenuStrip1.Items.Add("Szczegóły");
             item.Click += ShowDetails;
 
+            item = contextMenuStrip1.Items.Add("Wyszukaj w mapach Google");
+            item.Click += SearchInGoogleMaps;
+
             fastObjectListView1.MouseClick += FastObjectListView1_MouseClick;
+        }
+
+        private void SearchInGoogleMaps(object sender, EventArgs e)
+        {
+            if (fastObjectListView1.SelectedObjects.Count > 0)
+            {
+                Database.Device device = (Database.Device)fastObjectListView1.SelectedObjects[0];
+                device.address.SearchInGoogleMaps();
+            }
         }
 
         private void FastObjectListView1_MouseClick(object sender, MouseEventArgs e)
@@ -54,7 +66,8 @@ namespace Copyinfo.Forms.Controls
 
         private void ShowDetails(object sender, EventArgs e)
         {
-            MessageBox.Show("Jeszcze nie zaimplementowano");
+            Database.Device device = (Database.Device)fastObjectListView1.SelectedObjects[0];
+            new FDeviceView(device).Show();
         }
 
         private void ShowReports(object sender, EventArgs e)

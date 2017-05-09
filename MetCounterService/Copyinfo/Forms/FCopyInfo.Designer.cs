@@ -28,20 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.tbButton4 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton3 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton2 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cReports1 = new Copyinfo.Forms.Controls.CReports();
-            this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.SuspendLayout();
+            // 
+            // tbLabel1
+            // 
+            this.tbLabel1.AutoSize = true;
+            this.tbLabel1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbLabel1.Location = new System.Drawing.Point(12, 9);
+            this.tbLabel1.Name = "tbLabel1";
+            this.tbLabel1.Size = new System.Drawing.Size(92, 30);
+            this.tbLabel1.TabIndex = 9;
+            this.tbLabel1.Text = "Raporty";
             // 
             // tbButton_Small1
             // 
             this.tbButton_Small1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tbButton_Small1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbButton_Small1.Location = new System.Drawing.Point(879, 14);
+            this.tbButton_Small1.Location = new System.Drawing.Point(901, 11);
             this.tbButton_Small1.Name = "tbButton_Small1";
             this.tbButton_Small1.Size = new System.Drawing.Size(90, 32);
             this.tbButton_Small1.TabIndex = 8;
@@ -53,7 +63,7 @@
             // 
             this.tbButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.tbButton4.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton4.Location = new System.Drawing.Point(680, 11);
+            this.tbButton4.Location = new System.Drawing.Point(725, 9);
             this.tbButton4.Name = "tbButton4";
             this.tbButton4.Size = new System.Drawing.Size(170, 34);
             this.tbButton4.TabIndex = 7;
@@ -103,25 +113,15 @@
             this.cReports1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.cReports1.Location = new System.Drawing.Point(0, 52);
             this.cReports1.Name = "cReports1";
-            this.cReports1.Size = new System.Drawing.Size(966, 577);
+            this.cReports1.Size = new System.Drawing.Size(1061, 577);
             this.cReports1.TabIndex = 0;
-            // 
-            // tbLabel1
-            // 
-            this.tbLabel1.AutoSize = true;
-            this.tbLabel1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbLabel1.Location = new System.Drawing.Point(12, 9);
-            this.tbLabel1.Name = "tbLabel1";
-            this.tbLabel1.Size = new System.Drawing.Size(92, 30);
-            this.tbLabel1.TabIndex = 9;
-            this.tbLabel1.Text = "Raporty";
             // 
             // FCopyInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(966, 629);
+            this.ClientSize = new System.Drawing.Size(1061, 629);
             this.Controls.Add(this.tbLabel1);
             this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tbButton4);
@@ -131,6 +131,7 @@
             this.Controls.Add(this.cReports1);
             this.Name = "FCopyInfo";
             this.Text = "Copy Info";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FCopyInfo_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

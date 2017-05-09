@@ -50,66 +50,9 @@ namespace Copyinfo.Database
         public string tonerlevel_k { get; set; }
         public bool parsed_by_email { get; set; }
 
-        protected string _clientName { get; set; }
-        protected string _deviceAddress { get; set; }
-        protected string _modelName { get; set; }
-
-
-        public string modelName { get
-            {
-                if (_modelName == null)
-                {
-                    Device dev = GetDevice();
-                    if (dev != null)
-                    {
-                        _modelName = dev.model;
-                        return _modelName;
-                    }
-
-                    _modelName = "";
-                    return "";
-                }
-                else
-                    return _modelName;
-            } }
-        public string deviceAddress { get
-            {
-                if (_deviceAddress == null)
-                {
-                    Device dev = GetDevice();
-                    if (dev != null)
-                    {
-                        _deviceAddress = dev.address.ToString();
-                        return _deviceAddress;
-                    }
-
-                    _deviceAddress = "";
-                    return "";
-                }
-                else
-                    return _deviceAddress;
-            } }
-        public string clientName { get {
-                if (_clientName == null)
-                {
-                    Device dev = GetDevice();
-                    if (dev != null)
-                    {
-                        Client cli = dev.GetClient();
-                        if (cli != null)
-                        {
-                            _clientName = cli.name;
-                            return cli.name;
-                        }
-                    }
-
-                    _clientName = "";
-                    return "";
-                }
-                else
-                    return _clientName;
-            } }
-
+        public string modelName { get; private set; }
+        public string deviceAddress { get; private set; }
+        public string clientName { get; private set; }
 
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
@@ -145,9 +88,33 @@ namespace Copyinfo.Database
             //email_info = new BsonBinaryData(new byte[] { 0 });
         }
 
-        public bool IsParsedEmail()
+        public void InitValues()
         {
-            return parsed_by_email;
+            Device dev = GetDevice();
+            if (deviceAddress == null)
+            {
+                if (dev != null)
+                {
+                    deviceAddress = dev.address.ToString();
+                }
+            }
+
+            if (modelName == null)
+            {
+                if (dev != null)
+                {
+                    modelName = dev.model;
+                }
+            }
+
+            if (dev != null)
+            {
+                Client cli = dev.GetClient();
+                if (cli != null)
+                {
+                    clientName = cli.name;
+                }
+            }
         }
 
         public EmailData GetEmail()
@@ -242,7 +209,7 @@ namespace Copyinfo.Database
                 "Toner Yellow: " + tonerlevel_m + newLine +
                 "Toner Black: " + tonerlevel_k + newLine;
 
-            if (IsParsedEmail())
+            if (parsed_by_email)
             {
                 textToPrint += GetEmail().GetEmail();
             }

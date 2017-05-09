@@ -20,17 +20,14 @@ namespace Copyinfo.Forms.Controls
         {
             InitializeComponent();
             address = new Database.Address();
+            SetCopyingOn();
         }
 
         public CAddress(Database.Address a)
         {
             InitializeComponent();
             SetAddress(a);
-        }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            
+            SetCopyingOn();
         }
 
         private void Rewrite(TextBox source, TextBox target)
@@ -48,6 +45,21 @@ namespace Copyinfo.Forms.Controls
             tblStreet.Text = address.street;
             tblApartmentNumber.Text = address.apartment;
             tblHouseNumber.Text = address.house_number;
+        }
+
+        private void SetCopyingOn()
+        {
+            tblCity.SetCopyOn();
+            tblPostCity.SetCopyOn();
+            tblPostCode.SetCopyOn();
+            tblStreet.SetCopyOn();
+            tblApartmentNumber.SetCopyOn();
+            tblHouseNumber.SetCopyOn();
+        }
+
+        private void SearchInGoogleMaps(object sender, EventArgs e)
+        {
+            address.SearchInGoogleMaps();
         }
     }
 }

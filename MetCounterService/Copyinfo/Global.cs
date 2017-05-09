@@ -30,5 +30,10 @@ namespace Copyinfo
             //startInfo.Arguments = StaticSettings.RedReaderPath;
             //Process.Start(startInfo);
         }
+
+        public static void SearchThisStringInGoogleMaps(string search)
+        {
+            System.Diagnostics.Process.Start("http://maps.google.com/?q=" + search);
+        }
     }
 }

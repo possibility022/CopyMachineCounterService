@@ -68,7 +68,7 @@ namespace Copyinfo.Forms.Controls
                 if (fastObjectListView1.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
                     MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
-                    if (record.IsParsedEmail())
+                    if (record.parsed_by_email)
                     {
                         contextMenuStrip1.Items["emailMessageToolStripMenuItem"].Enabled = true;
                         contextMenuStrip1.Items["hTMLLicznikToolStripMenuItem"].Enabled = false;
@@ -186,6 +186,12 @@ namespace Copyinfo.Forms.Controls
                 olvSerialNumber.IsVisible = true;
                 fastObjectListView1.RebuildColumns();
             }
+        }
+
+        private void SearchInGoogleMaps(object sender, EventArgs e)
+        {
+            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
+            record.GetDevice().address.SearchInGoogleMaps();
         }
     }
 }

@@ -25,7 +25,13 @@ namespace Copyinfo.Forms.Controls
             objectListView1.SelectedIndexChanged += ListBox1_SelectedIndexChanged;
             objectListView1.Sort(olvDate, SortOrder.Descending);
             objectListView1.FormatRow += SetSpecialColorForRow;
-            
+
+            tblAddress.SetCopyOn();
+            tblClientName.SetCopyOn();
+            tblModel.SetCopyOn();
+            tblNipName.SetCopyOn();
+            tblProvider.SetCopyOn();
+            tblSerialNumber.SetCopyOn();            
         }
 
         private void SetSpecialColorForRow(object sender, FormatRowEventArgs e)

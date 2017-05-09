@@ -53,6 +53,11 @@ namespace Copyinfo.Database
             return a.id == b.id;
         }
 
+        public void SearchInGoogleMaps()
+        {
+            Global.SearchThisStringInGoogleMaps(street + " " + house_number + ", " + city);
+        }
+
         public static bool operator !=(Address a, Address b)
         {
             return !(a == b);

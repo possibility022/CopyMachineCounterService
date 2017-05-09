@@ -258,6 +258,47 @@ logging.info('parse_loop_email started')
 
 
 
+def convert_emails_with_wrong_data():
+    mailbox = EmailParser()
+
+    empty_full_counter_ID = mongo.countersdata.find_one({'full_counter':'ParsedFromEmail'})
+    empty_full_serial_ID = mongo.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+
+    if empty_full_counter_ID is None:
+        empty_full_counter_ID = mongo.countersdata.insert_one({'full_counter':'ParsedFromEmail'})
+        empty_full_counter_ID = mongo.countersdata.find_one({'full_counter':'ParsedFromEmail'})
+    if empty_full_serial_ID is None:
+        empty_full_serial_ID = mongo.serialdata.insert_one({'full_serialnumber':'ParsedFromEmail'})
+        empty_full_serial_ID = mongo.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+
+    what = {'serial_number':'2500656400'}
+
+    for el in mongo.records.find(what):
+        email = mongo.get_email(el['email_info'])
+        data = mailbox.parse_email_to_device_data(email)
+        data['email_info'] = el['email_info']
+        data['_id'] = el['_id']
+        data['full_serialnumber'] = empty_full_serial_ID['_id']
+        data['full_counter'] = empty_full_counter_ID['_id']
+        data.pop('parsed')
+        mongo.records.replace_one({'_id': data['_id']}, data, False)
+        print(data)
+        pass
+
+    for el in mongo.records_other.find(what):
+        email = mongo.get_email(el['email_info'])
+        data = mailbox.parse_email_to_device_data(email)
+        data['email_info'] = el['email_info']
+        data['_id'] = el['_id']
+        data['full_serialnumber'] = empty_full_serial_ID['_id']
+        data['full_counter'] = empty_full_counter_ID['_id']
+        data.pop('parsed')
+        mongo.records.replace_one({'_id': data['_id']}, data, False)
+        print(data)
+
+    pass
+
+
 
 def parse_loop_email():
     try:
@@ -283,4 +324,4 @@ def parse_loop_email():
         logging.error('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
 
 
-parse_loop_email()
+#convert_emails_with_wrong_data()

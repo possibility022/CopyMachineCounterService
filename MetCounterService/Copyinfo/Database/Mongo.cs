@@ -101,6 +101,7 @@ namespace Copyinfo.Database
 
             foreach ( MachineRecord m in all)
             {
+                m.InitValues();
                 list.Add(m);
             }
 
@@ -119,6 +120,7 @@ namespace Copyinfo.Database
                 List<MachineRecord> records = new List<MachineRecord>();
                 foreach (MachineRecord rec in members)
                 {
+                    rec.InitValues();
                     records.Add(rec);
                 }
 
@@ -142,7 +144,7 @@ namespace Copyinfo.Database
                 IMongoCollection<MachineRecord> col;
 
                 MachineRecord record = collection.Find<MachineRecord>(filter).FirstOrDefault();
-
+                record.InitValues();
                 return record;
             }
 
@@ -434,8 +436,11 @@ namespace Copyinfo.Database
             WriteConcernResult result = collection.Remove(entityQuery);
 
             r.id = new ObjectId();
-            DeleteHTMLSerial(r.full_serialnumber);
-            DeleteHTMLCounter(r.full_counter);
+            if (r.parsed_by_email == false)
+            {
+                DeleteHTMLSerial(r.full_serialnumber);
+                DeleteHTMLCounter(r.full_counter);
+            }
             SaveMachineRecord_Deleted(r);
 
             return true;

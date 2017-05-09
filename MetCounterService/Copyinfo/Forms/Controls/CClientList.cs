@@ -42,7 +42,19 @@ namespace Copyinfo.Forms.Controls
             item.Name = "Show Reports";
             item.Click += ShowReports;
 
+            item = contextMenuStrip1.Items.Add("Wyszukaj w mapach Google");
+            item.Click += SearchInGoogleMaps;    
+
             fastObjectListView1.MouseClick += FastObjectListView1_MouseClick;
+        }
+
+        private void SearchInGoogleMaps(object sender, EventArgs e)
+        {
+            if (fastObjectListView1.SelectedObjects.Count > 0)
+            {
+                Database.Client client = (Database.Client)fastObjectListView1.SelectedObjects[0];
+                client.GetAddress().SearchInGoogleMaps();
+            }
         }
 
         private void ShowClientDetails(object sender, EventArgs e)

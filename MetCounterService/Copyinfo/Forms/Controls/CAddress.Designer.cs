@@ -40,6 +40,7 @@
             this.tblPostCity = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tblHouseNumber = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tblApartmentNumber = new Copyinfo.Forms.Controls.Labels.TBLabel();
+            this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.SuspendLayout();
             // 
             // label4
@@ -162,11 +163,25 @@
             this.tblApartmentNumber.TabIndex = 28;
             this.tblApartmentNumber.Text = "tbLabel6";
             // 
+            // tbButton_Small1
+            // 
+            this.tbButton_Small1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButton_Small1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbButton_Small1.Location = new System.Drawing.Point(3, 113);
+            this.tbButton_Small1.Name = "tbButton_Small1";
+            this.tbButton_Small1.Size = new System.Drawing.Size(310, 28);
+            this.tbButton_Small1.TabIndex = 29;
+            this.tbButton_Small1.Text = "Wyszukaj w mapach google";
+            this.tbButton_Small1.UseVisualStyleBackColor = true;
+            this.tbButton_Small1.Click += new System.EventHandler(this.SearchInGoogleMaps);
+            // 
             // CAddress
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tblApartmentNumber);
             this.Controls.Add(this.tblHouseNumber);
             this.Controls.Add(this.tblPostCity);
@@ -180,7 +195,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CAddress";
-            this.Size = new System.Drawing.Size(327, 112);
+            this.Size = new System.Drawing.Size(316, 144);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,5 +215,6 @@
         private Labels.TBLabel tblPostCity;
         private Labels.TBLabel tblHouseNumber;
         private Labels.TBLabel tblApartmentNumber;
+        private Buttons.TBButton_Small tbButton_Small1;
     }
 }

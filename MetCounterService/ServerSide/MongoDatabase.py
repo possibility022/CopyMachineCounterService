@@ -50,7 +50,7 @@ class MongoTB:
         elif isinstance(device, dict):
             printer_data = device
         else:
-            raise Exception('The inserting data is not dict or DataParser')
+            raise ServerException('The inserting data is not dict or DataParser')
 
         #if device.exception_in_parsing:
         #    return False
@@ -148,6 +148,7 @@ class MongoTB:
 
     def get_email(self, mail_id):
         src = self.email_binary_db
+        email = None
 
         email = src.find_one({'_id': mail_id})
 

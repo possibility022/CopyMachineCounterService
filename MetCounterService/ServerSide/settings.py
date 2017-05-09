@@ -11,7 +11,7 @@ def init():
     # workfolder = 'V:'
     # MongoDatabaseAddress = '***REMOVED***'
 
-    workfolder = 'D:\\Programowanie\\C#\\MetCounterService\\MetCounterService\\ServerSide'
+    workfolder = 'C:\\Tom\\c#\\MetService\\MetCounterService\\ServerSide\\'
     MongoDatabaseAddress = '***REMOVED***'
 
     HOST, PORT = "***REMOVED***", 9999

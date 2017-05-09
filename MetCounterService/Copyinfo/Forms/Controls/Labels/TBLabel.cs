@@ -12,10 +12,10 @@ namespace Copyinfo.Forms.Controls.Labels
             this.Font = Style.labelFont;
         }
 
-        public void SetCopyOn()
+        public void SetCopyOn(bool turnOnEditing = false)
         {
             this.MouseClick += TBLabel_MouseClick;
-            menu = new TBMenuStrip(this.Text, true, SetValue);
+            menu = new TBMenuStrip(this.Text, turnOnEditing, SetValue);
         }
 
         private void SetValue(string value)

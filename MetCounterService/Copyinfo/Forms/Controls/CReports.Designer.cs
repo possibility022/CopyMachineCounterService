@@ -38,11 +38,11 @@
             this.porównajWybraneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuńToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fastObjectListView1 = new BrightIdeasSoftware.FastObjectListView();
+            this.olvDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvClientName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvAddress = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvDeviceModel = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvSerialNumber = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvDateTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvBandW = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColor = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvScan = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -51,6 +51,7 @@
             this.olvTonerLevel_M = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_Y = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
+            this.wyszukajNaMapieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
@@ -64,9 +65,10 @@
             this.hTMLLicznikToolStripMenuItem,
             this.hTMLNumerSeryjnyToolStripMenuItem,
             this.porównajWybraneToolStripMenuItem,
+            this.wyszukajNaMapieToolStripMenuItem,
             this.usuńToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(189, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(189, 202);
             // 
             // showDeviceToolStripMenuItem
             // 
@@ -157,6 +159,13 @@
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
             this.fastObjectListView1.VirtualMode = true;
             // 
+            // olvDateTime
+            // 
+            this.olvDateTime.AspectName = "datetime";
+            this.olvDateTime.DisplayIndex = 4;
+            this.olvDateTime.Text = "Data odczytu";
+            this.olvDateTime.Width = 121;
+            // 
             // olvClientName
             // 
             this.olvClientName.AspectName = "clientName";
@@ -184,13 +193,6 @@
             this.olvSerialNumber.DisplayIndex = 3;
             this.olvSerialNumber.Text = "Numer Seryjny";
             this.olvSerialNumber.Width = 109;
-            // 
-            // olvDateTime
-            // 
-            this.olvDateTime.AspectName = "datetime";
-            this.olvDateTime.DisplayIndex = 4;
-            this.olvDateTime.Text = "Data odczytu";
-            this.olvDateTime.Width = 121;
             // 
             // olvBandW
             // 
@@ -242,6 +244,13 @@
             this.tbTextBox1.Size = new System.Drawing.Size(473, 25);
             this.tbTextBox1.TabIndex = 2;
             // 
+            // wyszukajNaMapieToolStripMenuItem
+            // 
+            this.wyszukajNaMapieToolStripMenuItem.Name = "wyszukajNaMapieToolStripMenuItem";
+            this.wyszukajNaMapieToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.wyszukajNaMapieToolStripMenuItem.Text = "Wyszukaj na mapie";
+            this.wyszukajNaMapieToolStripMenuItem.Click += new System.EventHandler(this.SearchInGoogleMaps);
+            // 
             // CReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -280,5 +289,6 @@
         private BrightIdeasSoftware.OLVColumn olvDeviceModel;
         private BrightIdeasSoftware.OLVColumn olvAddress;
         private System.Windows.Forms.ToolStripMenuItem showDeviceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem wyszukajNaMapieToolStripMenuItem;
     }
 }
