@@ -19,6 +19,17 @@ namespace Copyinfo.Forms.Controls
             Style.InitFastObjectListView(fastObjectListView1, tbTextBox1);
             SetConverters();
             SetContextMenu();
+
+            fastObjectListView1.DoubleClick += FastObjectListViewDoubleClick;
+        }
+
+        private void FastObjectListViewDoubleClick(object sender, EventArgs e)
+        {
+            if (fastObjectListView1.SelectedObjects.Count > 0)
+            {
+                Database.Device device = (Database.Device)fastObjectListView1.SelectedObjects[0];
+                device.ShowReports();
+            }
         }
 
         private void SetConverters()
@@ -35,10 +46,10 @@ namespace Copyinfo.Forms.Controls
             var item = contextMenuStrip1.Items.Add("Klient");
             item.Click += ShowClient;
 
-            item = contextMenuStrip1.Items.Add("Raporty");
+            item = contextMenuStrip1.Items.Add("Liczniki");
             item.Click += ShowReports;
 
-            item = contextMenuStrip1.Items.Add("Szczegóły");
+            item = contextMenuStrip1.Items.Add("Zlecenia serwisowe");
             item.Click += ShowDetails;
 
             item = contextMenuStrip1.Items.Add("Wyszukaj w mapach Google");

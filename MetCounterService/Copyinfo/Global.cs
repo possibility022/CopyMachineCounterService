@@ -14,6 +14,7 @@ namespace Copyinfo
             Database.MongoTB.Initialize();
             Database.LocalCache.FirebirdServiceCache.Initialize();
             Database.DAO.Initialize();
+            Other.Email.Initialize();
         }
 
         public static void Log(string message)

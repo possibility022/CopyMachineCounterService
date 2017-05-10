@@ -43,9 +43,9 @@
             this.tbLabel1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbLabel1.Location = new System.Drawing.Point(12, 9);
             this.tbLabel1.Name = "tbLabel1";
-            this.tbLabel1.Size = new System.Drawing.Size(92, 30);
+            this.tbLabel1.Size = new System.Drawing.Size(87, 30);
             this.tbLabel1.TabIndex = 9;
-            this.tbLabel1.Text = "Raporty";
+            this.tbLabel1.Text = "Liczniki";
             // 
             // tbButton_Small1
             // 

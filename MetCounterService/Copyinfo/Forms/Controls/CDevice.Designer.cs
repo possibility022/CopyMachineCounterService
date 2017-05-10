@@ -52,6 +52,10 @@
             this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cAddress1 = new Copyinfo.Forms.Controls.CAddress();
+            this.tbButtonSendEmail = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.tbbtnCancelSending = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.tbbtnSendEmail = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.tbCombobox1 = new Copyinfo.Forms.Controls.Combobox.TBCombobox();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -124,7 +128,7 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(695, 292);
+            this.richTextBox1.Location = new System.Drawing.Point(695, 329);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(255, 302);
             this.richTextBox1.TabIndex = 26;
@@ -145,7 +149,7 @@
             this.objectListView1.Location = new System.Drawing.Point(695, 38);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(255, 248);
+            this.objectListView1.Size = new System.Drawing.Size(255, 209);
             this.objectListView1.TabIndex = 27;
             this.objectListView1.UseCellFormatEvents = true;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
@@ -173,7 +177,7 @@
             // 
             // cReports1
             // 
-            this.cReports1.Location = new System.Drawing.Point(0, 332);
+            this.cReports1.Location = new System.Drawing.Point(0, 366);
             this.cReports1.Name = "cReports1";
             this.cReports1.Size = new System.Drawing.Size(683, 265);
             this.cReports1.TabIndex = 24;
@@ -289,11 +293,64 @@
             this.cAddress1.Size = new System.Drawing.Size(319, 154);
             this.cAddress1.TabIndex = 13;
             // 
+            // tbButtonSendEmail
+            // 
+            this.tbButtonSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButtonSendEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbButtonSendEmail.Location = new System.Drawing.Point(695, 253);
+            this.tbButtonSendEmail.Name = "tbButtonSendEmail";
+            this.tbButtonSendEmail.Size = new System.Drawing.Size(255, 70);
+            this.tbButtonSendEmail.TabIndex = 28;
+            this.tbButtonSendEmail.Text = "Wyślij historę mailem";
+            this.tbButtonSendEmail.UseVisualStyleBackColor = true;
+            this.tbButtonSendEmail.Click += new System.EventHandler(this.SendServiceHistoryByEmail);
+            // 
+            // tbbtnCancelSending
+            // 
+            this.tbbtnCancelSending.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbbtnCancelSending.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbbtnCancelSending.Location = new System.Drawing.Point(695, 281);
+            this.tbbtnCancelSending.Name = "tbbtnCancelSending";
+            this.tbbtnCancelSending.Size = new System.Drawing.Size(90, 32);
+            this.tbbtnCancelSending.TabIndex = 29;
+            this.tbbtnCancelSending.Text = "Anuluj";
+            this.tbbtnCancelSending.UseVisualStyleBackColor = true;
+            this.tbbtnCancelSending.Visible = false;
+            this.tbbtnCancelSending.Click += new System.EventHandler(this.tbbtnCancelSending_Click);
+            // 
+            // tbbtnSendEmail
+            // 
+            this.tbbtnSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbbtnSendEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbbtnSendEmail.Location = new System.Drawing.Point(860, 281);
+            this.tbbtnSendEmail.Name = "tbbtnSendEmail";
+            this.tbbtnSendEmail.Size = new System.Drawing.Size(90, 32);
+            this.tbbtnSendEmail.TabIndex = 30;
+            this.tbbtnSendEmail.Text = "Wyślij";
+            this.tbbtnSendEmail.UseVisualStyleBackColor = true;
+            this.tbbtnSendEmail.Visible = false;
+            this.tbbtnSendEmail.Click += new System.EventHandler(this.tbbtnSendEmail_Click);
+            // 
+            // tbCombobox1
+            // 
+            this.tbCombobox1.FormattingEnabled = true;
+            this.tbCombobox1.Items.AddRange(new object[] {
+            "***REMOVED***"});
+            this.tbCombobox1.Location = new System.Drawing.Point(695, 253);
+            this.tbCombobox1.Name = "tbCombobox1";
+            this.tbCombobox1.Size = new System.Drawing.Size(255, 21);
+            this.tbCombobox1.TabIndex = 31;
+            this.tbCombobox1.Visible = false;
+            // 
             // CDevice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.tbCombobox1);
+            this.Controls.Add(this.tbbtnSendEmail);
+            this.Controls.Add(this.tbbtnCancelSending);
+            this.Controls.Add(this.tbButtonSendEmail);
             this.Controls.Add(this.objectListView1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.cReports1);
@@ -316,7 +373,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CDevice";
-            this.Size = new System.Drawing.Size(953, 597);
+            this.Size = new System.Drawing.Size(953, 634);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -348,5 +405,9 @@
         private BrightIdeasSoftware.OLVColumn olvDate;
         private BrightIdeasSoftware.OLVColumn olvDescription;
         private BrightIdeasSoftware.ObjectListView objectListView1;
+        private Buttons.TBButton_Small tbButtonSendEmail;
+        private Buttons.TBButton_Small tbbtnCancelSending;
+        private Buttons.TBButton_Small tbbtnSendEmail;
+        private Combobox.TBCombobox tbCombobox1;
     }
 }

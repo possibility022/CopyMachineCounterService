@@ -167,6 +167,17 @@ namespace Copyinfo.Database
             }
         }
 
+        public void ShowDevice()
+        {
+            try
+            {
+                GetDevice().ShowDevice();
+            }catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Nie znaleziono urzadzenia");
+            }
+        }
+
         public string GetTextToPrint()
         {
             Device device = GetDevice();

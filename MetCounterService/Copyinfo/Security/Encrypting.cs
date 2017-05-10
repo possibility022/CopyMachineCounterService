@@ -130,7 +130,6 @@ namespace Copyinfo.Security
             if (DecryptedPassword == null)
             {
                 string passwordTypedByUser = ShowPasswordPrompt();
-
                 DecryptedPassword = AES_Decrypt(Convert.FromBase64String(EncryptedPassword), Encoding.UTF8.GetBytes(passwordTypedByUser));
             }
 

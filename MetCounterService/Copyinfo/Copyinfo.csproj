@@ -282,6 +282,12 @@
     <Compile Include="Forms\FEditBox.Designer.cs">
       <DependentUpon>FEditBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FEmailSend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FEmailSend.Designer.cs">
+      <DependentUpon>FEmailSend.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FEmailView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -330,6 +336,7 @@
     <Compile Include="Forms\Controls\ListView\TBListViewItem.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Other\ArrayOperations.cs" />
+    <Compile Include="Other\Email.cs" />
     <Compile Include="Other\EmailAttachment.cs" />
     <Compile Include="Other\ParsingMethods.cs" />
     <Compile Include="Other\Printing.cs" />
@@ -394,6 +401,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FEditBox.resx">
       <DependentUpon>FEditBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FEmailSend.resx">
+      <DependentUpon>FEmailSend.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FEmailView.resx">
       <DependentUpon>FEmailView.cs</DependentUpon>

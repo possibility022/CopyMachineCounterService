@@ -31,7 +31,9 @@ namespace Copyinfo.Forms.Controls
             tblModel.SetCopyOn();
             tblNipName.SetCopyOn();
             tblProvider.SetCopyOn();
-            tblSerialNumber.SetCopyOn();            
+            tblSerialNumber.SetCopyOn();
+
+            tbCombobox1.SelectedIndex = 0;         
         }
 
         private void SetSpecialColorForRow(object sender, FormatRowEventArgs e)
@@ -89,7 +91,8 @@ namespace Copyinfo.Forms.Controls
             {
                 string text = "Licznik: " + report.Counter.ToString() + "\r\n\r\n";
                 text += "Wykonane czynności: " + "\r\n" + report.Description + "\r\n\r\n";
-                text += "Opis usterki: " + report.ReportedProblem + "\r\n";
+                text += "Opis usterki: \r\n" + report.ReportedProblem + "\r\n\r\n";
+                text += "Zalecenia Serwisu: \r\n" + report.SeviceRecomendation + "\r\n";
 
                 richTextBox1.Text = text;
             }
@@ -130,6 +133,59 @@ namespace Copyinfo.Forms.Controls
         private void tbButton1_Click(object sender, EventArgs e)
         {
             new FClient(device.GetClient()).Show();
+        }
+
+        private string GetEmailMessage()
+        {
+            string message = "";
+
+            foreach (Database.ServiceReport report in serviceReports)
+            {
+                message += "---------------------------------------------------------------\r\n" +
+                    "Serwis z dnia: " + report.DateOfServiceClosed.ToString(Style.DateTimeFormat) + "\r\n" +
+                    "Serwisant: " + report.Technican + "\r\n" +
+                    "Licznik: " + report.Counter.ToString() + "\r\n\r\n";
+
+                message += "Wykonane czynności: \r\n" + report.Description + "\r\n\r\n";
+                message += "Opis usterki: \r\n" + report.ReportedProblem + "\r\n\r\n";
+                message += "Zalecenia Serwisu: \r\n" + report.SeviceRecomendation + "\r\n";
+            }
+
+            return message;
+        }
+
+        private string GetEmailHeader()
+        {
+            return "Historia serwisu z asystenta dla urządzenia: " + device.provider + " " + device.model + " " + device.serial_number;
+        }
+
+        private void SendServiceHistoryByEmail(object sender, EventArgs e)
+        {
+            //FEmailSend emailBox = new FEmailSend();
+            //emailBox.SetText(GetRaportsToString(), GetEmailHeader());
+            //emailBox.ShowDialog();
+            tbButtonSendEmail.Hide();
+            tbbtnCancelSending.Show();
+            tbbtnSendEmail.Show();
+            tbCombobox1.Show();
+        }
+
+        private void tbbtnSendEmail_Click(object sender, EventArgs e)
+        {
+            Other.Email.SendEmail(tbCombobox1.Text, GetEmailMessage(), GetEmailHeader());
+            tbbtnSendEmail.Hide();
+
+            tbCombobox1.Hide();
+            tbbtnCancelSending.Hide();
+            tbButtonSendEmail.Show();
+        }
+
+        private void tbbtnCancelSending_Click(object sender, EventArgs e)
+        {
+            tbCombobox1.Hide();
+            tbbtnSendEmail.Hide();
+            tbbtnCancelSending.Hide();
+            tbButtonSendEmail.Show();
         }
     }
 }

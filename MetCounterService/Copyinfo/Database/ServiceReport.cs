@@ -14,6 +14,7 @@ namespace Copyinfo.Database
         public string Technican { get; set; }
         public string ReportedProblem { get; set; }
         public string Description { get; set; }
+        public string SeviceRecomendation { get; set; }
 
         public override string ToString()
         {

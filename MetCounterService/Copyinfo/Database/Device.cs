@@ -53,5 +53,15 @@ namespace Copyinfo.Database
         {
             return DAO.GetClient(client_id, true);
         }
+
+        public void ShowDevice()
+        {
+            new Forms.FDeviceView(this).Show();
+        }
+
+        public void ShowReports()
+        {
+            new Forms.FReports(this).Show();
+        }
     }
 }

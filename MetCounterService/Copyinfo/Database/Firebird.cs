@@ -318,15 +318,16 @@ namespace Copyinfo.Database
 
         #endregion
 
-        #region raporty
+        #region ZleceniaSerwisowe
 
         const string sql_select_raports = "SELECT ZLECENIE_SERWISOWE.ID_URZADZENIE_KLIENT, " + //0
             "ZLECENIE_SERWISOWE.DATA_ZAMKNIECIA_ZLEC, " +              //1
             "ZLECENIE_SERWISOWE.ZGLASZANA_USTERKA, " +                 //2
             "ZLECENIE_SERWISOWE.OPIS_CZYNNOSCI_SERWISOWYCH, " +        //3
-            "ZLECENIE_SERWISOWE.LICZNIK_BIEZACY, " +                   //4
-            "ZLECENIE_SERWISOWE.ID_SERWISANT, " +                      //5
-            "PRACOWNIK.IMIE " +                                        //6
+            "ZLECENIE_SERWISOWE.ZALECENIA_SERWISU, " +                 //4
+            "ZLECENIE_SERWISOWE.LICZNIK_BIEZACY, " +                   //5
+            "ZLECENIE_SERWISOWE.ID_SERWISANT, " +                      //6
+            "PRACOWNIK.IMIE " +                                        //7
             "FROM ZLECENIE_SERWISOWE " +
             "INNER JOIN PRACOWNIK " +
             "ON ZLECENIE_SERWISOWE.ID_SERWISANT=PRACOWNIK.ID_PRACOWNIK " +
@@ -337,16 +338,28 @@ namespace Copyinfo.Database
             int counter = 0;
             try
             {
-                counter = reader.GetInt32(4);
+                counter = reader.GetInt32(5);
             }catch (InvalidCastException ex) { };
+
+            DateTime datetime = new DateTime(2999, 1, 1);
+            if (reader.IsDBNull(1) == false)
+                datetime = reader.GetDateTime(1);
+
+            //DateTime DateOfServiceClosed = reader.GetDateTime(1);
+            //string ReportedProblem = reader.GetString(2);
+            //string Description = reader.GetString(3);
+            //string SeviceRecomendation = reader.GetString(4);
+            //int Counter = counter;
+            //string Technican = reader.GetString(7);
 
             ServiceReport report = new ServiceReport
             {
-                DateOfServiceClosed = reader.GetDateTime(1),
+                DateOfServiceClosed = datetime,
                 ReportedProblem = reader.GetString(2),
                 Description = reader.GetString(3),
+                SeviceRecomendation = reader.GetString(4),
                 Counter = counter,
-                Technican = reader.GetString(6)
+                Technican = reader.GetString(7)
             };
 
             return report;

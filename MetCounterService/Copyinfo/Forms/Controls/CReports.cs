@@ -33,10 +33,21 @@ namespace Copyinfo.Forms.Controls
             GUI.SetTextBoxAndFastListView(tbTextBox1, fastObjectListView1, this);
             Style.InitFastObjectListView(fastObjectListView1, tbTextBox1);
 
+            fastObjectListView1.DoubleClick += FastObjectListViewMouseDoubleClick;
+
             this.olvDateTime.AspectToStringConverter = delegate (object x) {
                 DateTime date = (DateTime)x;
                 return date.ToString(Style.DateTimeFormat);
             };
+        }
+
+        private void FastObjectListViewMouseDoubleClick(object sender, EventArgs e)
+        {
+            if (fastObjectListView1.SelectedObjects.Count > 0)
+            {
+                MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
+                record.GetDevice().ShowDevice();
+            }
         }
 
         public void FillList(List<MachineRecord> records)
@@ -148,8 +159,11 @@ namespace Copyinfo.Forms.Controls
 
         private void showDevice_Click(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
-            record.ShowClient();
+            if (fastObjectListView1.SelectedObjects.Count > 0)
+            {
+                MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
+                record.ShowClient();
+            }
         }
 
         private void showDeviceToolStripMenuItem_Click(object sender, EventArgs e)
