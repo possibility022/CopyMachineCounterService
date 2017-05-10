@@ -139,9 +139,23 @@ namespace Copyinfo.Forms.Controls
         {
             string message = "";
 
+            Database.Client client = device.GetClient();
+
             foreach (Database.ServiceReport report in serviceReports)
             {
-                message += "---------------------------------------------------------------\r\n" +
+                message +=
+                    "Marka: " + device.provider + "\r\n" +
+                    "Model: " + device.model + "\r\n" +
+                    "Numer Seryjny: " + device.model + "\r\n";
+
+                if (client != null)
+                {
+                    message += "Klient: " + client.name + "\r\n" +
+                        "Addres instalacji urządzenia: " + device.address.ToString();
+                }
+                    
+                message +=
+                    "\r\n---------------------------------------------------------------\r\n" +
                     "Serwis z dnia: " + report.DateOfServiceClosed.ToString(Style.DateTimeFormat) + "\r\n" +
                     "Serwisant: " + report.Technican + "\r\n" +
                     "Licznik: " + report.Counter.ToString() + "\r\n\r\n";

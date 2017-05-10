@@ -40,6 +40,10 @@
             this.olvDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTechnican = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvDescription = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tbCombobox1 = new Copyinfo.Forms.Controls.Combobox.TBCombobox();
+            this.tbbtnSendEmail = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.tbbtnCancelSending = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
+            this.tbButtonSendEmail = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.cReports1 = new Copyinfo.Forms.Controls.CReports();
             this.tblSerialNumber = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tblModel = new Copyinfo.Forms.Controls.Labels.TBLabel();
@@ -52,10 +56,6 @@
             this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cAddress1 = new Copyinfo.Forms.Controls.CAddress();
-            this.tbButtonSendEmail = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
-            this.tbbtnCancelSending = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
-            this.tbbtnSendEmail = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
-            this.tbCombobox1 = new Copyinfo.Forms.Controls.Combobox.TBCombobox();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -175,6 +175,55 @@
             this.olvDescription.IsVisible = false;
             this.olvDescription.Text = "Opis";
             // 
+            // tbCombobox1
+            // 
+            this.tbCombobox1.FormattingEnabled = true;
+            this.tbCombobox1.Items.AddRange(new object[] {
+            "***REMOVED***"});
+            this.tbCombobox1.Location = new System.Drawing.Point(695, 253);
+            this.tbCombobox1.Name = "tbCombobox1";
+            this.tbCombobox1.Size = new System.Drawing.Size(255, 21);
+            this.tbCombobox1.TabIndex = 31;
+            this.tbCombobox1.Visible = false;
+            // 
+            // tbbtnSendEmail
+            // 
+            this.tbbtnSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbbtnSendEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbbtnSendEmail.Location = new System.Drawing.Point(860, 281);
+            this.tbbtnSendEmail.Name = "tbbtnSendEmail";
+            this.tbbtnSendEmail.Size = new System.Drawing.Size(90, 32);
+            this.tbbtnSendEmail.TabIndex = 30;
+            this.tbbtnSendEmail.Text = "Wyślij";
+            this.tbbtnSendEmail.UseVisualStyleBackColor = true;
+            this.tbbtnSendEmail.Visible = false;
+            this.tbbtnSendEmail.Click += new System.EventHandler(this.tbbtnSendEmail_Click);
+            // 
+            // tbbtnCancelSending
+            // 
+            this.tbbtnCancelSending.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbbtnCancelSending.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbbtnCancelSending.Location = new System.Drawing.Point(695, 281);
+            this.tbbtnCancelSending.Name = "tbbtnCancelSending";
+            this.tbbtnCancelSending.Size = new System.Drawing.Size(90, 32);
+            this.tbbtnCancelSending.TabIndex = 29;
+            this.tbbtnCancelSending.Text = "Anuluj";
+            this.tbbtnCancelSending.UseVisualStyleBackColor = true;
+            this.tbbtnCancelSending.Visible = false;
+            this.tbbtnCancelSending.Click += new System.EventHandler(this.tbbtnCancelSending_Click);
+            // 
+            // tbButtonSendEmail
+            // 
+            this.tbButtonSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButtonSendEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbButtonSendEmail.Location = new System.Drawing.Point(695, 253);
+            this.tbButtonSendEmail.Name = "tbButtonSendEmail";
+            this.tbButtonSendEmail.Size = new System.Drawing.Size(255, 70);
+            this.tbButtonSendEmail.TabIndex = 28;
+            this.tbButtonSendEmail.Text = "Wyślij historię mailem";
+            this.tbButtonSendEmail.UseVisualStyleBackColor = true;
+            this.tbButtonSendEmail.Click += new System.EventHandler(this.SendServiceHistoryByEmail);
+            // 
             // cReports1
             // 
             this.cReports1.Location = new System.Drawing.Point(0, 366);
@@ -293,55 +342,6 @@
             this.cAddress1.Size = new System.Drawing.Size(319, 154);
             this.cAddress1.TabIndex = 13;
             // 
-            // tbButtonSendEmail
-            // 
-            this.tbButtonSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbButtonSendEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbButtonSendEmail.Location = new System.Drawing.Point(695, 253);
-            this.tbButtonSendEmail.Name = "tbButtonSendEmail";
-            this.tbButtonSendEmail.Size = new System.Drawing.Size(255, 70);
-            this.tbButtonSendEmail.TabIndex = 28;
-            this.tbButtonSendEmail.Text = "Wyślij historę mailem";
-            this.tbButtonSendEmail.UseVisualStyleBackColor = true;
-            this.tbButtonSendEmail.Click += new System.EventHandler(this.SendServiceHistoryByEmail);
-            // 
-            // tbbtnCancelSending
-            // 
-            this.tbbtnCancelSending.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbbtnCancelSending.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbbtnCancelSending.Location = new System.Drawing.Point(695, 281);
-            this.tbbtnCancelSending.Name = "tbbtnCancelSending";
-            this.tbbtnCancelSending.Size = new System.Drawing.Size(90, 32);
-            this.tbbtnCancelSending.TabIndex = 29;
-            this.tbbtnCancelSending.Text = "Anuluj";
-            this.tbbtnCancelSending.UseVisualStyleBackColor = true;
-            this.tbbtnCancelSending.Visible = false;
-            this.tbbtnCancelSending.Click += new System.EventHandler(this.tbbtnCancelSending_Click);
-            // 
-            // tbbtnSendEmail
-            // 
-            this.tbbtnSendEmail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbbtnSendEmail.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbbtnSendEmail.Location = new System.Drawing.Point(860, 281);
-            this.tbbtnSendEmail.Name = "tbbtnSendEmail";
-            this.tbbtnSendEmail.Size = new System.Drawing.Size(90, 32);
-            this.tbbtnSendEmail.TabIndex = 30;
-            this.tbbtnSendEmail.Text = "Wyślij";
-            this.tbbtnSendEmail.UseVisualStyleBackColor = true;
-            this.tbbtnSendEmail.Visible = false;
-            this.tbbtnSendEmail.Click += new System.EventHandler(this.tbbtnSendEmail_Click);
-            // 
-            // tbCombobox1
-            // 
-            this.tbCombobox1.FormattingEnabled = true;
-            this.tbCombobox1.Items.AddRange(new object[] {
-            "***REMOVED***"});
-            this.tbCombobox1.Location = new System.Drawing.Point(695, 253);
-            this.tbCombobox1.Name = "tbCombobox1";
-            this.tbCombobox1.Size = new System.Drawing.Size(255, 21);
-            this.tbCombobox1.TabIndex = 31;
-            this.tbCombobox1.Visible = false;
-            // 
             // CDevice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -373,7 +373,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CDevice";
-            this.Size = new System.Drawing.Size(953, 634);
+            this.Size = new System.Drawing.Size(953, 640);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -37,7 +37,7 @@
             this.cDevice1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cDevice1.Location = new System.Drawing.Point(0, 0);
             this.cDevice1.Name = "cDevice1";
-            this.cDevice1.Size = new System.Drawing.Size(954, 599);
+            this.cDevice1.Size = new System.Drawing.Size(954, 636);
             this.cDevice1.TabIndex = 0;
             // 
             // FDeviceView
@@ -45,7 +45,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(954, 599);
+            this.ClientSize = new System.Drawing.Size(954, 636);
             this.Controls.Add(this.cDevice1);
             this.Name = "FDeviceView";
             this.Text = "FDeviceShow";
