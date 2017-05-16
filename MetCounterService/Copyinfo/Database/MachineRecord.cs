@@ -54,6 +54,11 @@ namespace Copyinfo.Database
         public string deviceAddress { get; private set; }
         public string clientName { get; private set; }
 
+        public bool tonerLowLever_C { get; set; }
+        public bool tonerLowLever_M { get; set; }
+        public bool tonerLowLever_Y { get; set; }
+        public bool tonerLowLever_K { get; set; }
+
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
         public byte[] email_info { get; set; } // TO JEST ID OBIEKTU W BAZIE MONGO
@@ -83,6 +88,12 @@ namespace Copyinfo.Database
             tonerlevel_m = "";
             tonerlevel_k = "";
             tonerlevel_y = "";
+
+            tonerLowLever_C = false;
+            tonerLowLever_M = false;
+            tonerLowLever_Y = false;
+            tonerLowLever_K = false;
+
             print_counter_black_and_white = 0;
             print_counter_color = 0;
             //email_info = new BsonBinaryData(new byte[] { 0 });
@@ -115,6 +126,11 @@ namespace Copyinfo.Database
                     clientName = cli.name;
                 }
             }
+
+            if (tonerlevel_c != null) tonerLowLever_C = tonerlevel_c.Contains("25-50%");
+            if (tonerlevel_m != null) tonerLowLever_M = tonerlevel_m.Contains("25-50%");
+            if (tonerlevel_y != null) tonerLowLever_Y = tonerlevel_y.Contains("25-50%");
+            if (tonerlevel_k != null) tonerLowLever_K = tonerlevel_k.Contains("25-50%");
         }
 
         public EmailData GetEmail()

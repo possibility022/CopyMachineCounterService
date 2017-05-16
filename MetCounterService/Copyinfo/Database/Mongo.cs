@@ -144,7 +144,8 @@ namespace Copyinfo.Database
                 IMongoCollection<MachineRecord> col;
 
                 MachineRecord record = collection.Find<MachineRecord>(filter).FirstOrDefault();
-                record.InitValues();
+                if (record != null)
+                    record.InitValues();
                 return record;
             }
 

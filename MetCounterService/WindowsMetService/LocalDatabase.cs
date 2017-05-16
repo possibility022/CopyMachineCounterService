@@ -23,12 +23,13 @@ namespace WindowsMetService
         private const string File_MachineStorage = "machinestorage.stor";
         private const string File_Log = "log.log";
         private const string File_ConfigPath = "config.cfg";
+        private const string File_InfoFile = "info.txt";
         private static string WorkFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 
         private static byte[] clientID = Security.Encrypting.Encrypt(Encoding.UTF8.GetBytes("00000000000000000000"));
         private static string clientDescription = "client description not set";
 
-        private enum ConfigFile { clientID, clientDescription }
+        private enum ConfigFile { clientID, clientDescription, forceRead }
 
         private const string serveraddress = "***REMOVED***";
 
@@ -53,8 +54,32 @@ namespace WindowsMetService
                 while (file.Peek() > 0)
                 {
                     string line = file.ReadLine();
-                    if (line.ToLower().StartsWith(configType.ToString().ToLower() + ":"))
-                        return line.Remove(0, configType.ToString().Length + 1); // to + 1 to jest dwukropek, taki separator który jest dopisywany przy zapisie
+                    string expectedPrefix = configType.ToString().ToLower() + ":";
+
+                    if (line.ToLower().StartsWith(expectedPrefix))
+                    {
+
+                        line = line.Remove(0, expectedPrefix.Length);
+                        bool modificationDone = false;
+
+                        for (int i = 0; i < 100; i++)
+                        {
+                            if (line.StartsWith(" "))
+                            {
+                                modificationDone = true;
+                                line = line.Remove(0, 1);
+                            }
+                            if (line.EndsWith(" "))
+                            {
+                                modificationDone = true;
+                                line = line.Remove(line.Length - 1);
+                            }
+                            if (modificationDone == true)
+                                modificationDone = false;
+                            else
+                                break;
+                        }
+                    }
                 }
                 file.Close();
 
@@ -82,6 +107,7 @@ namespace WindowsMetService
 
         public static string getClientDescription()
         {
+            clientDescription = readConfig(ConfigFile.clientDescription);
             return clientDescription;
         }
 
@@ -92,6 +118,18 @@ namespace WindowsMetService
             {
                 Directory.CreateDirectory(Path.Combine(directory, FolderName));
             }
+
+            if (File.Exists(buildPath(File_InfoFile)))
+                File.Delete(buildPath(File_InfoFile));
+
+            File.Create(buildPath(File_InfoFile));
+            List<string> valuesToSave = new List<string>();
+
+            foreach (ConfigFile value in Enum.GetValues(typeof(ConfigFile)))
+                valuesToSave.Add(value.ToString());
+
+            File.AppendAllLines(buildPath(File_InfoFile), valuesToSave);
+
 
             if (File.Exists(buildPath(File_ConfigPath)) == false)
                 File.Create(buildPath(File_ConfigPath));

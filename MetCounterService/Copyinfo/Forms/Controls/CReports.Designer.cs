@@ -68,7 +68,7 @@
             this.wyszukajNaMapieToolStripMenuItem,
             this.usuńToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(223, 202);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(223, 180);
             // 
             // showDeviceToolStripMenuItem
             // 
@@ -162,6 +162,7 @@
             this.fastObjectListView1.ShowGroups = false;
             this.fastObjectListView1.Size = new System.Drawing.Size(1003, 400);
             this.fastObjectListView1.TabIndex = 1;
+            this.fastObjectListView1.UseCellFormatEvents = true;
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
             this.fastObjectListView1.VirtualMode = true;

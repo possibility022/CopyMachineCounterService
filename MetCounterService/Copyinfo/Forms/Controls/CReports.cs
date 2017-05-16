@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Copyinfo.Database;
+using BrightIdeasSoftware;
 
 namespace Copyinfo.Forms.Controls
 {
@@ -39,6 +40,33 @@ namespace Copyinfo.Forms.Controls
                 DateTime date = (DateTime)x;
                 return date.ToString(Style.DateTimeFormat);
             };
+        }
+        private void olv1_FormatCell(object sender, FormatCellEventArgs e)
+        {
+            if (e.Column.Name == "Cyjan")
+            {
+                Database.MachineRecord record = (Database.MachineRecord)e.Model;
+                if (record.tonerLowLever_C)
+                    e.SubItem.ForeColor = Color.Red;
+            }
+            else if (e.Column.Name == "Żółty")
+            {
+                Database.MachineRecord record = (Database.MachineRecord)e.Model;
+                if (record.tonerLowLever_Y)
+                    e.SubItem.ForeColor = Color.Red;
+            }
+            else if (e.Column.Name == "Czarny")
+            {
+                Database.MachineRecord record = (Database.MachineRecord)e.Model;
+                if (record.tonerLowLever_K)
+                    e.SubItem.ForeColor = Color.Red;
+            }
+            else if (e.Column.Name == "Magenta")
+            {
+                Database.MachineRecord record = (Database.MachineRecord)e.Model;
+                if (record.tonerLowLever_M)
+                    e.SubItem.ForeColor = Color.Red;
+            }
         }
 
         private void FastObjectListViewMouseDoubleClick(object sender, EventArgs e)
