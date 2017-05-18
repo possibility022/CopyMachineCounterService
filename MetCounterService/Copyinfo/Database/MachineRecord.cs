@@ -127,10 +127,10 @@ namespace Copyinfo.Database
                 }
             }
 
-            if (tonerlevel_c != null) tonerLowLever_C = tonerlevel_c.Contains("25-50%");
-            if (tonerlevel_m != null) tonerLowLever_M = tonerlevel_m.Contains("25-50%");
-            if (tonerlevel_y != null) tonerLowLever_Y = tonerlevel_y.Contains("25-50%");
-            if (tonerlevel_k != null) tonerLowLever_K = tonerlevel_k.Contains("25-50%");
+            if (tonerlevel_c != null) tonerLowLever_C = tonerlevel_c.Contains("0-25%");
+            if (tonerlevel_m != null) tonerLowLever_M = tonerlevel_m.Contains("0-25%");
+            if (tonerlevel_y != null) tonerLowLever_Y = tonerlevel_y.Contains("0-25%");
+            if (tonerlevel_k != null) tonerLowLever_K = tonerlevel_k.Contains("0-25%");
         }
 
         public EmailData GetEmail()
