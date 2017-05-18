@@ -28,6 +28,7 @@ namespace Copyinfo.Forms
         {
             this.Resize += FCopyInfo_Resize;
             freeAtTop = this.Height - cReports1.Height;
+            cReports1.fastObjectListView1.UseCellFormatEvents = true;
         }
 
         private void FCopyInfo_Resize(object sender, EventArgs e)

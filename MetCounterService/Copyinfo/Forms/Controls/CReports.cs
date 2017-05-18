@@ -35,37 +35,39 @@ namespace Copyinfo.Forms.Controls
             Style.InitFastObjectListView(fastObjectListView1, tbTextBox1);
 
             fastObjectListView1.DoubleClick += FastObjectListViewMouseDoubleClick;
+            fastObjectListView1.FormatCell += olv1_FormatCell;
 
             this.olvDateTime.AspectToStringConverter = delegate (object x) {
                 DateTime date = (DateTime)x;
                 return date.ToString(Style.DateTimeFormat);
             };
         }
+
         private void olv1_FormatCell(object sender, FormatCellEventArgs e)
         {
-            if (e.Column.Name == "Cyjan")
+            if (e.Column.Text == "Cyjan")
             {
                 Database.MachineRecord record = (Database.MachineRecord)e.Model;
                 if (record.tonerLowLever_C)
-                    e.SubItem.ForeColor = Color.Red;
+                    e.SubItem.BackColor = Color.Red;
             }
-            else if (e.Column.Name == "Żółty")
+            else if (e.Column.Text == "Żółty")
             {
                 Database.MachineRecord record = (Database.MachineRecord)e.Model;
                 if (record.tonerLowLever_Y)
-                    e.SubItem.ForeColor = Color.Red;
+                    e.SubItem.BackColor = Color.Red;
             }
-            else if (e.Column.Name == "Czarny")
+            else if (e.Column.Text == "Czarny")
             {
                 Database.MachineRecord record = (Database.MachineRecord)e.Model;
                 if (record.tonerLowLever_K)
-                    e.SubItem.ForeColor = Color.Red;
+                    e.SubItem.BackColor = Color.Red;
             }
-            else if (e.Column.Name == "Magenta")
+            else if (e.Column.Text == "Magenta")
             {
                 Database.MachineRecord record = (Database.MachineRecord)e.Model;
                 if (record.tonerLowLever_M)
-                    e.SubItem.ForeColor = Color.Red;
+                    e.SubItem.BackColor = Color.Red;
             }
         }
 

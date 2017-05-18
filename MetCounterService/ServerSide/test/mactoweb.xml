@@ -29,7 +29,7 @@
 			<regscancounter inorder="5" group="1">(nowrap&gt;)([0-9]{1,20})</regscancounter>
 			<regserialnumber inorder="0" group="1">(&lt;td nowrap&gt;)([A-Za-z0-9]{9,11})(&lt;\/td&gt;)</regserialnumber>
 		</mac>
-		<mac serialnumber="/web/guest/pl/websys/status/configuration.cgi" counter="/web/guest/pl/websys/status/getUnificationCounter.cgi">
+		<mac serialnumber="/websys/status/configuration.cgi" counter="/websys/status/getUnificationCounter.cgi"> <!-- NASHUATEC 161, dziwne ze jest inny adres -->
 			22-b5-c2-2b-d1-36
 			<regprintcounter inorder="0" group="1">(nowrap&gt;)([0-9]{1,20})</regprintcounter>
 			<regscancounter inorder="4" group="1">(nowrap&gt;)([0-9]{1,20})</regscancounter>
