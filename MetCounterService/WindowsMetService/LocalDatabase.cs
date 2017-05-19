@@ -35,9 +35,9 @@ namespace WindowsMetService
 
         public const string Version = "1.0";
 
-        private static string buildPath(string file)
+        private static string BuildPath(string fileName)
         {
-            return (Path.Combine(WorkFolder, FolderName, file)); // Dla frameworku 4.5
+            return (Path.Combine(WorkFolder, FolderName, fileName)); // Dla frameworku 4.5
             //return WorkFolder + "//" + FolderName + "//" + file;
         }
 
@@ -50,7 +50,7 @@ namespace WindowsMetService
         {
             try
             {
-                StreamReader file = new StreamReader(buildPath(File_ConfigPath));
+                StreamReader file = new StreamReader(BuildPath(File_ConfigPath));
                 while (file.Peek() > 0)
                 {
                     string line = file.ReadLine();
@@ -95,7 +95,7 @@ namespace WindowsMetService
         {
             try
             {
-                string configpath = buildPath(File_ConfigPath);
+                string configpath = BuildPath(File_ConfigPath);
                 if (File.Exists(configpath) == false)
                     File.Create(configpath);
 
@@ -119,57 +119,65 @@ namespace WindowsMetService
                 Directory.CreateDirectory(Path.Combine(directory, FolderName));
             }
 
-            if (File.Exists(buildPath(File_InfoFile)))
-                File.Delete(buildPath(File_InfoFile));
+            if (File.Exists(BuildPath(File_ConfigPath)) == false)
+                File.Create(BuildPath(File_ConfigPath));
 
-            File.Create(buildPath(File_InfoFile));
-            List<string> valuesToSave = new List<string>();
+            if (File.Exists(BuildPath(File_Ips)) == false)
+                File.Create(BuildPath(File_Ips));
 
-            foreach (ConfigFile value in Enum.GetValues(typeof(ConfigFile)))
-                valuesToSave.Add(value.ToString());
+            if (File.Exists(BuildPath(File_LastTick)) == false)
+                File.Create(BuildPath(File_LastTick));
 
-            File.AppendAllLines(buildPath(File_InfoFile), valuesToSave);
+            if (File.Exists(BuildPath(File_Log)) == false)
+                File.Create(BuildPath(File_Log));
 
+            if (File.Exists(BuildPath(File_MachineStorage)) == false)
+                File.Create(BuildPath(File_MachineStorage));
 
-            if (File.Exists(buildPath(File_ConfigPath)) == false)
-                File.Create(buildPath(File_ConfigPath));
+            if (File.Exists(BuildPath(File_MacToWebMapping)) == false)
+                File.Create(BuildPath(File_MacToWebMapping));
 
-            if (File.Exists(buildPath(File_Ips)) == false)
-                File.Create(buildPath(File_Ips));
-
-            if (File.Exists(buildPath(File_LastTick)) == false)
-                File.Create(buildPath(File_LastTick));
-
-            if (File.Exists(buildPath(File_Log)) == false)
-                File.Create(buildPath(File_Log));
-
-            if (File.Exists(buildPath(File_MachineStorage)) == false)
-                File.Create(buildPath(File_MachineStorage));
-
-            if (File.Exists(buildPath(File_MacToWebMapping)) == false)
-                File.Create(buildPath(File_MacToWebMapping));
-
-            Security.RSAv3.initialize();
-            loadCFG_File();
+            Security.RSAv3.Initialize();
+            LoadCFG_File();
             if (Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
                 DownloadAndSaveID();
             
-            loadIpsFromFile();
-            downloadMacToWebXML();
-            setupLocalLog();
+            LoadIpsFromFile();
+            DownloadMacToWebXML();
+            SetupLocalLog();
 
             return true;
         }
 
-        private static void setupLocalLog()
+        /// <summary>
+        /// Zapusuje wartości enum które można zapisać w pliku konfiguracyjnym. Informacje te są zapisywane do innego pliku.
+        /// </summary>
+        private static void ExportConfigEnumxToFile()
         {
-            if (File.Exists(buildPath(File_Log)) == false)
+            if (File.Exists(BuildPath(File_InfoFile)))
+                File.Delete(BuildPath(File_InfoFile));
+
+            using (System.IO.StreamWriter stream = new StreamWriter(File.Create(BuildPath(File_InfoFile))))
             {
-                File.Create(buildPath(File_Log));
+                List<string> valuesToSave = new List<string>();
+
+                foreach (ConfigFile value in Enum.GetValues(typeof(ConfigFile)))
+                    valuesToSave.Add(value.ToString());
+
+                foreach (string value in valuesToSave)
+                    stream.WriteLine(value);
             }
         }
 
-        public static void log(string message)
+        private static void SetupLocalLog()
+        {
+            if (File.Exists(BuildPath(File_Log)) == false)
+            {
+                File.Create(BuildPath(File_Log));
+            }
+        }
+
+        public static void Log(string message)
         {
 #if DEBUG
             Console.WriteLine(new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
@@ -178,11 +186,11 @@ namespace WindowsMetService
 #endif
         }
 
-        public static bool lastTickWasToday()
+        public static bool LastTickWasToday()
         {
             try
             {
-                string[] lines = File.ReadAllLines(buildPath(File_LastTick));
+                string[] lines = File.ReadAllLines(BuildPath(File_LastTick));
                 if (lines[lines.Length - 1] == DateTime.Today.ToShortDateString())
                     return true;
                 else
@@ -194,12 +202,12 @@ namespace WindowsMetService
             }
         }
 
-        public static void setToodayTick()
+        public static void SetToodayTick()
         {
             try
             {
-                File.Delete(buildPath(File_LastTick));
-                File.WriteAllLines(buildPath(File_LastTick), new string[] { DateTime.Today.ToShortDateString() });
+                File.Delete(BuildPath(File_LastTick));
+                File.WriteAllLines(BuildPath(File_LastTick), new string[] { DateTime.Today.ToShortDateString() });
             }
             catch (Exception ex)
             {
@@ -207,12 +215,12 @@ namespace WindowsMetService
             }
         }
 
-        private static void loadIpsFromFile()
+        private static void LoadIpsFromFile()
         {
-            string path = buildPath(File_Ips);
+            string path = BuildPath(File_Ips);
             try
             {
-                ipsOfCopymachines = File.ReadAllLines(buildPath(File_Ips));
+                ipsOfCopymachines = File.ReadAllLines(BuildPath(File_Ips));
             }
             catch (IOException ex)
             {
@@ -226,7 +234,7 @@ namespace WindowsMetService
             }
         }
 
-        private static void loadCFG_File()
+        private static void LoadCFG_File()
         {
             string value = readConfig(ConfigFile.clientDescription);
             if (value.Length > 0)
@@ -237,29 +245,29 @@ namespace WindowsMetService
                 clientID = Convert.FromBase64String(value);
         }
 
-        private static void downloadMacToWebXML()
+        private static void DownloadMacToWebXML()
         {
 #if DEBUG
-            Network.ServerOffer.downloadMacToWebMapping("debuging-xmlfile.xml");
+            Network.ServerOffer.DownloadMacToWebMapping("debuging-xmlfile.xml");
 #else
-            if (Network.ServerOffer.downloadMacToWebMapping(buildPath("mactoweb-new.xml.part")))
+            if (Network.ServerOffer.DownloadMacToWebMapping(buildPath("mactoweb-new.xml.part")))
                 File.Copy(buildPath("mactoweb-new.xml.part"), buildPath(File_MacToWebMapping), true);
 #endif
         }
 
-        public static string[] getMachinesIps()
+        public static string[] GetMachinesIps()
         {
-            loadIpsFromFile();
+            LoadIpsFromFile();
             return ipsOfCopymachines;
         }
 
-        public static string[] getMacWebMapping(string mac)
+        public static string[] GetMacWebMapping(string mac)
         {
             string[] newRow = new string[2];
 
             string[] links = new string[] { "", "" };
 
-            using (XmlTextReader reader = new XmlTextReader(buildPath(File_MacToWebMapping)))
+            using (XmlTextReader reader = new XmlTextReader(BuildPath(File_MacToWebMapping)))
             {
                 while (reader.Read())
                 {
@@ -278,7 +286,7 @@ namespace WindowsMetService
                 reader.Close();
             }
 
-            using (XmlTextReader reader = new XmlTextReader(buildPath(File_MacToWebMapping)))
+            using (XmlTextReader reader = new XmlTextReader(BuildPath(File_MacToWebMapping)))
             {
                 while (reader.Read())
                 {
@@ -299,28 +307,28 @@ namespace WindowsMetService
             return new string[] { "", "" };
         }
 
-        public static bool macIsMapped(string mac)//TODO sprawdz ta metode. Chyba powinno być na odwrót.
+        public static bool MacIsMapped(string mac)//TODO sprawdz ta metode. Chyba powinno być na odwrót.
         {
-            if ((getMacWebMapping(mac)[0] == "") && (getMacWebMapping(mac)[1]) == "")
+            if ((GetMacWebMapping(mac)[0] == "") && (GetMacWebMapping(mac)[1]) == "")
                 return false;
             else
                 return true;
         }
 
-        public static void putMachineToStorage(Machine machine)
+        public static void PutMachineToStorage(Machine machine)
         {
-            List<Machine> list = getMachinesFromStorage();
+            List<Machine> list = GetMachinesFromStorage();
             list.Add(machine);
-            WriteToBinaryFile(buildPath(File_MachineStorage), list);
+            WriteToBinaryFile(BuildPath(File_MachineStorage), list);
         }
 
-        public static List<Machine> getMachinesFromStorage()
+        public static List<Machine> GetMachinesFromStorage()
         {
             List<Machine> list = null;
             try
             {
-                list = (List<Machine>)ReadFromBinaryFile(buildPath(File_MachineStorage));
-                File.Delete(buildPath(File_MachineStorage));
+                list = (List<Machine>)ReadFromBinaryFile(BuildPath(File_MachineStorage));
+                File.Delete(BuildPath(File_MachineStorage));
             }catch(FieldAccessException ex)
             {
 
@@ -371,7 +379,7 @@ namespace WindowsMetService
 
         public static bool DownloadAndSaveID()
         {
-            byte[] key = Network.ServerOffer.downloadNewIDForClient();
+            byte[] key = Network.ServerOffer.DownloadNewIDForClient();
             if (key.Length > 0)
             {
                 byte[] encrypted = Security.Encrypting.Encrypt(
@@ -389,7 +397,7 @@ namespace WindowsMetService
             }
         }
 
-        public static string getClientID()
+        public static string GetClientID()
         {
             return Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID));
         }
@@ -412,9 +420,9 @@ namespace WindowsMetService
             return null;
         }
 
-        public static void remove_old_logs()
+        public static void Remove_old_logs()
         {
-            string[] lines = File.ReadAllLines(buildPath(File_Log));
+            string[] lines = File.ReadAllLines(BuildPath(File_Log));
             List<string> selected = new List<string>();
 
             int index = 0;
@@ -445,7 +453,7 @@ namespace WindowsMetService
                 selected.Add(lines[i]);
             }
 
-            File.WriteAllLines(buildPath(File_Log), selected);
+            File.WriteAllLines(BuildPath(File_Log), selected);
         }
     }
 }

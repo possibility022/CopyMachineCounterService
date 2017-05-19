@@ -23,7 +23,7 @@ namespace WindowsMetService
         static void Main()
         {
 #if DEBUG
-            test();
+            Test();
 
 #else
             ServiceBase[] ServicesToRun;
@@ -35,12 +35,12 @@ namespace WindowsMetService
 #endif
         }
 
-        public static void test()
+        public static void Test()
         {
             LocalDatabase.Initialize();
             Console.WriteLine("Zainicjalizowano bazę danych");
-            LocalDatabase.remove_old_logs();
-            string[] ips = LocalDatabase.getMachinesIps();
+            LocalDatabase.Remove_old_logs();
+            string[] ips = LocalDatabase.GetMachinesIps();
 
             Console.WriteLine("Wczytane adresy ip:");
             foreach (string ip in ips)
@@ -75,7 +75,7 @@ namespace WindowsMetService
 
             Thread.Sleep(1000 * 20);
 
-            machines = LocalDatabase.getMachinesFromStorage();
+            machines = LocalDatabase.GetMachinesFromStorage();
             fails = Network.DAO.SendMachines(machines);
 
             if (fails == machines.Count && machines.Count > 0)

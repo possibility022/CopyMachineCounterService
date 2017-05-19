@@ -18,11 +18,11 @@ namespace WindowsMetService.Network
 
         private enum Commands { XMLO, CLID }
 
-        private static bool sendByteArray(ref NetworkStream stream, byte[] data)
+        private static bool SendByteArray(ref NetworkStream stream, byte[] data)
         {
             try
             {
-                data = Security.RSAv3.encrypt(data);
+                data = Security.RSAv3.Encrypt(data);
                 stream.Write(data, 0, data.Length);
                 return true;
             }
@@ -45,13 +45,13 @@ namespace WindowsMetService.Network
         }
 
 
-        private static byte[] getBytes(string data)
+        private static byte[] GetBytes(string data)
         {
             byte[] d = System.Text.Encoding.ASCII.GetBytes(data);
             return d;
         }
 
-        private static byte[] combineArrays(List<byte[]> arrays)
+        private static byte[] CombineArrays(List<byte[]> arrays)
         {
             int sum = 0;
             foreach (byte[] ar in arrays)
@@ -76,7 +76,7 @@ namespace WindowsMetService.Network
         /// <param name="total"></param>
         /// <param name="maxsize">0: unlimited</param>
         /// <returns></returns>
-        private static bool sendRequest(Commands command,ref byte[] buffer, ref int total)
+        private static bool SendRequest(Commands command,ref byte[] buffer, ref int total)
         {
             if (server == null)
                 server = LocalDatabase.getServerEndpoint(LocalDatabase.ServerType.offer);
@@ -92,13 +92,13 @@ namespace WindowsMetService.Network
 
                 //Autoryzacja
                 Handshake handshake = new Handshake();
-                if (handshake.authorize(ref networkStream) == false)
+                if (handshake.Authorize(ref networkStream) == false)
                     return false;
 
                 System.Threading.Thread.Sleep(500);
 
                 //Wysylanie komendy
-                if (sendByteArray(ref networkStream, getBytes(command.ToString())) == true)
+                if (SendByteArray(ref networkStream, GetBytes(command.ToString())) == true)
                 {
                     //pobieranie danych
                     int readed = 0;
@@ -124,19 +124,19 @@ namespace WindowsMetService.Network
                 client.Close();
             }
 
-            buffer = combineArrays(receivedData); //Łączenie odebranych danych.
+            buffer = CombineArrays(receivedData); //Łączenie odebranych danych.
             
             return true;
         }
 
-        static public byte[] downloadNewIDForClient()
+        static public byte[] DownloadNewIDForClient()
         {
             byte[] buffor = new byte[] { };
             int total = 0;
-            bool sucess = sendRequest(Commands.CLID, ref buffor, ref total);
+            bool sucess = SendRequest(Commands.CLID, ref buffor, ref total);
             if (sucess)
             { 
-                buffor = Security.RSAv3.decrypt(buffor);
+                buffor = Security.RSAv3.Decrypt(buffor);
                 return buffor;
             }
             else
@@ -145,7 +145,7 @@ namespace WindowsMetService.Network
             }
         }
 
-        static public bool downloadMacToWebMapping(string path)
+        static public bool DownloadMacToWebMapping(string path)
         {
             //string path = LocalDatabase.buildPath(LocalDatabase.MacToWebMapping);
             int total = 0;
@@ -154,10 +154,10 @@ namespace WindowsMetService.Network
                 using (FileStream filestream = new FileStream(path, FileMode.Create))
                 {
                     byte[] fileBuffor = new byte[] { };
-                    bool sucess = sendRequest(Commands.XMLO, ref fileBuffor, ref total);
+                    bool sucess = SendRequest(Commands.XMLO, ref fileBuffor, ref total);
                     if (sucess)
                     {
-                        fileBuffor = Security.RSAv3.decrypt(fileBuffor);    //odszyfrowywanie
+                        fileBuffor = Security.RSAv3.Decrypt(fileBuffor);    //odszyfrowywanie
                         filestream.Write(fileBuffor, 0, fileBuffor.Length); //zapisywanie do pliku
                         filestream.Close();
                     }

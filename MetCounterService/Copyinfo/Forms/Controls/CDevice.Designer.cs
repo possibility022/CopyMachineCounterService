@@ -179,6 +179,9 @@
             // 
             this.tbCombobox1.FormattingEnabled = true;
             this.tbCombobox1.Items.AddRange(new object[] {
+            "Bartheeks@gmail.com",
+            "***REMOVED***",
+            "mmokrzycki1@gmail.com",
             "***REMOVED***"});
             this.tbCombobox1.Location = new System.Drawing.Point(695, 253);
             this.tbCombobox1.Name = "tbCombobox1";

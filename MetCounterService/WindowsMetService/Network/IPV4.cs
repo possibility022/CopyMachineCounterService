@@ -48,7 +48,7 @@ namespace WindowsMetService.Network
 
 
 
-        public static IPAddress getLANAdress(IPAddress ip, IPAddress mask)
+        public static IPAddress GetLANAdress(IPAddress ip, IPAddress mask)
         {
             byte[] ip_b = ip.GetAddressBytes();
             byte[] mask_b = mask.GetAddressBytes();
@@ -62,7 +62,7 @@ namespace WindowsMetService.Network
             return new IPAddress(LAN);
         }
 
-        public static IPAddress getBroadcastOfLAN(IPAddress LANAdress, IPAddress mask)
+        public static IPAddress GetBroadcastOfLAN(IPAddress LANAdress, IPAddress mask)
         {
             byte[] ipAdressBytes = LANAdress.GetAddressBytes();
             byte[] subnetMaskBytes = mask.GetAddressBytes();
@@ -87,7 +87,7 @@ namespace WindowsMetService.Network
 
         }
 
-        public static int getMaskLenght(IPAddress mask)
+        public static int GetMaskLenght(IPAddress mask)
         {
             byte[] mask_b = mask.GetAddressBytes();
             int lenght = 0;
@@ -100,7 +100,7 @@ namespace WindowsMetService.Network
             return lenght;
         }
 
-        public static List<System.Net.IPAddress> getAdressesInLan(IPAddress LANAdress, IPAddress mask)
+        public static List<System.Net.IPAddress> GetAdressesInLan(IPAddress LANAdress, IPAddress mask)
         {
             List<System.Net.IPAddress> adresses = new List<IPAddress>();
 
@@ -108,7 +108,7 @@ namespace WindowsMetService.Network
             // A . B . C . D
 
             IPAddress networkAddress = LANAdress;
-            IPAddress broadCast = getBroadcastOfLAN(networkAddress, mask);
+            IPAddress broadCast = GetBroadcastOfLAN(networkAddress, mask);
 
             byte[] start = networkAddress.GetAddressBytes();
             byte[] end = broadCast.GetAddressBytes();
@@ -135,7 +135,7 @@ namespace WindowsMetService.Network
             return adresses;
         }
 
-        public static IPAddress getMask(IPAddress address)
+        public static IPAddress GetMask(IPAddress address)
         {
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
             {

@@ -35,8 +35,6 @@
             this.lStreet = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbLabel10 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbLabel9 = new Copyinfo.Forms.Controls.Labels.TBLabel();
-            this.btnDelete = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
-            this.btnAdd = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.tbCbPhones = new Copyinfo.Forms.Controls.Combobox.TBCombobox();
             this.tbCbFax = new Copyinfo.Forms.Controls.Combobox.TBCombobox();
             this.tbCbMails = new Copyinfo.Forms.Controls.Combobox.TBCombobox();
@@ -59,7 +57,7 @@
             this.tbNote.Location = new System.Drawing.Point(7, 60);
             this.tbNote.Multiline = true;
             this.tbNote.Name = "tbNote";
-            this.tbNote.Size = new System.Drawing.Size(303, 94);
+            this.tbNote.Size = new System.Drawing.Size(303, 117);
             this.tbNote.TabIndex = 9;
             // 
             // checkBox1
@@ -124,29 +122,6 @@
             this.tbLabel9.TabIndex = 24;
             this.tbLabel9.Text = "Ulica";
             // 
-            // btnDelete
-            // 
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnDelete.Location = new System.Drawing.Point(181, 160);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(90, 32);
-            this.btnDelete.TabIndex = 22;
-            this.btnDelete.Text = "Usuń";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnAdd.Location = new System.Drawing.Point(85, 160);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(90, 32);
-            this.btnAdd.TabIndex = 21;
-            this.btnAdd.Text = "Dodaj";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.tbButton_Small1_Click);
-            // 
             // tbCbPhones
             // 
             this.tbCbPhones.FormattingEnabled = true;
@@ -202,10 +177,10 @@
             // tbLabel8
             // 
             this.tbLabel8.AutoSize = true;
-            this.tbLabel8.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbLabel8.Location = new System.Drawing.Point(3, 168);
+            this.tbLabel8.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.tbLabel8.Location = new System.Drawing.Point(2, 180);
             this.tbLabel8.Name = "tbLabel8";
-            this.tbLabel8.Size = new System.Drawing.Size(76, 19);
+            this.tbLabel8.Size = new System.Drawing.Size(111, 25);
             this.tbLabel8.TabIndex = 7;
             this.tbLabel8.Text = "Urządzenia";
             // 
@@ -297,8 +272,6 @@
             this.Controls.Add(this.lStreet);
             this.Controls.Add(this.tbLabel10);
             this.Controls.Add(this.tbLabel9);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.tbCbPhones);
             this.Controls.Add(this.tbCbFax);
             this.Controls.Add(this.tbCbMails);
@@ -339,8 +312,6 @@
         private Combobox.TBCombobox tbCbMails;
         private Combobox.TBCombobox tbCbFax;
         private Combobox.TBCombobox tbCbPhones;
-        private Buttons.TBButton_Small btnAdd;
-        private Buttons.TBButton_Small btnDelete;
         private Labels.TBLabel tbLabel9;
         private Labels.TBLabel tbLabel10;
         private Labels.TBLabel lStreet;

@@ -32,22 +32,22 @@ namespace WindowsMetService.Network
 
         }
 
-        public bool connect()
+        public bool Connect()
         {
             server = LocalDatabase.getServerEndpoint(LocalDatabase.ServerType.receiver);
             if (connected != true && server != null)
-                connected = do_handshake();
+                connected = DoHandshake();
             return connected;
         }
 
-        private bool do_handshake()
+        private bool DoHandshake()
         {
             try
             {
                 client = new TcpClient(server.Address.ToString(), server.Port);
                 stream = client.GetStream();
                 Handshake handshake = new Handshake();
-                return handshake.authorize(ref stream);
+                return handshake.Authorize(ref stream);
             }
             catch(SocketException ex)
             {
@@ -62,34 +62,34 @@ namespace WindowsMetService.Network
             }
         }
 
-        private bool sendCommand(Commands com)
+        private bool SendCommand(Commands com)
         {
-            return send(Security.RSAv3.encrypt(buildStringData(com.ToString())));
+            return Send(Security.RSAv3.Encrypt(BuildStringData(com.ToString())));
         }
 
-        public bool sendMachineData(byte[] data)
+        public bool SendMachineData(byte[] data)
         {
             if (connected == false)
                 return false;
 
-            data = Security.RSAv3.encrypt(data, true);
+            data = Security.RSAv3.Encrypt(data, true);
 
             byte[] dataLenght = BitConverter.GetBytes(data.Length);
-            dataLenght = Security.RSAv3.encrypt(dataLenght, false);
+            dataLenght = Security.RSAv3.Encrypt(dataLenght, false);
 
             try
             {
                 //wysyłanie komendy
-                sendCommand(Commands.RECEIVE_MACHINE_DATA);
+                SendCommand(Commands.RECEIVE_MACHINE_DATA);
                 //Wysłanie zaszyfrowanej liczby która reprezentuje ilość danych do wysłania.
                 stream.Write(dataLenght, 0, 128);
                 //Wysyłanie zaszyfrowanych danych.
-                send(data);
+                Send(data);
 
                 byte[] server_response = new byte[128];
                 stream.Read(server_response, 0, server_response.Length);
 
-                if (debuildStringData(Security.RSAv3.decrypt(server_response)) != Commands.FULL_DATA_RECEIVED.ToString())
+                if (DebuildStringData(Security.RSAv3.Decrypt(server_response)) != Commands.FULL_DATA_RECEIVED.ToString())
                     return false;
 
             }
@@ -109,7 +109,7 @@ namespace WindowsMetService.Network
             return true;
         }
 
-        private bool send(byte[] data)
+        private bool Send(byte[] data)
         {
             if (connected == false)
                 return false;
@@ -150,14 +150,14 @@ namespace WindowsMetService.Network
             return true;
         }
 
-        public void disconnect()
+        public void Disconnect()
         {
             int step = 0;
             if (connected && client != null)
             {
                 try
                 {
-                    sendCommand(Commands.QUIT_DISCONNECT);
+                    SendCommand(Commands.QUIT_DISCONNECT);
                     step = 1;
                     stream.Flush();
                     step = 2;
@@ -192,7 +192,7 @@ namespace WindowsMetService.Network
             connected = false;
         }
 
-        public string debuildStringData(byte[] data)
+        public string DebuildStringData(byte[] data)
         {
             string str = UnicodeEncoding.UTF8.GetString(data);
             str = str.Remove(0, 3);
@@ -200,23 +200,23 @@ namespace WindowsMetService.Network
             return str;
         }
 
-        public byte[] buildStringData(string data)
+        public byte[] BuildStringData(string data)
         {
             //return getBytes("#|$" + data + "$|#");
             return Encoding.UTF8.GetBytes("#|$" + data + "$|#");
         }
 
-        public byte[] buildStringData(string[] data)
+        public byte[] BuildStringData(string[] data)
         {
             string all = "";
 
             foreach (string part in data)
                 all += "#|$" + part + "$|#";
 
-            return buildStringData(all);
+            return BuildStringData(all);
         }
 
-        private static byte[] getBytes(string data)
+        private static byte[] GetBytes(string data)
         {
             byte[] d = System.Text.Encoding.ASCII.GetBytes(data);
             return d;

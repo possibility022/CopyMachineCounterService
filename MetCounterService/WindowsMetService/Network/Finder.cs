@@ -14,18 +14,18 @@ namespace WindowsMetService.Network
 {
     class Finder
     {
-        public static List<Machine> searchForMachines()
+        public static List<Machine> SearchForMachines()
         {
             Finder finder = new Finder();
 
-            List<IPAddress> listOfIps = finder.getAdressesWithResponseInNetworksOfThisPC();
+            List<IPAddress> listOfIps = finder.GetAdressesWithResponseInNetworksOfThisPC();
             List<Machine> machineList = new List<Machine>();
 
             foreach (IPAddress ip in listOfIps)
             {
-                string mac = Finder.getMacAddress(ip);
+                string mac = Finder.GetMacAddress(ip);
 
-                if (LocalDatabase.macIsMapped(mac))
+                if (LocalDatabase.MacIsMapped(mac))
                 {
                     Machine machine = new Machine(ip.ToString());
                     machine.mac = mac;
@@ -41,7 +41,7 @@ namespace WindowsMetService.Network
 
         private object @lock = new object();
 
-        private void addHostToList(IPAddress obj)
+        private void AddHostToList(IPAddress obj)
         {
             lock (@lock)
             {
@@ -51,7 +51,7 @@ namespace WindowsMetService.Network
 
         private Thread[] threads = new Thread[5];
 
-        private int getFreeThreadIndex()
+        private int GetFreeThreadIndex()
         {
             for (int i = 0; i < threads.Length; i++)
             {
@@ -62,40 +62,40 @@ namespace WindowsMetService.Network
                 }
                 else
                 {
-                    threads[i] = new Thread(blank);
+                    threads[i] = new Thread(Blank);
                     return i;
                 }
             }
 
             Thread.Sleep(1000);
-            return getFreeThreadIndex();
+            return GetFreeThreadIndex();
         }
 
-        private bool checkResponse(IPAddress ip)
+        private bool CheckResponse(IPAddress ip)
         {
             Ping ping = new Ping();
             PingReply reply = ping.Send(ip);
 
             if (reply.Status == IPStatus.Success)
             {
-                addHostToList(ip);
+                AddHostToList(ip);
                 return true;
             }
 
             return false;
         }
 
-        public List<IPAddress> getAdressesWithResponse(List<IPAddress> listOfIp)
+        public List<IPAddress> GetAdressesWithResponse(List<IPAddress> listOfIp)
         {
 
             foreach (IPAddress ip in listOfIp)
             {
-                int index = getFreeThreadIndex();
-                threads[index] = new Thread(() => checkResponse(ip));
+                int index = GetFreeThreadIndex();
+                threads[index] = new Thread(() => CheckResponse(ip));
                 threads[index].Start();
             }
 
-            waitForThreads();
+            WaitForThreads();
 
             return aviableHosts;
         }
@@ -112,7 +112,7 @@ namespace WindowsMetService.Network
         //    return lexmarkIps;
         //}
 
-        public static string getMacAddress(IPAddress ip)
+        public static string GetMacAddress(IPAddress ip)
         {
             string macAddress = string.Empty;
             System.Diagnostics.Process pProcess = new System.Diagnostics.Process();
@@ -139,9 +139,9 @@ namespace WindowsMetService.Network
             }
         }
 
-        private void blank() { }
+        private void Blank() { }
 
-        private void waitForThreads()
+        private void WaitForThreads()
         {
             foreach (Thread th in threads)
             {
@@ -149,12 +149,12 @@ namespace WindowsMetService.Network
                     if (th.IsAlive)
                     {
                         Thread.Sleep(1000);
-                        waitForThreads();
+                        WaitForThreads();
                     }
             }
         }
 
-        public List<IPAddress> getAdressesWithResponseInNetworksOfThisPC()
+        public List<IPAddress> GetAdressesWithResponseInNetworksOfThisPC()
         {
             List<IPAddress> IPs = new List<IPAddress>();
             List<IPAddress> Masks = new List<IPAddress>();
@@ -172,7 +172,7 @@ namespace WindowsMetService.Network
 
             foreach (IPAddress ip in IPs)
             {
-                Masks.Add(IPV4.getMask(ip));
+                Masks.Add(IPV4.GetMask(ip));
             }
 
             if (IPs.Count != Masks.Count) return new List<IPAddress>();
@@ -180,9 +180,9 @@ namespace WindowsMetService.Network
             for (int i = 0; i < IPs.Count; i++)
             {
                 List<IPAddress> ls =
-                    this.getAdressesWithResponse
-                    (IPV4.getAdressesInLan(
-                    (IPAddress)IPV4.getLANAdress(IPs[i], Masks[i]),
+                    this.GetAdressesWithResponse
+                    (IPV4.GetAdressesInLan(
+                    (IPAddress)IPV4.GetLANAdress(IPs[i], Masks[i]),
                     (IPAddress)Masks[i]));
 
                 adresses.AddRange(ls);

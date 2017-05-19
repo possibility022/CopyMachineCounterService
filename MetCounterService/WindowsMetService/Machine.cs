@@ -28,7 +28,7 @@ namespace WindowsMetService
         public Machine(string ip)
         {
             this.ip = ip;
-            if (setUpMachine() == false)
+            if (SetUpMachine() == false)
             {
                 Global.Log("Pobranie informacji nie powiodło się. Ip urządzenia: " + ip);
                 counterData = "#wrongdevice#";
@@ -37,19 +37,19 @@ namespace WindowsMetService
             datetime = DateTime.Now;
         }
 
-        private bool setUpMachine()
+        private bool SetUpMachine()
         {
             IPAddress addres;
-            if (Global.getMacAddress(this.mac) == "")
+            if (Global.GetMacAddress(this.mac) == "")
             {
                 if (IPAddress.TryParse(this.ip, out addres))
                 {
-                    this.mac = Network.Finder.getMacAddress(addres);
+                    this.mac = Network.Finder.GetMacAddress(addres);
                 }
                 else return false;
             }
 
-            string[] links = LocalDatabase.getMacWebMapping(this.mac);
+            string[] links = LocalDatabase.GetMacWebMapping(this.mac);
             this.url_serialNumber = links[0];
             this.url_counterData = links[1];
 
@@ -58,13 +58,13 @@ namespace WindowsMetService
             if ((links[0] == "") && (links[1] == ""))
                 return false;
 
-            serialNumberData = downloadString(url_serialNumber);
-            counterData = downloadString(url_counterData);
+            serialNumberData = DownloadString(url_serialNumber);
+            counterData = DownloadString(url_counterData);
 
             return true;
         }
 
-        private string downloadString(string url)
+        private string DownloadString(string url)
         {
             client = new WebClient();
             client.Encoding = Encoding.UTF8;

@@ -41,7 +41,7 @@ namespace WindowsMetService
         private const string regexIP = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}";
         private const string regexMac = "((([0-9]|[a-zA-Z]){2}-){5}([0-9]|[a-zA-Z]){2})";
 
-        public static IPAddress getAddressIp(string text)
+        public static IPAddress GetAddressIp(string text)
         {
             IPAddress ip = new IPAddress(new byte[] { 0, 0, 0, 0 });
             Regex regex = new Regex(regexIP);
@@ -58,7 +58,7 @@ namespace WindowsMetService
             return ip;
         }
 
-        public static string getMacAddress(string text)
+        public static string GetMacAddress(string text)
         {
             if (text == null) return "";
             Regex regex = new Regex(regexMac);
@@ -74,9 +74,9 @@ namespace WindowsMetService
         public static void Log(string message)
         {
 #if DEBUG
-            LocalDatabase.log(message);
+            LocalDatabase.Log(message);
 #else
-            LocalDatabase.log(message);
+            LocalDatabase.Log(message);
             if (eventLog1 != null) eventLog1.WriteEntry(message);
             Console.WriteLine(message);
 #endif

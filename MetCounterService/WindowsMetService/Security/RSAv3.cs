@@ -18,10 +18,10 @@ namespace WindowsMetService.Security
 
         static int slit = 64;
 
-        public static void initialize()
+        public static void Initialize()
         {
             serverRSA = new RSACryptoServiceProvider();
-            serverRSA.ImportParameters(getServerParameter());
+            serverRSA.ImportParameters(GetServerParameter());
         }
 
         #region Decrypting
@@ -30,12 +30,12 @@ namespace WindowsMetService.Security
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        static public byte[] decrypt(byte[] bytes)
+        static public byte[] Decrypt(byte[] bytes)
         {
             //rsa.FromXmlString(File.ReadAllText("localprivatekey.xml")); //TODO usuń tą linijkę
             //Jeśli bajtów jest więcej niż 128 wykorzystuje metode decryptingBigData
             if (bytes.Length > 128)
-                return decryptBigData(bytes);
+                return DecryptBigData(bytes);
 
             //Jeśli danych jest mniej niż 128 bajtów dokonuje dekodowania.
             return rsa.Decrypt(bytes, false);
@@ -47,7 +47,7 @@ namespace WindowsMetService.Security
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        static private byte[] decryptBigData(byte[] input)
+        static private byte[] DecryptBigData(byte[] input)
         {
 
             //Jeśli dane wejściowe nie są tablicą bajtów której długość jest wielokrotnością liczby 128 to metoda wyrzuci wyjątek.
@@ -60,12 +60,12 @@ namespace WindowsMetService.Security
             // stary kod : int finalArrayLenght = 0;
             for (int i = 0; i < newArrays.Length; i++)
             {
-                byte[] toDecrypt = cutBytes(ref input, i*128, (i*128) + 128);
+                byte[] toDecrypt = CutBytes(ref input, i*128, (i*128) + 128);
                 newArrays[i] = rsa.Decrypt(toDecrypt, false);
                 // stary kod : finalArrayLenght += newArrays[i].Length;
             }
 
-            return combine(newArrays);
+            return Combine(newArrays);
 
             //Stary kod:
             //Kopiowanie bajtów z poprzednio rozszyfrowanych fragmentów do nowej ciągłej tablicy bajtów która następnie jest zwracana.
@@ -92,14 +92,14 @@ namespace WindowsMetService.Security
         /// <param name="bytes"></param>
         /// <param name="slitAllowed">Jeśli tablica jest większa niż 127 to ten parametr zezwala na szyfrowanie tych danych. False && 127 < bytes.Lenght </param>
         /// <returns></returns>
-        static public byte[] encrypt(byte[] bytes, bool slitAllowed = true)
+        static public byte[] Encrypt(byte[] bytes, bool slitAllowed = true)
         {            
             if ((bytes.Length > slit) && (slitAllowed == false))
                 throw new Exception("Podano dane wieksze niż jest to możliwe. Metoda dzielenia danych nie zadziałała prawidłowo.");
 
             if(bytes.Length > slit)
             {
-                return encryptBigData(bytes);
+                return EncryptBigData(bytes);
             }else
             {
                 return serverRSA.Encrypt(bytes, false);//TODO sprawdz ta linijke czy jest uzywany klucz serwera
@@ -114,7 +114,7 @@ namespace WindowsMetService.Security
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        static private byte[] encryptBigData(byte[] data)
+        static private byte[] EncryptBigData(byte[] data)
         {
             //okreslenie ilosci tablic
             int arraySize = 0;
@@ -128,12 +128,12 @@ namespace WindowsMetService.Security
             //wycinanie poszczególnych fragmentów ze źródłowej tablicy
             for(int i = 0; i < arraySize; i++)
             {
-                byte[] bytesToEncrypt = cutBytes(ref data, (i * 64), (i * 64) + 64);
-                bytesToEncrypt = encrypt(bytesToEncrypt, false);
+                byte[] bytesToEncrypt = CutBytes(ref data, (i * 64), (i * 64) + 64);
+                bytesToEncrypt = Encrypt(bytesToEncrypt, false);
                 newArrays[i] = bytesToEncrypt;
             }
             //łączenie tablic
-            return combine(newArrays);
+            return Combine(newArrays);
 
             //stary kod tworzenie tablicy finalnej
             //byte[] finallArray = new byte[newArrays.Length * 128];
@@ -158,7 +158,7 @@ namespace WindowsMetService.Security
         /// <param name="start">Indeks startowy.</param>
         /// <param name="end">Indeks końcowy</param>
         /// <returns></returns>
-        static private byte[] cutBytes(ref byte[] data, int start, int end)
+        static private byte[] CutBytes(ref byte[] data, int start, int end)
         {
             if (end > data.Length)
                 end = data.Length;
@@ -181,7 +181,7 @@ namespace WindowsMetService.Security
         /// <param name="from">Tablica źródłowa.</param>
         /// <param name="to">Tablica do której są zapisywane bajty z tablicy źródłowej.</param>
         /// <param name="indexInNewArray">Przesunięcie w tablicy źródłowej.</param>
-        static private void copyBytes(byte[] from, ref byte[] to, int indexInNewArray)
+        static private void CopyBytes(byte[] from, ref byte[] to, int indexInNewArray)
         {
             int end = 0;
             if (to.Length > from.Length)
@@ -196,7 +196,7 @@ namespace WindowsMetService.Security
             }
         }
 
-        static private byte[] combine(params byte[][] arrays)
+        static private byte[] Combine(params byte[][] arrays)
         {
             byte[] rv = new byte[arrays.Sum(a => a.Length)];
             int offset = 0;
@@ -215,7 +215,7 @@ namespace WindowsMetService.Security
         /// Zwraca parametry M i E klucza publicznego serwera
         /// </summary>
         /// <returns></returns>
-        static private RSAParameters getServerParameter()
+        static private RSAParameters GetServerParameter()
         {
             RSAParameters parameter = new RSAParameters();
             parameter.Exponent = Encrypting.Decrypt(encrypted_parameter_e);
@@ -228,9 +228,9 @@ namespace WindowsMetService.Security
         /// zwraca zaszyfrowany parametr E klucza publicznego klienta |PublicServerKey[PublicClientKeyEParameter]|
         /// </summary>
         /// <returns></returns>
-        static public byte[] getEncryptedClientRsaParameterE()
+        static public byte[] GetEncryptedClientRsaParameterE()
         {
-            return encrypt(rsa.ExportParameters(false).Exponent);
+            return Encrypt(rsa.ExportParameters(false).Exponent);
         }
 
 
@@ -238,9 +238,9 @@ namespace WindowsMetService.Security
         /// zwraca zaszyfrowany parametr M klucza publicznego klienta |PublicServerKey[PublicClientKeyMParameter]|
         /// </summary>
         /// <returns></returns>
-        static public byte[] getEncryptedClientRsaParameterM()
+        static public byte[] GetEncryptedClientRsaParameterM()
         {
-            return encrypt(rsa.ExportParameters(false).Modulus);
+            return Encrypt(rsa.ExportParameters(false).Modulus);
         }
         #endregion
     }

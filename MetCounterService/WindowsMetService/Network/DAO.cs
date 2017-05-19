@@ -36,15 +36,15 @@ namespace WindowsMetService.Network
 
         static bool SendOneMachine(Machine machine)
         {
-            if (connection.connect() == false)
+            if (connection.Connect() == false)
             {
-                LocalDatabase.putMachineToStorage(machine);
+                LocalDatabase.PutMachineToStorage(machine);
                 return false;
             }
 
-            byte[] bytes = connection.buildStringData(CreateStringArray(machine));
+            byte[] bytes = connection.BuildStringData(CreateStringArray(machine));
 
-            return connection.sendMachineData(bytes);
+            return connection.SendMachineData(bytes);
         }
 
 
@@ -72,7 +72,7 @@ namespace WindowsMetService.Network
                 }
             }
 
-            connection.disconnect();
+            connection.Disconnect();
 
             return fails;
         }

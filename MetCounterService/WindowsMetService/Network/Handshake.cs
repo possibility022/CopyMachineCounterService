@@ -18,15 +18,15 @@ namespace WindowsMetService.Network
 
         }
 
-        private byte[] handshakeResponse(byte[] receivedMessage)
+        private byte[] HandshakeResponse(byte[] receivedMessage)
         {
             string key = System.Text.Encoding.UTF8.GetString(receivedMessage);
-            char[] sortedkey = sort(key.ToCharArray());
+            char[] sortedkey = Sort(key.ToCharArray());
 
             return Encoding.ASCII.GetBytes(sortedkey);
         }
 
-        private static char[] sort(char[] c)
+        private static char[] Sort(char[] c)
         {
             int elements = c.Length;
             do
@@ -46,16 +46,16 @@ namespace WindowsMetService.Network
             return c;
         }
 
-        public bool authorize(ref System.Net.Sockets.NetworkStream stream)
+        public bool Authorize(ref System.Net.Sockets.NetworkStream stream)
         {
             //wysylanie zaszyfrowanego klucza publicznego klienta |ServerPublicKey[ClientPublicKeyM]|
-            byte[] buffor = Security.RSAv3.getEncryptedClientRsaParameterM();
+            byte[] buffor = Security.RSAv3.GetEncryptedClientRsaParameterM();
             stream.Write(buffor, 0, buffor.Length);
 
             System.Threading.Thread.Sleep(100);
 
             //wysylanie drugiej czesci parametr e
-            buffor = Security.RSAv3.getEncryptedClientRsaParameterE();
+            buffor = Security.RSAv3.GetEncryptedClientRsaParameterE();
             stream.Write(buffor, 0, buffor.Length);
 
             //odbieranie klucza handshake
@@ -63,20 +63,20 @@ namespace WindowsMetService.Network
             byte[] keyBuffor = new byte[128];
             readed = stream.Read(keyBuffor, 0, keyBuffor.Length);
 
-            keyBuffor = RSAv3.decrypt(keyBuffor);
+            keyBuffor = RSAv3.Decrypt(keyBuffor);
             
             //jeśli klucz ma nieprawidłową długość
             if (keyBuffor.Length != Handshake.handshakekeylenght)
                 return false;
 
             //wysylanie odpowiedzi
-            keyBuffor = RSAv3.encrypt(handshakeResponse(keyBuffor));
+            keyBuffor = RSAv3.Encrypt(HandshakeResponse(keyBuffor));
             stream.Write(keyBuffor, 0, keyBuffor.Length);
 
             //wysyłanie klienta ID
-            string s = LocalDatabase.getClientID();
+            string s = LocalDatabase.GetClientID();
             byte[] id = UnicodeEncoding.UTF8.GetBytes(s);
-            id = RSAv3.encrypt(id);
+            id = RSAv3.Encrypt(id);
             stream.Write(id, 0, 128);
 
             //odbieranie powiadomienia 'ok'
@@ -91,7 +91,7 @@ namespace WindowsMetService.Network
             
 
             bool sucess = 
-            UnicodeEncoding.UTF8.GetString(RSAv3.decrypt(keyBuffor)).EndsWith(handshake_ok);
+            UnicodeEncoding.UTF8.GetString(RSAv3.Decrypt(keyBuffor)).EndsWith(handshake_ok);
 
             Global.Log("Połączono z serwerem");
             return sucess;

@@ -79,6 +79,11 @@ namespace WindowsMetService
             Global.Log("Wystartowano process.");
         }
 
+        protected override void OnContinue()
+        {
+            base.OnContinue();
+        }
+
         protected override void OnStop()
         {
             t.Dispose();
@@ -89,10 +94,10 @@ namespace WindowsMetService
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
         {
-            setupTrigger();
+            SetupTrigger();
         }
 
-        public void setupTrigger(bool retry = false)
+        public void SetupTrigger(bool retry = false)
         {
             Random random = new Random();
             double randomvalue = random.NextDouble();
@@ -108,7 +113,7 @@ namespace WindowsMetService
                 //Jeśli jest to ponowienie próby, ustaiamy ticktime na teraz + 20 minut
                 tickTime = DateTime.Now.AddMinutes(20.0);
             }
-            else if (LocalDatabase.lastTickWasToday())
+            else if (LocalDatabase.LastTickWasToday())
             {
                 //Jeśli dzisiaj już przesłano dane, tick jest przestawiony na jutro
                 tickTime = DateTime.Today.AddDays(1.0).AddHours(10.0 + (randomvalue * 4));
@@ -123,34 +128,34 @@ namespace WindowsMetService
             {
                 //Jeśli ustawiony czas już miną, ustaw nową wartość.
                 if (TICKTIMECURENTLYSET < DateTime.Now)
-                    setCurentlyTickTime(tickTime);
+                    SetCurentlyTickTime(tickTime);
             }
             else
             {
-                setCurentlyTickTime(tickTime);
+                SetCurentlyTickTime(tickTime);
             }
         }
 
-        public void setCurentlyTickTime(DateTime tickTime)
+        public void SetCurentlyTickTime(DateTime tickTime)
         {
             TICKTIMECURENTLYSET = tickTime;
             if (t != null) t.Dispose();
-            t = new Timer(doit);
+            t = new Timer(DoIt);
             t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
         }
 
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
 
-        public void doit(Object stateInfo)
+        public void DoIt(Object stateInfo)
         {
             try
             {
-                LocalDatabase.remove_old_logs();
-                string[] ips = LocalDatabase.getMachinesIps();
+                LocalDatabase.Remove_old_logs();
+                string[] ips = LocalDatabase.GetMachinesIps();
 
                 Global.Log("Tick");
-                LocalDatabase.setToodayTick();
+                LocalDatabase.SetToodayTick();
 
                 List<Machine> machines = new List<Machine>();
 
@@ -167,7 +172,7 @@ namespace WindowsMetService
 
                 Thread.Sleep(1000 * 20);
 
-                machines = LocalDatabase.getMachinesFromStorage();
+                machines = LocalDatabase.GetMachinesFromStorage();
                 fails = Network.DAO.SendMachines(machines);
 
                 if (fails == machines.Count && machines.Count > 0)
@@ -175,7 +180,7 @@ namespace WindowsMetService
             }
             catch (Exception ex)
             {
-                setupTrigger(true);
+                SetupTrigger(true);
                 Global.Log("Error in main loop. Message: " + ex.Message);
             }
         }
