@@ -182,7 +182,7 @@ namespace WindowsMetService
 #if DEBUG
             Console.WriteLine(new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
 #else
-            File.AppendAllLines(buildPath(File_Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+            File.AppendAllLines(BuildPath(File_Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
 #endif
         }
 
@@ -250,8 +250,8 @@ namespace WindowsMetService
 #if DEBUG
             Network.ServerOffer.DownloadMacToWebMapping("debuging-xmlfile.xml");
 #else
-            if (Network.ServerOffer.DownloadMacToWebMapping(buildPath("mactoweb-new.xml.part")))
-                File.Copy(buildPath("mactoweb-new.xml.part"), buildPath(File_MacToWebMapping), true);
+            if (Network.ServerOffer.DownloadMacToWebMapping(BuildPath("mactoweb-new.xml.part")))
+                File.Copy(BuildPath("mactoweb-new.xml.part"), BuildPath(File_MacToWebMapping), true);
 #endif
         }
 
