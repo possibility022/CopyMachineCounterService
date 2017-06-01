@@ -25,6 +25,8 @@ namespace WindowsMetService
             SERVICE_PAUSED = 0x00000007,
         }
 
+        ServiceStatus serviceStatus = new ServiceStatus();
+
         [StructLayout(LayoutKind.Sequential)]
         public struct ServiceStatus
         {
@@ -36,7 +38,6 @@ namespace WindowsMetService
             public long dwCheckPoint;
             public long dwWaitHint;
         };
-
 
         static System.Diagnostics.EventLog eventLog1;
 
@@ -56,9 +57,7 @@ namespace WindowsMetService
 
         protected override void OnStart(string[] args)
         {
-
             // Update the service state to Start Pending.
-            ServiceStatus serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_START_PENDING;
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
@@ -73,23 +72,33 @@ namespace WindowsMetService
             t2 = timer;
             //setupTrigger();
 
+            LocalDatabase.Initialize();
+
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-            LocalDatabase.Initialize();
             Global.Log("Wystartowano process.");
-        }
-
-        protected override void OnContinue()
-        {
-            base.OnContinue();
         }
 
         protected override void OnStop()
         {
-            t.Dispose();
-            t2.Dispose();
-            ServiceStatus serviceStatus = new ServiceStatus();
+            try
+            {
+                if (t != null)
+                    t.Dispose();
+
+                if (t2 != null)
+                {
+                    t2.Dispose();
+                    t2.Close();
+                }
+            }catch (Exception ex)
+            {
+                Global.Log("OnStop ex1: " + ex.Message);
+            }
+
+            serviceStatus = new ServiceStatus();
             serviceStatus.dwCurrentState = ServiceState.SERVICE_STOPPED;
+            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
         }
 
         public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)

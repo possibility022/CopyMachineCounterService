@@ -300,28 +300,67 @@ def convert_emails_with_wrong_data():
 
 
 
+#def parse_loop_email():
+#    try:
+#        while True:
+#            mailbox = EmailParser()
+#            ids = mailbox.get_emails_id()
+#            for i in range(len(ids)):
+#                email = None
+#                if email is None:
+#                    data = None                    
+#                    mail = mailbox.get_email_pop3(i + 1)
+#                    if mail is None:
+#                        mongo.insert_email_to_suspect(ids[i])
+#                        continue
+#                    try:
+#                        data = mailbox.parse_email_to_device_data(mail)
+#                        mongo.import_to_database(data)
+#                    except Exception as e:
+#                        data = None
+#            mailbox.close()
+#            sleep(5 * 60)
+#    except Exception as e:
+#        logging.error('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
+
+
+
+
 def parse_loop_email():
+    logging.info('parse_loop_email started')
+    
     try:
         while True:
             mailbox = EmailParser()
             ids = mailbox.get_emails_id()
             for i in range(len(ids)):
-                email = None
+                email = mailbox.check_email_parsed(ids[i])
                 if email is None:
                     data = None                    
+                    print('Nie znalazłem maila. ID: %s', ids[i])
+                    if mongo.check_email_is_on_suspect_list(ids[i]):
+                        print('Mail jest na liście podejrzanych maili, zostanie całkowicie ominięty w obsłudze')
+                        continue
                     mail = mailbox.get_email_pop3(i + 1)
                     if mail is None:
                         mongo.insert_email_to_suspect(ids[i])
+                        print('Mail został dodany na listę maili podejrzanych. ID: %s', ids[i])
                         continue
                     try:
                         data = mailbox.parse_email_to_device_data(mail)
-                        mongo.import_to_database(data)
                     except Exception as e:
+                        print('Błąd przy parsowaniu maila: ' + ids[i])
                         data = None
+                    if data is not None:
+                        print('mongo.import_to_database(data)')
+                    else:
+                        print('Usuwam maila. Dane po konwersji do danych recordu są puste. %s', ids[i])
+                else:
+                    print('Mail znaleziony, omijam i usuwam: %s', ids[i])
+                    mailbox.del_email(i + 1)
             mailbox.close()
             sleep(5 * 60)
     except Exception as e:
-        logging.error('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
-
+        print('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
 
 #convert_emails_with_wrong_data()

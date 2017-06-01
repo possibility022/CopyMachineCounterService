@@ -46,7 +46,7 @@ namespace WindowsMetService
             ipsOfCopymachines = new string[] { };
         }
 
-        static string readConfig(ConfigFile configType)
+        static string ReadConfig(ConfigFile configType)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace WindowsMetService
             return "";
         }
 
-        static void saveConfig(ConfigFile configType, string value)
+        static void SaveConfig(ConfigFile configType, string value)
         {
             try
             {
@@ -105,9 +105,9 @@ namespace WindowsMetService
             { }
         }
 
-        public static string getClientDescription()
+        public static string GetClientDescription()
         {
-            clientDescription = readConfig(ConfigFile.clientDescription);
+            clientDescription = ReadConfig(ConfigFile.clientDescription);
             return clientDescription;
         }
 
@@ -145,6 +145,7 @@ namespace WindowsMetService
             LoadIpsFromFile();
             DownloadMacToWebXML();
             SetupLocalLog();
+            ExportConfigEnumxToFile();
 
             return true;
         }
@@ -236,11 +237,11 @@ namespace WindowsMetService
 
         private static void LoadCFG_File()
         {
-            string value = readConfig(ConfigFile.clientDescription);
+            string value = ReadConfig(ConfigFile.clientDescription);
             if (value.Length > 0)
                 clientDescription = value;
 
-            value = readConfig(ConfigFile.clientID);
+            value = ReadConfig(ConfigFile.clientID);
             if (value.Length > 0)
                 clientID = Convert.FromBase64String(value);
         }
@@ -385,7 +386,7 @@ namespace WindowsMetService
                 byte[] encrypted = Security.Encrypting.Encrypt(
                                             key);
 
-                saveConfig(ConfigFile.clientID, Convert.ToBase64String(encrypted));
+                SaveConfig(ConfigFile.clientID, Convert.ToBase64String(encrypted));
                 clientID = encrypted;
                 Global.Log("Pobrano ID");
                 return true;
