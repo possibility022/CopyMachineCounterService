@@ -59,6 +59,12 @@ namespace Copyinfo.Database
         public bool tonerLowLever_Y { get; set; }
         public bool tonerLowLever_K { get; set; }
 
+
+        /// <summary>
+        /// Aktualizuj ten parametr tylko przez metode SetPrintedTrue
+        /// </summary>
+        public bool printed { get; set; } // Pobierane z mongo, true jeśli było już drukowane
+
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
         public byte[] email_info { get; set; } // TO JEST ID OBIEKTU W BAZIE MONGO
@@ -242,6 +248,15 @@ namespace Copyinfo.Database
             }
 
             return textToPrint;
+        }
+
+        public void SetPrintedTrue()
+        {
+            if (printed)
+                return;
+
+            this.printed = true;
+            DAO.ReplaceMachineRecord(this);
         }
 
         public int GetTotal()

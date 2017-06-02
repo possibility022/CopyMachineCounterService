@@ -257,6 +257,18 @@ namespace Copyinfo.Database
             }
         }
 
+        static public void ReplaceMachineRecrod(MachineRecord r)
+        {
+            if (r != null)
+            {
+                var collection = iDatabase.GetCollection<MachineRecord>(Collections.machine_records.ToString());
+                var enityQuery = Query<MachineRecord>.EQ(e => e.id, r.id);
+
+                var filter = Builders<MachineRecord>.Filter.Eq(e => e.id, r.id);
+                collection.ReplaceOne(filter, r);
+            }
+        }
+
         //static public string SaveClient(Client c)
         //{
         //    if (c != null)

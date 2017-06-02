@@ -60,19 +60,28 @@ namespace Copyinfo.Forms
 
         private void PrintSelected()
         {
-            List<string> toPrint = new List<string>();
+            //List<string> toPrint = new List<string>();
 
-            foreach(MachineRecord rec in cReports1.fastObjectListView1.SelectedObjects)
-            {
-                toPrint.Add(rec.GetTextToPrint());
-            }
+            //if (MessageBox.Show("Czy wydrukować tylko te dane, które nie były drukowane?", "Co drukujemy?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            //    foreach(MachineRecord rec in cReports1.fastObjectListView1.SelectedObjects)
+            //    {
+            //        toPrint.Add
+            //    }
 
-            Other.Printing.Print(toPrint);
+            //foreach(MachineRecord rec in cReports1.fastObjectListView1.SelectedObjects)
+            //{
+            //    toPrint.Add(rec.GetTextToPrint());
+            //}
 
-            if (toPrint.Count > 0)
-                MessageBox.Show("Zlecono do wydruku: " + toPrint.Count.ToString() + " dokumentów.");
-            else
-                MessageBox.Show("Brak zaznaczonych rekordów.");
+            //if (Other.Printing.Print(toPrint) != DialogResult.Cancel)
+            //{
+            //    if (toPrint.Count > 0)
+            //        MessageBox.Show("Zlecono do wydruku: " + toPrint.Count.ToString() + " dokumentów.");
+            //    else
+            //        MessageBox.Show("Brak zaznaczonych rekordów.");
+            //}
+            List<MachineRecord> records = cReports1.fastObjectListView1.SelectedObjects.Cast<Database.MachineRecord>().ToList();
+            Other.Printing.Print(records);
         }
 
         private void tbButton4_Click(object sender, EventArgs e)

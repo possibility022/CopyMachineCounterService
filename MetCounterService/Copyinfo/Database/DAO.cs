@@ -94,6 +94,11 @@ namespace Copyinfo.Database
             MongoTB.DeleteMachineRecord(additionalItem);
         }
 
+        internal static void ReplaceMachineRecord(MachineRecord record)
+        {
+            MongoTB.ReplaceMachineRecrod(record);
+        }
+
         internal static EmailData GetEmailData(byte[] email_info)
         {
             return MongoTB.GetEmailData(email_info);

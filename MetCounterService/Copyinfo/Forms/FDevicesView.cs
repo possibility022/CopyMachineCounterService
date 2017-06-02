@@ -58,9 +58,12 @@ namespace Copyinfo.Forms
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            List<Database.Device> list = new List<Database.Device>();
-            foreach (Database.Device dev in cDeviceList1.fastObjectListView1.SelectedObjects)
-                list.Add(dev);
+            List<Database.Device> list;
+
+            if (cDeviceList1.fastObjectListView1.SelectedObjects.Count > 0)
+                list = cDeviceList1.fastObjectListView1.SelectedObjects.Cast<Database.Device>().ToList();
+            else
+                list = cDeviceList1.fastObjectListView1.Objects.Cast<Database.Device>().ToList();
             print(list);
         }
 
@@ -71,12 +74,11 @@ namespace Copyinfo.Forms
 
         private void print(List<Database.Device> list)
         {
-            List<string> toprint = new List<string>();
+            List<Database.MachineRecord> toprint = new List<Database.MachineRecord>();
             foreach (Database.Device d in list)
             {
                 Database.MachineRecord record = d.GetOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
-                if (record != null)
-                    toprint.Add(record.GetTextToPrint());
+                if (record != null) toprint.Add(record);
             }
 
             Other.Printing.Print(toprint);

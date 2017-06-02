@@ -92,5 +92,60 @@ namespace Copyinfo.Other
             Print(text, dialog);
             return result;
         }
+
+        public static DialogResult Print(Database.MachineRecord record)
+        {
+            DialogResult results =  Print(record.GetTextToPrint());
+            if (results == DialogResult.OK)
+                record.SetPrintedTrue();
+            return results;
+        }
+
+        public static DialogResult Print(List<Database.MachineRecord> records)
+        {
+            if (MessageBox.Show("Czy wydrukować tylko te dane, które nie były drukowane?", "Co drukujemy?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                List<string> toPrint = new List<string>();
+                foreach(Database.MachineRecord record in records)
+                {
+                    if (record == null)
+                        continue;
+                    if (record.printed == true)
+                        continue;
+                    else
+                    {
+                        toPrint.Add(record.GetTextToPrint());
+                    }
+                }
+
+                DialogResult results =  Print(toPrint);
+                if (results == DialogResult.OK)
+                {
+                    foreach (Database.MachineRecord record in records)
+                        if (record != null) record.SetPrintedTrue();
+                }
+
+                return results;
+            }
+            else
+            {
+                List<string> toPrint = new List<string>();
+                foreach (Database.MachineRecord record in records)
+                {
+                    if (record != null)
+                        toPrint.Add(record.GetTextToPrint());
+                }
+
+                DialogResult results =  Print(toPrint);
+                if (results == DialogResult.OK)
+                {
+                    foreach (Database.MachineRecord record in records)
+                        if (record != null) record.SetPrintedTrue();
+                }
+
+                return results;
+            }
+
+        }
     }
 }
