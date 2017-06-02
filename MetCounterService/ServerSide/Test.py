@@ -245,7 +245,6 @@ mongo = MongoTB()
 
 logging.basicConfig(filename='deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
 
-logging.info('parse_loop_email started')
 #while True:
 #    mailbox = EmailParser()
 #    ids = mailbox.get_emails_id()
@@ -258,45 +257,45 @@ logging.info('parse_loop_email started')
 
 
 
-def convert_emails_with_wrong_data():
-    mailbox = EmailParser()
+#def convert_emails_with_wrong_data():
+#    mailbox = EmailParser()
 
-    empty_full_counter_ID = mongo.countersdata.find_one({'full_counter':'ParsedFromEmail'})
-    empty_full_serial_ID = mongo.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+#    empty_full_counter_ID = mongo.countersdata.find_one({'full_counter':'ParsedFromEmail'})
+#    empty_full_serial_ID = mongo.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
 
-    if empty_full_counter_ID is None:
-        empty_full_counter_ID = mongo.countersdata.insert_one({'full_counter':'ParsedFromEmail'})
-        empty_full_counter_ID = mongo.countersdata.find_one({'full_counter':'ParsedFromEmail'})
-    if empty_full_serial_ID is None:
-        empty_full_serial_ID = mongo.serialdata.insert_one({'full_serialnumber':'ParsedFromEmail'})
-        empty_full_serial_ID = mongo.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+#    if empty_full_counter_ID is None:
+#        empty_full_counter_ID = mongo.countersdata.insert_one({'full_counter':'ParsedFromEmail'})
+#        empty_full_counter_ID = mongo.countersdata.find_one({'full_counter':'ParsedFromEmail'})
+#    if empty_full_serial_ID is None:
+#        empty_full_serial_ID = mongo.serialdata.insert_one({'full_serialnumber':'ParsedFromEmail'})
+#        empty_full_serial_ID = mongo.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
 
-    what = {'serial_number':'2500656400'}
+#    what = {'serial_number':'2500656400'}
 
-    for el in mongo.records.find(what):
-        email = mongo.get_email(el['email_info'])
-        data = mailbox.parse_email_to_device_data(email)
-        data['email_info'] = el['email_info']
-        data['_id'] = el['_id']
-        data['full_serialnumber'] = empty_full_serial_ID['_id']
-        data['full_counter'] = empty_full_counter_ID['_id']
-        data.pop('parsed')
-        mongo.records.replace_one({'_id': data['_id']}, data, False)
-        print(data)
-        pass
+#    for el in mongo.records.find(what):
+#        email = mongo.get_email(el['email_info'])
+#        data = mailbox.parse_email_to_device_data(email)
+#        data['email_info'] = el['email_info']
+#        data['_id'] = el['_id']
+#        data['full_serialnumber'] = empty_full_serial_ID['_id']
+#        data['full_counter'] = empty_full_counter_ID['_id']
+#        data.pop('parsed')
+#        mongo.records.replace_one({'_id': data['_id']}, data, False)
+#        print(data)
+#        pass
 
-    for el in mongo.records_other.find(what):
-        email = mongo.get_email(el['email_info'])
-        data = mailbox.parse_email_to_device_data(email)
-        data['email_info'] = el['email_info']
-        data['_id'] = el['_id']
-        data['full_serialnumber'] = empty_full_serial_ID['_id']
-        data['full_counter'] = empty_full_counter_ID['_id']
-        data.pop('parsed')
-        mongo.records.replace_one({'_id': data['_id']}, data, False)
-        print(data)
+#    for el in mongo.records_other.find(what):
+#        email = mongo.get_email(el['email_info'])
+#        data = mailbox.parse_email_to_device_data(email)
+#        data['email_info'] = el['email_info']
+#        data['_id'] = el['_id']
+#        data['full_serialnumber'] = empty_full_serial_ID['_id']
+#        data['full_counter'] = empty_full_counter_ID['_id']
+#        data.pop('parsed')
+#        mongo.records.replace_one({'_id': data['_id']}, data, False)
+#        print(data)
 
-    pass
+#    pass
 
 
 
@@ -364,3 +363,41 @@ def parse_loop_email():
         print('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
 
 #convert_emails_with_wrong_data()
+#parse_loop_email()
+
+mongo = MongoTB()
+def parsing_loop_v2():
+    mailbox = EmailParser()
+    ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
+    for i in range(1, len(ids)):                            # Dla kazdego id na serwerze
+        message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
+        if message is not None:                             # Jesli wiadomosc pobrano to
+            mailbox.insert_email_to_queue(message)          # Zapisujemy ja do kolejki
+            mailbox.del_email(i)                            # I usuwamy z serwera
+
+    mailbox.close()
+    queue = mailbox.get_queue()
+
+    mails_to_delete = []
+
+    for mail in queue:
+        data = None
+        try:
+            email = None #mailbox.check_email_parsed(mail['_id'])             # Tutaj sprawdzam czy mail jest juz przerobiony
+            if email is not None:
+                logging.debug('Mail był już przetwożony')
+                mails_to_delete.append(mail)              
+            else:
+                data = mailbox.parse_email_to_device_data(mail)         # Tutaj parsuje do odpowiednich danych
+                mails_to_delete.append(mail)
+        except Exception as ex:
+            logging.debug('Jest problem z mailem mail: %s', mail)
+
+        mongo.import_to_database(data)                                  # Tutaj zapisuje juz do prawidlowej kolekcji
+
+    #for mail in mails_to_delete:
+       # mongo.email_toparse_db.delete_one(mail)                         # Usuwam maile z kolejki
+
+parsing_loop_v2()
+            
+

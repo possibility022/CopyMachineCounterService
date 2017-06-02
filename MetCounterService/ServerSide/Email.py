@@ -90,26 +90,35 @@ class XMLLoader:
 class EmailParser:
 
     def __init__(self):
-        #self.Mailbox = poplib.POP3('***REMOVED***', 110)
-        #self.Mailbox.user('***REMOVED***')
-        #self.Mailbox.pass_('***REMOVED***')
         self.Mailbox = poplib.POP3('***REMOVED***', 110)
         self.Mailbox.user('***REMOVED***')
         self.Mailbox.pass_('***REMOVED***')
+        #self.Mailbox = poplib.POP3('***REMOVED***', 110)
+        #self.Mailbox.user('***REMOVED***')
+        #self.Mailbox.pass_('***REMOVED***')
         self.msgcount = 0
         self.mongo = MongoTB()
         self.xml_loader = XMLLoader()
 
     def get_email_pop3(self, which):
         try:
+            if self.mongo.check_email_is_on_suspect_list(self.Mailbox.uidl(which)):
+                return None
             doc = self.Mailbox.retr(which)
             msg_id = self.Mailbox.uidl(which)
             mail = {'mail': doc[1], '_id': msg_id}
             self.insert_mail_to_binary(mail)
             return mail
         except error_proto as error:
+            self.mongo.insert_email_to_suspect(self.Mailbox.uidl(which))
             logging.info('Powstał jakiś problem przy pobieraniu maila. Info: %s', error)
             return None
+
+    def insert_email_to_queue(self, email):
+        self.mongo.insert_email_to_queue(email)
+
+    def get_queue(self):
+        return self.mongo.get_emails_to_parse()
 
     def del_email(self, which):
         self.Mailbox.dele(which)
@@ -117,7 +126,7 @@ class EmailParser:
     def get_emails_id(self):
         self.msgcount = len(self.Mailbox.list()[1])
         ids = []
-        for i in range(self.msgcount - 1):
+        for i in range(self.msgcount):
             msg_id = self.Mailbox.uidl(i + 1)
             ids.append(msg_id)
         return ids

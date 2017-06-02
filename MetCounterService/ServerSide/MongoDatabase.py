@@ -24,6 +24,7 @@ class MongoTB:
         self.email_parsed_faild = 'emails_faild'
         self.email_parsed_passed = 'emails_passed'
         self.email_suspect = 'emails_suspect'
+        self.email_toparse = 'emails_toparse'
         self.machine_records_other = 'machine_records_other'
 
         self.decoded_dir = workfolder + '/decoded'
@@ -39,12 +40,17 @@ class MongoTB:
         self.email_parsed_faild_db = self.db[self.email_parsed_faild]
         self.email_parsed_passed_db = self.db[self.email_parsed_passed]
         self.email_suspect_db = self.db[self.email_suspect]
+        self.email_toparse_db = self.db[self.email_toparse]
         self.records_other = self.db[self.machine_records_other]
 
         self.empty_full_counter_ID = self.countersdata.find_one({'full_counter':'ParsedFromEmail'})
         self.empty_full_serial_ID = self.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
 
     def import_to_database(self, device):
+
+        if device is None:
+            return False
+
         if isinstance(device, DataParser):
             printer_data = device.printer_data
         elif isinstance(device, dict):
@@ -88,6 +94,14 @@ class MongoTB:
         else:
             return self.records_other
 
+    def insert_email_to_queue(self, email):
+        self.email_toparse_db.insert_one(email)
+
+    def get_emails_to_parse(self):
+        emails = []
+        for email in self.email_toparse_db.find():
+            emails.append(email)
+        return emails
 
     def count(self):
         logging.info('Count: records: {}'.format(self.records.count()))
