@@ -30,6 +30,11 @@ namespace Copyinfo.Database
             return list;
         }
 
+        public async static Task<List<Device>> GetAllDevicesAsync()
+        {
+            return await Task.Run(() => GetAllDevices());
+        }
+
         public static List<Device> GetDevices(int clientId, bool useCache = false)
         {
             if (useCache)
@@ -87,6 +92,11 @@ namespace Copyinfo.Database
         internal static List<MachineRecord> GetAllReports()
         {
             return MongoTB.GetAllReports();
+        }
+
+        internal async static Task<List<MachineRecord>> GetAllReportsAsync()
+        {
+            return await Task.Run(() => MongoTB.GetAllReports());
         }
 
         internal static void DeleteMachineRecord(MachineRecord additionalItem)

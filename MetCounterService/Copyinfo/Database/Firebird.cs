@@ -11,8 +11,8 @@ namespace Copyinfo.Database
 {
     class Firebird
     {
-        const string connectionString = "***REMOVED***Database=***REMOVED***;DataSource=***REMOVED***; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;";
-        //const string connectionString = "***REMOVED***Database=D:\\data\\test.fdb;DataSource=192.168.1.9; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;";
+        //const string connectionString = "***REMOVED***Database=***REMOVED***;DataSource=***REMOVED***; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;";
+        const string connectionString = "***REMOVED***Database=D:\\data\\test.fdb;DataSource=192.168.0.42; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;";
         static FbConnection connection = new FbConnection(connectionString);
 
         internal static List<int> getServiceAgreementsDevices()

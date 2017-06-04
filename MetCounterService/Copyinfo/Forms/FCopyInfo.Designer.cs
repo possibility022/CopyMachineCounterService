@@ -28,14 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.tbButtonDropMenu1 = new Copyinfo.Forms.Controls.Buttons.TBButtonDropMenu();
             this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
-            this.tbButton_Small1 = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             this.tbButton4 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton3 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.tbButton2 = new Copyinfo.Forms.Controls.Buttons.TBButton();
-            this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
+            this.tbBtnRefresh = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cReports1 = new Copyinfo.Forms.Controls.CReports();
             this.SuspendLayout();
+            // 
+            // tbButtonDropMenu1
+            // 
+            this.tbButtonDropMenu1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbButtonDropMenu1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbButtonDropMenu1.Location = new System.Drawing.Point(901, 11);
+            this.tbButtonDropMenu1.Name = "tbButtonDropMenu1";
+            this.tbButtonDropMenu1.Size = new System.Drawing.Size(90, 32);
+            this.tbButtonDropMenu1.TabIndex = 10;
+            this.tbButtonDropMenu1.Text = "Drukuj";
+            this.tbButtonDropMenu1.UseVisualStyleBackColor = true;
             // 
             // tbLabel1
             // 
@@ -46,18 +57,6 @@
             this.tbLabel1.Size = new System.Drawing.Size(87, 30);
             this.tbLabel1.TabIndex = 9;
             this.tbLabel1.Text = "Liczniki";
-            // 
-            // tbButton_Small1
-            // 
-            this.tbButton_Small1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbButton_Small1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.tbButton_Small1.Location = new System.Drawing.Point(901, 11);
-            this.tbButton_Small1.Name = "tbButton_Small1";
-            this.tbButton_Small1.Size = new System.Drawing.Size(90, 32);
-            this.tbButton_Small1.TabIndex = 8;
-            this.tbButton_Small1.Text = "Drukuj";
-            this.tbButton_Small1.UseVisualStyleBackColor = true;
-            this.tbButton_Small1.Click += new System.EventHandler(this.tbButton_Small1_Click);
             // 
             // tbButton4
             // 
@@ -95,17 +94,17 @@
             this.tbButton2.UseVisualStyleBackColor = true;
             this.tbButton2.Click += new System.EventHandler(this.btnDevices_Click);
             // 
-            // tbButton1
+            // tbBtnRefresh
             // 
-            this.tbButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.tbButton1.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.tbButton1.Location = new System.Drawing.Point(110, 9);
-            this.tbButton1.Name = "tbButton1";
-            this.tbButton1.Size = new System.Drawing.Size(170, 34);
-            this.tbButton1.TabIndex = 4;
-            this.tbButton1.Text = "Odśwież";
-            this.tbButton1.UseVisualStyleBackColor = true;
-            this.tbButton1.Click += new System.EventHandler(this.button1_Click);
+            this.tbBtnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbBtnRefresh.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.tbBtnRefresh.Location = new System.Drawing.Point(110, 9);
+            this.tbBtnRefresh.Name = "tbBtnRefresh";
+            this.tbBtnRefresh.Size = new System.Drawing.Size(170, 34);
+            this.tbBtnRefresh.TabIndex = 4;
+            this.tbBtnRefresh.Text = "Odśwież";
+            this.tbBtnRefresh.UseVisualStyleBackColor = true;
+            this.tbBtnRefresh.Click += new System.EventHandler(this.button1_Click);
             // 
             // cReports1
             // 
@@ -122,12 +121,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1061, 629);
+            this.Controls.Add(this.tbButtonDropMenu1);
             this.Controls.Add(this.tbLabel1);
-            this.Controls.Add(this.tbButton_Small1);
             this.Controls.Add(this.tbButton4);
             this.Controls.Add(this.tbButton3);
             this.Controls.Add(this.tbButton2);
-            this.Controls.Add(this.tbButton1);
+            this.Controls.Add(this.tbBtnRefresh);
             this.Controls.Add(this.cReports1);
             this.Name = "FCopyInfo";
             this.Text = "Copy Info";
@@ -140,11 +139,11 @@
         #endregion
 
         private Controls.CReports cReports1;
-        private Controls.Buttons.TBButton tbButton1;
+        private Controls.Buttons.TBButton tbBtnRefresh;
         private Controls.Buttons.TBButton tbButton2;
         private Controls.Buttons.TBButton tbButton3;
         private Controls.Buttons.TBButton tbButton4;
-        private Controls.Buttons.TBButton_Small tbButton_Small1;
         private Controls.Labels.TBLabel tbLabel1;
+        private Controls.Buttons.TBButtonDropMenu tbButtonDropMenu1;
     }
 }

@@ -78,7 +78,8 @@ namespace Copyinfo.Forms
             foreach (Database.Device d in list)
             {
                 Database.MachineRecord record = d.GetOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
-                if (record != null) toprint.Add(record);
+                if (record != null)
+                    toprint.Add(record);
             }
 
             Other.Printing.Print(toprint);

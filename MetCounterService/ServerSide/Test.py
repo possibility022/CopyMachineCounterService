@@ -236,14 +236,14 @@
 
 #el = mongo.records.find_one()
 
-import logging
-from time import sleep
-from Email import EmailParser
+#import logging
+#from time import sleep
+#from Email import EmailParser
 from MongoDatabase import MongoTB
 
 mongo = MongoTB()
 
-logging.basicConfig(filename='deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
+#logging.basicConfig(filename='deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
 
 #while True:
 #    mailbox = EmailParser()
@@ -401,13 +401,13 @@ def parsing_loop_v2():
 #parsing_loop_v2()
             
 
-for el in mongo.records.find():
+for el in mongo.records.find({'serial_number':''}):
     if el['serial_number'] == '':
-        mongo.records.replace_one({'_id':el['_id']}, el, False)
+        mongo.records.delete_one(el)
     print(el)
     pass
 
-for el in mongo.records_other.find():
-    el['printed'] = False
-    mongo.records_other.replace_one({'_id':el['_id']}, el, False)
+for el in mongo.records_other.find({'serial_number':''}):
+    if el['serial_number'] == '':
+        mongo.records_other.delete_one(el)
     print(el)

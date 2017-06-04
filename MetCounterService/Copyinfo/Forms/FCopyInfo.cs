@@ -29,6 +29,30 @@ namespace Copyinfo.Forms
             this.Resize += FCopyInfo_Resize;
             freeAtTop = this.Height - cReports1.Height;
             cReports1.fastObjectListView1.UseCellFormatEvents = true;
+
+            //Inicjalizacja przycisku Drukuj z drop down menu
+
+            ContextMenuStrip contextMenu = new ContextMenuStrip();
+            ToolStripItem item = contextMenu.Items.Add("Drukuj zestawienie dla tego miesiąca");
+            item.Click += PrintMonthCounters;
+
+            item = contextMenu.Items.Add("Drukuj wybrane recordy");
+            item.Click += PrintSelectedItems;
+
+            tbButtonDropMenu1.Menu = contextMenu;
+
+        }
+
+        private void PrintSelectedItems(object sender, EventArgs e)
+        {
+            List<MachineRecord> records = cReports1.fastObjectListView1.SelectedObjects.Cast<Database.MachineRecord>().ToList();
+            Other.Printing.Print(records);
+        }
+
+        private void PrintMonthCounters(object sender, EventArgs e)
+        {
+            tbButtonDropMenu1.Enabled = false;
+            Other.Printing.PrintThisMonthReportBackground(new Action(() => tbButtonDropMenu1.Enabled = true ));
         }
 
         private void FCopyInfo_Resize(object sender, EventArgs e)
@@ -38,7 +62,8 @@ namespace Copyinfo.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cReports1.FillList(Database.DAO.GetAllReports());
+            tbBtnRefresh.Enabled = false;
+            FillListAsync(new Action(() => tbBtnRefresh.Invoke(new Action(() => tbBtnRefresh.Enabled = true))));
         }
 
         private void btnDevices_Click(object sender, EventArgs e)
@@ -55,33 +80,7 @@ namespace Copyinfo.Forms
 
         private void tbButton_Small1_Click(object sender, EventArgs e)
         {
-            PrintSelected();
-        }
-
-        private void PrintSelected()
-        {
-            //List<string> toPrint = new List<string>();
-
-            //if (MessageBox.Show("Czy wydrukować tylko te dane, które nie były drukowane?", "Co drukujemy?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            //    foreach(MachineRecord rec in cReports1.fastObjectListView1.SelectedObjects)
-            //    {
-            //        toPrint.Add
-            //    }
-
-            //foreach(MachineRecord rec in cReports1.fastObjectListView1.SelectedObjects)
-            //{
-            //    toPrint.Add(rec.GetTextToPrint());
-            //}
-
-            //if (Other.Printing.Print(toPrint) != DialogResult.Cancel)
-            //{
-            //    if (toPrint.Count > 0)
-            //        MessageBox.Show("Zlecono do wydruku: " + toPrint.Count.ToString() + " dokumentów.");
-            //    else
-            //        MessageBox.Show("Brak zaznaczonych rekordów.");
-            //}
-            List<MachineRecord> records = cReports1.fastObjectListView1.SelectedObjects.Cast<Database.MachineRecord>().ToList();
-            Other.Printing.Print(records);
+            //PrintSelected();
         }
 
         private void tbButton4_Click(object sender, EventArgs e)
@@ -95,6 +94,14 @@ namespace Copyinfo.Forms
             {
                 e.Cancel = true;
             }
+        }
+
+        private async void FillListAsync(Action doWhenFinish)
+        {
+            List<Database.MachineRecord> records = await DAO.GetAllReportsAsync();
+            cReports1.FillList(records);
+
+            doWhenFinish();
         }
     }
 }

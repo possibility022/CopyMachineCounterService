@@ -102,6 +102,8 @@ namespace Copyinfo.Database
 
             print_counter_black_and_white = 0;
             print_counter_color = 0;
+
+            printed = false;
             //email_info = new BsonBinaryData(new byte[] { 0 });
         }
 

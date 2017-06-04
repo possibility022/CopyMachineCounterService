@@ -12,7 +12,7 @@
     <OutputPath>.</OutputPath>
     <Name>ServerSide</Name>
     <RootNamespace>ServerSide</RootNamespace>
-    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
+    <InterpreterId>{a90ee906-d3c9-4711-9b1c-b7e2c7bdd001}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
@@ -47,11 +47,10 @@
     <Compile Include="Test.py" />
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="{214a562d-841e-4ea6-97e5-ee6f85587493}\2.7" />
-    <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.5" />
+    <Folder Include="test\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="test\" />
+    <InterpreterReference Include="{a90ee906-d3c9-4711-9b1c-b7e2c7bdd001}\3.5" />
   </ItemGroup>
   <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
   <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

@@ -101,6 +101,44 @@ namespace Copyinfo.Other
             return results;
         }
 
+        public static DialogResult PrintThisMonthReport()
+        {
+            List<Database.Device> devices = Database.DAO.GetAllDevices();
+            List<Database.MachineRecord> toPrint = new List<Database.MachineRecord>();
+
+            toPrint = GetOneRecordPerDevice(devices);
+
+            return Print(toPrint);
+        }
+
+        private static List<Database.MachineRecord> GetOneRecordPerDevice(List<Database.Device> devices)
+        {
+            List<Database.MachineRecord> toPrint = new List<Database.MachineRecord>();
+            
+            foreach (Database.Device d in devices)
+            {
+                Database.MachineRecord rec = d.GetOneRecord(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+                if (rec != null)
+                    if (rec.serial_number != "")
+                        toPrint.Add(rec);
+            }
+            return toPrint;
+        }
+
+        private async static Task<List<Database.MachineRecord>> GetOneRecordPerDeviceAsync()
+        {
+            List<Database.Device> devices = await Database.DAO.GetAllDevicesAsync();
+
+            return await Task.Run(() => GetOneRecordPerDevice(devices));
+        }
+
+        public async static void PrintThisMonthReportBackground(Action doWhenFinished)
+        {
+            List<Database.MachineRecord> rec = await GetOneRecordPerDeviceAsync();
+            Print(rec);
+            doWhenFinished();
+        }
+
         public static DialogResult Print(List<Database.MachineRecord> records)
         {
             if (MessageBox.Show("Czy wydrukować tylko te dane, które nie były drukowane?", "Co drukujemy?", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -114,7 +152,8 @@ namespace Copyinfo.Other
                         continue;
                     else
                     {
-                        toPrint.Add(record.GetTextToPrint());
+                        if (record.serial_number != "")
+                            toPrint.Add(record.GetTextToPrint());
                     }
                 }
 
@@ -122,7 +161,8 @@ namespace Copyinfo.Other
                 if (results == DialogResult.OK)
                 {
                     foreach (Database.MachineRecord record in records)
-                        if (record != null) record.SetPrintedTrue();
+                        if (record != null)
+                            if (record.serial_number != "") record.SetPrintedTrue();
                 }
 
                 return results;
@@ -133,14 +173,16 @@ namespace Copyinfo.Other
                 foreach (Database.MachineRecord record in records)
                 {
                     if (record != null)
-                        toPrint.Add(record.GetTextToPrint());
+                        if (record.serial_number != "")
+                            toPrint.Add(record.GetTextToPrint());
                 }
 
                 DialogResult results =  Print(toPrint);
                 if (results == DialogResult.OK)
                 {
                     foreach (Database.MachineRecord record in records)
-                        if (record != null) record.SetPrintedTrue();
+                        if (record != null)
+                            if (record.serial_number != "") record.SetPrintedTrue();
                 }
 
                 return results;
