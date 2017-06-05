@@ -51,8 +51,8 @@ namespace Copyinfo.Forms
 
         private void PrintMonthCounters(object sender, EventArgs e)
         {
-            tbButtonDropMenu1.Enabled = false;
-            Other.Printing.PrintThisMonthReportBackground(new Action(() => tbButtonDropMenu1.Enabled = true ));
+            tbButtonDropMenu1.SetLoadingState();
+            Other.Printing.PrintThisMonthReportBackground(new Action(() => tbButtonDropMenu1.SetNormalState() ));
         }
 
         private void FCopyInfo_Resize(object sender, EventArgs e)
@@ -62,8 +62,8 @@ namespace Copyinfo.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            tbBtnRefresh.Enabled = false;
-            FillListAsync(new Action(() => tbBtnRefresh.Invoke(new Action(() => tbBtnRefresh.Enabled = true))));
+            tbBtnRefresh.SetLoadingState();
+            FillListAsync(new Action(() => tbBtnRefresh.SetNormalState()));
         }
 
         private void btnDevices_Click(object sender, EventArgs e)

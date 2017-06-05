@@ -12,11 +12,8 @@ namespace Copyinfo.Forms.Controls.Buttons
     class TBButtonDropMenu : TBButton_Small
     {
 
-        [DefaultValue(null)]
-        public ContextMenuStrip Menu { get; set; }
-
-        [DefaultValue(false)]
-        public bool ShowMenuUnderCursor { get; set; }
+        public ContextMenuStrip Menu { get; set; } = null;
+        public bool ShowMenuUnderCursor { get; set; } = false;
 
         protected override void OnMouseDown(MouseEventArgs mevent)
         {

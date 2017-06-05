@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Copyinfo.Forms.Controls.Buttons
 {
-    class TBButton_Small : Button
+    class TBButton_Small : TBButtonBase
     {
         public TBButton_Small() : base()
         {

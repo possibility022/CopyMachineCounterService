@@ -2,7 +2,7 @@
 
 namespace Copyinfo.Forms.Controls.Buttons
 {
-    class TBButton : Button
+    class TBButton : TBButtonBase
     {
         public TBButton() : base()
         {

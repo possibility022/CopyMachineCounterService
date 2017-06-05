@@ -119,6 +119,9 @@
     <Compile Include="Database\MachineRecord.cs" />
     <Compile Include="Database\ServiceReport.cs" />
     <Compile Include="Forms\ChartBuilder.cs" />
+    <Compile Include="Forms\Controls\Buttons\TBButtonBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Forms\Controls\Buttons\TBButtonDropMenu.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -425,6 +428,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -452,7 +456,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\hex-loader3.gif" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObjectListView\ObjectListView2012.csproj">
       <Project>{18FEDA0C-D147-4286-B39A-01204808106A}</Project>
