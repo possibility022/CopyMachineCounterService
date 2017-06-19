@@ -134,7 +134,7 @@ def parse_loop():
 
 if __name__ == "__main__":
 
-    logging.basicConfig(filename='/home/over/deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
+    logging.basicConfig(filename='/home/over/deamon.log', level=logging.WARNING, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
     settings.init()
 
     HOST = settings.HOST
