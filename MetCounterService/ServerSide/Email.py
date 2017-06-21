@@ -268,7 +268,7 @@ class EmailParser:
             tonery_regex_group = self.xml_loader.get_tonerlevel_y(signature)
             tonerk_regex_group = self.xml_loader.get_tonerlevel_k(signature)
         except Exception as e:
-            logging.error('Błąd przy wczytywaniu regexa. Email parser. %s', e.message)
+            logging.error('Błąd przy wczytywaniu regexa. Email parser. %s', e)
             return
 
         data = mail['body']        
@@ -280,7 +280,7 @@ class EmailParser:
             printcounter = self.addition_regex_group(data, print_counter_regex_group)
             printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
         except Exception as e:
-            logging.error('Błąd krytyczny przy parsowaniu regexa. %s', e.message)
+            logging.error('Błąd krytyczny przy parsowaniu regexa. %s', e)
             return
 
         tonerc = ''
@@ -382,13 +382,17 @@ class EmailParser:
             if value != 0:
                 return value
         except Exception as e:
-            logging.warning('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e.message)
+            logging.warning('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e)
+        except:
+            logging.warinng('Błąd przy zamykaniu mailboxa. %s', sys.exc_info()[0])
 
     def close(self):
         try:
             self.Mailbox.quit()
         except Exception as e:
-            logging.warning('Błąd przy zamykaniu mailboxa. %s', e.message)
+            logging.warning('Błąd przy zamykaniu mailboxa. %s', e)
+        except:
+            logging.warinng('Błąd przy zamykaniu mailboxa. %s', sys.exc_info()[0])
 
 
 # eparser = EmailParser()
