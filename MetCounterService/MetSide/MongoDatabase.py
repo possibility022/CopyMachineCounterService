@@ -17,7 +17,6 @@ class MongoTB:
         self.serverport = 2772
         self.database_name = 'copyinfo'
         self.machine_records = 'machine_records'
-        self.full_record_data = 'full_data'
         self.full_counter = 'full_counter'
         self.full_serial = 'full_serial'
         self.email_binary = 'emails_binary'
@@ -31,7 +30,6 @@ class MongoTB:
         self.client = MongoClient(self.serverip, self.serverport)
         self.db = self.client[self.database_name]
         self.db.authenticate('***REMOVED***', '***REMOVED***#121#')
-        self.fulldata = self.db[self.full_record_data]
         self.records = self.db[self.machine_records]
         self.countersdata = self.db[self.full_counter]
         self.serialdata = self.db[self.full_serial]
@@ -52,14 +50,16 @@ class MongoTB:
         self.global_serverport = 2772
         self.global_database = 'copyinfo'
         self.global_fullrecorddata = 'full_data'
+        self.global_fullrecorddata_faild = 'full_data_faild'
         
         self.global_client = MongoClient(self.global_serverip, self.global_serverport)
         self.global_db = self.global_client[self.global_database]
         self.global_db.authenticate('***REMOVED***', '***REMOVED***#121#')
         self.global_fulldata = self.global_db[self.global_fullrecorddata]
+        self.global_fulldata_faild = self.global_db[self.global_fullrecorddata_faild]
 
     def global_get_fulldata(self, data):
-        records = self.global_fulldata.find()
+        records = self.global_fulldata.find_one_and_delete()
         to_return = []
         for rec in records:
             try:
@@ -68,6 +68,9 @@ class MongoTB:
                 logging.warning('obiekt rec nie posiada klucza data, to nie powinno miec miesjca')
 
         return to_return
+
+    def global_import_fulldatafaild(self, data):
+        self.global_fulldata_faild.insert_one(data)
 
     def import_to_database(self, device):
 
