@@ -90,12 +90,12 @@ class XMLLoader:
 class EmailParser:
 
     def __init__(self):
-        self.Mailbox = poplib.POP3('***REMOVED***', 110)
-        self.Mailbox.user('***REMOVED***')
-        self.Mailbox.pass_('***REMOVED***')
         #self.Mailbox = poplib.POP3('***REMOVED***', 110)
         #self.Mailbox.user('***REMOVED***')
         #self.Mailbox.pass_('***REMOVED***')
+        self.Mailbox = poplib.POP3('***REMOVED***', 110)
+        self.Mailbox.user('***REMOVED***')
+        self.Mailbox.pass_('***REMOVED***')
         self.msgcount = 0
         self.mongo = MongoTB()
         self.xml_loader = XMLLoader()

@@ -236,9 +236,9 @@
 
 #el = mongo.records.find_one()
 
-#import logging
-#from time import sleep
-#from Email import EmailParser
+import logging
+from time import sleep
+from Email import EmailParser
 from MongoDatabase import MongoTB
 
 mongo = MongoTB()
@@ -365,7 +365,7 @@ def parse_loop_email():
 #convert_emails_with_wrong_data()
 #parse_loop_email()
 
-# mongo = MongoTB()
+mongo = MongoTB()
 def parsing_loop_v2():
     mailbox = EmailParser()
     ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
@@ -398,16 +398,16 @@ def parsing_loop_v2():
     #for mail in mails_to_delete:
        # mongo.email_toparse_db.delete_one(mail)                         # Usuwam maile z kolejki
 
-#parsing_loop_v2()
+parsing_loop_v2()
             
 
-for el in mongo.records.find({'serial_number':''}):
-    if el['serial_number'] == '':
-        mongo.records.delete_one(el)
-    print(el)
-    pass
+#for el in mongo.records.find({'serial_number':''}):
+#    if el['serial_number'] == '':
+#        mongo.records.delete_one(el)
+#    print(el)
+#    pass
 
-for el in mongo.records_other.find({'serial_number':''}):
-    if el['serial_number'] == '':
-        mongo.records_other.delete_one(el)
-    print(el)
+#for el in mongo.records_other.find({'serial_number':''}):
+#    if el['serial_number'] == '':
+#        mongo.records_other.delete_one(el)
+#    print(el)
