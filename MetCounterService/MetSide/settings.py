@@ -5,6 +5,6 @@ def init():
     global GlobalMongoDatabaseAddress
     global LocalMongoDatabaseAddress
 
-    workfolder = 'D:\\Programowanie\\C#\\MetCounterService\\MetCounterService\\MetSide\\'
+    workfolder = 'C:\\Tom\\c#\\MetService\\MetCounterService\\MetSide'
     GlobalMongoDatabaseAddress = '***REMOVED***'
-    LocalMongoDatabaseAddress = '127.0.0.1'
+    LocalMongoDatabaseAddress = '192.168.1.246'

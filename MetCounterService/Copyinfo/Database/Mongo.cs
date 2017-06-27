@@ -19,8 +19,10 @@ namespace Copyinfo.Database
         private static IMongoClient _client;
         private static IMongoDatabase _database;
 
-        const string ipadress = "***REMOVED***";
+        //const string ipadress = "***REMOVED***";
+        const string ipadress = "192.168.1.246";
         const string port = "2772";
+
         const string connectionString = "mongodb://" + ipadress + ":" + port;
 
         static string login, password, databaseName;

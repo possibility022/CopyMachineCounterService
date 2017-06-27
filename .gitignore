@@ -244,3 +244,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /MetCounterService/ServerSide/__pycache__
+/MetCounterService/MetSide/__pycache__

@@ -8,6 +8,7 @@ import logging
 import settings
 from poplib import error_proto
 import email
+import pymongo
 from TBExceptions import ServerException
 # MONGO EMAIL DOCUMENT STYLE
 # mail = {'mail': [], '_id': ''}
@@ -90,12 +91,12 @@ class XMLLoader:
 class EmailParser:
 
     def __init__(self):
-        self.Mailbox = poplib.POP3('***REMOVED***', 110)
-        self.Mailbox.user('***REMOVED***')
-        self.Mailbox.pass_('***REMOVED***')
         #self.Mailbox = poplib.POP3('***REMOVED***', 110)
         #self.Mailbox.user('***REMOVED***')
         #self.Mailbox.pass_('***REMOVED***')
+        self.Mailbox = poplib.POP3('***REMOVED***', 110)
+        self.Mailbox.user('***REMOVED***')
+        self.Mailbox.pass_('***REMOVED***')
         self.msgcount = 0
         self.mongo = MongoTB()
         self.xml_loader = XMLLoader()
@@ -115,7 +116,12 @@ class EmailParser:
             return None
 
     def insert_email_to_queue(self, email):
-        self.mongo.insert_email_to_queue(email)
+        try:
+            self.mongo.insert_email_to_queue(email)
+        except pymongo.errors.DuplicateKeyError:
+            pass
+        except:
+            pass
 
     def get_queue(self):
         return self.mongo.get_emails_to_parse()
@@ -219,6 +225,7 @@ class EmailParser:
                     return sig_group
         except Exception as e:
             logging.error('Błąd przy szukaniu sygnatury. EmailParser %s', e)
+            logging.exception('Szczegoly')
             return -1
 
     def parse_email_to_device_data(self, mail):

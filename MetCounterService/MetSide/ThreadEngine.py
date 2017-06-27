@@ -15,6 +15,7 @@ from MongoDatabase import MongoTB
 from Parser import DataParser
 from Email import EmailParser
 
+import traceback
 
 
 
@@ -43,14 +44,12 @@ class Engine(object):
                 data = None
                 try:
                     email = mailbox.check_email_parsed(mail['_id'])             # Tutaj sprawdzam czy mail jest juz przerobiony
-                    if email is not None:
-                        logging.debug('Mail był już przetwożony')
-                        mails_to_delete.append(mail)              
-                    else:
+                    if email is None:
                         data = mailbox.parse_email_to_device_data(mail)         # Tutaj parsuje do odpowiednich danych
-                        mails_to_delete.append(mail)
+                    mails_to_delete.append(mail)
                 except Exception as ex:
                     logging.debug('Jest problem z mailem mail: %s', mail)
+                    logging.exception('Error!')
 
                 self.mongo.import_to_database(data)                                  # Tutaj zapisuje juz do prawidlowej kolekcji
 
@@ -62,8 +61,8 @@ class Engine(object):
         except Exception as e:
             logging.error('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
             logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
-            logging.error('Wczytuję traceback')
             logging.exception('Error!')
+            logging.error(traceback.format_exc())
             logging.error('Zapisano')
 
     def parse_loop(self):
@@ -84,14 +83,10 @@ class Engine(object):
 
         self.interval = interval
 
-        #while True:
-        #    self.parse_loop_email()
-        #    sleep(60)
-
-        thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution
-        thread.join()
+        #thread = threading.Thread(target=self.run, args=())
+        #thread.daemon = True                            # Daemonize thread
+        #thread.start()                                  # Start the execution
+        #thread.join()
 
     def run(self):
         """ Method that runs forever """
@@ -102,3 +97,14 @@ class Engine(object):
             self.parse_loop_email()
 
             time.sleep(self.interval)
+
+    def start_newthread(self):
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = True                            # Daemonize thread
+        thread.start()                                  # Start the execution
+        thread.join()
+
+    def test_email_loop(self):
+        while True:
+            self.parse_loop_email()
+            time.sleep(60)

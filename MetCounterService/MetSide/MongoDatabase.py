@@ -44,6 +44,11 @@ class MongoTB:
         self.empty_full_counter_ID = self.countersdata.find_one({'full_counter':'ParsedFromEmail'})
         self.empty_full_serial_ID = self.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
 
+        if self.empty_full_counter_ID is None:
+            self.empty_full_counter_ID = self.countersdata.find_one({'full_counter':'ParsedFromEmail'})
+        if self.empty_full_serial_ID is None:
+            self.empty_full_serial_ID = self.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+
         # Serwer Globalny
         
         self.global_serverip = settings.GlobalMongoDatabaseAddress
@@ -115,7 +120,8 @@ class MongoTB:
             
             logging.info('Zapisalem nowy dokument. {}'.format(id))
             return True
-        except SyntaxError:
+        except SyntaxError as se:
+            logging.exception('Dziwny blad')
             return False
 
     def get_destination(self, printer_data):
