@@ -33,11 +33,9 @@
   <ItemGroup>
     <Compile Include="Authorization.py" />
     <Compile Include="Decoder.py" />
-    <Compile Include="Email.py" />
     <Compile Include="Localdatabase.py" />
     <Compile Include="main.py" />
-    <Compile Include="MongoDatabase.py" />
-    <Compile Include="Parser.py" />
+    <Compile Include="MongoDatabase_Global.py" />
     <Compile Include="ServerDataOffer.py" />
     <Compile Include="ServerDataReceiver.py" />
     <Compile Include="settings.py" />
@@ -45,9 +43,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="test\" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\3.5" />

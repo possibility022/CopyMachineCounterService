@@ -25,6 +25,7 @@
   <ItemGroup>
     <Compile Include="Email.py" />
     <Compile Include="main.py" />
+    <Compile Include="ThreadEngine.py" />
     <Compile Include="MongoDatabase.py" />
     <Compile Include="Parser.py" />
     <Compile Include="settings.py" />

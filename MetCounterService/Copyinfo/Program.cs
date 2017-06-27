@@ -18,6 +18,10 @@ namespace Copyinfo
             //Database.FirebirdTB.test();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            string password = Security.Encrypting.AES_Encrypt("***REMOVED***--_][");
+            string login = Security.Encrypting.AES_Encrypt("***REMOVED***");
+
             Application.Run(new Copyinfo.Forms.FCopyInfo());
         }
     }

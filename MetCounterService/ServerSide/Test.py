@@ -236,12 +236,8 @@
 
 #el = mongo.records.find_one()
 
-import logging
-from time import sleep
-from Email import EmailParser
-from MongoDatabase import MongoTB
 
-mongo = MongoTB()
+
 
 #logging.basicConfig(filename='deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
 
@@ -365,7 +361,6 @@ def parse_loop_email():
 #convert_emails_with_wrong_data()
 #parse_loop_email()
 
-mongo = MongoTB()
 def parsing_loop_v2():
     mailbox = EmailParser()
     ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
@@ -398,8 +393,26 @@ def parsing_loop_v2():
     #for mail in mails_to_delete:
        # mongo.email_toparse_db.delete_one(mail)                         # Usuwam maile z kolejki
 
-parsing_loop_v2()
-            
+#parsing_loop_v2()
+#import MongoDatabase_Global
+##from MongoDatabase import MongoTB
+#from pymongo import MongoClient
+
+#serverip = '192.168.1.246'
+#serverport = 2772
+#database = 'copyinfo'
+#emails_parsed = 'emails_sucess'
+
+#client = MongoClient(serverip, serverport)
+#db = client[database]
+#emails = db[emails_parsed]
+
+#global_mongo = MongoDatabase_Global.MongoTB_Global()
+
+#for e in global_mongo.global_db['emails_toparse_tmp'].find():
+#        print('move: ', e)
+#        emails.insert_one(e)
+
 
 #for el in mongo.records.find({'serial_number':''}):
 #    if el['serial_number'] == '':

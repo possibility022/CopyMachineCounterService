@@ -29,7 +29,7 @@ class MongoTB:
 
         self.client = MongoClient(self.serverip, self.serverport)
         self.db = self.client[self.database_name]
-        self.db.authenticate('***REMOVED***', '***REMOVED***#121#')
+        self.db.authenticate('***REMOVED***', '***REMOVED***--_][')
         self.records = self.db[self.machine_records]
         self.countersdata = self.db[self.full_counter]
         self.serialdata = self.db[self.full_serial]
@@ -58,8 +58,8 @@ class MongoTB:
         self.global_fulldata = self.global_db[self.global_fullrecorddata]
         self.global_fulldata_faild = self.global_db[self.global_fullrecorddata_faild]
 
-    def global_get_fulldata(self, data):
-        records = self.global_fulldata.find_one_and_delete()
+    def global_get_fulldata(self):
+        records = self.global_fulldata.find()
         to_return = []
         for rec in records:
             try:
@@ -67,6 +67,11 @@ class MongoTB:
             except KeyError:
                 logging.warning('obiekt rec nie posiada klucza data, to nie powinno miec miesjca')
 
+        for rec in records:
+            try:
+                self.global_fulldata.delete_one(rec)
+            except Exception as ex:
+                logging.warning('Problem z usuwaniem z kolekcji FullData %s', ex)
         return to_return
 
     def global_import_fulldatafaild(self, data):
