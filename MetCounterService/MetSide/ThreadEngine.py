@@ -34,7 +34,7 @@ class Engine(object):
                 message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
                 if message is not None:                             # Jesli wiadomosc pobrano to
                     mailbox.insert_email_to_queue(message)          # Zapisujemy ja do kolejki
-                    #mailbox.del_email(i)                            # I usuwamy z serwera
+                    mailbox.del_email(i)                            # I usuwamy z serwera
 
             queue = mailbox.get_queue()
 
@@ -66,12 +66,16 @@ class Engine(object):
             logging.error('Zapisano')
 
     def parse_loop(self):
-        files = self.mongo.global_get_fulldata()
-        for f in files:
-            device = DataParser(f)
-            sucess = self.mongo.import_to_database(device)
-            if not sucess:
-                self.mongo.global_import_fulldatafaild(f)
+        try:
+            files = self.mongo.global_get_fulldata()
+            for f in files:
+                device = DataParser(f)
+                sucess = self.mongo.import_to_database(device)
+                if not sucess:
+                    self.mongo.global_import_fulldatafaild(f)
+        except:
+            logging.log('Krytyczny blad w przetwarzaniu zdalnych raportow HTML')
+            logging.exception('Error!')
 
     def __init__(self, interval=5*60):
         """ Constructor
