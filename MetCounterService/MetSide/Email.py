@@ -223,6 +223,8 @@ class EmailParser:
                             break
                 if signature_find == len(signatures[sig_group]):
                     return sig_group
+        except ServerException as se:
+            logging.info('%s', se)
         except Exception as e:
             logging.error('Błąd przy szukaniu sygnatury. EmailParser %s', e)
             logging.exception('Szczegoly')
