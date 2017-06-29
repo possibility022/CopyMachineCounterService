@@ -24,9 +24,15 @@ class MongoTB_Global:
         self.global_db.authenticate('***REMOVED***', '***REMOVED***#121#')
         self.global_fulldata = self.global_db[self.global_fullrecorddata]
 
+        self.decoded_dir = workfolder + '/decoded'
+
     def import_fulldata(self, data):
         try:
-            self.global_fulldata.insert_one(data)
+            document = {'data':data}
+            self.global_fulldata.insert_one(document)
+            return True
         except Exception as ex:
-            logging.log("Jakiś problem z importem FullData do bazy danych %s", ex)
+            #logging.log("Jakiś problem z importem FullData do bazy danych %s", ex)
+            logging.exception("Error!")
+            return False
 

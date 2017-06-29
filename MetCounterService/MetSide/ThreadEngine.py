@@ -106,9 +106,14 @@ class Engine(object):
         thread = threading.Thread(target=self.run, args=())
         thread.daemon = True                            # Daemonize thread
         thread.start()                                  # Start the execution
-        thread.join()
 
     def test_email_loop(self):
         while True:
             self.parse_loop_email()
             time.sleep(60)
+
+    def test_html_loop(self):
+        while True:
+            self.parse_loop()
+            time.sleep(60)
+

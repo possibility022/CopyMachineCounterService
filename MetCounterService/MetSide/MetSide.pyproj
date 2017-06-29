@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6841ac21-c9fe-4f31-8ccf-cc6972631787</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>main.py</StartupFile>
+    <StartupFile>Test.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,6 +25,9 @@
   <ItemGroup>
     <Compile Include="Email.py" />
     <Compile Include="main.py" />
+    <Compile Include="Test.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ThreadEngine.py" />
     <Compile Include="MongoDatabase.py" />
     <Compile Include="Parser.py" />

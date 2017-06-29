@@ -72,6 +72,8 @@ class MongoTB:
             except KeyError:
                 logging.warning('obiekt rec nie posiada klucza data, to nie powinno miec miesjca')
 
+
+        records.rewind()
         for rec in records:
             try:
                 self.global_fulldata.delete_one(rec)

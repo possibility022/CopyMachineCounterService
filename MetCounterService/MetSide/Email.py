@@ -227,7 +227,6 @@ class EmailParser:
             logging.info('%s', se)
         except Exception as e:
             logging.error('Błąd przy szukaniu sygnatury. EmailParser %s', e)
-            logging.exception('Szczegoly')
             return -1
 
     def parse_email_to_device_data(self, mail):

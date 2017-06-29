@@ -29,7 +29,7 @@ import _thread
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
 
-mongo = Mongo()
+mongo = MongoTB_Global()
 dec = Decoder()
 
 def parse_loop():
@@ -44,7 +44,7 @@ def parse_loop():
             reader = open(filepath)
             data = reader.read()
             reader.close()
-            sucess = mongo.import_fulldata(device)
+            sucess = mongo.import_fulldata(data)
             if sucess:
                 os.rename(filepath, settings.workfolder + '/imported/' + f)
             else:
