@@ -8,4 +8,4 @@ if __name__ == "__main__":
     settings.init()
     
     engine = Engine()
-    engine.test_html_loop()
+    engine.start_newthread()

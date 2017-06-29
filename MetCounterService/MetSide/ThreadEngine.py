@@ -96,16 +96,20 @@ class Engine(object):
         """ Method that runs forever """
         logging.info('Startujemy petle')
         while True:
-            # Do something
-            self.parse_loop()
-            self.parse_loop_email()
+            try:
+                self.parse_loop()
+                self.parse_loop_email()
 
-            time.sleep(self.interval)
+                time.sleep(self.interval)
+            except:
+                logging.exception("Błąd krytyczny")
+                break
 
     def start_newthread(self):
         thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True                            # Daemonize thread
-        thread.start()                                  # Start the execution
+        thread.daemon = False                           
+        thread.start()                                  
+        thread.join()
 
     def test_email_loop(self):
         while True:
