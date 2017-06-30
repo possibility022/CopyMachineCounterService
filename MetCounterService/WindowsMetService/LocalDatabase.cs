@@ -33,7 +33,7 @@ namespace WindowsMetService
 
         private const string serveraddress = "***REMOVED***";
 
-        public const string Version = "1.0";
+        public const string Version = "1.2";
 
         private static string BuildPath(string fileName)
         {
