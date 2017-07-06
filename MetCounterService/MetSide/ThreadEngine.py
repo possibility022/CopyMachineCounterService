@@ -3,7 +3,6 @@ import time
 import sys
 
 import os
-import traceback
 
 import Parser
 import MongoDatabase
@@ -14,6 +13,7 @@ import logging
 from MongoDatabase import MongoTB
 from Parser import DataParser
 from Email import EmailParser
+from TBExceptions import ServerException
 
 import traceback
 
@@ -27,9 +27,12 @@ class Engine(object):
     """
 
     def parse_loop_email(self):    
+		tbex = ServerException()
         try:
             mailbox = EmailParser()
+			tbex.add_step('Utworzono obiekt EmailParser')
             ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
+			tbex.add_step('pobrano wszystkie ID maili')
             for i in range(1, len(ids)):                            # Dla kazdego id na serwerze
                 message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
                 if message is not None:                             # Jesli wiadomosc pobrano to
@@ -37,17 +40,26 @@ class Engine(object):
                     mailbox.del_email(i)                            # I usuwamy z serwera
 
             queue = mailbox.get_queue()
+			tbex.add_step('Pograno, zapisano maile')
 
             mails_to_delete = []
 
             for mail in queue:
                 data = None
                 try:
+					tbex.add_step('A1-Sprawdzam maila')
                     email = mailbox.check_email_parsed(mail['_id'])             # Tutaj sprawdzam czy mail jest juz przerobiony
+					tbex.add_step('A2-Sprawdzony')
                     if email is None:
+						tbex.add_step('A2B1-Email nie jest None, parsuje')
                         data = mailbox.parse_email_to_device_data(mail)         # Tutaj parsuje do odpowiednich danych
+						tbex.add_step('A2B2-Parsowanie nie wyrzucilo wyjatku')
+					tbex.add_step('A3-Dodaje maila do listy maili, ktore maja zostac usuniete')
                     mails_to_delete.append(mail)
+					tbex.add_step('A4-Dodano')
                 except Exception as ex:
+					filename = tbex.save_log_to_file()
+					logging.error('Blad w petli parusjacej email, dane z ServerException zapisano do pliku: %s', filename)
                     logging.debug('Jest problem z mailem mail: %s', mail)
                     logging.exception('Error!')
 
@@ -59,7 +71,7 @@ class Engine(object):
 
             mailbox.close()
         except Exception as e:
-            logging.error('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
+            logging.error('P1 - Błąd krytyczny w pętli parsowania email. %s', e)
             logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
             logging.exception('Error!')
             logging.error(traceback.format_exc())
