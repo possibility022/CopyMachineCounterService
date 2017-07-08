@@ -55,6 +55,10 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
         elif command == 'CLID':
             logging.info('CLID')
             self.sendnewclientid()
+        elif command == 'CONC':
+            logging.info('CONC')
+            self.sendresponsetoconnectioncheck
+            
 
     def finish(self):
         self.request.close()
@@ -64,6 +68,9 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
             data = data.encode('utf-8')
         encrypted = self.handshake.encrypt(data)
         self.request.send(encrypted)
+
+    def sendresponsetoconnectioncheck():
+        self.send('connection check')
 
     def sendnewclientid(self):
         id = Database.getnewid()

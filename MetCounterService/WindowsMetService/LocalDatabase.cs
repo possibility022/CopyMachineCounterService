@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.IO;
+using System.Net;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
@@ -120,27 +121,28 @@ namespace WindowsMetService
             }
 
             if (File.Exists(BuildPath(File_ConfigPath)) == false)
-                File.Create(BuildPath(File_ConfigPath));
+                File.Create(BuildPath(File_ConfigPath)).Close();
 
             if (File.Exists(BuildPath(File_Ips)) == false)
-                File.Create(BuildPath(File_Ips));
+                File.Create(BuildPath(File_Ips)).Close();
 
             if (File.Exists(BuildPath(File_LastTick)) == false)
-                File.Create(BuildPath(File_LastTick));
+                File.Create(BuildPath(File_LastTick)).Close();
 
             if (File.Exists(BuildPath(File_Log)) == false)
-                File.Create(BuildPath(File_Log));
+                File.Create(BuildPath(File_Log)).Close();
 
             if (File.Exists(BuildPath(File_MachineStorage)) == false)
-                File.Create(BuildPath(File_MachineStorage));
+                File.Create(BuildPath(File_MachineStorage)).Close();
 
             if (File.Exists(BuildPath(File_MacToWebMapping)) == false)
-                File.Create(BuildPath(File_MacToWebMapping));
+                File.Create(BuildPath(File_MacToWebMapping)).Close();
 
             Security.RSAv3.Initialize();
             LoadCFG_File();
             if (Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
-                DownloadAndSaveID();
+                if (DownloadAndSaveID() == false)
+                    return false;
             
             LoadIpsFromFile();
             DownloadMacToWebXML();
@@ -268,44 +270,55 @@ namespace WindowsMetService
 
             string[] links = new string[] { "", "" };
 
-            using (XmlTextReader reader = new XmlTextReader(BuildPath(File_MacToWebMapping)))
+            try
             {
-                while (reader.Read())
+                using (XmlTextReader reader = new XmlTextReader(BuildPath(File_MacToWebMapping)))
                 {
-                    switch (reader.NodeType)
+                    while (reader.Read())
                     {
-                        case XmlNodeType.Text:
-                            if (mac.StartsWith(Regex.Replace(reader.Value, @"\s+", "")))
-                                return links;
-                            break;
-                        case XmlNodeType.Element:
-                            links[0] = reader.GetAttribute("serialnumber");
-                            links[1] = reader.GetAttribute("counter");
-                            break;
+                        switch (reader.NodeType)
+                        {
+                            case XmlNodeType.Text:
+                                if (mac.StartsWith(Regex.Replace(reader.Value, @"\s+", "")))
+                                    return links;
+                                break;
+                            case XmlNodeType.Element:
+                                links[0] = reader.GetAttribute("serialnumber");
+                                links[1] = reader.GetAttribute("counter");
+                                break;
+                        }
                     }
+                    reader.Close();
                 }
-                reader.Close();
-            }
 
-            using (XmlTextReader reader = new XmlTextReader(BuildPath(File_MacToWebMapping)))
-            {
-                while (reader.Read())
+                using (XmlTextReader reader = new XmlTextReader(BuildPath(File_MacToWebMapping)))
                 {
-                    switch (reader.NodeType)
+                    while (reader.Read())
                     {
-                        case XmlNodeType.Text:
-                            if (mac.StartsWith(Regex.Replace(reader.Value, @"\s+", "").Substring(0, 8))) //TUTAJ JEST ZMIANA WZGLEDEM WCZESNIEJSZEGO KODU
-                                return new string[] { reader.GetAttribute("serialnuber"), reader.GetAttribute("counter") };
-                            break;
-                        case XmlNodeType.Element:
-                            links[0] = reader.GetAttribute("serialnuber");
-                            links[1] = reader.GetAttribute("counter");
-                            break;
+                        switch (reader.NodeType)
+                        {
+                            case XmlNodeType.Text:
+                                if (mac.StartsWith(Regex.Replace(reader.Value, @"\s+", "").Substring(0, 8))
+                                ) //TUTAJ JEST ZMIANA WZGLEDEM WCZESNIEJSZEGO KODU
+                                    return new string[]
+                                        {reader.GetAttribute("serialnuber"), reader.GetAttribute("counter")};
+                                break;
+                            case XmlNodeType.Element:
+                                links[0] = reader.GetAttribute("serialnuber");
+                                links[1] = reader.GetAttribute("counter");
+                                break;
+                        }
                     }
+                    reader.Close();
                 }
-                reader.Close();
+                return new string[] {"", ""};
             }
-            return new string[] { "", "" };
+            catch (System.Xml.XmlException xe)
+            {
+                Global.Log(@"Jakis problem z czytaniem XMLa. Należy wysłać te logi do firmy MET. Message: " +
+                           xe.Message);
+            }
+            return new string[] {"",""};
         }
 
         public static bool MacIsMapped(string mac)//TODO sprawdz ta metode. Chyba powinno być na odwrót.
@@ -403,19 +416,30 @@ namespace WindowsMetService
             return Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID));
         }
 
-        public static System.Net.IPEndPoint getServerEndpoint(ServerType type)
+        public static System.Net.IPEndPoint GetServerEndpoint(ServerType type)
         {
-            System.Net.IPAddress ip = null;
+            IPAddress ip;
             try
             {
                 System.Net.IPAddress[] adresy = System.Net.Dns.GetHostEntry(serveraddress).AddressList;
+                if (adresy.Length < 1)
+                {
+                    Global.Log("Nie pobrano adresu IP z nazwy hosta: " + serveraddress);
+                    return null;
+                }
+
                 ip = adresy[0];
-                if (type == ServerType.offer)
-                    return new System.Net.IPEndPoint(ip, 9998);
-                if (type == ServerType.receiver)
-                    return new System.Net.IPEndPoint(ip, 9999);
+                switch (type)
+                {
+                    case ServerType.offer:
+                        return new System.Net.IPEndPoint(ip, 9998);
+                    case ServerType.receiver:
+                        return new System.Net.IPEndPoint(ip, 9999);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type), type, @"Błąd w implementacji. W instrukcji switch został podany parametr, który nie ma swojego wywołania.");
+                }
             }
-            catch (Exception ex) { Global.Log("getServerEndpoint ExMessage: " + ex.Message); }
+            catch (Exception ex) { Global.Log("GetServerEndpoint ExMessage: " + ex.Message); }
 
             Global.Log("Pobieranie IP serwera nie powiodło się.");
             return null;
