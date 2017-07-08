@@ -1,0 +1,47 @@
+WindowsMetService
+Copyright © 1016.
+All rights reserved.
+
+*** UMOWA LICENCYJNA UŻYTKOWNIKA 
+PROGRAMU 'WindowsMetService' ***
+ 
+INSTALUJĄC TĄ APLIKACJĘ PRZYJMUJESZ DO 
+WIADOMOŚCI WSZYSTKIE PONIŻSZE 
+POSTANOWIENIA.
+ 
+AUTOR PROGRAMU NIE ODPOWIADA ZA JEGO 
+BŁĘDNE DZIAŁANIE, 
+NIE UDZIELA ŻADNYCH GWARANCJI, OBIETNIC, 
+ANI ZAPEWNIEŃ NA 
+OWE OPROGRAMOWANIE!
+ 
+DOSTAWCA I AUTOR NIE BIERZE NA SIEBIE JAKICHKOLWIEK 
+REKLAMACJI NA 
+TEMAT 
+BŁĘDNEGO DZIAŁANIA PROGRAMU. 
+REKLAMACJE, OWSZEM, 
+ZOSTANĄ 
+ROZPATRZONE, JEDNAK NIE MA GWARANCJI 
+NA ICH ROZWIĄZANIE.
+ 
+TWÓRCA APLIKACJI UPRZEJMIE INFORMUJE, IŻ 
+APLIKACJA JEST W FAZIE TESTÓW
+I NIE GWARANTUJE BEZAWARYJNOŚCI
+ 
+WindowsMetService jest rozprowadzany na zasadzie 
+darmowego użytkowania dla klientów frimy
+MET Technika Biurowa M. Raczyński A.Latacz z Wrocławia
+którzy obecnie mają na wyposarzeniu urządzenie
+na podstawie dzierżawy, leasingu lub posiadają pisemną
+zgodę na używanie oprogramowania podpisaną przez autora (dewelopera). 
+
+Zabrania się:
+ - dekompilacji, 
+ - deasemblacji, 
+ - odtwarzania kodu źródłowego,
+ - tworzenia oprogramowania opartego na niniejszym 
+ programie.
+ - publikacji
+ - rozpowszechniania
+Nie wolno również rozprowadzać tego programu w 
+celach zarobkowych.

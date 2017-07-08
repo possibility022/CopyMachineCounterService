@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.ServiceProcess;
@@ -44,7 +45,7 @@ namespace WindowsMetService
 
             Console.WriteLine("Wczytane adresy ip:");
             foreach (string ip in ips)
-                Console.WriteLine(ip);
+                Debug.WriteLine(ip);
 
             List<Machine> machines = new List<Machine>();
 
@@ -57,10 +58,10 @@ namespace WindowsMetService
             Console.WriteLine("Dane znalezionych urządzeń: ");
             foreach(Machine m in machines)
             {
-                Console.WriteLine(m.ip);
-                Console.WriteLine(m.mac);
-                Console.WriteLine(m.url_counterData);
-                Console.WriteLine(m.url_serialNumber);
+                Debug.WriteLine(m.ip);
+                Debug.WriteLine(m.mac);
+                Debug.WriteLine(m.url_counterData);
+                Debug.WriteLine(m.url_serialNumber);
             }
 
             int fails = Network.DAO.SendMachines(machines);

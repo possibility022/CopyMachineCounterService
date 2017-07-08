@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace WindowsMetService.Network
     {
         static private IPEndPoint server = null;
 
-        private enum Commands { XMLO, CLID }
+        private enum Commands { XMLO, CLID, CONC }
 
         private static bool SendByteArray(ref NetworkStream stream, byte[] data)
         {
@@ -75,14 +76,13 @@ namespace WindowsMetService.Network
         /// <param name="buffer"></param>
         /// <param name="total"></param>
         /// <param name="maxsize">0: unlimited</param>
-        /// <returns></returns>
+        /// <returns>return true if connected suceffull, false if any exception or authorization faild</returns>
         private static bool SendRequest(Commands command,ref byte[] buffer, ref int total)
         {
             if (server == null)
-                server = LocalDatabase.getServerEndpoint(LocalDatabase.ServerType.offer);
+                server = LocalDatabase.GetServerEndpoint(LocalDatabase.ServerType.offer);
 
             List<byte[]> receivedData = new List<byte[]>();
-
             try
             {
                 using (TcpClient client = new TcpClient(server.Address.ToString(), server.Port))
@@ -122,13 +122,13 @@ namespace WindowsMetService.Network
                         Global.Log("Nie udalo się wysłać komendy");
                     }
 
-                    networkStream.Close();                              //Zamykanie połączenia
+                    networkStream.Close(); //Zamykanie połączenia
                     client.Close();
                 }
-            } catch (SocketException socketEx)
+            }
+            catch (SocketException se)
             {
-                Global.Log("Jakiś problem z połączeniem");
-                Global.Log(socketEx.Message);
+                Debug.WriteLine(@"Nie udało się połączyć z serwerem. Socket Exception message: " + se.Message);
                 return false;
             }
 
