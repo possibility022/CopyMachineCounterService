@@ -17,7 +17,7 @@ from MongoDatabase import MongoTB
 from Parser import DataParser
 from Email import EmailParser
 
-from datetime import date, datetime, timedelta, time as datetime_time
+from datetime import datetime, timedelta
 
 import traceback
 
@@ -82,15 +82,14 @@ class Engine(object):
             logging.exception('Error!')
 
     def file_sync(self):
-        if self.last_file_update < date.today():
-            if datetime_time(0,30) <= datetime.now().time() <= datetime_time(1,30):
+        if self.last_file_update < datetime.today():
+            if datetime.now() > datetime.today() + timedelta(hours=1):
                 data = self.mongo.global_get_emailparser()
                 if data is not None:
                     f = open(settings.workfolder + '/test/emailparser.xml', 'w')
                     f.write(data)
                     f.close()
                 data = self.mongo.global_get_mactoweb()
-                print(data)
                 if data is not None:
                     f = open(settings.workfolder + '/test/mactoweb.xml', 'w')
                     f.write(data)
@@ -109,7 +108,7 @@ class Engine(object):
         self.mongo = MongoTB()
 
         self.interval = interval
-        self.last_file_update = date.today() - timedelta(days=1)
+        self.last_file_update = datetime.today() - timedelta(days=1)
 
         #thread = threading.Thread(target=self.run, args=())
         #thread.daemon = True                            # Daemonize thread

@@ -8,6 +8,7 @@ import logging
 import settings
 from poplib import error_proto
 import email
+import pymongo
 from TBExceptions import ServerException
 # MONGO EMAIL DOCUMENT STYLE
 # mail = {'mail': [], '_id': ''}
@@ -90,12 +91,12 @@ class XMLLoader:
 class EmailParser:
 
     def __init__(self):
-        self.Mailbox = poplib.POP3('***REMOVED***', 110)
-        self.Mailbox.user('***REMOVED***')
-        self.Mailbox.pass_('***REMOVED***')
         #self.Mailbox = poplib.POP3('***REMOVED***', 110)
         #self.Mailbox.user('***REMOVED***')
         #self.Mailbox.pass_('***REMOVED***')
+        self.Mailbox = poplib.POP3('***REMOVED***', 110)
+        self.Mailbox.user('***REMOVED***')
+        self.Mailbox.pass_('***REMOVED***')
         self.msgcount = 0
         self.mongo = MongoTB()
         self.xml_loader = XMLLoader()
@@ -115,7 +116,12 @@ class EmailParser:
             return None
 
     def insert_email_to_queue(self, email):
-        self.mongo.insert_email_to_queue(email)
+        try:
+            self.mongo.insert_email_to_queue(email)
+        except pymongo.errors.DuplicateKeyError:
+            pass
+        except:
+            pass
 
     def get_queue(self):
         return self.mongo.get_emails_to_parse()
@@ -217,6 +223,8 @@ class EmailParser:
                             break
                 if signature_find == len(signatures[sig_group]):
                     return sig_group
+        except ServerException as se:
+            logging.info('%s', se)
         except Exception as e:
             logging.error('Błąd przy szukaniu sygnatury. EmailParser %s', e)
             return -1
@@ -268,7 +276,8 @@ class EmailParser:
             tonery_regex_group = self.xml_loader.get_tonerlevel_y(signature)
             tonerk_regex_group = self.xml_loader.get_tonerlevel_k(signature)
         except Exception as e:
-            logging.error('Błąd przy wczytywaniu regexa. Email parser.')
+            logging.error('Błąd przy wczytywaniu regexa. Email parser. %s', e)
+            logging.exception('Błąd w czytywaniu regexa. Sprawdź to :)')
             return
 
         data = mail['body']        
@@ -280,7 +289,7 @@ class EmailParser:
             printcounter = self.addition_regex_group(data, print_counter_regex_group)
             printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
         except Exception as e:
-            logging.error('Błąd krytyczny przy parsowaniu regexa')
+            logging.error('Błąd krytyczny przy parsowaniu regexa. %s', e)
             return
 
         tonerc = ''
@@ -382,13 +391,17 @@ class EmailParser:
             if value != 0:
                 return value
         except Exception as e:
-            logging.debug('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e.__traceback__)
+            logging.warning('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e)
+        except:
+            logging.warinng('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', sys.exc_info()[0])
 
     def close(self):
         try:
             self.Mailbox.quit()
         except Exception as e:
-            logging.debug('Błąd przy zamykaniu mailboxa.')
+            logging.warning('Błąd przy zamykaniu mailboxa. Być może zamykasz go dwa razy %s', e)
+        except:
+            logging.warinng('Błąd przy zamykaniu mailboxa. Być może zamykasz go dwa razy %s', sys.exc_info()[0])
 
 
 # eparser = EmailParser()

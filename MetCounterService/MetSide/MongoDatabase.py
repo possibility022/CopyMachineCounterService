@@ -88,8 +88,9 @@ class MongoTB:
 
     def global_get_mactoweb(self):
         try:
-            document = self.global_other_db.find_one({'_id':'mactoweb'})
-            return document['data']
+            document = self.global_other_db.find_one({'key':'mactoweb'})
+            if 'data' in document.keys:
+                return document['data']
         except Exception as ex:
             logging.error('Błąd w pobieraniu danych XML mactoweb')
             logging.exception('ERROR!')
@@ -97,8 +98,8 @@ class MongoTB:
 
     def global_get_emailparser(self):
         try:
-            document = self.global_other_db.find_one({'_id':'emailparser'})
-            if 'data' in document.keys():
+            document = self.global_other_db.find_one({'key':'emailparser'})
+            if 'data' in document.keys:
                 return document['data']
         except Exception as Ex:
             logging.error('Błąd w pobieraniu danych XML emailparser')

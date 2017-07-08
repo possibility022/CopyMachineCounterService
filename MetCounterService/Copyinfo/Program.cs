@@ -18,6 +18,7 @@ namespace Copyinfo
             //Database.FirebirdTB.test();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             Application.Run(new Copyinfo.Forms.FCopyInfo());
         }
     }
