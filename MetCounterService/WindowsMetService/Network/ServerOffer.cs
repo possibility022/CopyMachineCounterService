@@ -83,45 +83,53 @@ namespace WindowsMetService.Network
 
             List<byte[]> receivedData = new List<byte[]>();
 
-            using (TcpClient client = new TcpClient(server.Address.ToString(), server.Port))
+            try
             {
-                total = 0;
-
-                byte[] buffor = new byte[1024];
-                NetworkStream networkStream = client.GetStream();
-
-                //Autoryzacja
-                Handshake handshake = new Handshake();
-                if (handshake.Authorize(ref networkStream) == false)
-                    return false;
-
-                System.Threading.Thread.Sleep(500);
-
-                //Wysylanie komendy
-                if (SendByteArray(ref networkStream, GetBytes(command.ToString())) == true)
+                using (TcpClient client = new TcpClient(server.Address.ToString(), server.Port))
                 {
-                    //pobieranie danych
-                    int readed = 0;
+                    total = 0;
 
-                    do
+                    byte[] buffor = new byte[1024];
+                    NetworkStream networkStream = client.GetStream();
+
+                    //Autoryzacja
+                    Handshake handshake = new Handshake();
+                    if (handshake.Authorize(ref networkStream) == false)
+                        return false;
+
+                    System.Threading.Thread.Sleep(500);
+
+                    //Wysylanie komendy
+                    if (SendByteArray(ref networkStream, GetBytes(command.ToString())) == true)
                     {
-                        readed = networkStream.Read(buffor, 0, buffor.Length);
-                        if (readed > 0)
-                        {
-                            byte[] newBuffor = new byte[readed];
-                            System.Buffer.BlockCopy(buffor, 0, newBuffor, 0, readed);
-                            receivedData.Add(newBuffor);
-                        }
-                        total += readed;
-                    } while (readed > 0);
-                }
-                else
-                {
-                    Global.Log("Nie udalo się wysłać komendy");
-                }
+                        //pobieranie danych
+                        int readed = 0;
 
-                networkStream.Close();                              //Zamykanie połączenia
-                client.Close();
+                        do
+                        {
+                            readed = networkStream.Read(buffor, 0, buffor.Length);
+                            if (readed > 0)
+                            {
+                                byte[] newBuffor = new byte[readed];
+                                System.Buffer.BlockCopy(buffor, 0, newBuffor, 0, readed);
+                                receivedData.Add(newBuffor);
+                            }
+                            total += readed;
+                        } while (readed > 0);
+                    }
+                    else
+                    {
+                        Global.Log("Nie udalo się wysłać komendy");
+                    }
+
+                    networkStream.Close();                              //Zamykanie połączenia
+                    client.Close();
+                }
+            } catch (SocketException socketEx)
+            {
+                Global.Log("Jakiś problem z połączeniem");
+                Global.Log(socketEx.Message);
+                return false;
             }
 
             buffer = CombineArrays(receivedData); //Łączenie odebranych danych.

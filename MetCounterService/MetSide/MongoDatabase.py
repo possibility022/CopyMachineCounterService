@@ -13,7 +13,7 @@ class MongoTB:
     def __init__(self):
         workfolder = settings.workfolder
 
-        self.serverip = settings.MongoDatabaseAddress
+        self.serverip = settings.LocalMongoDatabaseAddress
         self.serverport = 2772
         self.database_name = 'copyinfo'
         self.machine_records = 'machine_records'
@@ -27,11 +27,9 @@ class MongoTB:
         self.email_toparse = 'emails_toparse'
         self.machine_records_other = 'machine_records_other'
 
-        self.decoded_dir = workfolder + '/decoded'
-
         self.client = MongoClient(self.serverip, self.serverport)
         self.db = self.client[self.database_name]
-        self.db.authenticate('***REMOVED***', '***REMOVED***#121#')
+        self.db.authenticate('***REMOVED***', '***REMOVED***--_][')
         self.records = self.db[self.machine_records]
         self.countersdata = self.db[self.full_counter]
         self.serialdata = self.db[self.full_serial]
@@ -45,6 +43,68 @@ class MongoTB:
 
         self.empty_full_counter_ID = self.countersdata.find_one({'full_counter':'ParsedFromEmail'})
         self.empty_full_serial_ID = self.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+
+        if self.empty_full_counter_ID is None:
+            self.empty_full_counter_ID = self.countersdata.find_one({'full_counter':'ParsedFromEmail'})
+        if self.empty_full_serial_ID is None:
+            self.empty_full_serial_ID = self.serialdata.find_one({'full_serialnumber':'ParsedFromEmail'})
+
+        # Serwer Globalny
+        
+        self.global_serverip = settings.GlobalMongoDatabaseAddress
+        self.global_serverport = 2772
+        self.global_database = 'copyinfo'
+        self.global_fullrecorddata = 'full_data'
+        self.global_fullrecorddata_faild = 'full_data_faild'
+        self.global_other = 'other'
+        
+        self.global_client = MongoClient(self.global_serverip, self.global_serverport)
+        self.global_db = self.global_client[self.global_database]
+        self.global_db.authenticate('***REMOVED***', '***REMOVED***#121#')
+        self.global_fulldata = self.global_db[self.global_fullrecorddata]
+        self.global_fulldata_faild = self.global_db[self.global_fullrecorddata_faild]
+        self.global_other_db = self.global_db[self.global_other]
+
+    def global_get_fulldata(self):
+        records = self.global_fulldata.find()
+        to_return = []
+        for rec in records:
+            try:
+                to_return.append(rec['data'])
+            except KeyError:
+                logging.warning('obiekt rec nie posiada klucza data, to nie powinno miec miesjca')
+
+
+        records.rewind()
+        for rec in records:
+            try:
+                self.global_fulldata.delete_one(rec)
+            except Exception as ex:
+                logging.warning('Problem z usuwaniem z kolekcji FullData %s', ex)
+        return to_return
+
+    def global_import_fulldatafaild(self, data):
+        self.global_fulldata_faild.insert_one(data)
+
+    def global_get_mactoweb(self):
+        try:
+            document = self.global_other_db.find_one({'key':'mactoweb'})
+            if 'data' in document.keys:
+                return document['data']
+        except Exception as ex:
+            logging.error('Błąd w pobieraniu danych XML mactoweb')
+            logging.exception('ERROR!')
+        return None
+
+    def global_get_emailparser(self):
+        try:
+            document = self.global_other_db.find_one({'key':'emailparser'})
+            if 'data' in document.keys:
+                return document['data']
+        except Exception as Ex:
+            logging.error('Błąd w pobieraniu danych XML emailparser')
+            logging.exception('ERROR!')
+        return None
 
     def import_to_database(self, device):
 
@@ -84,7 +144,8 @@ class MongoTB:
             
             logging.info('Zapisalem nowy dokument. {}'.format(id))
             return True
-        except SyntaxError:
+        except SyntaxError as se:
+            logging.exception('Dziwny blad')
             return False
 
     def get_destination(self, printer_data):
@@ -193,25 +254,3 @@ class MongoTB:
                 return False
         else:
             raise ServerException('Probowano sprawdzić mail na liście podejrzanych ale parametr nie jest ani bytearray ani bytes')
-        
-    #def clear_database(self):
-    #    cdata_id = self.countersdata.insert_one({"full_counter": 'parsedfromemail'}).inserted_id
-    #    sdata_id = self.serialdata.insert_one({"full_serialnumber": 'parsedfromemail'}).inserted_id
-
-    #    i = 0
-
-    #    all_record = self.records_other.find()
-    #    for rec in all_record:
-    #        if 'parsed from email' in rec['description']:
-    #            self.countersdata.delete_one({'_id': rec['full_counter']})
-    #            self.serialdata.delete_one({'_id': rec['full_serialnumber']})
-    #            rec['full_counter'] = cdata_id
-    #            rec['full_serialnumber'] = sdata_id
-    #            rec['parsed_by_email'] = True
-    #            print('mail')
-    #        else:
-    #            print('usluga')
-    #            rec['parsed_by_email'] = False
-    #        i += 1
-    #        print(i)
-    #        self.records_other.replace_one({'_id': rec['_id']}, rec, False)

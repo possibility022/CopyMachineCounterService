@@ -21,7 +21,7 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
         self.handshake = Handshake(key_moduls_encrypted, key_exponent_encrypted)
         
         if not self.handshake.key_imported:
-            logging.critical('OTRZYMANE ELEMENTY KLUCZA SA NIEPRAWIDLOWE')
+            logging.debug('OTRZYMANE ELEMENTY KLUCZA SA NIEPRAWIDLOWE')
             return
 
         self.send(self.handshake.getKeyToSend())
@@ -29,7 +29,7 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
         receivedkey = str(self.handshake.decrypt(data), 'ascii')
 
         if not self.handshake.checkReceivedKey(receivedkey):
-            logging.critical('OTRZYMANY KLUCZ NIE JEST PRAWIDŁOWY!')
+            logging.debug('OTRZYMANY KLUCZ NIE JEST PRAWIDŁOWY!')
             return
 
         logging.debug('Klucz ok')
@@ -50,10 +50,10 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
         command = str(data, 'ascii')
 
         if command == 'XMLO':
-            logging.info('XMLO')
+            logging.debug('XMLO')
             self.sendxmlfile()
         elif command == 'CLID':
-            logging.info('CLID')
+            logging.debug('CLID')
             self.sendnewclientid()
 
     def finish(self):
@@ -67,7 +67,7 @@ class ThreadedTCPOfferHandler(socketserver.BaseRequestHandler):
 
     def sendnewclientid(self):
         id = Database.getnewid()
-        logging.info('Sending new client id: {}'.format(id))
+        logging.debug('Sending new client id: {}'.format(id))
         self.send(id)
 
     def sendxmlfile(self):

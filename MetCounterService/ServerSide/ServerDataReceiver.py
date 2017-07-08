@@ -33,7 +33,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         self.handshake = Handshake(key_moduls_encrypted, key_exponent_encrypted)
 
         if not self.handshake.key_imported:
-            logging.critical('OTRZYMANE PARAMETRY KLUCZA SA NIEPRAWIDLOWE')
+            logging.debug('OTRZYMANE PARAMETRY KLUCZA SA NIEPRAWIDLOWE')
             return
 
         self.send(self.handshake.getKeyToSend())
@@ -41,12 +41,12 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         receivedkey = str(self.handshake.decrypt(data), 'ascii')
 
         if not self.handshake.checkReceivedKey(receivedkey):
-            logging.critical('HANDSHAKE FAILD')
+            logging.debug('HANDSHAKE FAILD')
             return
 
         clientid = self.receive(128)
         if clientid.__len__() != Database.key_len:
-            logging.info('Client id len incorrect')
+            logging.debug('Client id len incorrect')
             return
 
         self.send(self.command_handshake_ok)
@@ -69,7 +69,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
                     self.send(self.command_full_data_received)
                     self.receiveddata.append(machine)
                 else:
-                    logging.info('Unknown command')
+                    logging.warning('Unknown command')
             except Exception as e:
                 # print("Unexpected error:", sys.exc_info()[0])
                 logging.error('Niespodziewany błąd')
@@ -105,7 +105,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
 
     def receive(self, size, decrypt=True):
             # print('Odbieranie danych size:', size)
-            logging.info('Odbieranie danych: {}'.format(size))
+            logging.debug('Odbieranie danych: {}'.format(size))
 
             final = bytearray()
 

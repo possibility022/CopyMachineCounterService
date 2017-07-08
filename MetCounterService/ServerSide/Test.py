@@ -236,12 +236,8 @@
 
 #el = mongo.records.find_one()
 
-#import logging
-#from time import sleep
-#from Email import EmailParser
-from MongoDatabase import MongoTB
 
-mongo = MongoTB()
+
 
 #logging.basicConfig(filename='deamon.log', level=logging.DEBUG, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
 
@@ -325,89 +321,112 @@ mongo = MongoTB()
 
 
 
-def parse_loop_email():
-    logging.info('parse_loop_email started')
+#def parse_loop_email():
+#    logging.info('parse_loop_email started')
     
-    try:
-        while True:
-            mailbox = EmailParser()
-            ids = mailbox.get_emails_id()
-            for i in range(len(ids)):
-                email = mailbox.check_email_parsed(ids[i])
-                if email is None:
-                    data = None                    
-                    print('Nie znalazłem maila. ID: %s', ids[i])
-                    if mongo.check_email_is_on_suspect_list(ids[i]):
-                        print('Mail jest na liście podejrzanych maili, zostanie całkowicie ominięty w obsłudze')
-                        continue
-                    mail = mailbox.get_email_pop3(i + 1)
-                    if mail is None:
-                        mongo.insert_email_to_suspect(ids[i])
-                        print('Mail został dodany na listę maili podejrzanych. ID: %s', ids[i])
-                        continue
-                    try:
-                        data = mailbox.parse_email_to_device_data(mail)
-                    except Exception as e:
-                        print('Błąd przy parsowaniu maila: ' + ids[i])
-                        data = None
-                    if data is not None:
-                        print('mongo.import_to_database(data)')
-                    else:
-                        print('Usuwam maila. Dane po konwersji do danych recordu są puste. %s', ids[i])
-                else:
-                    print('Mail znaleziony, omijam i usuwam: %s', ids[i])
-                    mailbox.del_email(i + 1)
-            mailbox.close()
-            sleep(5 * 60)
-    except Exception as e:
-        print('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
+#    try:
+#        while True:
+#            mailbox = EmailParser()
+#            ids = mailbox.get_emails_id()
+#            for i in range(len(ids)):
+#                email = mailbox.check_email_parsed(ids[i])
+#                if email is None:
+#                    data = None                    
+#                    print('Nie znalazłem maila. ID: %s', ids[i])
+#                    if mongo.check_email_is_on_suspect_list(ids[i]):
+#                        print('Mail jest na liście podejrzanych maili, zostanie całkowicie ominięty w obsłudze')
+#                        continue
+#                    mail = mailbox.get_email_pop3(i + 1)
+#                    if mail is None:
+#                        mongo.insert_email_to_suspect(ids[i])
+#                        print('Mail został dodany na listę maili podejrzanych. ID: %s', ids[i])
+#                        continue
+#                    try:
+#                        data = mailbox.parse_email_to_device_data(mail)
+#                    except Exception as e:
+#                        print('Błąd przy parsowaniu maila: ' + ids[i])
+#                        data = None
+#                    if data is not None:
+#                        print('mongo.import_to_database(data)')
+#                    else:
+#                        print('Usuwam maila. Dane po konwersji do danych recordu są puste. %s', ids[i])
+#                else:
+#                    print('Mail znaleziony, omijam i usuwam: %s', ids[i])
+#                    mailbox.del_email(i + 1)
+#            mailbox.close()
+#            sleep(5 * 60)
+#    except Exception as e:
+#        print('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
 
-#convert_emails_with_wrong_data()
-#parse_loop_email()
+##convert_emails_with_wrong_data()
+##parse_loop_email()
 
-# mongo = MongoTB()
-def parsing_loop_v2():
-    mailbox = EmailParser()
-    ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
-    for i in range(1, len(ids)):                            # Dla kazdego id na serwerze
-        message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
-        if message is not None:                             # Jesli wiadomosc pobrano to
-            mailbox.insert_email_to_queue(message)          # Zapisujemy ja do kolejki
-            mailbox.del_email(i)                            # I usuwamy z serwera
+#def parsing_loop_v2():
+#    mailbox = EmailParser()
+#    ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
+#    for i in range(1, len(ids)):                            # Dla kazdego id na serwerze
+#        message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
+#        if message is not None:                             # Jesli wiadomosc pobrano to
+#            mailbox.insert_email_to_queue(message)          # Zapisujemy ja do kolejki
+#            mailbox.del_email(i)                            # I usuwamy z serwera
 
-    mailbox.close()
-    queue = mailbox.get_queue()
+#    mailbox.close()
+#    queue = mailbox.get_queue()
 
-    mails_to_delete = []
+#    mails_to_delete = []
 
-    for mail in queue:
-        data = None
-        try:
-            email = None #mailbox.check_email_parsed(mail['_id'])             # Tutaj sprawdzam czy mail jest juz przerobiony
-            if email is not None:
-                logging.debug('Mail był już przetwożony')
-                mails_to_delete.append(mail)              
-            else:
-                data = mailbox.parse_email_to_device_data(mail)         # Tutaj parsuje do odpowiednich danych
-                mails_to_delete.append(mail)
-        except Exception as ex:
-            logging.debug('Jest problem z mailem mail: %s', mail)
+#    for mail in queue:
+#        data = None
+#        try:
+#            email = None #mailbox.check_email_parsed(mail['_id'])             # Tutaj sprawdzam czy mail jest juz przerobiony
+#            if email is not None:
+#                logging.debug('Mail był już przetwożony')
+#                mails_to_delete.append(mail)              
+#            else:
+#                data = mailbox.parse_email_to_device_data(mail)         # Tutaj parsuje do odpowiednich danych
+#                mails_to_delete.append(mail)
+#        except Exception as ex:
+#            logging.debug('Jest problem z mailem mail: %s', mail)
 
-        mongo.import_to_database(data)                                  # Tutaj zapisuje juz do prawidlowej kolekcji
+#        mongo.import_to_database(data)                                  # Tutaj zapisuje juz do prawidlowej kolekcji
 
     #for mail in mails_to_delete:
        # mongo.email_toparse_db.delete_one(mail)                         # Usuwam maile z kolejki
 
 #parsing_loop_v2()
-            
+#import MongoDatabase_Global
+##from MongoDatabase import MongoTB
+#from pymongo import MongoClient
 
-for el in mongo.records.find({'serial_number':''}):
-    if el['serial_number'] == '':
-        mongo.records.delete_one(el)
-    print(el)
-    pass
+#serverip = '192.168.1.246'
+#serverport = 2772
+#database = 'copyinfo'
+#emails_parsed = 'emails_sucess'
 
-for el in mongo.records_other.find({'serial_number':''}):
-    if el['serial_number'] == '':
-        mongo.records_other.delete_one(el)
-    print(el)
+#client = MongoClient(serverip, serverport)
+#db = client[database]
+#emails = db[emails_parsed]
+
+#global_mongo = MongoDatabase_Global.MongoTB_Global()
+
+#for e in global_mongo.global_db['emails_toparse_tmp'].find():
+#        print('move: ', e)
+#        emails.insert_one(e)
+
+
+#for el in mongo.records.find({'serial_number':''}):
+#    if el['serial_number'] == '':
+#        mongo.records.delete_one(el)
+#    print(el)
+#    pass
+
+#for el in mongo.records_other.find({'serial_number':''}):
+#    if el['serial_number'] == '':
+#        mongo.records_other.delete_one(el)
+#    print(el)
+
+from datetime import date, timedelta
+
+print(date.today())
+last_file_update = date.today() - timedelta(days=1)
+print(last_file_update)
