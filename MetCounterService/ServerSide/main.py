@@ -24,6 +24,8 @@ import os
 from time import sleep
 import _thread
 
+from datetime import date, timedelta
+
 
 
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -34,6 +36,9 @@ dec = Decoder()
 
 def parse_loop():
     logging.info('parse_loop started')
+    
+    print(date.today())
+    last_file_update = date.today() - timedelta(days=1)
 
     while True:
         dec.decode()
@@ -49,6 +54,21 @@ def parse_loop():
                 os.rename(filepath, settings.workfolder + '/imported/' + f)
             else:
                 os.rename(filepath, settings.workfolder + '/faild/' + f)
+
+        #Update plikow .xml
+        if last_file_update < date.today():
+            file = open(settings.workfolder + '/test/mactoweb.xml', 'r')
+            mactoweb = file.read()
+            file.close()
+            
+            mongo.import_emailparser(mactoweb)
+
+            file = open(settings.workfolder + '/test/emailparser.xml', 'r')
+            emailparser = file.read()
+            file.close()
+
+            mongo.import_emailparser(emailparser)
+        
         sleep(30)
 
 if __name__ == "__main__":

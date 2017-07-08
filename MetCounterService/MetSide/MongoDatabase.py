@@ -56,12 +56,14 @@ class MongoTB:
         self.global_database = 'copyinfo'
         self.global_fullrecorddata = 'full_data'
         self.global_fullrecorddata_faild = 'full_data_faild'
+        self.global_other = 'other'
         
         self.global_client = MongoClient(self.global_serverip, self.global_serverport)
         self.global_db = self.global_client[self.global_database]
         self.global_db.authenticate('***REMOVED***', '***REMOVED***#121#')
         self.global_fulldata = self.global_db[self.global_fullrecorddata]
         self.global_fulldata_faild = self.global_db[self.global_fullrecorddata_faild]
+        self.global_other_db = self.global_db[self.global_other]
 
     def global_get_fulldata(self):
         records = self.global_fulldata.find()
@@ -83,6 +85,26 @@ class MongoTB:
 
     def global_import_fulldatafaild(self, data):
         self.global_fulldata_faild.insert_one(data)
+
+    def global_get_mactoweb(self):
+        try:
+            document = self.global_other_db.find_one({'key':'mactoweb'})
+            if 'data' in document.keys:
+                return document['data']
+        except Exception as ex:
+            logging.error('Błąd w pobieraniu danych XML mactoweb')
+            logging.exception('ERROR!')
+        return None
+
+    def global_get_emailparser(self):
+        try:
+            document = self.global_other_db.find_one({'key':'emailparser'})
+            if 'data' in document.keys:
+                return document['data']
+        except Exception as Ex:
+            logging.error('Błąd w pobieraniu danych XML emailparser')
+            logging.exception('ERROR!')
+        return None
 
     def import_to_database(self, device):
 

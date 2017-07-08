@@ -12,7 +12,7 @@
     <OutputPath>.</OutputPath>
     <Name>ServerSide</Name>
     <RootNamespace>ServerSide</RootNamespace>
-    <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
+    <InterpreterId>{a90ee906-d3c9-4711-9b1c-b7e2c7bdd001}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
     <IsWindowsApplication>False</IsWindowsApplication>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
