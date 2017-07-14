@@ -34,7 +34,7 @@ namespace WindowsMetService.Network
 
         public bool Connect()
         {
-            server = LocalDatabase.getServerEndpoint(LocalDatabase.ServerType.receiver);
+            server = LocalDatabase.GetServerEndpoint(LocalDatabase.ServerType.receiver);
             if (connected != true && server != null)
                 connected = DoHandshake();
             return connected;

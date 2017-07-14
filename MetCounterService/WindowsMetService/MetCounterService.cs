@@ -148,7 +148,7 @@ namespace WindowsMetService
         public void SetCurentlyTickTime(DateTime tickTime)
         {
             TICKTIMECURENTLYSET = tickTime;
-            if (t != null) t.Dispose();
+            t?.Dispose();
             t = new Timer(DoIt);
             t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
         }
