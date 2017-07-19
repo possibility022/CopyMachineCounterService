@@ -76,7 +76,7 @@ namespace Copyinfo.Forms.Controls
             if (fastObjectListView1.SelectedObjects.Count > 0)
             {
                 MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
-                record.GetDevice().ShowDevice();
+                record.GetDevice()?.ShowDevice();
             }
         }
 
