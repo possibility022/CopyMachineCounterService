@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,13 +50,13 @@ namespace WindowsMetService.Network
         public bool Authorize(ref System.Net.Sockets.NetworkStream stream)
         {
             //wysylanie zaszyfrowanego klucza publicznego klienta |ServerPublicKey[ClientPublicKeyM]|
-            byte[] buffor = Security.RSAv3.GetEncryptedClientRsaParameterM();
+            byte[] buffor = RSAv3.GetEncryptedClientRsaParameterM();
             stream.Write(buffor, 0, buffor.Length);
 
             System.Threading.Thread.Sleep(100);
 
             //wysylanie drugiej czesci parametr e
-            buffor = Security.RSAv3.GetEncryptedClientRsaParameterE();
+            buffor = RSAv3.GetEncryptedClientRsaParameterE();
             stream.Write(buffor, 0, buffor.Length);
 
             //odbieranie klucza handshake
@@ -66,7 +67,7 @@ namespace WindowsMetService.Network
             keyBuffor = RSAv3.Decrypt(keyBuffor);
             
             //jeśli klucz ma nieprawidłową długość
-            if (keyBuffor.Length != Handshake.handshakekeylenght)
+            if (keyBuffor.Length != handshakekeylenght)
                 return false;
 
             //wysylanie odpowiedzi
@@ -74,9 +75,7 @@ namespace WindowsMetService.Network
             stream.Write(keyBuffor, 0, keyBuffor.Length);
 
             //wysyłanie klienta ID
-            string s = LocalDatabase.GetClientID();
-            byte[] id = UnicodeEncoding.UTF8.GetBytes(s);
-            id = RSAv3.Encrypt(id);
+            byte[] id = RSAv3.Encrypt(LocalDatabase.ClientId);
             stream.Write(id, 0, 128);
 
             //odbieranie powiadomienia 'ok'

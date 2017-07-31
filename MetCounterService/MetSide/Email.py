@@ -277,7 +277,7 @@ class EmailParser:
             tonerk_regex_group = self.xml_loader.get_tonerlevel_k(signature)
         except Exception as e:
             logging.error('Błąd przy wczytywaniu regexa. Email parser. %s', e)
-			logging.exception('Błąd w czytywaniu regexa. Sprawdź to :)')
+            logging.exception('Błąd w czytywaniu regexa. Sprawdź to :)')
             return
 
         data = mail['body']        

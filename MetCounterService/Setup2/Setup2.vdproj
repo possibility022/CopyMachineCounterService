@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C86D37A3A0F73D188AA417AE7E3E8DC8"
+        "OwnerKey" = "8:_1822A3A0D780437B8ECD71455F6CEFA3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D40A784E64324695BB5346D0457094EE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -41,6 +47,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_1822A3A0D780437B8ECD71455F6CEFA3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_C86D37A3A0F73D188AA417AE7E3E8DC8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -89,7 +101,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Setup2.4.msi"
+        "OutputFilename" = "8:Release\\Setup2.8.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -251,6 +263,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C86D37A3A0F73D188AA417AE7E3E8DC8"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C86D37A3A0F73D188AA417AE7E3E8DC8"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2C32A46834964CF8A2EB9EC3A07E3198"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D40A784E64324695BB5346D0457094EE"
             {
             "SourcePath" = "8:Licencja.txt"
@@ -339,7 +382,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Met Counter Service"
         "ProductCode" = "8:{0AECB9E6-5E8B-4853-B847-121F0C399F8E}"
-        "PackageCode" = "8:{217AE753-9F4F-4605-89E3-3167D2466849}"
+        "PackageCode" = "8:{9C403DF6-676E-44F8-B423-EF36AA0348CF}"
         "UpgradeCode" = "8:{68D65762-C5E0-4B58-A892-EEDAA1720E41}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

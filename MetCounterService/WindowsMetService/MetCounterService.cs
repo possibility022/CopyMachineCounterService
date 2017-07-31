@@ -113,8 +113,16 @@ namespace WindowsMetService
 
             DateTime now = DateTime.Now;
 
-            DateTime tickTime
-                = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
+            DateTime tickTime;
+
+            if (LocalDatabase.ForceRead == false)
+            {
+                tickTime = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
+            }
+            else
+            {
+                tickTime = DateTime.Today;
+            }
 
 
             if (retry)
