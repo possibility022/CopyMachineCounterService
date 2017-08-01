@@ -71,7 +71,8 @@ namespace UnitTests.WindowsMetServiceTest
                 ClientIddd = Encoding.UTF8.GetBytes("akjsdlKAWjdhkajwhdka"),
                 ForceRead = false,
                 TickTime = "",
-                Version = "2.7"
+                Version = "2.7",
+                SaveLogsToSystem = true
             };
 
             string settingConverted = JsonConvert.SerializeObject(settings, Formatting.Indented);
@@ -84,7 +85,8 @@ namespace UnitTests.WindowsMetServiceTest
             Assert.IsTrue(loadedSettings.ClientIddd.SequenceEqual(settings.ClientIddd));
             Assert.AreEqual(settings.ClientDescription, loadedSettings.ClientDescription);
             Assert.AreEqual(settings.ForceRead, loadedSettings.ForceRead);
-            Assert.AreEqual(settings.Version, settings.Version);
+            Assert.AreEqual(settings.Version, loadedSettings.Version);
+            Assert.AreEqual(settings.SaveLogsToSystem, loadedSettings.SaveLogsToSystem);
 
 
             if (File.Exists("test.txt"))

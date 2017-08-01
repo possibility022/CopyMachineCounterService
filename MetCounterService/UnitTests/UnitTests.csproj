@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsMetServiceTest\EngineTest.cs" />
     <Compile Include="WindowsMetServiceTest\FullUnitTest.cs" />
     <Compile Include="WindowsMetServiceTest\JsonConv.cs" />
   </ItemGroup>

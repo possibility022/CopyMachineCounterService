@@ -33,11 +33,8 @@ namespace WindowsMetService
 
         private const string ServerAddress = "***REMOVED***";
 
-        public static byte[] ClientId
-        {
-            get { return settings.ClientIddd; }
-        }
-        
+        public static byte[] ClientId => settings.ClientIddd;
+
         public static string ClientDescription
         {
             get { return settings.ClientDescription; }
@@ -45,7 +42,9 @@ namespace WindowsMetService
         }
         public static bool ForceRead => settings.ForceRead;
 
-        public const string Version = "2.6";
+        public static bool SaveLogToSystem => settings.SaveLogsToSystem;
+
+        public const string Version = "2.8";
 
         private static Settings settings = new Settings()
         {
@@ -53,7 +52,8 @@ namespace WindowsMetService
             ForceRead = false,
             ClientIddd = Encoding.UTF8.GetBytes(Settings.EmptyId),
             TickTime = "",
-            Version = Version
+            Version = Version,
+            SaveLogsToSystem = false
         };
 
         private static string BuildPath(string fileName)
@@ -475,6 +475,7 @@ namespace WindowsMetService
         public string ClientDescription { get; set; } = null;
         public bool ForceRead { get; set; } = false;
         public string Version { get; set; } = null;
-        public string TickTime { get; set; } = null;       
+        public string TickTime { get; set; } = null;
+        public bool SaveLogsToSystem { get; set; } = false;
     }
 }
