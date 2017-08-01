@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -8,14 +9,16 @@ using System.Net;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace WindowsMetService
 {
     static class LocalDatabase
     {
-        private static string[] ipsOfCopymachines;
+        private static string[] _ipsOfCopymachines;
 
-        public enum ServerType { receiver, offer }
+        public enum ServerType { Receiver, Offer }
 
         private const string FolderName = "LicznikMetService";
         private const string File_Ips = "ip.cfg";
@@ -23,18 +26,35 @@ namespace WindowsMetService
         private const string File_LastTick = "ticktime.log";
         private const string File_MachineStorage = "machinestorage.stor";
         private const string File_Log = "log.log";
-        private const string File_ConfigPath = "config.cfg";
-        private const string File_InfoFile = "info.txt";
-        private static string WorkFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        private const string File_ConfigPath_Json = "config.json";
+        private static readonly string WorkFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
 
-        private static byte[] clientID = Security.Encrypting.Encrypt(Encoding.UTF8.GetBytes("00000000000000000000"));
-        private static string clientDescription = "client description not set";
+        private static string _clientDescription = "client description not set";
 
-        private enum ConfigFile { clientID, clientDescription, forceRead }
+        private const string ServerAddress = "***REMOVED***";
 
-        private const string serveraddress = "***REMOVED***";
+        public static byte[] ClientId => settings.ClientIddd;
 
-        public const string Version = "1.2";
+        public static string ClientDescription
+        {
+            get { return settings.ClientDescription; }
+            private set { settings.ClientDescription = value; }
+        }
+        public static bool ForceRead => settings.ForceRead;
+
+        public static bool SaveLogToSystem => settings.SaveLogsToSystem;
+
+        public const string Version = "2.8";
+
+        private static Settings settings = new Settings()
+        {
+            ClientDescription = "",
+            ForceRead = false,
+            ClientIddd = Encoding.UTF8.GetBytes(Settings.EmptyId),
+            TickTime = "",
+            Version = Version,
+            SaveLogsToSystem = false
+        };
 
         private static string BuildPath(string fileName)
         {
@@ -44,72 +64,7 @@ namespace WindowsMetService
 
         static LocalDatabase()
         {
-            ipsOfCopymachines = new string[] { };
-        }
-
-        static string ReadConfig(ConfigFile configType)
-        {
-            try
-            {
-                StreamReader file = new StreamReader(BuildPath(File_ConfigPath));
-                while (file.Peek() > 0)
-                {
-                    string line = file.ReadLine();
-                    string expectedPrefix = configType.ToString().ToLower() + ":";
-
-                    if (line.ToLower().StartsWith(expectedPrefix))
-                    {
-
-                        line = line.Remove(0, expectedPrefix.Length);
-                        bool modificationDone = false;
-
-                        for (int i = 0; i < 100; i++)
-                        {
-                            if (line.StartsWith(" "))
-                            {
-                                modificationDone = true;
-                                line = line.Remove(0, 1);
-                            }
-                            if (line.EndsWith(" "))
-                            {
-                                modificationDone = true;
-                                line = line.Remove(line.Length - 1);
-                            }
-                            if (modificationDone == true)
-                                modificationDone = false;
-                            else
-                                break;
-                        }
-                    }
-                }
-                file.Close();
-
-            }
-            catch (FileNotFoundException ex)
-            { }
-
-            //zwraca "" jesli nie znaleziono
-            return "";
-        }
-
-        static void SaveConfig(ConfigFile configType, string value)
-        {
-            try
-            {
-                string configpath = BuildPath(File_ConfigPath);
-                if (File.Exists(configpath) == false)
-                    File.Create(configpath);
-
-                File.AppendAllLines(configpath, new string[] { configType.ToString() + ":" + value });
-            }
-            catch (Exception ex)
-            { }
-        }
-
-        public static string GetClientDescription()
-        {
-            clientDescription = ReadConfig(ConfigFile.clientDescription);
-            return clientDescription;
+            _ipsOfCopymachines = new string[] { };
         }
 
         public static bool Initialize()
@@ -120,8 +75,8 @@ namespace WindowsMetService
                 Directory.CreateDirectory(Path.Combine(directory, FolderName));
             }
 
-            if (File.Exists(BuildPath(File_ConfigPath)) == false)
-                File.Create(BuildPath(File_ConfigPath)).Close();
+            if (File.Exists(BuildPath(File_ConfigPath_Json)) == false)
+                File.Create(BuildPath(File_ConfigPath_Json)).Close();
 
             if (File.Exists(BuildPath(File_Ips)) == false)
                 File.Create(BuildPath(File_Ips)).Close();
@@ -139,37 +94,21 @@ namespace WindowsMetService
                 File.Create(BuildPath(File_MacToWebMapping)).Close();
 
             Security.RSAv3.Initialize();
-            LoadCFG_File();
-            if (Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID)) == "00000000000000000000")
+            if (LoadSettings() == false)
+            {
+                if (File.Exists(BuildPath(File_ConfigPath_Json)))
+                    return false;
+            }
+           
+            if (settings.ClientIddd.SequenceEqual(Encoding.UTF8.GetBytes(Settings.EmptyId)))
                 if (DownloadAndSaveID() == false)
                     return false;
             
             LoadIpsFromFile();
             DownloadMacToWebXML();
             SetupLocalLog();
-            ExportConfigEnumxToFile();
 
             return true;
-        }
-
-        /// <summary>
-        /// Zapusuje wartości enum które można zapisać w pliku konfiguracyjnym. Informacje te są zapisywane do innego pliku.
-        /// </summary>
-        private static void ExportConfigEnumxToFile()
-        {
-            if (File.Exists(BuildPath(File_InfoFile)))
-                File.Delete(BuildPath(File_InfoFile));
-
-            using (System.IO.StreamWriter stream = new StreamWriter(File.Create(BuildPath(File_InfoFile))))
-            {
-                List<string> valuesToSave = new List<string>();
-
-                foreach (ConfigFile value in Enum.GetValues(typeof(ConfigFile)))
-                    valuesToSave.Add(value.ToString());
-
-                foreach (string value in valuesToSave)
-                    stream.WriteLine(value);
-            }
         }
 
         private static void SetupLocalLog()
@@ -183,7 +122,10 @@ namespace WindowsMetService
         public static void Log(string message)
         {
 #if DEBUG
-            Console.WriteLine(new string[] { "", DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+            string mes = string.Format(DateTime.Today.ToShortDateString() + " " +
+                                           DateTime.Now.TimeOfDay.ToString() + " Message: " + message);
+            Console.WriteLine(mes);
+            Debug.WriteLine(mes);
 #else
             File.AppendAllLines(BuildPath(File_Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
 #endif
@@ -223,29 +165,20 @@ namespace WindowsMetService
             string path = BuildPath(File_Ips);
             try
             {
-                ipsOfCopymachines = File.ReadAllLines(BuildPath(File_Ips));
+                _ipsOfCopymachines = File.ReadAllLines(BuildPath(File_Ips));
             }
             catch (IOException ex)
             {
+                Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message);
                 if (File.Exists(path) == false)
                     File.Create(path);
-                ipsOfCopymachines = new string[] { };
+                _ipsOfCopymachines = new string[] { };
             }
             catch (Exception ex)
             {
-                ipsOfCopymachines = new string[] { };
+                Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message);
+                _ipsOfCopymachines = new string[] { };
             }
-        }
-
-        private static void LoadCFG_File()
-        {
-            string value = ReadConfig(ConfigFile.clientDescription);
-            if (value.Length > 0)
-                clientDescription = value;
-
-            value = ReadConfig(ConfigFile.clientID);
-            if (value.Length > 0)
-                clientID = Convert.FromBase64String(value);
         }
 
         private static void DownloadMacToWebXML()
@@ -261,7 +194,7 @@ namespace WindowsMetService
         public static string[] GetMachinesIps()
         {
             LoadIpsFromFile();
-            return ipsOfCopymachines;
+            return _ipsOfCopymachines;
         }
 
         public static string[] GetMacWebMapping(string mac)
@@ -396,11 +329,9 @@ namespace WindowsMetService
             byte[] key = Network.ServerOffer.DownloadNewIDForClient();
             if (key.Length > 0)
             {
-                byte[] encrypted = Security.Encrypting.Encrypt(
-                                            key);
-
-                SaveConfig(ConfigFile.clientID, Convert.ToBase64String(encrypted));
-                clientID = encrypted;
+                settings.ClientIddd = key;
+                SaveSettings();
+                
                 Global.Log("Pobrano ID");
                 return true;
             }
@@ -411,29 +342,29 @@ namespace WindowsMetService
             }
         }
 
-        public static string GetClientID()
-        {
-            return Encoding.UTF8.GetString(Security.Encrypting.Decrypt(clientID));
-        }
+        //public static string GetClientID()
+        //{
+        //    return Encoding.UTF8.GetString(Security.Encrypting.Decrypt(settings.ClientId));
+        //}
 
         public static System.Net.IPEndPoint GetServerEndpoint(ServerType type)
         {
             IPAddress ip;
             try
             {
-                System.Net.IPAddress[] adresy = System.Net.Dns.GetHostEntry(serveraddress).AddressList;
+                System.Net.IPAddress[] adresy = System.Net.Dns.GetHostEntry(ServerAddress).AddressList;
                 if (adresy.Length < 1)
                 {
-                    Global.Log("Nie pobrano adresu IP z nazwy hosta: " + serveraddress);
+                    Global.Log("Nie pobrano adresu IP z nazwy hosta: " + ServerAddress);
                     return null;
                 }
 
                 ip = adresy[0];
                 switch (type)
                 {
-                    case ServerType.offer:
+                    case ServerType.Offer:
                         return new System.Net.IPEndPoint(ip, 9998);
-                    case ServerType.receiver:
+                    case ServerType.Receiver:
                         return new System.Net.IPEndPoint(ip, 9999);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, @"Błąd w implementacji. W instrukcji switch został podany parametr, który nie ma swojego wywołania.");
@@ -480,5 +411,71 @@ namespace WindowsMetService
 
             File.WriteAllLines(BuildPath(File_Log), selected);
         }
+
+        private static void SaveSettings()
+        {
+            string json = JsonConvert.SerializeObject(settings, Formatting.Indented);
+            try
+            {
+                File.WriteAllText(BuildPath(File_ConfigPath_Json), json);
+            }
+            catch (IOException e)
+            {
+                Log("Nie można zapisać ustawień. Message" + e.Message);
+                throw;
+            }
+        }
+
+        private static bool LoadSettings()
+        {
+            try
+            {
+                string json = File.ReadAllText(BuildPath(File_ConfigPath_Json));
+                Settings set = JsonConvert.DeserializeObject<Settings>(json);
+                if (set != null)
+                {
+                    settings = set;
+                }
+                return true;
+            }
+            catch (IOException e)
+            {
+                Log("Nie udało się wczytać ustawień. Message: " + e.Message);
+            }
+
+            return false;
+        }
+    }
+
+    internal class Settings
+    {
+        public const string EmptyId = "00000000000000000000";
+
+
+        /// <summary>
+        /// Don't EDIT THIS EXTERNAL
+        /// </summary>
+        public string clientId { get; set; }
+
+        [JsonIgnore]
+        public byte[] ClientIddd {
+            get
+            {
+                if (clientId != null)
+                    return Convert.FromBase64String(Security.Encrypting.Decrypt(clientId));
+                else
+                {
+                    return Encoding.UTF8.GetBytes(EmptyId);
+                }
+            } set
+            {
+                clientId = Security.Encrypting.Encrypt(Convert.ToBase64String(value));
+            } }
+
+        public string ClientDescription { get; set; } = null;
+        public bool ForceRead { get; set; } = false;
+        public string Version { get; set; } = null;
+        public string TickTime { get; set; } = null;
+        public bool SaveLogsToSystem { get; set; } = false;
     }
 }

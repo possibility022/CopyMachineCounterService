@@ -80,7 +80,7 @@ namespace WindowsMetService.Network
         private static bool SendRequest(Commands command,ref byte[] buffer, ref int total)
         {
             if (server == null)
-                server = LocalDatabase.GetServerEndpoint(LocalDatabase.ServerType.offer);
+                server = LocalDatabase.GetServerEndpoint(LocalDatabase.ServerType.Offer);
 
             List<byte[]> receivedData = new List<byte[]>();
             try
@@ -137,6 +137,10 @@ namespace WindowsMetService.Network
             return true;
         }
 
+        /// <summary>
+        /// Download new ID for client. Generate it on server side.
+        /// </summary>
+        /// <returns>Unencrypted ID! Byte.Lenght = 0 if faild.</returns>
         static public byte[] DownloadNewIDForClient()
         {
             byte[] buffor = new byte[] { };
@@ -149,7 +153,7 @@ namespace WindowsMetService.Network
             }
             else
             {
-                return new byte[] { };
+                return Encoding.UTF8.GetBytes(Settings.EmptyId);
             }
         }
 

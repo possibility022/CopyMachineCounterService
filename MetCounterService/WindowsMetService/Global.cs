@@ -77,7 +77,7 @@ namespace WindowsMetService
             LocalDatabase.Log(message);
 #else
             LocalDatabase.Log(message);
-            if (eventLog1 != null) eventLog1.WriteEntry(message);
+            if (eventLog1 != null && LocalDatabase.SaveLogToSystem) eventLog1.WriteEntry(message);
             Console.WriteLine(message);
 #endif
         }

@@ -82,7 +82,7 @@ namespace WindowsMetService.Network
             string[] machineData = new string[6];
 
             machineData[0] = dataPrefix[DataPrefix.DateTime] + machine.datetime.ToString(dateFormat);
-            machineData[1] = dataPrefix[DataPrefix.Description] + LocalDatabase.GetClientDescription();
+            machineData[1] = dataPrefix[DataPrefix.Description] + LocalDatabase.ClientDescription;
             machineData[2] = dataPrefix[DataPrefix.MAC] + machine.mac;
             machineData[3] = dataPrefix[DataPrefix.IP] + machine.ip;
             machineData[4] = dataPrefix[DataPrefix.CounterData] + machine.counterData;

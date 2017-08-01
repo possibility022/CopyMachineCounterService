@@ -9,10 +9,7 @@ namespace WindowsMetService
 {
     public partial class MetCounterService : ServiceBase
     {
-        //public TimerCallback callback; //callback dla timera t
-        static public Timer t; // Timer który uruchamia cały process.
-        public System.Timers.Timer t2; // Timer który co X czasu nastawia nowy czas dla timera t.
-        DateTime TICKTIMECURENTLYSET;
+        private Engine engine;
 
         public enum ServiceState
         {
@@ -62,17 +59,9 @@ namespace WindowsMetService
             serviceStatus.dwWaitHint = 100000;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
 
-            //LocalDatabase.Initialize();
-            //Global.Log("Local database initialized");
-
-            System.Timers.Timer timer = new System.Timers.Timer();
-            timer.Interval = 60000 * 20; // 60 seconds * 20 = 20 min
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(this.OnTimer);
-            timer.Start();
-            t2 = timer;
-            //setupTrigger();
-
             LocalDatabase.Initialize();
+
+            engine = new Engine();
 
             serviceStatus.dwCurrentState = ServiceState.SERVICE_RUNNING;
             SetServiceStatus(this.ServiceHandle, ref serviceStatus);
@@ -81,117 +70,11 @@ namespace WindowsMetService
 
         protected override void OnStop()
         {
-            try
-            {
-                if (t != null)
-                    t.Dispose();
-
-                if (t2 != null)
-                {
-                    t2.Dispose();
-                    t2.Close();
-                }
-            }catch (Exception ex)
-            {
-                Global.Log("OnStop ex1: " + ex.Message);
-            }
-
-            serviceStatus = new ServiceStatus();
-            serviceStatus.dwCurrentState = ServiceState.SERVICE_STOPPED;
-            SetServiceStatus(this.ServiceHandle, ref serviceStatus);
-        }
-
-        public void OnTimer(object sender, System.Timers.ElapsedEventArgs args)
-        {
-            SetupTrigger();
-        }
-
-        public void SetupTrigger(bool retry = false)
-        {
-            Random random = new Random();
-            double randomvalue = random.NextDouble();
-
-            DateTime now = DateTime.Now;
-
-            DateTime tickTime
-                = DateTime.Today.AddHours(10.0 + (randomvalue * 4));
-
-
-            if (retry)
-            {
-                //Jeśli jest to ponowienie próby, ustaiamy ticktime na teraz + 20 minut
-                tickTime = DateTime.Now.AddMinutes(20.0);
-            }
-            else if (LocalDatabase.LastTickWasToday())
-            {
-                //Jeśli dzisiaj już przesłano dane, tick jest przestawiony na jutro
-                tickTime = DateTime.Today.AddDays(1.0).AddHours(10.0 + (randomvalue * 4));
-            }
-            else if ((now > tickTime))
-            {
-                //Jeśli teraz jest później niż normalny czas przesyłania i dzisiaj nie przesyłano to zrób to za 20 minut.
-                tickTime = DateTime.Now.AddMinutes(20.0);
-            }
-
-            if (TICKTIMECURENTLYSET != null)
-            {
-                //Jeśli ustawiony czas już miną, ustaw nową wartość.
-                if (TICKTIMECURENTLYSET < DateTime.Now)
-                    SetCurentlyTickTime(tickTime);
-            }
-            else
-            {
-                SetCurentlyTickTime(tickTime);
-            }
-        }
-
-        public void SetCurentlyTickTime(DateTime tickTime)
-        {
-            TICKTIMECURENTLYSET = tickTime;
-            t?.Dispose();
-            t = new Timer(DoIt);
-            t.Change((int)((tickTime - DateTime.Now).TotalMilliseconds), Timeout.Infinite);
+            engine.Stop();
         }
 
         [DllImport("advapi32.dll", SetLastError = true)]
         private static extern bool SetServiceStatus(IntPtr handle, ref ServiceStatus serviceStatus);
 
-        public void DoIt(Object stateInfo)
-        {
-            try
-            {
-                LocalDatabase.Remove_old_logs();
-                string[] ips = LocalDatabase.GetMachinesIps();
-
-                Global.Log("Tick");
-                LocalDatabase.SetToodayTick();
-
-                List<Machine> machines = new List<Machine>();
-
-                foreach (string ip in ips)
-                {
-                    Machine machine = new Machine(ip);
-                    machines.Add(machine);
-                }
-
-                int fails = Network.DAO.SendMachines(machines);
-
-                if (fails == machines.Count && machines.Count > 0)
-                    Global.Log("Nie udało się przesłać jakiejkolwiek maszyny z obecnego odczytu");
-
-                Thread.Sleep(1000 * 20);
-
-                machines = LocalDatabase.GetMachinesFromStorage();
-                fails = Network.DAO.SendMachines(machines);
-
-                if (fails == machines.Count && machines.Count > 0)
-                    Global.Log("Nie udało się przesłać urządzeń z lokalnej bazy danych");
-            }
-            catch (Exception ex)
-            {
-                SetupTrigger(true);
-                Global.Log("Error in main loop. Message: " + ex.Message);
-            }
-        }
     }
 }
