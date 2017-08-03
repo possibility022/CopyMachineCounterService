@@ -425,8 +425,23 @@
 #        mongo.records_other.delete_one(el)
 #    print(el)
 
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta
 
-print(date.today())
-last_file_update = date.today() - timedelta(days=1)
-print(last_file_update)
+#print(date.today())
+#last_file_update = date.today() - timedelta(days=1)
+#print(last_file_update)
+#print(type(last_file_update))
+
+#last_file_update2 = date.today()
+#print("2 " + str(type(last_file_update2)))
+
+last_file_update = datetime.today() - timedelta(days=1)
+
+print(type(last_file_update))
+print(type(datetime.today()))
+
+if last_file_update < datetime.today():
+    last_file_update = datetime.today()
+
+if last_file_update < datetime.today():
+    print(True)

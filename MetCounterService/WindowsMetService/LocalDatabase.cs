@@ -23,7 +23,6 @@ namespace WindowsMetService
         private const string FolderName = "LicznikMetService";
         private const string File_Ips = "ip.cfg";
         private const string File_MacToWebMapping = "mactoweb.xml";
-        private const string File_LastTick = "ticktime.log";
         private const string File_MachineStorage = "machinestorage.stor";
         private const string File_Log = "log.log";
         private const string File_ConfigPath_Json = "config.json";
@@ -51,7 +50,7 @@ namespace WindowsMetService
             ClientDescription = "",
             ForceRead = false,
             ClientIddd = Encoding.UTF8.GetBytes(Settings.EmptyId),
-            TickTime = "",
+            LastTick = "",
             Version = Version,
             SaveLogsToSystem = false
         };
@@ -80,9 +79,6 @@ namespace WindowsMetService
 
             if (File.Exists(BuildPath(File_Ips)) == false)
                 File.Create(BuildPath(File_Ips)).Close();
-
-            if (File.Exists(BuildPath(File_LastTick)) == false)
-                File.Create(BuildPath(File_LastTick)).Close();
 
             if (File.Exists(BuildPath(File_Log)) == false)
                 File.Create(BuildPath(File_Log)).Close();
@@ -135,14 +131,15 @@ namespace WindowsMetService
         {
             try
             {
-                string[] lines = File.ReadAllLines(BuildPath(File_LastTick));
-                if (lines[lines.Length - 1] == DateTime.Today.ToShortDateString())
+                LoadSettings();
+                if (settings.LastTick == DateTime.Today.ToShortDateString())
                     return true;
                 else
                     return false;
             }
             catch (Exception ex)
             {
+                Log("Nie udało się sprawdzić kiedy ostatnio był tick. Message: " + ex.Message + " trace: " + ex.StackTrace);
                 return false;
             }
         }
@@ -151,12 +148,11 @@ namespace WindowsMetService
         {
             try
             {
-                File.Delete(BuildPath(File_LastTick));
-                File.WriteAllLines(BuildPath(File_LastTick), new string[] { DateTime.Today.ToShortDateString() });
+                settings.LastTick = DateTime.Today.ToShortDateString();
             }
             catch (Exception ex)
             {
-
+                Log("Nie udało się zapisać kiedy ostatnio był tick. Message: " + ex.Message + " trace: " + ex.StackTrace);
             }
         }
 
@@ -300,7 +296,7 @@ namespace WindowsMetService
             }
             catch (Exception ex)
             {
-
+                Log("Oj nie udało się zapisać do magazynu. Błąd krytyczny. Powiadom programiste. Message: " + ex.Message + " trace: " + ex.StackTrace);
             }
         }
 
@@ -320,6 +316,7 @@ namespace WindowsMetService
             }
             catch (Exception ex)
             {
+                Log("Nie udało się wczytać wartości z magazynu. Powiadom programiste. Błąd krtyczny. Message: " + ex.Message + " trace: " + ex.StackTrace);
                 return new List<Machine>();
             }
         }
@@ -475,7 +472,7 @@ namespace WindowsMetService
         public string ClientDescription { get; set; } = null;
         public bool ForceRead { get; set; } = false;
         public string Version { get; set; } = null;
-        public string TickTime { get; set; } = null;
+        public string LastTick { get; set; } = null;
         public bool SaveLogsToSystem { get; set; } = false;
     }
 }

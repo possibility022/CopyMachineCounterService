@@ -70,7 +70,7 @@ namespace UnitTests.WindowsMetServiceTest
                 ClientDescription = "Opis klienta",
                 ClientIddd = Encoding.UTF8.GetBytes("akjsdlKAWjdhkajwhdka"),
                 ForceRead = false,
-                TickTime = "",
+                LastTick = "",
                 Version = "2.7",
                 SaveLogsToSystem = true
             };
