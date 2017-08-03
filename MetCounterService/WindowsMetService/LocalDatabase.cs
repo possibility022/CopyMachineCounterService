@@ -148,7 +148,9 @@ namespace WindowsMetService
         {
             try
             {
+                settings.ForceRead = false;
                 settings.LastTick = DateTime.Today.ToShortDateString();
+                SaveSettings();
             }
             catch (Exception ex)
             {
