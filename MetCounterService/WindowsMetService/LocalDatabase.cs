@@ -163,18 +163,30 @@ namespace WindowsMetService
             string path = BuildPath(File_Ips);
             try
             {
-                _ipsOfCopymachines = File.ReadAllLines(BuildPath(File_Ips));
+                string[] lines = File.ReadAllLines(BuildPath(File_Ips));
+                List<string> ips = new List<string>();
+
+                foreach (string line in lines)
+                {
+                    if (line.StartsWith("#") == false)
+                    {
+                        ips.Add(line);
+                    }
+                }
+
+                _ipsOfCopymachines = ips.ToArray();
+
             }
             catch (IOException ex)
             {
-                Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message);
+                Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message + " trace " + ex.StackTrace);
                 if (File.Exists(path) == false)
                     File.Create(path);
                 _ipsOfCopymachines = new string[] { };
             }
             catch (Exception ex)
             {
-                Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message);
+                Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message + " trace " + ex.StackTrace);
                 _ipsOfCopymachines = new string[] { };
             }
         }
