@@ -19,7 +19,7 @@ namespace Copyinfo.Database
         private static IMongoClient _client;
         private static IMongoDatabase _database;
 
-        const string ipadress = "***REMOVED***";
+        const string ipadress = "192.168.1.246";
         //const string ipadress = "192.168.0.42";
         const string port = "2772";
 
@@ -70,7 +70,7 @@ namespace Copyinfo.Database
 
             MongoCredential credentials = MongoCredential.CreateCredential(databaseName, login, password); //TODO encrypt this things
             List<MongoCredential> credentials_list = new List<MongoCredential>();
-            //credentials_list.Add(credentials);
+            credentials_list.Add(credentials);
             settings.Credentials = credentials_list;
             
             client = new MongoClient(settings);
@@ -273,7 +273,7 @@ namespace Copyinfo.Database
         //    }
         //}
 
-        static private ObjectId SaveMachineRecord_Deleted(MachineRecord r)
+        private static ObjectId SaveMachineRecord_Deleted(MachineRecord r)
         {
             if (r != null)
             {
@@ -289,7 +289,7 @@ namespace Copyinfo.Database
             }
         }
 
-        static private ObjectId SaveFullHTMLSerial_Deleted(HTMLSerial r)
+        private static ObjectId SaveFullHTMLSerial_Deleted(HTMLSerial r)
         {
             if (r != null)
             {
@@ -305,7 +305,7 @@ namespace Copyinfo.Database
             }
         }
 
-        static private ObjectId SaveFullHTMLCounter_Deleted(HTMLCounter r)
+        private static ObjectId SaveFullHTMLCounter_Deleted(HTMLCounter r)
         {
             if (r != null)
             {
@@ -321,15 +321,18 @@ namespace Copyinfo.Database
             }
         }
 
-        static public void ReplaceMachineRecrod(MachineRecord r)
+        public static void ReplaceMachineRecrod(MachineRecord r)
         {
             if (r != null)
             {
                 var collection = iDatabase.GetCollection<MachineRecord>(Collections.machine_records.ToString());
-                var enityQuery = Query<MachineRecord>.EQ(e => e.id, r.id);
 
                 var filter = Builders<MachineRecord>.Filter.Eq(e => e.id, r.id);
                 collection.ReplaceOne(filter, r);
+
+                collection = iDatabase.GetCollection<MachineRecord>(Collections.machine_records_other.ToString());
+                collection.ReplaceOne(filter, r);
+
             }
         }
 

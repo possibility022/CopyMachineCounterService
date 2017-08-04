@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
+using Copyinfo.Database;
 
 namespace Copyinfo.Forms.Controls
 {
@@ -200,6 +202,14 @@ namespace Copyinfo.Forms.Controls
             tbbtnSendEmail.Hide();
             tbbtnCancelSending.Hide();
             tbButtonSendEmail.Show();
+        }
+
+        private void tbBtnPrint_Click(object sender, EventArgs e)
+        {
+            if (cReports1.fastObjectListView1.SelectedObjects?.Count > 0)
+            {
+                Other.Printing.Print((IList<MachineRecord>)cReports1.fastObjectListView1.SelectedObjects.Cast<MachineRecord>().ToList());
+            }
         }
     }
 }

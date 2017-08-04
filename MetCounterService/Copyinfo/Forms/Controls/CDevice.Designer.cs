@@ -56,6 +56,7 @@
             this.tbLabel1 = new Copyinfo.Forms.Controls.Labels.TBLabel();
             this.tbButton1 = new Copyinfo.Forms.Controls.Buttons.TBButton();
             this.cAddress1 = new Copyinfo.Forms.Controls.CAddress();
+            this.tbBtnPrint = new Copyinfo.Forms.Controls.Buttons.TBButton_Small();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -345,11 +346,24 @@
             this.cAddress1.Size = new System.Drawing.Size(319, 154);
             this.cAddress1.TabIndex = 13;
             // 
+            // tbBtnPrint
+            // 
+            this.tbBtnPrint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.tbBtnPrint.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbBtnPrint.Location = new System.Drawing.Point(593, 357);
+            this.tbBtnPrint.Name = "tbBtnPrint";
+            this.tbBtnPrint.Size = new System.Drawing.Size(90, 32);
+            this.tbBtnPrint.TabIndex = 32;
+            this.tbBtnPrint.Text = "Drukuj";
+            this.tbBtnPrint.UseVisualStyleBackColor = true;
+            this.tbBtnPrint.Click += new System.EventHandler(this.tbBtnPrint_Click);
+            // 
             // CDevice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.tbBtnPrint);
             this.Controls.Add(this.tbCombobox1);
             this.Controls.Add(this.tbbtnSendEmail);
             this.Controls.Add(this.tbbtnCancelSending);
@@ -412,5 +426,6 @@
         private Buttons.TBButton_Small tbbtnCancelSending;
         private Buttons.TBButton_Small tbbtnSendEmail;
         private Combobox.TBCombobox tbCombobox1;
+        private Buttons.TBButton_Small tbBtnPrint;
     }
 }

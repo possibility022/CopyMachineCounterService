@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Windows.Forms;
+using Copyinfo.Database;
 
 namespace Copyinfo.Other
 {
@@ -211,7 +212,12 @@ namespace Copyinfo.Other
             doWhenFinished();
         }
 
-        public static DialogResult Print(List<Database.MachineRecord> records)
+        public static DialogResult Print(IList<Database.MachineRecord> records)
+        {
+            return Print(records.Cast<MachineRecord>());
+        }
+
+        public static DialogResult Print(IEnumerable<Database.MachineRecord> records)
         {
             if (MessageBox.Show("Czy wydrukować tylko te dane, które nie były drukowane?", "Co drukujemy?", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {

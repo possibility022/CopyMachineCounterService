@@ -123,6 +123,10 @@ class MongoTB:
         if not printer_data['parsed']:
             return False
 
+        if printer_data['serial_number'] is not None:
+            if len(printer_data['serial_number']) == 0:
+                return False
+
         printer_data.pop('parsed')
 
         try:
