@@ -61,6 +61,7 @@
     <Compile Include="WindowsMetServiceTest\EngineTest.cs" />
     <Compile Include="WindowsMetServiceTest\FullUnitTest.cs" />
     <Compile Include="WindowsMetServiceTest\JsonConv.cs" />
+    <Compile Include="WindowsMetServiceTest\LocalDatabaseTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WindowsMetService\WindowsMetService.csproj">

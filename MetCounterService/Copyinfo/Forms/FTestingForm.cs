@@ -28,7 +28,7 @@ namespace Copyinfo.Forms
                 music.Add(new Music { Name = "ABC" + i.ToString() , name_local = "abc"});
             }
             
-            objectListView1.SetObjects(DAO.GetAllReports());
+            objectListView1.SetObjects(DAO.GetAllReports(MongoTB.RecordsCollection.Normal));
         }
     }
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Data;
-
+using System.Windows.Forms.DataVisualization.Charting;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
@@ -19,8 +19,8 @@ namespace Copyinfo.Database
         private static IMongoClient _client;
         private static IMongoDatabase _database;
 
-        //const string ipadress = "***REMOVED***";
-        const string ipadress = "192.168.1.246";
+        const string ipadress = "***REMOVED***";
+        //const string ipadress = "192.168.0.42";
         const string port = "2772";
 
         const string connectionString = "mongodb://" + ipadress + ":" + port;
@@ -36,9 +36,17 @@ namespace Copyinfo.Database
         private static MongoDatabase database;
         private static IMongoDatabase iDatabase;
 
+        public enum RecordsCollection
+        {
+            Normal,
+            Others,
+            Both
+        }
+
         enum Collections
         {
             machine_records,
+            machine_records_other,
             full_counter,
             full_serial,
             emails_binary
@@ -62,7 +70,7 @@ namespace Copyinfo.Database
 
             MongoCredential credentials = MongoCredential.CreateCredential(databaseName, login, password); //TODO encrypt this things
             List<MongoCredential> credentials_list = new List<MongoCredential>();
-            credentials_list.Add(credentials);
+            //credentials_list.Add(credentials);
             settings.Credentials = credentials_list;
             
             client = new MongoClient(settings);
@@ -94,14 +102,31 @@ namespace Copyinfo.Database
         //    return list;
         //}
 
-        static internal List<MachineRecord> GetAllReports()
+        static internal List<MachineRecord> GetAllReports(RecordsCollection collectionType)
         {
-            MongoCollection<MachineRecord> collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
+            switch (collectionType)
+                {
+                  case RecordsCollection.Normal:
+                      return GetMachineRecordList(database.GetCollection<MachineRecord>(Collections.machine_records.ToString()));
+                    case RecordsCollection.Others:
+                        return GetMachineRecordList(database.GetCollection<MachineRecord>(Collections.machine_records_other.ToString()));
+                    case RecordsCollection.Both:
+                        List<MachineRecord> list = GetAllReports(RecordsCollection.Normal);
+                        list.AddRange(GetAllReports(RecordsCollection.Others));
+                        return list;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(collectionType), collectionType, null);
+                }
+        }
+
+        private static List<MachineRecord> GetMachineRecordList(MongoCollection<MachineRecord> collection)
+        {
             MongoCursor<MachineRecord> all = collection.FindAll();
 
             List<MachineRecord> list = new List<MachineRecord>();
 
-            foreach ( MachineRecord m in all)
+            foreach (MachineRecord m in all)
             {
                 m.InitValues();
                 list.Add(m);
@@ -110,13 +135,50 @@ namespace Copyinfo.Database
             return list;
         }
 
-        static public List<MachineRecord> GetReports(string serial_number)
+        internal static List<MachineRecord> GetOtherReports(string serial_number)
+        {
+            MongoCollection<MachineRecord> collection =
+                database.GetCollection<MachineRecord>(Collections.machine_records_other.ToString());
+
+            MongoCursor<MachineRecord> all = collection.FindAll();
+
+            List<MachineRecord> list = new List<MachineRecord>();
+            foreach (MachineRecord m in all)
+            {
+                m.InitValues();
+                list.Add(m);
+            }
+
+            return list;
+        }
+
+        public static List<MachineRecord> GetReports(string serial_number, RecordsCollection collectionType)
+        {
+            switch (collectionType)
+            {
+                    case RecordsCollection.Normal:
+                    return GetReportsCollection(
+                        database.GetCollection<MachineRecord>(Collections.machine_records.ToString()), serial_number);
+
+                case RecordsCollection.Others:
+                    return GetReportsCollection(
+                        database.GetCollection<MachineRecord>(Collections.machine_records_other.ToString()), serial_number);
+
+                case RecordsCollection.Both:
+                    List<MachineRecord> list = GetReports(serial_number, RecordsCollection.Normal);
+                    list.AddRange(GetReports(serial_number, RecordsCollection.Others));
+                    return list;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(collectionType), collectionType, null);
+            }
+        }
+
+        private static List<MachineRecord> GetReportsCollection(MongoCollection<MachineRecord> collection, string serial_number)
         {
             if (serial_number != null)
             {
-                var collection = database.GetCollection<MachineRecord>(Collections.machine_records.ToString());
                 var entityQuery = Query<MachineRecord>.EQ(e => e.serial_number, serial_number);
-                
+
 
                 var members = collection.Find(entityQuery);
                 List<MachineRecord> records = new List<MachineRecord>();

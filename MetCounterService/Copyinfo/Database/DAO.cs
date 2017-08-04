@@ -89,14 +89,19 @@ namespace Copyinfo.Database
             return Firebird.GetClient(clientNIP);
         }
 
-        internal static List<MachineRecord> GetAllReports()
+        internal static List<MachineRecord> GetAllReports(MongoTB.RecordsCollection collection)
         {
-            return MongoTB.GetAllReports();
+            return MongoTB.GetAllReports(collection);
         }
 
-        internal async static Task<List<MachineRecord>> GetAllReportsAsync()
+        internal static List<MachineRecord> GetOtherReports(string serial_number)
         {
-            return await Task.Run(() => MongoTB.GetAllReports());
+            return MongoTB.GetOtherReports(serial_number);
+        }
+
+        internal async static Task<List<MachineRecord>> GetAllReportsAsync(MongoTB.RecordsCollection collection = MongoTB.RecordsCollection.Normal)
+        {
+            return await Task.Run(() => MongoTB.GetAllReports(collection));
         }
 
         internal static void DeleteMachineRecord(MachineRecord additionalItem)
@@ -129,9 +134,9 @@ namespace Copyinfo.Database
             throw new NotImplementedException("DeleteDevice in DAO");
         }
 
-        internal static List<MachineRecord> GetReports(string serial_number)
+        internal static List<MachineRecord> GetReports(string serial_number, MongoTB.RecordsCollection collection = MongoTB.RecordsCollection.Normal)
         {
-            return MongoTB.GetReports(serial_number);
+            return MongoTB.GetReports(serial_number, collection);
         }
 
         internal static MachineRecord GetFirstInMonth(string serial_number, DateTime month)

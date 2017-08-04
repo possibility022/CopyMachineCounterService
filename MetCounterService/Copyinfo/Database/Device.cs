@@ -46,7 +46,12 @@ namespace Copyinfo.Database
 
         public List<MachineRecord> GetRecords()
         {
-            return DAO.GetReports(serial_number);
+            return DAO.GetReports(serial_number, MongoTB.RecordsCollection.Both);
+        }
+
+        public List<MachineRecord> GetOtherRecords()
+        {
+            return DAO.GetOtherReports(serial_number);
         }
 
         public Client GetClient()
