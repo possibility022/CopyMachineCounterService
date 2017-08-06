@@ -18,14 +18,14 @@ namespace WindowsMetService
         public string url_counterData;
 
         public string mac;
-        public string ip;
+        public IPAddress ip;
 
         public DateTime datetime;
 
 
         static WebClient client;
 
-        public Machine(string ip)
+        public Machine(IPAddress ip)
         {
             this.ip = ip;
             if (SetUpMachine() == false)
@@ -39,21 +39,14 @@ namespace WindowsMetService
 
         private bool SetUpMachine()
         {
-            IPAddress addres;
             if (Global.GetMacAddress(this.mac) == "")
             {
-                if (IPAddress.TryParse(this.ip, out addres))
-                {
-                    this.mac = Network.Finder.GetMacAddress(addres);
-                }
-                else return false;
+                this.mac = Network.Finder.GetMacAddress(ip);
             }
 
             string[] links = LocalDatabase.GetMacWebMapping(this.mac);
             this.url_serialNumber = links[0];
             this.url_counterData = links[1];
-
-
 
             if ((links[0] == "") && (links[1] == ""))
                 return false;

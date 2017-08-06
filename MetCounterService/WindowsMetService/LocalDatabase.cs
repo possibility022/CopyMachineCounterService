@@ -9,6 +9,7 @@ using System.Net;
 using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
+using WindowsMetService.Network;
 using Newtonsoft.Json;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -16,7 +17,7 @@ namespace WindowsMetService
 {
     static class LocalDatabase
     {
-        private static string[] _ipsOfCopymachines;
+        private static IPAddress[] _ipsOfCopymachines;
 
         public enum ServerType { Receiver, Offer }
 
@@ -63,7 +64,7 @@ namespace WindowsMetService
 
         static LocalDatabase()
         {
-            _ipsOfCopymachines = new string[] { };
+            _ipsOfCopymachines = new IPAddress[] { };
         }
 
         public static bool Initialize()
@@ -164,13 +165,17 @@ namespace WindowsMetService
             try
             {
                 string[] lines = File.ReadAllLines(BuildPath(File_Ips));
-                List<string> ips = new List<string>();
+                List<IPAddress> ips = new List<IPAddress>();
 
                 foreach (string line in lines)
                 {
                     if (line.StartsWith("#") == false)
                     {
-                        ips.Add(line);
+                        IPAddress address;
+                        if (IPAddress.TryParse(line, out address))
+                        {
+                            ips.Add(address);
+                        }
                     }
                 }
 
@@ -182,12 +187,12 @@ namespace WindowsMetService
                 Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message + " trace " + ex.StackTrace);
                 if (File.Exists(path) == false)
                     File.Create(path);
-                _ipsOfCopymachines = new string[] { };
+                _ipsOfCopymachines = new IPAddress[] { };
             }
             catch (Exception ex)
             {
                 Global.Log("Nie udało się wczytać adresów IP. Message: " + ex.Message + " trace " + ex.StackTrace);
-                _ipsOfCopymachines = new string[] { };
+                _ipsOfCopymachines = new IPAddress[] { };
             }
         }
 
@@ -201,7 +206,7 @@ namespace WindowsMetService
 #endif
         }
 
-        public static string[] GetMachinesIps()
+        public static IPAddress[] GetMachinesIps()
         {
             LoadIpsFromFile();
             return _ipsOfCopymachines;
@@ -281,14 +286,19 @@ namespace WindowsMetService
 
         public static List<Machine> GetMachinesFromStorage()
         {
-            List<Machine> list = null;
-            try
+            List<Machine> list = new List<Machine>();
+            string pathToStorage = BuildPath(File_MachineStorage);
+            if (File.Exists(pathToStorage))
             {
-                list = (List<Machine>)ReadFromBinaryFile(BuildPath(File_MachineStorage));
-                File.Delete(BuildPath(File_MachineStorage));
-            }catch(FieldAccessException ex)
-            {
+                try
+                {
+                    list = (List<Machine>) ReadFromBinaryFile(pathToStorage);
+                    File.Delete(BuildPath(File_MachineStorage));
+                }
+                catch (FieldAccessException ex)
+                {
 
+                }
             }
             return list;
         }
@@ -319,6 +329,8 @@ namespace WindowsMetService
             try
             {
                 byte[] filebytes = File.ReadAllBytes(filePath);
+                if (filebytes.Length == 0)
+                    return new List<Machine>();
                 using (var memStream = new MemoryStream())
                 {
                     var binForm = new BinaryFormatter();
@@ -358,12 +370,12 @@ namespace WindowsMetService
         //    return Encoding.UTF8.GetString(Security.Encrypting.Decrypt(settings.ClientId));
         //}
 
-        public static System.Net.IPEndPoint GetServerEndpoint(ServerType type)
+        public static IPEndPoint GetServerEndpoint(ServerType type)
         {
             IPAddress ip;
             try
             {
-                System.Net.IPAddress[] adresy = System.Net.Dns.GetHostEntry(ServerAddress).AddressList;
+                IPAddress[] adresy = System.Net.Dns.GetHostEntry(ServerAddress).AddressList;
                 if (adresy.Length < 1)
                 {
                     Global.Log("Nie pobrano adresu IP z nazwy hosta: " + ServerAddress);
@@ -374,9 +386,9 @@ namespace WindowsMetService
                 switch (type)
                 {
                     case ServerType.Offer:
-                        return new System.Net.IPEndPoint(ip, 9998);
+                        return new IPEndPoint(ip, 9998);
                     case ServerType.Receiver:
-                        return new System.Net.IPEndPoint(ip, 9999);
+                        return new IPEndPoint(ip, 9999);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, @"Błąd w implementacji. W instrukcji switch został podany parametr, który nie ma swojego wywołania.");
                 }

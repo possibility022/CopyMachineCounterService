@@ -27,7 +27,7 @@ namespace WindowsMetService.Network
 
                 if (LocalDatabase.MacIsMapped(mac))
                 {
-                    Machine machine = new Machine(ip.ToString());
+                    Machine machine = new Machine(ip);
                     machine.mac = mac;
 
                     machineList.Add(machine);

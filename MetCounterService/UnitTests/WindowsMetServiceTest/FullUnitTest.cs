@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using WindowsMetService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,15 +19,15 @@ namespace UnitTests.WindowsMetServiceTest
             LocalDatabase.Initialize();
             Console.WriteLine("Zainicjalizowano bazę danych");
             LocalDatabase.Remove_old_logs();
-            string[] ips = LocalDatabase.GetMachinesIps();
+            IPAddress[] ips = LocalDatabase.GetMachinesIps();
 
             Console.WriteLine("Wczytane adresy ip:");
-            foreach (string ip in ips)
+            foreach (IPAddress ip in ips)
                 Debug.WriteLine(ip);
 
             List<Machine> machines = new List<Machine>();
 
-            foreach (string ip in ips)
+            foreach (IPAddress ip in ips)
             {
                 Machine machine = new Machine(ip);
                 machines.Add(machine);
@@ -66,5 +69,7 @@ namespace UnitTests.WindowsMetServiceTest
         {
             
         }
+
+       
     }
 }

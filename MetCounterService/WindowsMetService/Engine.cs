@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -94,14 +95,14 @@ namespace WindowsMetService
             try
             {
                 LocalDatabase.Remove_old_logs();
-                string[] ips = LocalDatabase.GetMachinesIps();
+                IPAddress[] ips = LocalDatabase.GetMachinesIps();
 
                 Global.Log("Tick");
                 LocalDatabase.SetToodayTick();
 
                 List<Machine> machines = new List<Machine>();
 
-                foreach (string ip in ips)
+                foreach (IPAddress ip in ips)
                 {
                     Machine machine = new Machine(ip);
                     machines.Add(machine);
