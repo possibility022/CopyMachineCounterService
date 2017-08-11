@@ -185,6 +185,12 @@
     <Compile Include="Forms\Controls\Combobox\TBCombobox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Forms\Controls\CRecordMongoDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\CRecordMongoDetails.Designer.cs">
+      <DependentUpon>CRecordMongoDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Controls\CReports.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -365,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CHTMLView.resx">
       <DependentUpon>CHTMLView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\CRecordMongoDetails.resx">
+      <DependentUpon>CRecordMongoDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\CReports.resx">
       <DependentUpon>CReports.cs</DependentUpon>

@@ -1,15 +1,32 @@
 import logging
 from ThreadEngine import Engine
 
+from Parser import DataParser
 import MongoDatabase
 
+
+def testFileConvert(filepath, mongo_database):
+    try:
+        f = open(filepath, 'r').read()
+
+        device = DataParser(f)
+        sucess = mongo_database.import_to_database(device)
+        if not sucess:
+            mongo_database.global_import_fulldatafaild(f)
+    except:
+        logging.error('Krytyczny blad w przetwarzaniu zdalnych raportow HTML')
+        logging.exception('Error!')
+
+
 if __name__ == "__main__":
-    import logging
     import settings
-    #logging.basicConfig(filename='/home/tomek/deamon.log', level=logging.WARNING, format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S %p')
     settings.init()
     
     mongo = MongoDatabase.MongoTB()
-    emails = mongo.email_binary_db.find()
-    for e in emails:
-        print(e)
+
+
+    # Testing File Parse
+    path = 'D:\TMP\messages_20170809-0819170'
+    testFileConvert(path, mongo)
+
+

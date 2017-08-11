@@ -14,7 +14,7 @@ namespace Copyinfo.Forms.Controls.MenuStrip
             Edit
         }
 
-        string valueToCopy = null;
+        public string valueToCopy = string.Empty;
 
         public TBMenuStrip(string valueToCopy, bool edit = false, TBDelegates.SetValue setValue = null) : base()
         {
@@ -36,7 +36,7 @@ namespace Copyinfo.Forms.Controls.MenuStrip
             }
             else if (e.ClickedItem.Text == ListOfOptions.Edit.ToString())
             {
-                Forms.FEditBox editBox = new FEditBox();
+                FEditBox editBox = new FEditBox();
                 editBox.ShowDialog();
                 setValue(editBox.GetValue());
             }
