@@ -234,8 +234,20 @@ namespace Copyinfo.Forms.Controls
 
         private void SearchInGoogleMaps(object sender, EventArgs e)
         {
-            MachineRecord record = (MachineRecord)fastObjectListView1.SelectedObjects[0];
-            record.GetDevice().address.SearchInGoogleMaps();
+            if (fastObjectListView1.SelectedObjects.Count > 0)
+            {
+                MachineRecord record = fastObjectListView1.SelectedObjects[0] as MachineRecord;
+                record?.GetDevice().address.SearchInGoogleMaps();
+            }
+        }
+
+        private void daneZBazyDanychToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FDatabaseInfo databaseInfo = new FDatabaseInfo();
+            if (fastObjectListView1.SelectedObjects.Count > 0)
+                databaseInfo.LoadDetails(fastObjectListView1.SelectedObjects[0]);
+
+            databaseInfo.Show();
         }
     }
 }

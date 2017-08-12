@@ -7,25 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BrightIdeasSoftware.Design;
-using Copyinfo.Database;
 
 namespace Copyinfo.Forms
 {
-    public partial class FTestingForm : Form
+    public partial class FDatabaseInfo : Form
     {
-        public FTestingForm()
+        public FDatabaseInfo()
         {
             InitializeComponent();
-            
         }
 
-        private void tbButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        public void test(Database.MachineRecord rec)
+        public void LoadDetails(object rec)
         {
             cRecordMongoDetails1.GenerateText(rec);
         }

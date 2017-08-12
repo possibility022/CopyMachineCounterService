@@ -85,7 +85,10 @@ namespace Copyinfo.Forms
 
         private void tbButton4_Click(object sender, EventArgs e)
         {
-            new FTestingForm().Show();
+            FTestingForm test = new FTestingForm();
+            test.Show();
+            MachineRecord record = (MachineRecord)cReports1.fastObjectListView1.SelectedObjects[0];
+            test.test(record);
         }
 
         private void FCopyInfo_FormClosing(object sender, FormClosingEventArgs e)

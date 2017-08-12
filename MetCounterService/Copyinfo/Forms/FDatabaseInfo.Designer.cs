@@ -1,8 +1,6 @@
-﻿using BrightIdeasSoftware;
-
-namespace Copyinfo.Forms
+﻿namespace Copyinfo.Forms
 {
-    partial class FTestingForm
+    partial class FDatabaseInfo
     {
         /// <summary>
         /// Required designer variable.
@@ -38,17 +36,17 @@ namespace Copyinfo.Forms
             this.cRecordMongoDetails1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cRecordMongoDetails1.Location = new System.Drawing.Point(0, 0);
             this.cRecordMongoDetails1.Name = "cRecordMongoDetails1";
-            this.cRecordMongoDetails1.Size = new System.Drawing.Size(872, 541);
+            this.cRecordMongoDetails1.Size = new System.Drawing.Size(1022, 593);
             this.cRecordMongoDetails1.TabIndex = 0;
             // 
-            // FTestingForm
+            // FDatabaseInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(872, 541);
+            this.ClientSize = new System.Drawing.Size(1022, 593);
             this.Controls.Add(this.cRecordMongoDetails1);
-            this.Name = "FTestingForm";
-            this.Text = "FTestingForm";
+            this.Name = "FDatabaseInfo";
+            this.Text = "FDatabaseInfo";
             this.ResumeLayout(false);
 
         }

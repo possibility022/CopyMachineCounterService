@@ -49,12 +49,12 @@ namespace Copyinfo.Forms.Controls
 
         private void SetCopyingOn()
         {
-            tblCity.SetCopyOn();
-            tblPostCity.SetCopyOn();
-            tblPostCode.SetCopyOn();
-            tblStreet.SetCopyOn();
-            tblApartmentNumber.SetCopyOn();
-            tblHouseNumber.SetCopyOn();
+            tblCity.CopyOn = true;
+            tblPostCity.CopyOn = true;
+            tblPostCode.CopyOn = true;
+            tblStreet.CopyOn = true;
+            tblApartmentNumber.CopyOn = true;
+            tblHouseNumber.CopyOn = true;
         }
 
         private void SearchInGoogleMaps(object sender, EventArgs e)

@@ -17,15 +17,24 @@ namespace Copyinfo.Forms.Controls.Labels
             }
         }
 
+        private bool copyOn = false;
+        public bool CopyOn
+        {
+            get { return copyOn; }
+            set
+            {
+                if (copyOn == false && value == true)
+                {
+                    this.MouseClick += TBLabel_MouseClick;
+                    menu = new TBMenuStrip(Text, value, SetValue);
+                    copyOn = value;
+                }
+            }
+        }
+
         public TBLabel() : base()
         {
             this.Font = Style.labelFont;
-        }
-
-        public void SetCopyOn(bool turnOnEditing = false)
-        {
-            this.MouseClick += TBLabel_MouseClick;
-            menu = new TBMenuStrip(Text, turnOnEditing, SetValue);
         }
 
         private void SetValue(string value)
