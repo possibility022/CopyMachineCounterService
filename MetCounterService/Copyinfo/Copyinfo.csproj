@@ -267,12 +267,6 @@
     <Compile Include="Forms\FCopyInfo.Designer.cs">
       <DependentUpon>FCopyInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FDatabaseInfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FDatabaseInfo.Designer.cs">
-      <DependentUpon>FDatabaseInfo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FDeviceListSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -404,9 +398,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FCopyInfo.resx">
       <DependentUpon>FCopyInfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FDatabaseInfo.resx">
-      <DependentUpon>FDatabaseInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FDeviceListSelect.resx">
       <DependentUpon>FDeviceListSelect.cs</DependentUpon>

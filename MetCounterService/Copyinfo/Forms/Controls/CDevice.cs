@@ -28,12 +28,12 @@ namespace Copyinfo.Forms.Controls
             objectListView1.Sort(olvDate, SortOrder.Descending);
             objectListView1.FormatRow += SetSpecialColorForRow;
 
-            tblAddress.CopyOn = true;
-            tblClientName.CopyOn = true;
-            tblModel.CopyOn = true;
-            tblNipName.CopyOn = true;
-            tblProvider.CopyOn = true;
-            tblSerialNumber.CopyOn = true;
+            tblAddress.SetCopyOn();
+            tblClientName.SetCopyOn();
+            tblModel.SetCopyOn();
+            tblNipName.SetCopyOn();
+            tblProvider.SetCopyOn();
+            tblSerialNumber.SetCopyOn();
 
             tbCombobox1.SelectedIndex = 0;         
         }

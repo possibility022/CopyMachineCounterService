@@ -52,7 +52,6 @@
             this.olvTonerLevel_M = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvTonerLevel_Y = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tbTextBox1 = new Copyinfo.Forms.Controls.TextBoxes.TBTextBox();
-            this.daneZBazyDanychToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.SuspendLayout();
@@ -65,12 +64,11 @@
             this.emailMessageToolStripMenuItem,
             this.hTMLLicznikToolStripMenuItem,
             this.hTMLNumerSeryjnyToolStripMenuItem,
-            this.daneZBazyDanychToolStripMenuItem,
             this.porównajWybraneToolStripMenuItem,
             this.wyszukajNaMapieToolStripMenuItem,
             this.usuńToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(223, 224);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(223, 180);
             // 
             // showDeviceToolStripMenuItem
             // 
@@ -254,13 +252,6 @@
             this.tbTextBox1.Size = new System.Drawing.Size(473, 25);
             this.tbTextBox1.TabIndex = 2;
             // 
-            // daneZBazyDanychToolStripMenuItem
-            // 
-            this.daneZBazyDanychToolStripMenuItem.Name = "daneZBazyDanychToolStripMenuItem";
-            this.daneZBazyDanychToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.daneZBazyDanychToolStripMenuItem.Text = "Dane z bazy danych";
-            this.daneZBazyDanychToolStripMenuItem.Click += new System.EventHandler(this.daneZBazyDanychToolStripMenuItem_Click);
-            // 
             // CReports
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -300,6 +291,5 @@
         private BrightIdeasSoftware.OLVColumn olvAddress;
         private System.Windows.Forms.ToolStripMenuItem showDeviceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wyszukajNaMapieToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem daneZBazyDanychToolStripMenuItem;
     }
 }
