@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsMetService", "WindowsMetService\WindowsMetService.csproj", "{D117E248-CA70-4902-8A5F-71660BB094B7}"
 EndProject
@@ -16,6 +16,12 @@ EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MetSide", "MetSide\MetSide.pyproj", "{6841AC21-C9FE-4F31-8CCF-CC6972631787}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{97A3021A-EDD2-430E-93EC-5D06AA137FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF", "CopyinfoWPF\CopyinfoWPF.csproj", "{8DEF84E7-FEA8-4675-8EE2-CECACA412078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Common", "CopyinfoWPF.Common\CopyinfoWPF.Common.csproj", "{E6158129-FB01-4111-8A04-6027E8E755A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Security", "CopyinfoWPF.Security\CopyinfoWPF.Security.csproj", "{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,8 +50,23 @@ Global
 		{97A3021A-EDD2-430E-93EC-5D06AA137FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97A3021A-EDD2-430E-93EC-5D06AA137FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97A3021A-EDD2-430E-93EC-5D06AA137FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DEF84E7-FEA8-4675-8EE2-CECACA412078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DEF84E7-FEA8-4675-8EE2-CECACA412078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DEF84E7-FEA8-4675-8EE2-CECACA412078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DEF84E7-FEA8-4675-8EE2-CECACA412078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6158129-FB01-4111-8A04-6027E8E755A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6158129-FB01-4111-8A04-6027E8E755A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6158129-FB01-4111-8A04-6027E8E755A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6158129-FB01-4111-8A04-6027E8E755A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86DC31DC-01FC-4659-B3DE-8F3B5158ECFC}
 	EndGlobalSection
 EndGlobal
