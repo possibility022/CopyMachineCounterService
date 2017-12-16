@@ -1,0 +1,24 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:UControls="clr-namespace:CopyinfoWPF.UControls" x:Class="CopyinfoWPF.MainWindow"
+    Background="#4388CC"
+    BorderBrush="#1B3280"
+    BorderThickness="2px"
+        mc:Ignorable="d"
+        Title="Copy Info" Height="700" Width="1024">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <UControls:UcReportsView Margin="5,0,5,5" Grid.Column="1"/>
+        <StackPanel>
+        <Button Grid.Column="0" Margin="5" Height="70" VerticalAlignment="Top" Background="White" Content="Liczniki" FontSize="18"></Button>
+        <Button Grid.Column="0" Margin="5" Height="70" VerticalAlignment="Top" Background="White" Content="Urządzenia" FontSize="18"></Button>
+        <Button Grid.Column="0" Margin="5" Height="70" VerticalAlignment="Top" Background="White" Content="Klienci" FontSize="18"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -22,20 +22,12 @@ namespace Copyinfo.Forms
 
         private void tbButton1_Click(object sender, EventArgs e)
         {
-            List<Music> music = new List<Music>();
-            for(int i = 0; i < 20; i++)
-            {
-                music.Add(new Music { Name = "ABC" + i.ToString() , name_local = "abc"});
-            }
-            
-            objectListView1.SetObjects(DAO.GetAllReports(MongoTB.RecordsCollection.Normal));
+
+        }
+
+        public void test(Database.MachineRecord rec)
+        {
+            cRecordMongoDetails1.GenerateText(rec);
         }
     }
-
-    public class Music
-    {
-        public string Name { get; set; }
-        public string name_local { get; set; }
-    }
-
 }

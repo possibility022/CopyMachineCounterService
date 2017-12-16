@@ -32,8 +32,8 @@ namespace Copyinfo.Forms.Controls
         private void Init()
         {
             InitializeComponent();
-            this.lName.SetCopyOn();
-            this.lNIP.SetCopyOn();
+            this.lName.CopyOn = true;
+            this.lNIP.CopyOn = true;
             this.tbCbMails.AddItemOnEnter(true);
             this.tbCbSites.AddItemOnEnter(true);
             this.tbCbFax.AddItemOnEnter(true);

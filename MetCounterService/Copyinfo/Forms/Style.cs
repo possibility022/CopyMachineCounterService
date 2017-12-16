@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 using System.Globalization;
 using BrightIdeasSoftware;
 
+using System.Drawing;
+
 namespace Copyinfo.Forms
 {
     static class Style
     {
-        public static System.Drawing.Font defaultFont = new System.Drawing.Font("Segoe UI", 10);
-        public static System.Drawing.Font defaultSmallFont = new System.Drawing.Font("Segoe UI", 8);
+
+        static int smallFontSize = 8;
+        static int normalFontSize = 10;
+
+        public static System.Drawing.Font defaultFont = new Font("Segoe UI", normalFontSize);//new System.Drawing.Font("Segoe UI", 10);
+
+        public static System.Drawing.Font defaultSmallFont = new Font("Segoe UI", smallFontSize);
         public static System.Drawing.Font emailRichTextBoxFont = defaultSmallFont;
 
         public static System.Drawing.Color txtErrorColor = System.Drawing.Color.FromArgb(255, 82, 82);

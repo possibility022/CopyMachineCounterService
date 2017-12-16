@@ -7,15 +7,34 @@ namespace Copyinfo.Forms.Controls.Labels
     {
         private TBMenuStrip menu = null;
 
+        public override string Text
+        {
+            get => base.Text;
+            set
+            {
+                base.Text = value;
+                if (menu != null) menu.valueToCopy = value;
+            }
+        }
+
+        private bool copyOn = false;
+        public bool CopyOn
+        {
+            get { return copyOn; }
+            set
+            {
+                if (copyOn == false && value == true)
+                {
+                    this.MouseClick += TBLabel_MouseClick;
+                    menu = new TBMenuStrip(Text, value, SetValue);
+                    copyOn = value;
+                }
+            }
+        }
+
         public TBLabel() : base()
         {
             this.Font = Style.labelFont;
-        }
-
-        public void SetCopyOn(bool turnOnEditing = false)
-        {
-            this.MouseClick += TBLabel_MouseClick;
-            menu = new TBMenuStrip(this.Text, turnOnEditing, SetValue);
         }
 
         private void SetValue(string value)
