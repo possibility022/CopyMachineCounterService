@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CopyinfoWPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,19 @@ namespace CopyinfoWPF.UControls
     /// </summary>
     public partial class UcReportsView : UserControl
     {
+        ReportsViewModel _viewModel;
+
+        ReportsViewModel ViewModel { get => _viewModel ?? (_viewModel = (ReportsViewModel)this.DataContext); }
+
         public UcReportsView()
         {
             InitializeComponent();
+            
+        }
+
+        private void OnRefreshClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.RefreshClickAsync(); //todo check this
         }
     }
 }

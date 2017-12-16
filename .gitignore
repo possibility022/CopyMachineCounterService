@@ -245,3 +245,4 @@ ModelManifest.xml
 .fake/
 /MetCounterService/MetSide/.idea
 /MetCounterService/ServerSide/.idea
+/MetCounterService/MetSide/__pycache__
