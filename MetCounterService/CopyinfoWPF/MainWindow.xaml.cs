@@ -1,5 +1,8 @@
-﻿using System;
+﻿using CopyinfoWPF.Database;
+using CopyinfoWPF.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,19 @@ namespace CopyinfoWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        ReportsViewModel _reportsViewModel;
+
+        ReportsViewModel ReportsViewModel { get => _reportsViewModel ?? (_reportsViewModel = (ReportsViewModel)Reports.DataContext); }
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public MainWindow(IEnumerable<MachineRecord> records) : this()
+        {
+            ReportsViewModel.Records = new ObservableCollection<MachineRecord>(records);
         }
     }
 }

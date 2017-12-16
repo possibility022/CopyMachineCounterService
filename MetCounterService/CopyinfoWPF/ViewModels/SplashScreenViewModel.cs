@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using CopyinfoWPF.Common;
 using CopyinfoWPF.Resources;
 using System.Threading;
+using CopyinfoWPF.Database;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -22,6 +23,24 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private string _message;
+
+        public string LoadingAnimationVisible { get { return _loadingAnimationIsVisible ? "Visible" : "Hidden"; } }
+
+        private bool LoadingAnimationIsVisible
+        {
+            get { return _loadingAnimationIsVisible; }
+            set
+            {
+                SetProperty(ref _loadingAnimationIsVisible, value);
+                RaisePropertyChanged(nameof(LoadingAnimationVisible));
+            }
+        }
+        private bool _loadingAnimationIsVisible;
+
+        public SplashScreenViewModel()
+        {
+            _loadingAnimationIsVisible = false;
+        }
 
         public bool LoginClick(SecureString password)
         {
@@ -45,33 +64,30 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
-        public async Task StartLoadingAsync()
+        public async Task<IEnumerable<MachineRecord>> StartLoadingAsync()
         {
+            LoadingAnimationIsVisible = true;
             Message = "Inicjalizacja bazy danych Liczników";
-            await Database.MongoTB.InitializeAsync();
-
-            await SleepAsync();
+            await MongoTB.InitializeAsync();
 
             Message = "Inicjalizacja bazy danych Asystenta";
             await Database.LocalCache.FirebirdServiceCache.InitializeAsync();
 
-            await SleepAsync();
-
             Message = "Inicjalizacja pamięci podręcznej.";
-            await Database.DAO.InitializeAsync();
-
-            await SleepAsync();
+            await DAO.InitializeAsync();
 
             Message = "Inicjalizacja skrzynki email.";
             Email.Initialize(
                 Encrypting.AES_Decrypt(ConstantData.EncryptedEmailLogin),
                 Encrypting.AES_Decrypt(ConstantData.EncryptedEmailPassword),
                 Encrypting.AES_Decrypt(ConstantData.EncryptedEmailSmtpPassword));
-        }
 
-        public async Task SleepAsync()
-        {
-            await Task.Run(() => Thread.Sleep(1000));
+            Message = "Pobieram dane z baz danych.";
+
+            IEnumerable<MachineRecord> records = await DAO.GetAllReportsAsync();
+
+            LoadingAnimationIsVisible = false;
+            return records;
         }
     }
 }

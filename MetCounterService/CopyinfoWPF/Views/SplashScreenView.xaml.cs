@@ -1,4 +1,6 @@
-﻿using CopyinfoWPF.ViewModels;
+﻿using CopyinfoWPF.Database;
+using CopyinfoWPF.ViewModels;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -33,8 +35,8 @@ namespace CopyinfoWPF.Views
         {
             if (ViewModel.LoginClick(PasswordBox.SecurePassword))
             {
-                await ViewModel.StartLoadingAsync();
-                MainWindow mainWindow = new MainWindow();
+                IEnumerable<MachineRecord> records = await ViewModel.StartLoadingAsync();
+                MainWindow mainWindow = new MainWindow(records);
                 mainWindow.Show();
                 Close();
             }

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ViewModels="clr-namespace:CopyinfoWPF.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="SplashScreen"
     Width="600"
@@ -43,8 +44,18 @@
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <Button Click="LoginClick" Content="Login" />
                         <Button Click="CancelClick" Content="Cancel" />
+
                     </StackPanel>
 
+                    <fa:ImageAwesome
+                        Width="50"
+                        Height="50"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Icon="Cog"
+                        Spin="True"
+                        SpinDuration="4"
+                        Visibility="{Binding LoadingAnimationVisible}" />
                 </StackPanel>
             </Border>
         </Border>
