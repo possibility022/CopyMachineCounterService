@@ -5,6 +5,8 @@ using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using CopyinfoWPF.Database;
 using System.Threading.Tasks;
+using Copyinfo.Other;
+using CopyinfoWPF.Views;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -15,6 +17,13 @@ namespace CopyinfoWPF.ViewModels
         {
             get { return _records; }
             set { SetProperty(ref _records, value); }
+        }
+
+        ObservableCollection<MachineRecord> _selectedRecords;
+        public ObservableCollection<MachineRecord> SelectedRecords
+        {
+            get { return _selectedRecords; }
+            set { SetProperty(ref _selectedRecords, value); }
         }
 
         public ReportsViewModel()
@@ -30,6 +39,13 @@ namespace CopyinfoWPF.ViewModels
         public async Task RefreshClickAsync()
         {
             Records = new ObservableCollection<MachineRecord>(await DAO.GetAllReportsAsync());
+        }
+
+        public void PrintSelectedItems()
+        {
+            PrintingPreviewView printing = new PrintingPreviewView();
+            printing.Show();
+            //Printing.InvokePrinting("TEXT");
         }
     }
 }

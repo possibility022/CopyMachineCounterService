@@ -35,5 +35,10 @@ namespace CopyinfoWPF.UControls
         {
             ViewModel.RefreshClickAsync(); //todo check this
         }
+
+        private void OnPrintClick(object sender, RoutedEventArgs e)
+        {
+            ViewModel.PrintSelectedItems();
+        }
     }
 }

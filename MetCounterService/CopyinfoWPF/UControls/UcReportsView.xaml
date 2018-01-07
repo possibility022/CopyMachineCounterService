@@ -35,15 +35,15 @@
                 Height="40"
                 Margin="5"
                 Background="White"
+                Click="OnPrintClick"
                 Content="Drukuj"
                 FontSize="18" />
         </StackPanel>
         <DataGrid
             Grid.Row="1"
-            AlternatingRowBackground="#FFDCCC95"
             AutoGenerateColumns="False"
-            Background="#FFF0F0F0"
-            ItemsSource="{Binding Records}">
+            ItemsSource="{Binding Records}"
+            SelectedItem="{Binding SelectedRecords}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=datetime}" Header="Data odczytu" />
                 <DataGridTextColumn Binding="{Binding Path=serial_number}" Header="Klient" />

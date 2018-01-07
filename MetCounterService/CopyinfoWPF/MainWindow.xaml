@@ -9,10 +9,24 @@
     Title="Copy Info"
     Width="1024"
     Height="700"
-    Background="#4388CC"
+    Background="White"
     BorderBrush="#1B3280"
     BorderThickness="2px"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="MainMenuButton" TargetType="Button">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Margin" Value="5,1,5,1" />
+
+        </Style>
+    </Window.Resources>
     <Window.DataContext>
         <ViewModels:MainWindowModel />
     </Window.DataContext>
@@ -24,32 +38,21 @@
         <UControls:UcReportsView
             x:Name="Reports"
             Grid.Column="1"
-            Margin="5,0,5,5" />
-        <StackPanel>
+            Margin="0,0,5,5" />
+        <StackPanel Background="White">
+            <Image Margin="0,0,0,20" Source="Resources\logo-met_tech.png" />
             <Button
                 Grid.Column="0"
-                Height="70"
-                Margin="5"
-                VerticalAlignment="Top"
-                Background="White"
                 Content="Liczniki"
-                FontSize="18" />
+                Style="{StaticResource MainMenuButton}" />
             <Button
                 Grid.Column="0"
-                Height="70"
-                Margin="5"
-                VerticalAlignment="Top"
-                Background="White"
                 Content="Urządzenia"
-                FontSize="18" />
+                Style="{StaticResource MainMenuButton}" />
             <Button
                 Grid.Column="0"
-                Height="70"
-                Margin="5"
-                VerticalAlignment="Top"
-                Background="White"
                 Content="Klienci"
-                FontSize="18" />
+                Style="{StaticResource MainMenuButton}" />
         </StackPanel>
     </Grid>
 </Window>

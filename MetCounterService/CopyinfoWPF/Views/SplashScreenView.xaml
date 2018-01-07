@@ -26,28 +26,44 @@
                 Margin="10"
                 BorderBrush="CornflowerBlue"
                 BorderThickness="2,2,2,2">
-                <StackPanel>
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
                     <Image
+                        Grid.Row="0"
                         Margin="20,50,20,10"
                         VerticalAlignment="Top"
                         Source="{StaticResource MyImageSource}" />
                     <PasswordBox
                         Name="PasswordBox"
+                        Grid.Row="1"
                         Height="30"
                         Margin="20,20,20,0"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         KeyUp="OnPasswordBoxKeyUp" />
 
-                    <Label Margin="20,0,20,0" Content="{Binding Message}" />
+                    <Label
+                        Grid.Row="2"
+                        Margin="20,0,20,0"
+                        Content="{Binding Message}" />
 
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <StackPanel
+                        Grid.Row="3"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
                         <Button Click="LoginClick" Content="Login" />
                         <Button Click="CancelClick" Content="Cancel" />
-
                     </StackPanel>
 
                     <fa:ImageAwesome
+                        Grid.Row="3"
                         Width="50"
                         Height="50"
                         HorizontalAlignment="Left"
@@ -56,7 +72,7 @@
                         Spin="True"
                         SpinDuration="4"
                         Visibility="{Binding LoadingAnimationVisible}" />
-                </StackPanel>
+                </Grid>
             </Border>
         </Border>
     </Grid>
