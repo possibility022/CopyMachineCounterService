@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace CopyinfoWPF.Common
 {
-    public class TextDocumentPaginator : DocumentPaginator, IDocumentPaginatorSource
+    public class TextDocumentPaginator : DocumentPaginator
     {
 
         #region DocumentPaginator
@@ -18,12 +18,9 @@ namespace CopyinfoWPF.Common
 
         public override Size PageSize { get; set; }
 
-        public override IDocumentPaginatorSource Source => this;
+        public override IDocumentPaginatorSource Source => null;
 
         public override DocumentPage GetPage(int pageNumber) => RenderPage(pageNumber);
-
-        //IDocumentPaginatorSource
-        public DocumentPaginator DocumentPaginator => this;
 
         #endregion
 
