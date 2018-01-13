@@ -26,13 +26,13 @@ namespace CopyinfoWPF.Common
 
         List<List<FormattedText>> pages = new List<List<FormattedText>>();
 
-        public double MarginTop { get; set; } = 10;
+        public double MarginTop { get; set; } = 30;
 
-        public double MarginLeft { get; set; } = 10;
+        public double MarginLeft { get; set; } = 30;
 
-        public double MarginRight { get; set; } = 10;
+        public double MarginRight { get; set; } = 30;
 
-        public double MarginBottom { get; set; } = 10;
+        public double MarginBottom { get; set; } = 30;
 
         private int _rowsPerPage = 0;
 
