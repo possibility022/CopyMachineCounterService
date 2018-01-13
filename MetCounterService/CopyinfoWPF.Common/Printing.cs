@@ -4,22 +4,45 @@ using System.Windows.Media;
 using System.IO;
 using System.Globalization;
 using CopyinfoWPF.Common;
+using CopyinfoWPF.Common.Enums;
 using System;
+using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Copyinfo.Other
 {
     public static class Printing
     {
-        public static void InvokePrinting(string text)
+        public static bool InvokePrinting(string text, string description)
         {
-            throw new Exception();
+            PrintDialog printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                TextDocumentPaginator myDocumentPaginator = new TextDocumentPaginator(text, printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
+                printDialog.PrintDocument(myDocumentPaginator, description);
+                return true;
+            }
 
-            //PrintDialog printDialog = new PrintDialog();
-            //if (printDialog.ShowDialog() == true)
-            //{
-            //    TextDocumentPaginator myDocumentPaginator = new TextDocumentPaginator(File.ReadAllText(@"D:\Games\Battle.net\World of Warcraft\interface\addons\Singer\core.lua"), printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-            //    printDialog.PrintDocument(myDocumentPaginator, "Wydruk");
-            //}
+            return false;
+        }
+
+        public static bool InvokePrinting(IEnumerable<string> documents, string description)
+        {
+            PrintDialog printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                TextDocumentPaginator myDocumentPaginator = new TextDocumentPaginator(documents, printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
+                printDialog.PrintDocument(myDocumentPaginator, description);
+                return true;
+            }
+
+            return false;
+        }
+
+        public static TextDocumentPaginator GetA4Preview(string text)
+        {
+            return new TextDocumentPaginator(text, CommonData.PageSizes[PageSizes.A4]);
         }
     }
 }

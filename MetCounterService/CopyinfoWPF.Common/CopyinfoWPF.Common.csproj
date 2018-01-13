@@ -48,13 +48,12 @@
     <Compile Include="CommonData.cs" />
     <Compile Include="CommonMethods.cs" />
     <Compile Include="Email.cs" />
+    <Compile Include="Enums\PageSizes.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="TextDocumentPaginator.cs" />
     <Compile Include="Printing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Printing.Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

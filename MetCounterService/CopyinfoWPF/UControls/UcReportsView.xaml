@@ -37,13 +37,17 @@
                 Background="White"
                 Click="OnPrintClick"
                 Content="Drukuj"
-                FontSize="18" />
+                FontSize="18"
+                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}" />
         </StackPanel>
         <DataGrid
+            x:Name="dataGridWithRecords"
             Grid.Row="1"
             AutoGenerateColumns="False"
             ItemsSource="{Binding Records}"
-            SelectedItem="{Binding SelectedRecords}">
+            SelectedItem="{Binding SelectedRecord}"
+            SelectionChanged="dataGridWithRecords_SelectionChanged"
+            SelectionMode="Extended">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=datetime}" Header="Data odczytu" />
                 <DataGridTextColumn Binding="{Binding Path=serial_number}" Header="Klient" />

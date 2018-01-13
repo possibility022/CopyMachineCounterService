@@ -24,11 +24,7 @@ namespace CopyinfoWPF.Common
 
         #endregion
 
-        private const string AllCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-        List<List<FormattedText>> pages;
-
-        List<FormattedText> formattedLines;
+        List<List<FormattedText>> pages = new List<List<FormattedText>>();
 
         public double MarginTop { get; set; } = 10;
 
@@ -43,11 +39,38 @@ namespace CopyinfoWPF.Common
         private int _pageCount => pages.Count;
 
         public TextDocumentPaginator(string text, double printableAreaWidth, double printableAreaHeight)
+            : this(text, new Size(printableAreaWidth, printableAreaHeight))
+        {
+
+        }
+
+        public TextDocumentPaginator(IEnumerable<string> documents, double printableAreaWidth, double printableAreaHeight)
         {
             PageSize = new Size(printableAreaWidth, printableAreaHeight);
+            foreach (string document in documents)
+            {
+                AddDocument(document);
+            }
+        }
+
+        public TextDocumentPaginator(string text, Size size)
+        {
+            PageSize = size;
+            AddDocument(text);
+        }
+
+        public void AddDocument(string text)
+        {
+            AddLines(text);
+        }
+
+        private void AddLines(string text)
+        {
             List<string> lines = SplitLines(text);
-            formattedLines = RenderLines(lines);
-            pages = SplitToPages(formattedLines);
+            var formattedLines = RenderLines(lines);
+
+            pages.AddRange(SplitToPages(formattedLines));
+
         }
 
         private List<string> SplitLines(string text)

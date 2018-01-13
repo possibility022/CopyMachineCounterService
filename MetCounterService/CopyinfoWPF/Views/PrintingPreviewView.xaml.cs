@@ -32,21 +32,6 @@ namespace CopyinfoWPF.Views
         public PrintingPreviewView()
         {
             InitializeComponent();
-
-            DocumentPaginator paginator = new TextDocumentPaginator(File.ReadAllText(@"D:\Games\Battle.net\World of Warcraft\interface\addons\Singer\core.lua"), 1000, 1000);
-
-            MemoryStream stream = new MemoryStream();
-
-            Package package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
-
-            var uri = new Uri(@"memorystream://myXps.xps");
-            PackageStore.AddPackage(uri, package);
-            var xpsDoc = new XpsDocument(package);
-
-            xpsDoc.Uri = uri;
-            XpsDocument.CreateXpsDocumentWriter(xpsDoc).Write(paginator);
-
-            ViewModel.Document = xpsDoc.GetFixedDocumentSequence();
         }
     }
 }

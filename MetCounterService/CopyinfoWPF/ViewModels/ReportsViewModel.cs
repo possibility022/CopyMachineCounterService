@@ -7,6 +7,8 @@ using CopyinfoWPF.Database;
 using System.Threading.Tasks;
 using Copyinfo.Other;
 using CopyinfoWPF.Views;
+using System.Windows.Controls;
+using CopyinfoWPF.Workflows;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -19,16 +21,32 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _records, value); }
         }
 
-        ObservableCollection<MachineRecord> _selectedRecords;
-        public ObservableCollection<MachineRecord> SelectedRecords
+        MachineRecord _selectedRecord;
+
+        public MachineRecord SelectedRecord
         {
-            get { return _selectedRecords; }
-            set { SetProperty(ref _selectedRecords, value); }
+            get { return _selectedRecord; }
+            set { SetProperty(ref _selectedRecord, value); }
         }
+
+        private System.Collections.IList _selectedRecords;
+        private bool _printButtonEnabled;
+
+        public System.Collections.IList SelectedRecords
+        {
+            get => _selectedRecords;
+            internal set
+            {
+                SetProperty(ref _selectedRecords, value);
+                PrintButtonEnabled = _selectedRecords.Count > 0;
+            }
+        }
+
+        public bool PrintButtonEnabled { get => _printButtonEnabled; private set => SetProperty(ref _printButtonEnabled, value); }
 
         public ReportsViewModel()
         {
-            
+
         }
 
         public void Add()
@@ -41,11 +59,9 @@ namespace CopyinfoWPF.ViewModels
             Records = new ObservableCollection<MachineRecord>(await DAO.GetAllReportsAsync());
         }
 
-        public void PrintSelectedItems()
+        public void PrintSelectedItems(DataGrid dataGrid)
         {
-            PrintingPreviewView printing = new PrintingPreviewView();
-            printing.Show();
-            //Printing.InvokePrinting("TEXT");
+            PrintingWorkflow.Print(SelectedRecords.Cast<MachineRecord>().ToList());
         }
     }
 }

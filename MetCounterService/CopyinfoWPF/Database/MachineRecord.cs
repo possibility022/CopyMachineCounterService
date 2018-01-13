@@ -62,7 +62,7 @@ namespace CopyinfoWPF.Database
         /// <summary>
         /// Aktualizuj ten parametr tylko przez metode SetPrintedTrue
         /// </summary>
-        public bool printed { get; set; } // Pobierane z mongo, true jeśli było już drukowane
+        public bool printed { get; protected set; } // Pobierane z mongo, true jeśli było już drukowane
 
         private HTMLCounter html_counter { get; set; }
         private HTMLSerial html_serial { get; set; }
@@ -232,7 +232,7 @@ namespace CopyinfoWPF.Database
             if (printed)
                 return;
 
-            this.printed = true;
+            printed = true;
             DAO.ReplaceMachineRecord(this);
         }
 
