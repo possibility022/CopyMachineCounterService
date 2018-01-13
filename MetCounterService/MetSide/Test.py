@@ -74,6 +74,63 @@ def testEmailParsing():
         logging.error('Zapisano')
 
 
+# TODO Section
+
+# Ta metoda zaktualizuje wszystkie rekordy tak aby pola zawieraly tonerlevel_x = ""
+# Nie będzie potrzeby sprawdzania tego w aplikacji
+
+def SetNullTonerLevelToEmptyString():
+
+    db = MongoTB()
+    UpdateRecrods(db.records)
+    UpdateRecrods(db.records_other)
+
+
+def UpdateRecrods(source):
+    
+    null_c = source.find({'tonerlevel_c':None})
+    null_m = source.find({'tonerlevel_m':None})
+    null_y = source.find({'tonerlevel_y':None})
+    null_k = source.find({'tonerlevel_k':None})
+
+    print(null_c.count)
+    print(null_m.count)
+    print(null_y.count)
+    print(null_k.count)
+
+    for rec in null_c:
+        if ('tonerlevel_c' in rec.keys() and rec['tonerlevel_c'] == None):
+            rec['tonerlevel_c'] = ''
+        else:
+            rec['tonerlevel_c'] = ''
+        print(rec['tonerlevel_c'])
+        source.replace_one({'_id':rec['_id']} ,rec)
+
+    for rec in null_m:
+        if ('tonerlevel_m' in rec.keys() and rec['tonerlevel_m'] == None):
+            rec['tonerlevel_m'] = ''
+        else:
+            rec['tonerlevel_m'] = ''
+        print(rec['tonerlevel_m'])
+        source.replace_one({'_id':rec['_id']} ,rec)
+    
+    for rec in null_y:
+        if ('tonerlevel_y' in rec.keys() and rec['tonerlevel_y'] == None):
+            rec['tonerlevel_y'] = ''
+        else:
+            rec['tonerlevel_y'] = ''
+        print(rec['tonerlevel_y'])
+        source.replace_one({'_id':rec['_id']} ,rec)
+    
+    for rec in null_k:
+        if ('tonerlevel_k' in rec.keys() and rec['tonerlevel_k'] == None):
+            rec['tonerlevel_k'] = ''
+        else:
+            rec['tonerlevel_k'] = ''
+        print(rec['tonerlevel_k'])
+        source.replace_one({'_id':rec['_id']} ,rec)
+            
+
 if __name__ == "__main__":
     import settings
     settings.init()
@@ -82,4 +139,6 @@ if __name__ == "__main__":
 
     #eng.parse_loop_email()
 
-    testEmailParsing()
+    #testEmailParsing()
+
+    SetNullTonerLevelToEmptyString()
