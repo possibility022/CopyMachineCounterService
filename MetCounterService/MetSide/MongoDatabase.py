@@ -65,7 +65,7 @@ class MongoTB:
         self.global_fulldata_faild = self.global_db[self.global_fullrecorddata_faild]
         self.global_other_db = self.global_db[self.global_other]
 
-    def global_get_fulldata(self):
+    def global_get_fulldata(self, readonly = False):
         records = self.global_fulldata.find()
         to_return = []
         for rec in records:
@@ -74,16 +74,17 @@ class MongoTB:
             except KeyError:
                 logging.warning('obiekt rec nie posiada klucza data, to nie powinno miec miesjca')
 
-
-        records.rewind()
-        for rec in records:
-            try:
-                self.global_fulldata.delete_one(rec)
-            except Exception as ex:
-                logging.warning('Problem z usuwaniem z kolekcji FullData %s', ex)
+        if (not readonly):
+            records.rewind()
+            for rec in records:
+                try:
+                    self.global_fulldata.delete_one(rec)
+                except Exception as ex:
+                    logging.warning('Problem z usuwaniem z kolekcji FullData %s', ex)
         return to_return
 
     def global_import_fulldatafaild(self, data):
+        data = {'data':data}
         self.global_fulldata_faild.insert_one(data)
 
     def global_get_mactoweb(self):
