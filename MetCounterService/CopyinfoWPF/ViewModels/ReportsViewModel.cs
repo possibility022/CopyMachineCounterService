@@ -10,27 +10,32 @@ using CopyinfoWPF.Views;
 using System.Windows.Controls;
 using CopyinfoWPF.Workflows;
 
+using System.ComponentModel;
+using System.Windows.Data;
+
 namespace CopyinfoWPF.ViewModels
 {
     class ReportsViewModel : BindableBase
     {
-        ObservableCollection<MachineRecord> _records;
-        public ObservableCollection<MachineRecord> Records
+        ICollectionView _records;
+        private bool _printButtonEnabled;
+        MachineRecord _selectedRecord;
+        private System.Collections.IList _selectedRecords;
+        private string _filterText = string.Empty;
+
+        public ObservableCollection<MachineRecord> _allRecords = new ObservableCollection<MachineRecord>();
+
+        public ICollectionView Records
         {
             get { return _records; }
             set { SetProperty(ref _records, value); }
         }
-
-        MachineRecord _selectedRecord;
 
         public MachineRecord SelectedRecord
         {
             get { return _selectedRecord; }
             set { SetProperty(ref _selectedRecord, value); }
         }
-
-        private System.Collections.IList _selectedRecords;
-        private bool _printButtonEnabled;
 
         public System.Collections.IList SelectedRecords
         {
@@ -42,21 +47,50 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
+        public string FilterText
+        {
+            get => _filterText;
+            set { SetProperty(ref _filterText, value); Records.Refresh(); }
+        }
+
         public bool PrintButtonEnabled { get => _printButtonEnabled; private set => SetProperty(ref _printButtonEnabled, value); }
 
         public ReportsViewModel()
         {
-
+            Records = CollectionViewSource.GetDefaultView(new List<MachineRecord>());
         }
 
-        public void Add()
+        private void ApplyFilter()
         {
+            //Records.Clear();
+            //Records.AddRange(_allRecords.Where(FilterLogic));
+        }
 
+        public void SetRecords(IEnumerable<MachineRecord> records)
+        {
+            _allRecords.Clear();
+            _allRecords.AddRange(records);
+            Records = CollectionViewSource.GetDefaultView(_allRecords);
+            Records.Filter = FilterLogic;
+        }
+
+        private bool FilterLogic(object item)
+        {
+            var rec = item as MachineRecord;
+            return rec.datetime.ToString().Contains(FilterText)
+                || rec.serial_number.Contains(FilterText)
+                || rec.print_counter_black_and_white.ToString().Contains(FilterText)
+                || rec.print_counter_color.ToString().Contains(FilterText)
+                || rec.scan_counter.ToString().Contains(FilterText)
+                || rec.tonerlevel_c.Contains(FilterText)
+                || rec.tonerlevel_y.Contains(FilterText)
+                || rec.tonerlevel_m.Contains(FilterText)
+                || rec.tonerlevel_k.Contains(FilterText);
         }
 
         public async Task RefreshClickAsync()
         {
-            Records = new ObservableCollection<MachineRecord>(await DAO.GetAllReportsAsync());
+            SetRecords(await DAO.GetAllReportsAsync());
         }
 
         public void PrintSelectedItems(DataGrid dataGrid)

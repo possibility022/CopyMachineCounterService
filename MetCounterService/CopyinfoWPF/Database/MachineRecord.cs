@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections;
 
 using MongoDB.Bson;
-using System.Collections.Generic;
 using CopyinfoWPF.Common;
+using Prism.Mvvm;
 
 namespace CopyinfoWPF.Database
 {
-    public class MachineRecord : IComparable<MachineRecord>
+    public class MachineRecord : BindableBase, IComparable<MachineRecord>
     {
         //|PrintCounterColor| 0
         //|DateTime| 9.22.2016 09:18:32 AM
@@ -254,6 +253,33 @@ namespace CopyinfoWPF.Database
         public static bool operator >(MachineRecord e1, MachineRecord e2)
         {
             return e1.CompareTo(e2) > 0;
+        }
+
+        internal class MachineRecordComparer : IComparer<MachineRecordData>
+        {
+            private int ColumnToSort;
+            private CaseInsensitiveComparer ObjectCompare;
+            private int[] columnsWithInt = new int[] { };
+
+            public MachineRecordComparer()
+            {
+                ColumnToSort = 0;
+                ObjectCompare = new CaseInsensitiveComparer();
+            }
+
+            public int Compare(MachineRecordData x, MachineRecordData y)
+            {
+                // Sprawdzanie datą
+
+                int datetime_compare = DateTime.Compare(x.datetime, y.datetime);
+
+                if (datetime_compare > 0)
+                    return 1;
+                else if (datetime_compare < 0)
+                    return -1;
+
+                return 0;
+            }
         }
     }
 }

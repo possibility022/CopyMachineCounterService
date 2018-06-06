@@ -246,3 +246,4 @@ ModelManifest.xml
 /MetCounterService/MetSide/.idea
 /MetCounterService/ServerSide/.idea
 /MetCounterService/MetSide/__pycache__
+.vscode

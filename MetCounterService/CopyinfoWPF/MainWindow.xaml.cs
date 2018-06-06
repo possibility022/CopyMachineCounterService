@@ -35,7 +35,7 @@ namespace CopyinfoWPF
 
         public MainWindow(IEnumerable<MachineRecord> records) : this()
         {
-            ReportsViewModel.Records = new ObservableCollection<MachineRecord>(records);
+            ReportsViewModel.SetRecords(records);
         }
     }
 }
