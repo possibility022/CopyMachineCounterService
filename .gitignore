@@ -245,3 +245,9 @@ ModelManifest.xml
 .fake/
 /MetCounterService/ServerSide/__pycache__
 /MetCounterService/MetSide/__pycache__
+MetCounterService/MetSide/__pycache__
+MetCounterService/MetSide/__pycache__/settings.cpython-36.pyc
+MetCounterService/MetSide/__pycache__/Email.cpython-36.pyc
+MetCounterService/MetSide/__pycache__/MongoDatabase.cpython-36.pyc
+MetCounterService/MetSide/__pycache__/Parser.cpython-36.pyc
+MetCounterService/MetSide/__pycache__/TBExceptions.cpython-36.pyc
