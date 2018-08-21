@@ -1,0 +1,79 @@
+﻿<Window
+    x:Class="CopyinfoWPF.Views.SplashScreenView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModels="clr-namespace:CopyinfoWPF.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="SplashScreen"
+    Width="600"
+    Height="300"
+    MouseDown="WindowMouseDown"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.DataContext>
+        <ViewModels:SplashScreenViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <BitmapImage x:Key="MyImageSource" UriSource="/Resources/logo-met_tech.png" />
+    </Window.Resources>
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="2,2,2,2">
+            <Border
+                Margin="10"
+                BorderBrush="CornflowerBlue"
+                BorderThickness="2,2,2,2">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Image
+                        Grid.Row="0"
+                        Margin="20,50,20,10"
+                        VerticalAlignment="Top"
+                        Source="{StaticResource MyImageSource}" />
+                    <PasswordBox
+                        Name="PasswordBox"
+                        Grid.Row="1"
+                        Height="30"
+                        Margin="20,20,20,0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        KeyUp="OnPasswordBoxKeyUp" />
+
+                    <Label
+                        Grid.Row="2"
+                        Margin="20,0,20,0"
+                        Content="{Binding Message}" />
+
+                    <StackPanel
+                        Grid.Row="3"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button Click="LoginClick" Content="Login" />
+                        <Button Click="CancelClick" Content="Cancel" />
+                    </StackPanel>
+
+                    <fa:ImageAwesome
+                        Grid.Row="3"
+                        Width="50"
+                        Height="50"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Icon="Cog"
+                        Spin="True"
+                        SpinDuration="4"
+                        Visibility="{Binding LoadingAnimationVisible}" />
+                </Grid>
+            </Border>
+        </Border>
+    </Grid>
+</Window>

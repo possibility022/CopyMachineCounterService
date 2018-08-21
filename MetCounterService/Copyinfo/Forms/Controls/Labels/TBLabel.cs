@@ -7,6 +7,16 @@ namespace Copyinfo.Forms.Controls.Labels
     {
         private TBMenuStrip menu = null;
 
+        public override string Text
+        {
+            get => base.Text;
+            set
+            {
+                base.Text = value;
+                if (menu != null) menu.valueToCopy = value;
+            }
+        }
+
         public TBLabel() : base()
         {
             this.Font = Style.labelFont;
@@ -15,7 +25,7 @@ namespace Copyinfo.Forms.Controls.Labels
         public void SetCopyOn(bool turnOnEditing = false)
         {
             this.MouseClick += TBLabel_MouseClick;
-            menu = new TBMenuStrip(this.Text, turnOnEditing, SetValue);
+            menu = new TBMenuStrip(Text, turnOnEditing, SetValue);
         }
 
         private void SetValue(string value)

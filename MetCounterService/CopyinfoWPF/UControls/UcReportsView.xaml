@@ -1,0 +1,71 @@
+﻿<UserControl
+    x:Class="CopyinfoWPF.UControls.UcReportsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:ViewModels="clr-namespace:CopyinfoWPF.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="500"
+    d:DesignWidth="900"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <ViewModels:ReportsViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary Source="..\Resources\XamlResources.xaml" />
+    </UserControl.Resources>
+    <Grid x:Name="data">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Grid.Column="0"
+                Width="190"
+                Height="40"
+                Margin="0,5,5,5"
+                Background="White"
+                Click="OnRefreshClick"
+                Content="Odśwież"
+                FontSize="18" />
+            <Button
+                Grid.Column="0"
+                Width="190"
+                Height="40"
+                Margin="5"
+                Background="White"
+                Click="OnPrintClick"
+                Content="Drukuj"
+                FontSize="18"
+                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}" />
+        </StackPanel>
+        <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+        <DataGrid
+            x:Name="dataGridWithRecords"
+            Grid.Row="2"
+            AutoGenerateColumns="False"
+            Foreground="Black"
+            ItemsSource="{Binding Records}"
+            SelectedItem="{Binding SelectedRecord}"
+            SelectionChanged="dataGridWithRecords_SelectionChanged"
+            SelectionMode="Extended">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=datetime}" Header="Data odczytu" />
+                <DataGridTextColumn Binding="{Binding Path=serial_number}" Header="Klient" />
+                <DataGridTextColumn Binding="{Binding Path=print_counter_black_and_white}" Header="Czarnobiałe" />
+                <DataGridTextColumn Binding="{Binding Path=print_counter_color}" Header="Kolorowe" />
+                <DataGridTextColumn Binding="{Binding Path=scan_counter}" Header="Skany" />
+                <DataGridTextColumn Binding="{Binding Path=tonerlevel_c}" Header="Cyjan" />
+                <DataGridTextColumn Binding="{Binding Path=tonerlevel_m}" Header="Magenta" />
+                <DataGridTextColumn Binding="{Binding Path=tonerlevel_k}" Header="Czarny" />
+                <DataGridTextColumn Binding="{Binding Path=tonerlevel_y}" Header="Żółty" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
