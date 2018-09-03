@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="b812f46a-2011-401e-958e-835291e834a4" ChangeDateTime="09/03/2018 19:28:04">
+    <Property Name="ElementName" Value="[dbo].[MachineRecord.EmailSource].[EmailSource]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord.EmailSource]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Content" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4e6509bf-ba2e-401c-81ea-cbb580185915" ChangeDateTime="09/03/2018 19:29:21">
+    <Property Name="ElementName" Value="[dbo].[FK_MachineRecord_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_MachineRecord_EmailSource]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f41df0be-2514-4bac-a36f-c3d38db16a34" ChangeDateTime="09/03/2018 19:30:23">
+    <Property Name="ElementName" Value="[dbo].[MachineRecord].[FK_EmailSource]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="EmailSource" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="976be503-a62f-4c3e-a0a0-de71917a112c" ChangeDateTime="09/03/2018 19:30:27">
+    <Property Name="ElementName" Value="[dbo].[MachineRecord].[FK_ServiceSourceCounters]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ServiceSourceCounters" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="76a325b8-4a9e-4206-909f-0f1871ef4486" ChangeDateTime="09/03/2018 19:30:30">
+    <Property Name="ElementName" Value="[dbo].[MachineRecord].[FK_ServiceSourceSerialNumber]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ServiceSourceSerialNumber" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="25eaf3c5-d521-4569-ba02-1890feb88d17" ChangeDateTime="09/03/2018 19:31:52">
+    <Property Name="ElementName" Value="[dbo].[MachineRecord].[ServiceSourceCounters]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Key_ServiceSourceCounters" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f8db8c3d-499c-4c63-9c18-e429d2965820" ChangeDateTime="09/03/2018 19:32:01">
+    <Property Name="ElementName" Value="[dbo].[MachineRecord].[Key_ServiceSourceCounters]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ServiceSourceCounters" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6a388945-0f81-42b0-b9ec-4bd0f77c7bfe" ChangeDateTime="09/03/2018 19:32:23">
+    <Property Name="ElementName" Value="[dbo].[FK_MachineRecord_ServiceSourceCounter]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_MachineRecord_ServiceSourceCounters]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="28fc96f0-07d0-407e-86e2-963bdeaf3548" ChangeDateTime="09/03/2018 19:32:30">
+    <Property Name="ElementName" Value="[dbo].[FK_MachineRecord_ServiceSourceSerial]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[MachineRecord]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_MachineRecord_ServiceSourceSerialNumber]" />
+  </Operation>
+</Operations>

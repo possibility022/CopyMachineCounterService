@@ -58,4 +58,13 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="MachineRecord.sql" />
+    <Build Include="MachineRecord.EmailSource.sql" />
+    <Build Include="MachineRecord.ServiceSourceCounters.sql" />
+    <Build Include="MachineRecord.ServiceSourceSerialNumber.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Copyinfo.Database.refactorlog" />
+  </ItemGroup>
 </Project>
