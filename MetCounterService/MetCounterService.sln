@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Common", "Copyi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Security", "CopyinfoWPF.Security\CopyinfoWPF.Security.csproj", "{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Copyinfo.Database", "Copyinfo.Database\Copyinfo.Database.sqlproj", "{5A481FD4-D419-4062-A733-92B2F3C24874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,12 @@ Global
 		{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C7F6516-2DD1-4EF9-9F14-69D32FE6840D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A481FD4-D419-4062-A733-92B2F3C24874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A481FD4-D419-4062-A733-92B2F3C24874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A481FD4-D419-4062-A733-92B2F3C24874}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5A481FD4-D419-4062-A733-92B2F3C24874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A481FD4-D419-4062-A733-92B2F3C24874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A481FD4-D419-4062-A733-92B2F3C24874}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
