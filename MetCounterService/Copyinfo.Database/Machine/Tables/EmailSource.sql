@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[MachineRecord.EmailSource]
+﻿CREATE TABLE [Machine].[EmailSource]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Content] NVARCHAR(MAX) NOT NULL

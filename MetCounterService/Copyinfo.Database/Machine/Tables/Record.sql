@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[MachineRecord]
+﻿CREATE TABLE [Machine].[Record]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
 	[CounterBlackAndWhite] INT NULL, 
@@ -16,7 +16,7 @@
     [EmailSource] INT NULL, 
     [ServiceSourceCounters] INT NULL,
 	[ServiceSourceSerialNumber] INT NULL, 
-    CONSTRAINT [FK_MachineRecord_EmailSource] FOREIGN KEY ([EmailSource]) REFERENCES [MachineRecord.EmailSource]([Id]), 
-    CONSTRAINT [FK_MachineRecord_ServiceSourceCounters] FOREIGN KEY ([ServiceSourceCounters]) REFERENCES [MachineRecord.ServiceSourceCounters]([Id]), 
-    CONSTRAINT [FK_MachineRecord_ServiceSourceSerialNumber] FOREIGN KEY ([ServiceSourceSerialNumber]) REFERENCES [MachineRecord.ServiceSourceSerialNumber]([Id])
+    CONSTRAINT [FK_MachineRecord_EmailSource] FOREIGN KEY ([EmailSource]) REFERENCES [Machine].[EmailSource]([Id]), 
+    CONSTRAINT [FK_MachineRecord_ServiceSourceCounters] FOREIGN KEY ([ServiceSourceCounters]) REFERENCES [Machine].[ServiceSourceCounters]([Id]), 
+    CONSTRAINT [FK_MachineRecord_ServiceSourceSerialNumber] FOREIGN KEY ([ServiceSourceSerialNumber]) REFERENCES [Machine].[ServiceSourceSerialNumber]([Id])
 )

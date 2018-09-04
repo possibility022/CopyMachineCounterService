@@ -57,14 +57,15 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Machine" />
+    <Folder Include="Security" />
+    <Folder Include="Machine\Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="MachineRecord.sql" />
-    <Build Include="MachineRecord.EmailSource.sql" />
-    <Build Include="MachineRecord.ServiceSourceCounters.sql" />
-    <Build Include="MachineRecord.ServiceSourceSerialNumber.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="Copyinfo.Database.refactorlog" />
+    <Build Include="Security\Machine.sql" />
+    <Build Include="Machine\Tables\EmailSource.sql" />
+    <Build Include="Machine\Tables\Record.sql" />
+    <Build Include="Machine\Tables\ServiceSourceCounters.sql" />
+    <Build Include="Machine\Tables\ServiceSourceSerialNumber.sql" />
   </ItemGroup>
 </Project>
