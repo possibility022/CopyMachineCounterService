@@ -1,5 +1,8 @@
 import logging
+from SQL.SqlDatabase import TBSQL
+
 from ThreadEngine import Engine
+import pickle
 
 from Parser import DataParser
 import MongoDatabase
@@ -46,12 +49,17 @@ def testEmailParsing():
     try:
         mails = []
         mailbox = EmailParser()
+        sqlDatabase = TBSQL()
+        sqlDatabase.Connect()
         ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
         for i in range(1, len(ids)):                            # Dla kazdego id na serwerze
             message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
             if message is not None:                             # Jesli wiadomosc pobrano to
                 mails.append(message)
+                mailAsBytes = pickle.dumps(message)
+                sqlDatabase.ImportEmailToQueue(v)
 
+        # Working with mongo database
         queue = mails
 
         for mail in queue:
@@ -64,6 +72,8 @@ def testEmailParsing():
             except Exception as ex:
                 logging.debug('Jest problem z mailem mail: %s', mail)
                 logging.exception('Error!')
+
+        
 
         mailbox.close()
     except Exception as e:
@@ -130,6 +140,27 @@ def UpdateRecrods(source):
         print(rec['tonerlevel_k'])
         source.replace_one({'_id':rec['_id']} ,rec)
             
+def SQLTest():
+    mongo = MongoTB()
+    s = TBSQL()
+    s.Connect()
+
+    # Adding new
+    #for el in mongo.email_binary_db.find():
+    #    print(el)
+    #    v = pickle.dumps(el)
+    #    print(type(v))
+    #    v2 = pickle.loads(v)
+    #    print(v2)
+    #    s.ImportEmailToQueue(v)
+    #    break
+    #pass
+
+    # emails = s.GetEmailsToParse()
+    # for el in emails:
+    #     v2 = pickle.loads(el.Content)
+    #     print (v2)
+
 
 if __name__ == "__main__":
     import settings
@@ -141,4 +172,7 @@ if __name__ == "__main__":
 
     #testEmailParsing()
 
-    SetNullTonerLevelToEmptyString()
+    #SetNullTonerLevelToEmptyString()    
+    SQLTest()
+    pass
+

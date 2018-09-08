@@ -60,6 +60,8 @@
     <Folder Include="Machine" />
     <Folder Include="Security" />
     <Folder Include="Machine\Tables" />
+    <Folder Include="Queue" />
+    <Folder Include="Queue\Tables" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Security\Machine.sql" />
@@ -67,5 +69,7 @@
     <Build Include="Machine\Tables\Record.sql" />
     <Build Include="Machine\Tables\ServiceSourceCounters.sql" />
     <Build Include="Machine\Tables\ServiceSourceSerialNumber.sql" />
+    <Build Include="Security\Queue.sql" />
+    <Build Include="Queue\Tables\Email.sql" />
   </ItemGroup>
 </Project>

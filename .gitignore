@@ -249,3 +249,5 @@ ModelManifest.xml
 .vscode
 /MetCounterService/MetSide/.mypy_cache/3.6
 /MetCounterService/MetSide/SqlDatabase/__pycache__
+/MetCounterService/MetSide/SQL/__pycache__
+*.jfm

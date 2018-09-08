@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6841ac21-c9fe-4f31-8ccf-cc6972631787</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>SqlDatabase\SqlTests.py</StartupFile>
+    <StartupFile>Test.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -25,10 +25,7 @@
   <ItemGroup>
     <Compile Include="Email.py" />
     <Compile Include="main.py" />
-    <Compile Include="SqlDatabase\SqlRepository.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SqlDatabase\SqlTests.py">
+    <Compile Include="SQL\SqlDatabase.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test.py">
@@ -41,7 +38,7 @@
     <Compile Include="TBExceptions.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SqlDatabase\" />
+    <Folder Include="SQL\" />
     <Folder Include="test\" />
   </ItemGroup>
   <PropertyGroup>

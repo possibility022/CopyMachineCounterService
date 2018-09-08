@@ -29,7 +29,8 @@ class MongoTB:
 
         self.client = MongoClient(self.serverip, self.serverport)
         self.db = self.client[self.database_name]
-        self.db.authenticate('***REMOVED***', '***REMOVED***--_][')
+        if settings.AuthentiactionOn:
+            self.db.authenticate('***REMOVED***', '***REMOVED***--_][')
         self.records = self.db[self.machine_records]
         self.countersdata = self.db[self.full_counter]
         self.serialdata = self.db[self.full_serial]
