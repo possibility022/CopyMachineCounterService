@@ -25,9 +25,13 @@
   <ItemGroup>
     <Compile Include="Email.py" />
     <Compile Include="main.py" />
-    <Compile Include="SQL\SqlDatabase.py">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Service\Exceptions\TBExceptions.py" />
+    <Compile Include="Service\Exceptions\__init__.py" />
+    <Compile Include="Service\Parsing\EmailParsing.py" />
+    <Compile Include="Service\Parsing\XmlParsing.py" />
+    <Compile Include="Service\Parsing\__init__.py" />
+    <Compile Include="Service\SQL\SqlDatabase.py" />
+    <Compile Include="Service\SQL\__init__.py" />
     <Compile Include="Test.py">
       <SubType>Code</SubType>
     </Compile>
@@ -35,10 +39,12 @@
     <Compile Include="MongoDatabase.py" />
     <Compile Include="Parser.py" />
     <Compile Include="settings.py" />
-    <Compile Include="TBExceptions.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SQL\" />
+    <Folder Include="Service\" />
+    <Folder Include="Service\Exceptions\" />
+    <Folder Include="Service\SQL\" />
+    <Folder Include="Service\Parsing\" />
     <Folder Include="test\" />
   </ItemGroup>
   <PropertyGroup>

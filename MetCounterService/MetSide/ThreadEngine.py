@@ -22,8 +22,6 @@ from datetime import datetime, timedelta
 import traceback
 
 
-
-
 class Engine(object):
     """ Threading example class
     The run() method will be started and it will run in the background
@@ -32,9 +30,6 @@ class Engine(object):
 
     def parse_loop_email(self):    
         try:
-            slqRepository = SqlRepository()
-            sqlRepository.connect()
-
             mailbox = EmailParser()
             ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
             for i in range(1, len(ids)):                            # Dla kazdego id na serwerze

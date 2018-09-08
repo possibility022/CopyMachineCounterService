@@ -9,7 +9,7 @@ import settings
 from poplib import error_proto
 import email
 import pymongo
-from TBExceptions import ServerException
+from Service.Exceptions.TBExceptions import ServerException
 # MONGO EMAIL DOCUMENT STYLE
 # mail = {'mail': [], '_id': ''}
 

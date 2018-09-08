@@ -1,7 +1,7 @@
 from Parser import DataParser
 from pymongo import MongoClient
 from pymongo import errors
-from TBExceptions import ServerException
+from Service.Exceptions.TBExceptions import ServerException
 import logging
 import settings
 

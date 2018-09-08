@@ -1,5 +1,4 @@
 import logging
-from SQL.SqlDatabase import TBSQL
 
 from ThreadEngine import Engine
 import pickle
@@ -26,6 +25,9 @@ from MongoDatabase import MongoTB
 from Parser import DataParser
 from Email import EmailParser
 
+from Service.Parsing.EmailParsing import EmailParserV2
+from Service.SQL.SqlDatabase import TBSQL
+
 from datetime import datetime, timedelta
 
 import traceback
@@ -45,19 +47,22 @@ def testFileConvert(filepath, mongo_database):
 
 
 
-def testEmailParsing():    
+def testEmailParsing():
+    sqlDatabase = TBSQL()
     try:
         mails = []
         mailbox = EmailParser()
-        sqlDatabase = TBSQL()
+
         sqlDatabase.Connect()
+
         ids = numMessages = mailbox.get_emails_id()             # Pobranie wszystkich id z serwera pocztowego
         for i in range(1, len(ids)):                            # Dla kazdego id na serwerze
             message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
             if message is not None:                             # Jesli wiadomosc pobrano to
                 mails.append(message)
-                mailAsBytes = pickle.dumps(message)
-                sqlDatabase.ImportEmailToQueue(v)
+
+                binaryEmail = pickle.dumps(message)
+                sqlDatabase.ImportEmailToQueue(binaryEmail)
 
         # Working with mongo database
         queue = mails
@@ -78,6 +83,29 @@ def testEmailParsing():
         mailbox.close()
     except Exception as e:
         logging.error('P1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
+        logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
+        logging.exception('Error!')
+        logging.error(traceback.format_exc())
+        logging.error('Zapisano')
+
+    try:
+        sqlDatabase.Connect()
+        emailsToParse = sqlDatabase.GetEmailsToParse()
+        for binaryEmail in emailsToParse:
+            email = pickle.loads(binaryEmail.Content)
+            
+            data = None
+            try:
+                data = mailbox.parse_email_to_device_data(mail)         # Tutaj parsuje do odpowiednich danych
+                print(data)
+                data = None
+                
+            except Exception as ex:
+                logging.debug('Jest problem z mailem mail: %s', mail)
+                logging.exception('Error!')
+
+    except Exception as e:
+        logging.error('P1.1 - Błąd krytyczny w pętli parsowania email z serwera SQL. Pętla została przerwana. %s', e)
         logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
         logging.exception('Error!')
         logging.error(traceback.format_exc())
@@ -161,6 +189,24 @@ def SQLTest():
     #     v2 = pickle.loads(el.Content)
     #     print (v2)
 
+def SQLTest_TestingInsertingRecords():
+    mongo = MongoTB()
+    sql = TBSQL()
+    sql.Connect()
+    emParser = EmailParserV2(settings)
+
+    records = mongo.email_binary_db.find()
+
+    countTo = 10
+
+    for el in records:
+        parsingResults = emParser.ParseEmailToMachineRecord(el)
+        if parsingResults['sucess'] is True:
+            countTo = countTo - 1
+            if (countTo < 1):
+                break
+            sql.InsertMachineRecord(parsingResults['record'], parsingResults['binaryBody'])
+
 
 if __name__ == "__main__":
     import settings
@@ -173,6 +219,7 @@ if __name__ == "__main__":
     #testEmailParsing()
 
     #SetNullTonerLevelToEmptyString()    
-    SQLTest()
+    #SQLTest()
+    SQLTest_TestingInsertingRecords()
     pass
 

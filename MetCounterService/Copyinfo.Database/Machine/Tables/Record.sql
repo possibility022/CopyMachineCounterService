@@ -4,7 +4,7 @@
 	[CounterBlackAndWhite] INT NULL, 
     [CounterColor] INT NULL, 
     [CounterScanner] INT NULL,
-    [Description] NVARCHAR(50) NULL, 
+    [Description] NVARCHAR(300) NULL, 
     [AddressIp] NVARCHAR(32) NULL, 
     [ReadDatetime] DATETIME NOT NULL, 
     [SerialNumber] NVARCHAR(20) NOT NULL, 
