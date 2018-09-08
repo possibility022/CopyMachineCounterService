@@ -44,14 +44,24 @@ class TBSQL:
         session.close()
         return records
 
+    def GetAll(self, table):
+        session = Session(self.Engine)
+        records = session.query(table).all()
+        session.close()
+        return records
+
+
     def InsertMachineRecord(self, recordData, binaryBody):
         session = Session(self.Engine)
-        entity = self._mapFromDict(recordData. binaryBody)
+        entity = self._mapFromDict(recordData)
+        entity.emailsource = self.MachineEmailSource(
+            Content = binaryBody
+        )
         session.add(entity)
         session.commit()
         session.close()
 
-    def _mapFromDict(self, data, binaryBody):
+    def _mapFromDict(self, data):
 
         recordEntity = self.MachineRecord(
             CounterBlackAndWhite = self._getFromDictIfExists(data,'print_counter_black_and_white'),
@@ -66,10 +76,6 @@ class TBSQL:
             TonerLevelYellow = self._getFromDictIfExists(data,'tonerlevel_y'),
             TonerLevelMagenta = self._getFromDictIfExists(data,'tonerlevel_m'),
             AddressMac = self._getFromDictIfExists(data,'addressMAC')
-        )
-
-        emailSource = self.MachineEmailSource(
-            Content = binaryBody
         )
 
         return recordEntity

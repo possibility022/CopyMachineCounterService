@@ -1,4 +1,5 @@
 import logging
+import json
 
 from ThreadEngine import Engine
 import pickle
@@ -27,6 +28,9 @@ from Email import EmailParser
 
 from Service.Parsing.EmailParsing import EmailParserV2
 from Service.SQL.SqlDatabase import TBSQL
+from Service.Email.EmailClient import EmailPop3Client
+from Service.Parsing.XmlParsing import XMLLoader
+from Service.Exceptions.TBExceptions import ServerException
 
 from datetime import datetime, timedelta
 
@@ -190,22 +194,37 @@ def SQLTest():
     #     print (v2)
 
 def SQLTest_TestingInsertingRecords():
+    
+    j_settings = None
+    
+    with open('D:\\data.json', 'r') as fp:
+        j_settings = json.load(fp)
+
     mongo = MongoTB()
     sql = TBSQL()
     sql.Connect()
-    emParser = EmailParserV2(settings)
+    xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
+    emailClient = EmailPop3Client(j_settings['emailConnection'])
+    
+    emParser = EmailParserV2(xmlLoader)
 
-    records = mongo.email_binary_db.find()
+    #sqlRecords = sql.GetAll(sql.MachineRecord)
+    records = mongo.email_parsed_success_db.find()
 
-    countTo = 10
+    # rec = mongo.email_binary_db.find_one({'_id': b'+OK 92 000015f458217c35'})
+    # el = EmailPop3Client.parse(rec)
 
     for el in records:
+        
+        el = mongo.email_binary_db.find_one({'_id': el['_id']})
+
+        try:
+            el = EmailPop3Client.parse(el)
+        except ServerException:
+            continue
         parsingResults = emParser.ParseEmailToMachineRecord(el)
         if parsingResults['sucess'] is True:
-            countTo = countTo - 1
-            if (countTo < 1):
-                break
-            sql.InsertMachineRecord(parsingResults['record'], parsingResults['binaryBody'])
+            sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
 
 
 if __name__ == "__main__":

@@ -2,12 +2,10 @@ import xml.etree.ElementTree as ET
 
 class XMLLoader:
 
-    def __init__(self, settings):
-        workfolder = settings.workfolder
-        path = workfolder + '/test/emailparser.xml'
+    def __init__(self, filePath):
         self.tags = {'signature': 'signature', 'datetime': 'datetime','print': 'regprintcounter', 'printcolor': 'regprintcountercolor', 'scan': 'regscancounter', 'serial': 'regserialnumber', 'tonerc': 'regtonerlevelc', 'tonerm': 'regtonerlevelm', 'tonery': 'regtonerlevely', 'tonerk':'regtonerlevelk'}
 
-        self.tree = ET.parse(path)
+        self.tree = ET.parse(filePath)
         self.root = self.tree.getroot()
 
     def get_printer_counter(self, which):

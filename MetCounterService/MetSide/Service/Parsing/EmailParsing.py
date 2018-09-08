@@ -1,45 +1,32 @@
-import getpass, poplib
 import xml.etree.ElementTree as ET
 import re
 import os
 from datetime import datetime as DATETIME
 import logging
-from poplib import error_proto
-import email
 import sys
 
 from Service import *
 
 class EmailParserV2:
     
-    def __init__(self, settings):
-        self.xml_loader = XMLLoader(settings)
+    def __init__(self, xmlLoader):
+        self.xml_loader = xmlLoader
         pass
 
     def ParseEmailToMachineRecord(self, mail):
 
         parsingResults = {
+            'sourceEmail': mail,
             'sucess': True, 
             'parsingErrorMessage': [],
-            'parsedEmailBody': None,
-            'record': None,
-            'binaryBody': None
+            'record': None
         }
 
         if mail is None:
             parsingResults['sucess'] = False
             return parsingResults
 
-        try:
-            parsedEmail = self.parse(mail)
-        except ServerException:
-            parsingResults['sucess'] = False
-            return parsingResults
-
-        parsingResults['parsedEmailBody'] = parsedEmail['body']
-        parsingResults['binaryBody'] = parsedEmail['body-binary']
-
-        signature = self.get_signature_number(parsedEmail)
+        signature = self.get_signature_number(mail)
 
         if signature is None:
             parsingResults['sucess'] = False
@@ -61,9 +48,7 @@ class EmailParserV2:
             "tonerlevel_c": '',
             "tonerlevel_m": '',
             "tonerlevel_y": '',
-            "tonerlevel_k": '',
-            "email_info": b'',
-            "parsed_by_email" : True
+            "tonerlevel_k": ''
         }
 
         # Wczytywanie wartośći regexów z XMLa
@@ -84,15 +69,13 @@ class EmailParserV2:
             parsingResults['parsingErrorMessage'].append('Błąd w czytywaniu regexa. Sprawdź to :)')
             return parsingResults
 
-        data = parsedEmail['body']
-
         # Parsowanie body
         try:
-            date_time = self.parse_using_regex(data, datetime_regex_group[0])
-            serialnumber = self.parse_using_regex(data, serial_number_regex_group[0])
-            scancounter = self.addition_regex_group(data, scan_counter_regex_group)
-            printcounter = self.addition_regex_group(data, print_counter_regex_group)
-            printcountercolor = self.addition_regex_group(data, print_counter_color_regex_group)
+            date_time = self.parse_using_regex(mail['body'], datetime_regex_group[0])
+            serialnumber = self.parse_using_regex(mail['body'], serial_number_regex_group[0])
+            scancounter = self.addition_regex_group(mail['body'], scan_counter_regex_group)
+            printcounter = self.addition_regex_group(mail['body'], print_counter_regex_group)
+            printcountercolor = self.addition_regex_group(mail['body'], print_counter_color_regex_group)
         except Exception as e:
             logging.error('Błąd krytyczny przy parsowaniu regexa. %s', e)
             parsingResults['parsingErrorMessage'].append('Błąd przy parsowaniu "BODY"')
@@ -107,22 +90,22 @@ class EmailParserV2:
         #sprawdzanie tonerów, jeśli nie ma w pliku xml to omijamy.
         try:
             if len(tonerc_regex_group) > 0:
-                tonerc = self.parse_using_regex(data, tonerc_regex_group[0])
+                tonerc = self.parse_using_regex(mail['body'], tonerc_regex_group[0])
                 if tonerc_regex_group[0][3] == 'true' and tonerc is None:
                     parsingResults['sucess'] = False
                     parsingResults['parsingErrorMessage'].append('Wymagany jest poziom tonerów C.')
             if len(tonerm_regex_group) > 0:
-                tonerm = self.parse_using_regex(data, tonerm_regex_group[0])
+                tonerm = self.parse_using_regex(mail['body'], tonerm_regex_group[0])
                 if tonerm_regex_group[0][3] == 'true' and tonerm is None:
                     parsingResults['sucess'] = False
                     parsingResults['parsingErrorMessage'].append('Wymagany jest poziom tonerów M.')
             if len(tonery_regex_group) > 0:
-                tonery = self.parse_using_regex(data, tonery_regex_group[0])
+                tonery = self.parse_using_regex(mail['body'], tonery_regex_group[0])
                 if tonery_regex_group[0][3] == 'true' and tonery is None:
                     parsingResults['sucess'] = False
                     parsingResults['parsingErrorMessage'].append('Wymagany jest poziom tonerów Y.')
             if len(tonerk_regex_group) > 0:
-                tonerk = self.parse_using_regex(data, tonerk_regex_group[0])
+                tonerk = self.parse_using_regex(mail['body'], tonerk_regex_group[0])
                 if tonerk_regex_group[0][3] == 'true' and tonerk is None:
                     parsingResults['sucess'] = False
                     parsingResults['parsingErrorMessage'].append('Wymagany jest poziom tonerów K.')
@@ -162,8 +145,7 @@ class EmailParserV2:
             printer_data['scan_counter'] = scancounter
             printer_data['print_counter_black_and_white'] = printcounter
             printer_data['print_counter_color'] = printcountercolor
-            printer_data['description'] = 'parsed from email server. Signature: ' + str(signature) + ' EMail ID: ' + str(mail['_id'])
-            printer_data['email_info'] = mail['_id']
+            printer_data['description'] = 'parsed from email server. Signature: ' + str(signature) + ' EMail ID: ' + mail['id']
             printer_data['tonerlevel_c'] = tonerc
             printer_data['tonerlevel_m'] = tonerm
             printer_data['tonerlevel_y'] = tonery
@@ -184,9 +166,15 @@ class EmailParserV2:
 
     @staticmethod
     def parse_using_regex(data, reggroup):
+        
         order = int(reggroup[0])
         group = int(reggroup[2])
+        
+        if reggroup[1] == '' or reggroup[1] is None:
+            return None
+
         all_data = re.findall(reggroup[1], data)
+
         try:
             to_return = all_data[order][group]
         except Exception as e:
@@ -229,87 +217,3 @@ class EmailParserV2:
             logging.warning('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e)
         # except:
         #     logging.warning(def addition_regex_group(self, data, reggroup_s))
-
-        value = 0
-
-        try:
-            for reg_group in reggroup_s:
-                parsed = self.parse_using_regex(data, reg_group)
-                if parsed is not None:
-                    value += int(parsed)
-                else:
-                    return None
-
-            if value != 0:
-                return value
-        except Exception as e:
-            logging.warning('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e)
-        except:
-            logging.warning('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', sys.exc_info()[0])
-
-
-    def parse(self, mail):
-        body = None
-        encoding = self.get_encoding(mail['mail'])
-
-        # Dane binarne dla windowsa. Tam nowa linia powinna zaczynać się od \r\n
-        byte_message = b'\n'.join(mail['mail'])
-        
-        message = email.message_from_bytes(byte_message)
-
-        for part in message.walk():
-            if part.get_content_type() == 'text/plain':
-                body = part.get_payload(decode=True)
-                break   
-
-        #body = message.get_payload(0).get_payload(decode=True)
-        try:
-            if body is not None:
-                if encoding is not '':
-                    body = body.decode(encoding)
-                else:
-                    body = body.decode('utf-8')
-            else:
-                raise ServerException('Serwer nie zdekodował wiadomości. Prawdopodobnie jest innego rodzaju niż text/plain')
-        except UnicodeDecodeError as e:
-            raise ServerException('Serwer nie zdekodował wiadomości. Prawdopodobnie jest innego rodzaju niż text/plain')
-
-
-        if isinstance(body, str):
-            lines = body.split('\n')
-        elif isinstance(body,bytes):
-            lines = body.split(b'\n')
-        else:
-            raise ServerException('Email został niepoprawnie przetworzony')
-
-        parsedEmail = {
-            'body': body,
-            'body-lines': lines,
-            'body-binary': byte_message
-        }
-        # mail['body'] = body
-        # mail['body-lines'] = lines
-
-        return parsedEmail
-
-    @staticmethod
-    def get_encoding(doc):
-        if isinstance(doc, tuple):
-            msg = doc[1]
-        elif isinstance(doc, list):
-            msg = doc
-        else:
-            msg = []
-
-        for el in msg:
-            s = el.decode('utf-8')
-            if s.startswith('Content-Type:'):
-                s = s.replace('Content-Type:', '')
-                parts = s.split(';')
-                for part in parts:
-                    if part.__contains__('charset='):
-                        part = part.strip()
-                        part = part.replace('charset=', '')
-                        return part
-
-        return ''
