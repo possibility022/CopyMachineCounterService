@@ -84,12 +84,12 @@ class Engine(object):
             if datetime.now() > datetime.today() + timedelta(hours=1):
                 data = self.mongo.global_get_emailparser()
                 if data is not None:
-                    f = open(settings.workfolder + '/test/emailparser.xml', 'w')
+                    f = open(settings.workfolder + '/test/emailparser.xml', 'w', encoding = 'utf-8')
                     f.write(data)
                     f.close()
                 data = self.mongo.global_get_mactoweb()
                 if data is not None:
-                    f = open(settings.workfolder + '/test/mactoweb.xml', 'w')
+                    f = open(settings.workfolder + '/test/mactoweb.xml', 'w', encoding = 'utf-8')
                     f.write(data)
                     f.close()
                 self.last_file_update = datetime.today()
