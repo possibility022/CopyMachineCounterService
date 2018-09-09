@@ -61,9 +61,19 @@ class TBSQL:
         session.commit()
         session.close()
 
-    def InsertMAchineRecord_HTML(self, recordData, serialNumberSource, countersSource):
+    def InsertMachineRecord_HTML(self, recordData, serialNumberSource, countersSource):
         session = Session(self.Engine)
+        
         entity = self._mapFromDict(recordData)
+        
+        entity.servicesourcecounters = self.MachineServiceSourceCounters(
+            Content = countersSource
+        )
+
+        entity.servicesourceserialnumber = self.MachineServiceSourceSerialNumber(
+            Content = serialNumberSource
+        )
+
         session.add(entity)
         session.commit()
         session.close()

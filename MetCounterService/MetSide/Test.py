@@ -205,6 +205,10 @@ def MigrateDataFromMongoToSQL():
         #     else:
         #         raise Exception('Woops')
         else:
+            counter = mongo.countersdata.find_one({'_id': el['full_counter']})
+            serial = mongo.serialdata.find_one({'_id': el['full_serialnumber']})
+
+            sql.InsertMachineRecord_HTML(el, serial['full_serialnumber'], counter['full_counter'])
             HTMLSources = HTMLSources + 1
     
     print(EmailSources)
@@ -214,14 +218,15 @@ def MigrateDataFromMongoToSQL():
     binaryEmails = 0
     allBinaryEmails = mongo.email_binary_db.find()
     for email in allBinaryEmails:
-        mail = EmailPop3Client.parse(email)
-        parsingResults = emParser.ParseEmailToMachineRecord(mail)
-        if parsingResults['sucess'] is True:
-            binaryEmails = binaryEmails + 1
-            sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
-        else:
-            raise Exception('Woops')
-            
+        try:
+            mail = EmailPop3Client.parse(email)
+            parsingResults = emParser.ParseEmailToMachineRecord(mail)
+            if parsingResults['sucess'] is True:
+                binaryEmails = binaryEmails + 1
+                sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+        except ServerException:
+            pass
+
     print(binaryEmails)
 
 def SQLTest_TestingInsertingRecords():
@@ -268,7 +273,6 @@ def SQLTest_TestingInsertingRecords():
 
 def HTMLParser_Testing():
 
-
     j_settings = None
     
     
@@ -290,9 +294,23 @@ def HTMLParser_Testing():
         data = open(path + '\\' + f, encoding='utf-8').read()
         results = htmlParser.parse(data)
         if results['sucess'] is True:
-            sql.InsertMAchineRecord_HTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
+            sql.InsertMachineRecord_HTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
         print (results)
 
+def HTMLParser_TestingFromMongo():
+    
+    sql = TBSQL()
+    sql.Connect()
+
+    mongo = MongoTB()
+
+    records = mongo.records.find({'parsed_by_email': False})
+
+    for rec in records:
+        counter = mongo.countersdata.find_one({'_id': rec['full_counter']})
+        serial = mongo.serialdata.find_one({'_id': rec['full_serialnumber']})
+
+        sql.InsertMachineRecord_HTML(rec, serial['full_serialnumber'], counter['full_counter'])
 
 if __name__ == "__main__":
     import settings
@@ -307,8 +325,9 @@ if __name__ == "__main__":
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     #SQLTest_TestingInsertingRecords()
-    #MigrateDataFromMongoToSQL()
-    HTMLParser_Testing()
+    MigrateDataFromMongoToSQL()
+    #HTMLParser_Testing()
+    #HTMLParser_TestingFromMongo()
 
     pass
 
