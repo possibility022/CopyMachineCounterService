@@ -9,6 +9,8 @@ class HTMLParser:
     delimiter_start = '#|$'
     delimiter_end = '$|#'
 
+    addressIP_Regex = '\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b'
+
     def __init__(self, XMLLoaderForHTML):
         
         self.xmlLoader = XMLLoaderForHTML
@@ -81,6 +83,16 @@ class HTMLParser:
             pass
             #logging.error('Błąd przy parsowaniu daty. Problem usługi klienta? Format: %d-%m-%Y %H:%M')
 
+    def match_ip_address(self):
+        val = self.printer_data['addressIP']
+        matches = re.findall(self.addressIP_Regex, val)
+        if len(matches) > 1:
+            self.appendErrorMessage('Znaleziono więcej niz jeden address ip.' + ' '.join(matches))
+        elif len(matches) == 1:
+            self.printer_data['addressIP'] = '.'.join(matches[0])
+        elif len(matches) == 0:
+            self.appendErrorMessage('Nie znaleziono adresu IP')
+
     def parse(self, data):
         
         self.parsingResults = {
@@ -115,6 +127,7 @@ class HTMLParser:
             for single_data in tablica:
                 self.parse_single_data(single_data)
 
+            self.match_ip_address()
             self.parse_counter_color()
             self.parse_counter()
             self.parse_counter_scaner()
@@ -124,8 +137,10 @@ class HTMLParser:
 
             self.parsingResults['sourceCounterHTML'] = self.printer_data['full_counter']
             self.parsingResults['sourceSerialHTML'] = self.printer_data['full_serialnumber']
+            self.printer_data.pop('full_serialnumber')
+            self.printer_data.pop('full_counter')
             self.parsingResults['record'] = self.printer_data
-            self.parsingResults['sucess'] = True
+            self.parsingResults['sucess'] = len(self.parsingResults['parsingErrorMessage']) == 0
 
         except IndexError:
             logging.info('Index Error in parse(data) in Parser.')

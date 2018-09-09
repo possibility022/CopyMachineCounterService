@@ -254,25 +254,28 @@ def HTMLParser_Testing():
 
     j_settings = None
     
+    
     with open('D:\\data.json', 'r') as fp:
         j_settings = json.load(fp)
 
     xmlHTMLLoader = XMLLoaderForHTML(j_settings['workfolder'] + j_settings['XmlForHTML'])
+
+    sql = TBSQL()
+    sql.Connect()
 
     path = 'D:\\tmp\\tmp'
     files = os.listdir(path)
 
     htmlParser = HTMLParser(xmlHTMLLoader)
 
-    
-
     for f in files:
         print(f)
-        data = open(path + '\\' + f).read()
+        data = open(path + '\\' + f, encoding='utf-8').read()
         results = htmlParser.parse(data)
+        if results['sucess'] is True:
+            sql.InsertMAchineRecord_HTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
         print (results)
 
-    pass
 
 if __name__ == "__main__":
     import settings
