@@ -193,7 +193,7 @@
 	<konicaminolta> <!-- to jest specjalny dla developa ineo 224 A5C4121114208 MA INNY FORMAT DATY!-->
 		<signature>\[Model Name\], </signature>
         <signature>\[Serial Number\], A5C4121114208</signature>
-        <signature>\[Send Date\], </signature>
+        <signature>\[Send Date\],[0-3][0-9]\/[0-2][0-9]\/[0-9][0-9]$</signature>
         <datetime format="%d/%m/%y" require="true" inorder="0" group="1">(\[Send Date\],)([0-3][0-9]\/[0-2][0-9]\/[1-2][0-9])</datetime>
 		<regprintcountercolor require="true" inorder="0" group="1">(\[Total Color Counter\],)([0-9]{1,20})</regprintcountercolor>
 		<regprintcounter require="true" inorder="0" group="1">(\[Total Black Counter\],)([0-9]{1,20})</regprintcounter>
@@ -203,8 +203,8 @@
 	<konicaminolta>
 		<signature>\[Model Name\], </signature>
         <signature>\[Serial Number\], </signature>
-        <signature>\[Send Date\], </signature>
-        <datetime format="%d/%m/%Y" require="true" inorder="0" group="1">(\[Send Date\], )([0-3][0-9]\/[0-2][0-9]\/201[6-9])</datetime>
+        <signature>\[Send Date\], [0-3][0-9]\/[0-2][0-9]\/20[0-9][6-9]$</signature>
+        <datetime format="%d/%m/%Y" require="true" inorder="0" group="1">(\[Send Date\], )([0-3][0-9]\/[0-2][0-9]\/20[0-9][6-9])</datetime>
 		<regprintcountercolor require="true" inorder="0" group="1">(\[Total Color Counter\], )([0-9]{1,20})</regprintcountercolor>
 		<regprintcounter require="true" inorder="0" group="1">(\[Total Black Counter\], )([0-9]{1,20})</regprintcounter>
 		<regscancounter require="true" inorder="0" group="1">(\[Total Scan\/Fax Counter\], )([0-9]{1,20})</regscancounter>
@@ -213,8 +213,8 @@
 	<konicaminolta>
 		<signature>\[Model Name\],</signature>
         <signature>\[Serial Number\],</signature>
-        <signature>\[Send Date\],</signature>
-        <datetime format="%d/%m/%Y" require="true" inorder="0" group="1">(\[Send Date\],)([0-3][0-9]\/[0-2][0-9]\/[0-9][0-9])</datetime>
+        <signature>\[Send Date\],[0-3][0-9]\/[0-2][0-9]\/[0-9][0-9]$</signature>
+        <datetime format="%d/%m/%y" require="true" inorder="0" group="1">(\[Send Date\],)([0-3][0-9]\/[0-2][0-9]\/[0-9][0-9])</datetime>
 		<regprintcountercolor require="true" inorder="0" group="1">(\[Total Color Counter\],)([0-9]{1,20})</regprintcountercolor>
 		<regprintcounter require="true" inorder="0" group="1">(\[Total Black Counter\],)([0-9]{1,20})</regprintcounter>
 		<regscancounter require="true" inorder="0" group="1">(\[Total Scan\/Fax Counter\],)([0-9]{1,20})</regscancounter>
