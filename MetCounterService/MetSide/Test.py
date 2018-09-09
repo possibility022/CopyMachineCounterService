@@ -171,27 +171,39 @@ def UpdateRecrods(source):
             rec['tonerlevel_k'] = ''
         print(rec['tonerlevel_k'])
         source.replace_one({'_id':rec['_id']} ,rec)
-            
-def SQLTest():
+
+def MigrateDataFromMongoToSQL():
+    j_settings = None
+    
+    with open('D:\\data.json', 'r') as fp:
+        j_settings = json.load(fp)
+
     mongo = MongoTB()
-    s = TBSQL()
-    s.Connect()
+    sql = TBSQL()
+    sql.Connect()
+    xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
+    emParser = EmailParserV2(xmlLoader)
 
-    # Adding new
-    #for el in mongo.email_binary_db.find():
-    #    print(el)
-    #    v = pickle.dumps(el)
-    #    print(type(v))
-    #    v2 = pickle.loads(v)
-    #    print(v2)
-    #    s.ImportEmailToQueue(v)
-    #    break
-    #pass
+    allRecords = mongo.records.find()
 
-    # emails = s.GetEmailsToParse()
-    # for el in emails:
-    #     v2 = pickle.loads(el.Content)
-    #     print (v2)
+    EmailSources = 0
+    HTMLSources = 0
+
+    for el in allRecords:
+        if el['parsed_by_email'] is True:
+            EmailSources = EmailSources + 1
+            mail = mongo.email_binary_db.find_one({'_id': el['email_info']})
+            mail = EmailPop3Client.parse(mail)
+            parsingResults = emParser.ParseEmailToMachineRecord(mail)
+            if parsingResults['sucess'] is True:
+                sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+            else:
+                raise Exception('Woops')
+        else:
+            HTMLSources = HTMLSources + 1
+    
+    print(EmailSources)
+    print(HTMLSources)
 
 def SQLTest_TestingInsertingRecords():
     
@@ -205,18 +217,23 @@ def SQLTest_TestingInsertingRecords():
     sql.Connect()
     xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
     emailClient = EmailPop3Client(j_settings['emailConnection'])
-    
+
+    #emailParserDocument = mongo.global_get_emailparser()
+    #open('D:\\email.xml', 'w', encoding = 'utf-8').write(emailParserDocument)
+
     emParser = EmailParserV2(xmlLoader)
+    
 
     #sqlRecords = sql.GetAll(sql.MachineRecord)
-    records = mongo.email_parsed_success_db.find()
+    #records = mongo.email_parsed_success_db.find()
+    records = mongo.email_binary_db.find()
 
     # rec = mongo.email_binary_db.find_one({'_id': b'+OK 92 000015f458217c35'})
     # el = EmailPop3Client.parse(rec)
 
     for el in records:
         
-        el = mongo.email_binary_db.find_one({'_id': el['_id']})
+        #el = mongo.email_binary_db.find_one({'_id': el['_id']})
 
         try:
             el = EmailPop3Client.parse(el)
@@ -226,6 +243,9 @@ def SQLTest_TestingInsertingRecords():
         if parsingResults['sucess'] is True:
             sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
 
+
+
+    pass
 
 if __name__ == "__main__":
     import settings
@@ -240,5 +260,7 @@ if __name__ == "__main__":
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     SQLTest_TestingInsertingRecords()
+    #MigrateDataFromMongoToSQL()
+
     pass
 

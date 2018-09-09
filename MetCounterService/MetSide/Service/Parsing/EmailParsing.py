@@ -151,7 +151,7 @@ class EmailParserV2:
             printer_data['tonerlevel_y'] = tonery
             printer_data['tonerlevel_k'] = tonerk
         except ValueError as error:
-            logging.info('Jest problem z parsowaniem. Mail: %s', mail['_id'])
+            logging.info('Jest problem z parsowaniem. Mail: %s', mail['id'])
             parsingResults['sucess'] = False
             message = 'Value Error' + str(error)
             parsingResults['parsingErrorMessage'].append(message)
