@@ -192,20 +192,37 @@ def MigrateDataFromMongoToSQL():
     HTMLSources = 0
 
     for el in allRecords:
+        
         if el['parsed_by_email'] is True:
-            EmailSources = EmailSources + 1
-            mail = mongo.email_binary_db.find_one({'_id': el['email_info']})
-            mail = EmailPop3Client.parse(mail)
-            parsingResults = emParser.ParseEmailToMachineRecord(mail)
-            if parsingResults['sucess'] is True:
-                sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
-            else:
-                raise Exception('Woops')
+            pass
+        # Na poczatku chcialem poprostu przepisac cala baze danych. Teraz przeskanuje wszystkie maile w postaci binarnej
+        #     EmailSources = EmailSources + 1
+        #     mail = mongo.email_binary_db.find_one({'_id': el['email_info']})
+        #     mail = EmailPop3Client.parse(mail)
+        #     parsingResults = emParser.ParseEmailToMachineRecord(mail)
+        #     if parsingResults['sucess'] is True:
+        #         sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+        #     else:
+        #         raise Exception('Woops')
         else:
             HTMLSources = HTMLSources + 1
     
     print(EmailSources)
     print(HTMLSources)
+
+    # Email parsing - Skanowanie wszystkich binarnych wiadomosci
+    binaryEmails = 0
+    allBinaryEmails = mongo.email_binary_db.find()
+    for email in allBinaryEmails:
+        mail = EmailPop3Client.parse(email)
+        parsingResults = emParser.ParseEmailToMachineRecord(mail)
+        if parsingResults['sucess'] is True:
+            binaryEmails = binaryEmails + 1
+            sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+        else:
+            raise Exception('Woops')
+            
+    print(binaryEmails)
 
 def SQLTest_TestingInsertingRecords():
     
