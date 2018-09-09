@@ -32,6 +32,9 @@
     <Compile Include="Service\Exceptions\TBExceptions.py" />
     <Compile Include="Service\Exceptions\__init__.py" />
     <Compile Include="Service\Parsing\EmailParsing.py" />
+    <Compile Include="Service\Parsing\HTMLParser.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Service\Parsing\XmlParsing.py" />
     <Compile Include="Service\Parsing\__init__.py" />
     <Compile Include="Service\SQL\SqlDatabase.py" />

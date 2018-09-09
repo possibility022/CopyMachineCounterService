@@ -68,3 +68,48 @@ class XMLLoader:
                 data_to_download_col.append(quatro)
 
         return data_to_download_col
+
+
+class XMLLoaderForHTML:
+
+    def __init__(self, filePath):
+        self.tree = ET.parse(filePath)
+        self.root = self.tree.getroot()
+
+        self.xml_data_tag = {'print': 'regprintcounter', 'printcolor': 'regprintcountercolor', 'scan': 'regscancounter', 'serial': 'regserialnumber'}
+
+    def get_printer_counter(self, mac):
+        return self.__get_regex(mac, 'print')
+
+    def get_scaner_counter(self, mac):
+        return self.__get_regex(mac, 'scan')
+
+    def get_serialnumber(self, mac):
+        return self.__get_regex(mac, 'serial')
+
+    def get_printer_counter_color(self, mac):
+        return self.__get_regex(mac, 'printcolor')
+
+    def __get_regex(self, mac, xml_tag):
+        for devicegroup in self.root:
+            for element in devicegroup:
+                text = element.text.strip()
+                if text == mac:
+                    return self.__collect_regex_data(element, xml_tag)
+
+            for element in devicegroup:
+                text = element.text.strip()
+                if text == mac[:8]:
+                    return self.__collect_regex_data(element, xml_tag)
+        return []
+
+    def __collect_regex_data(self, element, xml_tag):
+        data_to_download_col = []
+        for child in element:
+            if child.tag == self.xml_data_tag[xml_tag]:
+                order = child.attrib['inorder']
+                regex = child.text
+                group = child.attrib['group']
+                trio = [order, regex, group]
+                data_to_download_col.append(trio)
+        return data_to_download_col

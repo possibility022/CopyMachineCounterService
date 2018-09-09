@@ -1,1 +1,1 @@
-__all__ = ['EmailParsing', 'XmlParsing']
+__all__ = ['EmailParsing', 'XmlParsing', 'HTMLParser']

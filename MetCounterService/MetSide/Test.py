@@ -30,7 +30,9 @@ from Service.Parsing.EmailParsing import EmailParserV2
 from Service.SQL.SqlDatabase import TBSQL
 from Service.Email.EmailClient import EmailPop3Client
 from Service.Parsing.XmlParsing import XMLLoader
+from Service.Parsing.XmlParsing import XMLLoaderForHTML
 from Service.Exceptions.TBExceptions import ServerException
+from Service.Parsing.HTMLParser import HTMLParser
 
 from datetime import datetime, timedelta
 
@@ -247,6 +249,31 @@ def SQLTest_TestingInsertingRecords():
 
     pass
 
+def HTMLParser_Testing():
+
+
+    j_settings = None
+    
+    with open('D:\\data.json', 'r') as fp:
+        j_settings = json.load(fp)
+
+    xmlHTMLLoader = XMLLoaderForHTML(j_settings['workfolder'] + j_settings['XmlForHTML'])
+
+    path = 'D:\\tmp\\tmp'
+    files = os.listdir(path)
+
+    htmlParser = HTMLParser(xmlHTMLLoader)
+
+    
+
+    for f in files:
+        print(f)
+        data = open(path + '\\' + f).read()
+        results = htmlParser.parse(data)
+        print (results)
+
+    pass
+
 if __name__ == "__main__":
     import settings
     settings.init()
@@ -259,8 +286,9 @@ if __name__ == "__main__":
 
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
-    SQLTest_TestingInsertingRecords()
+    #SQLTest_TestingInsertingRecords()
     #MigrateDataFromMongoToSQL()
+    HTMLParser_Testing()
 
     pass
 
