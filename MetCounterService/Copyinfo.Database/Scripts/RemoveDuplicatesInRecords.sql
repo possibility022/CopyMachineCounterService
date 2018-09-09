@@ -27,3 +27,17 @@ DELETE FROM
 		Select top(1) Id 
 		FROM [Machine].Record rec 
 		where rec.EmailSource = [Machine].[EmailSource].Id)
+
+DELETE FROM
+	[Machine].[ServiceSourceCounters]
+	where NOT EXISTS (
+		Select top(1) Id 
+		FROM [Machine].Record rec 
+		where rec.ServiceSourceCounters = [Machine].[ServiceSourceCounters].Id)
+
+DELETE FROM
+	[Machine].[ServiceSourceSerialNumber]
+	where NOT EXISTS (
+		Select top(1) Id 
+		FROM [Machine].Record rec 
+		where rec.ServiceSourceSerialNumber = [Machine].[ServiceSourceSerialNumber].Id)
