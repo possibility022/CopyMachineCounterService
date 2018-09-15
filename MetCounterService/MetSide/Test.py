@@ -312,22 +312,48 @@ def HTMLParser_TestingFromMongo():
 
         sql.InsertMachineRecord_HTML(rec, serial['full_serialnumber'], counter['full_counter'])
 
+def SendEmailMessages():
+    #
+    # {'text/plain': 52311, 'application/octet-stream': 2, 'multipart/alternative': 8, 'application/pdf': 1}
+
+    j_settings = None
+    
+    
+    with open('D:\\data.json', 'r') as fp:
+        j_settings = json.load(fp)
+
+    emailClient = EmailPop3Client(j_settings['emailConnection'])
+    mongo = MongoTB()
+
+    types = {}
+
+    for email in mongo.email_binary_db.find():
+        contentType = emailClient.SendEmail(email)
+        if contentType in types.keys():
+            types[contentType] = types[contentType] + 1
+        else:
+            types[contentType] = 1
+        
+    print(types)
+    pass
+
 if __name__ == "__main__":
     import settings
     settings.init()
     
     #eng = Engine()
 
-    #eng.parse_loop_email()
+    #eng.test_email_loopV2()
 
     #testEmailParsing()
 
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     #SQLTest_TestingInsertingRecords()
-    MigrateDataFromMongoToSQL()
+    #MigrateDataFromMongoToSQL()
     #HTMLParser_Testing()
     #HTMLParser_TestingFromMongo()
+    SendEmailMessages()
 
     pass
 

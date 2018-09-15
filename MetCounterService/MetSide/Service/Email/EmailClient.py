@@ -4,14 +4,25 @@ import getpass, poplib
 import logging
 import base64
 
-from Service import *
+from Service.Exceptions.TBExceptions import ServerException
+
+# Sender
+# Import smtplib for the actual sending function
+from smtplib import SMTP
+# Import the email modules we'll need
+from email.message import EmailMessage
+from email import parser
 
 class EmailPop3Client:
 
     def __init__(self, connectionSettings):
+        self.user = connectionSettings['user']
+        self.password = connectionSettings['pass']
         self.Mailbox = poplib.POP3(connectionSettings['ip'], connectionSettings['port'])
-        self.Mailbox.user(connectionSettings['user'])
-        self.Mailbox.pass_(connectionSettings['pass'])
+        self.Mailbox.user(self.user)
+        self.Mailbox.pass_(self.password)
+        self.Smtp = SMTP(connectionSettings['ip'])
+        self.Smtp.login(connectionSettings['user'], connectionSettings['pass'])
         self.msgcount = 0
         pass
 
@@ -96,3 +107,50 @@ class EmailPop3Client:
                         return part
 
         return ''
+
+    def GetEmailCount(self):
+        return len(self.Mailbox.list()[1])
+
+    def SendEmail(self, mail):
+        # Open the plain text file whose name is in textfile for reading.
+        
+        #mapp = map(bytes.decode, mail['mail'])
+        
+        strContent = []
+        for line in mail['mail']:
+            strContent.append(str(line))
+
+        content = '\n'.join(strContent)
+        
+        parsed = parser.BytesParser().parsebytes(b'\n'.join(mail['mail']))
+        parsed['To'] = self.user
+        parsed['From'] = self.user
+
+        contentType = ''
+
+        if parsed.is_multipart():
+            messages = parsed.get_payload()
+            for mes in messages:
+                print(mes.get_content_type())
+                print(mes.get_payload(decode=True))
+                print(mes)
+                return mes.get_content_type()
+        else:
+            return parsed.get_content_type()
+
+        
+
+        # Create a text/plain message
+        # msg = EmailMessage()
+        # msg.set_content(mail['mail'])
+
+        # # me == the sender's email address
+        # # you == the recipient's email address
+        # msg['Subject'] = 'The contents of %s' % mail['_id']
+        # msg['From'] = self.user
+        # msg['To'] = self.user
+
+        # Send the message via our own SMTP server.
+        #self.Smtp.sendmail(self.user, self.user, parsed)
+        #self.Smtp.send_message(parsed)
+        #self.Smtp.quit()

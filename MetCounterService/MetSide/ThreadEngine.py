@@ -5,6 +5,8 @@ import sys
 import os
 import traceback
 
+import json
+
 import Parser
 import MongoDatabase
 import Email
@@ -12,6 +14,11 @@ import Email
 import logging
 
 import settings
+
+from Service.SQL.SqlDatabase import TBSQL
+from Service.Email.EmailClient import EmailPop3Client
+from Service.Parsing.EmailParsing import EmailParserV2
+from Service import *
 
 from MongoDatabase import MongoTB
 from Parser import DataParser
@@ -36,7 +43,7 @@ class Engine(object):
                 message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
                 if message is not None:                             # Jesli wiadomosc pobrano to
                     mailbox.insert_email_to_queue(message)          # Zapisujemy ja do kolejki
-                    mailbox.del_email(i)                            # I usuwamy z serwera
+                    #mailbox.del_email(i)                            # I usuwamy z serwera
 
             queue = mailbox.get_queue()
 
@@ -66,6 +73,31 @@ class Engine(object):
             logging.exception('Error!')
             logging.error(traceback.format_exc())
             logging.error('Zapisano')
+
+    def parse_loop_emailV2(self):
+        try:
+            emailsCount = self.emailClient.GetEmailCount()
+            for i in range(1, emailsCount):
+                mail = self.emailClient.get_email_pop3(i)
+                if mail is not None:
+                    try:
+                        parsingResults = self.emailParserV2.ParseEmailToMachineRecord(mail)
+                        if parsingResults['sucess'] is True:
+                            self.sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+                            self.emailClient.del_email(i)
+                    except Exception as e2:
+                        logging.error('P2.2 - Parsowanie lub zapis nie powiodły sie.')
+                        logging.error(e2)
+                        # ToDo, send email to Tomek :)
+
+        except Exception as e:
+            logging.error('P1.1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
+            logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
+            logging.exception('Error!')
+            logging.error(traceback.format_exc())
+            logging.error('Zapisano')
+            # ToDo, send email to Tomek :)
+        pass
 
     def parse_loop(self):
         try:
@@ -102,8 +134,20 @@ class Engine(object):
         :param interval: Check interval, in seconds
         """
 
+        j_settings = None
+    
+        with open('settings.json', 'r') as fp:
+            j_settings = json.load(fp)
+
         settings.init()
         self.mongo = MongoTB()
+        self.sql = TBSQL()
+        self.sql.Connect()
+        
+        xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
+        self.emailParserV2 = EmailParserV2(xmlLoader)
+
+        self.emailClient = EmailPop3Client(j_settings['emailConnection'])
 
         self.interval = interval
         self.last_file_update = datetime.today() - timedelta(days=1)
@@ -144,5 +188,10 @@ class Engine(object):
     def test_html_loop(self):
         while True:
             self.parse_loop()
+            time.sleep(60)
+
+    def test_email_loopV2(self):
+        while True:
+            self.parse_loop_emailV2()
             time.sleep(60)
 
