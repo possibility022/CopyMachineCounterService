@@ -76,10 +76,12 @@ class Engine(object):
 
     def parse_loop_emailV2(self):
         try:
+            self.emailClient.ConnectPop3Client()
             emailsCount = self.emailClient.GetEmailCount()
             for i in range(1, emailsCount):
                 mail = self.emailClient.get_email_pop3(i)
                 if mail is not None:
+                    mail = self.emailClient.parse(mail)
                     try:
                         parsingResults = self.emailParserV2.ParseEmailToMachineRecord(mail)
                         if parsingResults['sucess'] is True:
@@ -97,7 +99,8 @@ class Engine(object):
             logging.error(traceback.format_exc())
             logging.error('Zapisano')
             # ToDo, send email to Tomek :)
-        pass
+        
+        self.emailClient.close()
 
     def parse_loop(self):
         try:
@@ -136,7 +139,7 @@ class Engine(object):
 
         j_settings = None
     
-        with open('settings.json', 'r') as fp:
+        with open('D:\\data.json', 'r') as fp:
             j_settings = json.load(fp)
 
         settings.init()
@@ -165,6 +168,7 @@ class Engine(object):
                 self.file_sync()
                 self.parse_loop()
                 self.parse_loop_email()
+                self.parse_loop_emailV2()
 
                 time.sleep(self.interval)
             except:

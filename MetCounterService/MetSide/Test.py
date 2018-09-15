@@ -318,17 +318,31 @@ def SendEmailMessages():
 
     j_settings = None
     
-    
     with open('D:\\data.json', 'r') as fp:
         j_settings = json.load(fp)
+
+    mongo = MongoTB()
+    sql = TBSQL()
+    sql.Connect()
+    xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
+    emParser = EmailParserV2(xmlLoader)
 
     emailClient = EmailPop3Client(j_settings['emailConnection'])
     mongo = MongoTB()
 
+    i= 0
 
     for email in mongo.email_binary_db.find():
-        results = EmailPop3Client.parse(email)
-        print(results['message'])
+
+        mail = EmailPop3Client.parse(email)
+        parsingResults = emParser.ParseEmailToMachineRecord(mail)
+
+        if parsingResults['sucess']:
+            i += 1
+            if (i == 20):
+                break
+            results = EmailPop3Client.parse(email)
+            emailClient.SendEmail(results['body'])
 
     pass
 
@@ -336,16 +350,16 @@ if __name__ == "__main__":
     import settings
     settings.init()
     
-    #eng = Engine()
+    eng = Engine()
 
-    #eng.test_email_loopV2()
+    eng.test_email_loopV2()
 
     #testEmailParsing()
 
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     #SQLTest_TestingInsertingRecords()
-    MigrateDataFromMongoToSQL()
+    #MigrateDataFromMongoToSQL()
     #HTMLParser_Testing()
     #HTMLParser_TestingFromMongo()
     #SendEmailMessages()

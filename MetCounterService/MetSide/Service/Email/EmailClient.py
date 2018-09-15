@@ -20,15 +20,18 @@ class EmailPop3Client:
     AllowedContentToDecode = ['base64'.upper(), 'quoted-printable'.upper()]
 
     def __init__(self, connectionSettings):
+        self.connectionSettings = connectionSettings
         self.user = connectionSettings['user']
         self.password = connectionSettings['pass']
-        self.Mailbox = poplib.POP3(connectionSettings['ip'], connectionSettings['port'])
-        self.Mailbox.user(self.user)
-        self.Mailbox.pass_(self.password)
         self.Smtp = SMTP(connectionSettings['ip'])
         self.Smtp.login(connectionSettings['user'], connectionSettings['pass'])
         self.msgcount = 0
         pass
+
+    def ConnectPop3Client(self):
+        self.Mailbox = poplib.POP3(self.connectionSettings['ip'], self.connectionSettings['port'])
+        self.Mailbox.user(self.user)
+        self.Mailbox.pass_(self.password)
 
     def get_email_pop3(self, which):
         try:
@@ -42,6 +45,14 @@ class EmailPop3Client:
 
     def del_email(self, which):
         self.Mailbox.dele(which)
+    
+    def close(self):
+        try:
+            self.Mailbox.quit()
+        except Exception as e:
+            logging.warning('Błąd przy zamykaniu mailboxa. Być może zamykasz go dwa razy %s', e)
+        except:
+            logging.warinng('Błąd przy zamykaniu mailboxa. Być może zamykasz go dwa razy %s', sys.exc_info()[0])
 
     @staticmethod
     def convert_to_bytes(listOfBinary):
@@ -125,46 +136,27 @@ class EmailPop3Client:
                     
 
 
-    def SendEmail(self, mail):
+    def SendEmail(self, content):
         # Open the plain text file whose name is in textfile for reading.
         
         #mapp = map(bytes.decode, mail['mail'])
         
-        strContent = []
-        for line in mail['mail']:
-            strContent.append(str(line))
 
-        content = '\n'.join(strContent)
-        
-        parsed = parser.BytesParser().parsebytes(b'\n'.join(mail['mail']))
-        parsed['To'] = self.user
-        parsed['From'] = self.user
-
-        contentType = ''
-
-        if parsed.is_multipart():
-            messages = parsed.get_payload()
-            for mes in messages:
-                print(mes.get_content_type())
-                print(mes.get_payload(decode=True))
-                print(mes)
-                return mes.get_content_type()
-        else:
-            return parsed.get_content_type()
-
+        self.Smtp = SMTP(self.connectionSettings['ip'])
+        self.Smtp.login(self.connectionSettings['user'], self.connectionSettings['pass'])
         
 
-        # Create a text/plain message
-        # msg = EmailMessage()
-        # msg.set_content(mail['mail'])
+        #Create a text/plain message
+        msg = EmailMessage()
+        msg.set_content(content)
 
-        # # me == the sender's email address
-        # # you == the recipient's email address
-        # msg['Subject'] = 'The contents of %s' % mail['_id']
-        # msg['From'] = self.user
-        # msg['To'] = self.user
+        # me == the sender's email address
+        # you == the recipient's email address
+        msg['Subject'] = 'Counter'
+        msg['From'] = self.user
+        msg['To'] = self.user
 
         # Send the message via our own SMTP server.
-        #self.Smtp.sendmail(self.user, self.user, parsed)
-        #self.Smtp.send_message(parsed)
-        #self.Smtp.quit()
+        #self.Smtp.connect()
+        self.Smtp.send_message(msg)
+        self.Smtp.quit()
