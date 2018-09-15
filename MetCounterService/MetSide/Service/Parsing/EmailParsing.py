@@ -23,14 +23,12 @@ class EmailParserV2:
         }
 
         if mail is None:
-            parsingResults['sucess'] = False
-            return parsingResults
+            return self.GetFailedResutls(parsingResults)
 
         signature = self.get_signature_number(mail)
 
         if signature is None:
-            parsingResults['sucess'] = False
-            return parsingResults
+            return self.GetFailedResutls(parsingResults)
 
         logging.info('Znaleziono sygnature maila: {}'.format(signature))
 
@@ -217,3 +215,7 @@ class EmailParserV2:
             logging.warning('Błąd przy parsowaniu regexow z sumowaniem wartosci: %s', e)
         # except:
         #     logging.warning(def addition_regex_group(self, data, reggroup_s))
+
+    def GetFailedResutls(self, parsingResults):
+        parsingResults['sucess'] = False
+        return parsingResults

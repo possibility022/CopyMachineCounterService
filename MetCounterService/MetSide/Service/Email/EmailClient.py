@@ -15,6 +15,10 @@ from email import parser
 
 class EmailPop3Client:
 
+    TextPlainHeader = 'text/plain'
+    ContentTransferEncoding = 'Content-Transfer-Encoding'
+    AllowedContentToDecode = ['base64'.upper(), 'quoted-printable'.upper()]
+
     def __init__(self, connectionSettings):
         self.user = connectionSettings['user']
         self.password = connectionSettings['pass']
@@ -45,71 +49,81 @@ class EmailPop3Client:
 
     @staticmethod
     def parse(mail):
-        body = None
-        encoding = EmailPop3Client.get_encoding(mail['mail'])
 
         byte_message = EmailPop3Client.convert_to_bytes(mail['mail'])
-        
-        message = email.message_from_bytes(byte_message)
-
-        for part in message.walk():
-            if part.get_content_type() == 'text/plain':
-                body = part.get_payload(decode=True)
-                break   
-
-        #body = message.get_payload(0).get_payload(decode=True)
-        try:
-            if body is not None:
-                if encoding is not '':
-                    body = body.decode(encoding)
-                else:
-                    body = body.decode('utf-8')
-            else:
-                raise ServerException('Serwer nie zdekodował wiadomości. Prawdopodobnie jest innego rodzaju niż text/plain')
-        except UnicodeDecodeError as e:
-            raise ServerException('Serwer nie zdekodował wiadomości. Prawdopodobnie jest innego rodzaju niż text/plain')
-
-
-        if isinstance(body, str):
-            lines = body.split('\n')
-        elif isinstance(body,bytes):
-            lines = body.split(b'\n')
-        else:
-            raise ServerException('Email został niepoprawnie przetworzony')
+        message = EmailPop3Client.ParseAsMessage(byte_message)
+        lines = message.split('\n')
 
         parsedEmail = {
             'id': base64.b64encode(mail['_id']).decode('utf-8'),
-            'body': body,
+            'body': message,
             'body-lines': lines,
             'body-binary': byte_message
         }
 
         return parsedEmail
 
-    @staticmethod
-    def get_encoding(doc):
-        if isinstance(doc, tuple):
-            msg = doc[1]
-        elif isinstance(doc, list):
-            msg = doc
-        else:
-            msg = []
-
-        for el in msg:
-            s = el.decode('utf-8')
-            if s.startswith('Content-Type:'):
-                s = s.replace('Content-Type:', '')
-                parts = s.split(';')
-                for part in parts:
-                    if part.__contains__('charset='):
-                        part = part.strip()
-                        part = part.replace('charset=', '')
-                        return part
-
-        return ''
-
     def GetEmailCount(self):
         return len(self.Mailbox.list()[1])
+
+    @staticmethod
+    def ParseAsMessage(mailBytes):
+        message = parser.BytesParser().parsebytes(mailBytes)
+
+        text = EmailPop3Client.__GetMessageTextPlain(message)
+        return text
+        pass
+
+    @staticmethod
+    def __GetMessageTextPlain(message):
+
+        text = []
+
+        if (message.is_multipart()):
+            payload = message.get_payload()
+            for part in payload:
+                t = EmailPop3Client.__GetMessageTextPlain(part)
+                if t != '':
+                    text.append(t)
+        else:
+            if message.get_content_type() == EmailPop3Client.TextPlainHeader:
+                if EmailPop3Client.ContentTransferEncoding in message.keys():
+                    
+                    encoding = message[EmailPop3Client.ContentTransferEncoding]
+                    if encoding.upper() in EmailPop3Client.AllowedContentToDecode:
+                        decodedBytes = message.get_payload(decode=True)
+                        charset = EmailPop3Client.__FindCharset(message)
+                        if charset is None:
+                            return decodedBytes.decode()
+                        else:
+                            return decodedBytes.decode(charset)
+                        
+                        
+                    else:
+                        return message.get_payload(decode=False)
+                else:
+                    return message.get_payload(decode=False)
+
+            else:
+                return ''
+
+        return '\n'.join(text)
+    
+    @staticmethod
+    def __FindCharset(message):
+        # text/plain;charset= ISO-8859-2
+        charsetPrefix = 'charset='
+        for el in message.values():
+            if charsetPrefix in el:
+                parts = el.split(';')
+                for part in parts:
+                    if charsetPrefix in part:
+                        encoding = part.replace(charsetPrefix, '')
+                        encoding.strip()
+                        return encoding
+        return None
+                    
+
 
     def SendEmail(self, mail):
         # Open the plain text file whose name is in textfile for reading.

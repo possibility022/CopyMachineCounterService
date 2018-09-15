@@ -325,16 +325,11 @@ def SendEmailMessages():
     emailClient = EmailPop3Client(j_settings['emailConnection'])
     mongo = MongoTB()
 
-    types = {}
 
     for email in mongo.email_binary_db.find():
-        contentType = emailClient.SendEmail(email)
-        if contentType in types.keys():
-            types[contentType] = types[contentType] + 1
-        else:
-            types[contentType] = 1
-        
-    print(types)
+        results = EmailPop3Client.parse(email)
+        print(results['message'])
+
     pass
 
 if __name__ == "__main__":
@@ -350,10 +345,10 @@ if __name__ == "__main__":
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     #SQLTest_TestingInsertingRecords()
-    #MigrateDataFromMongoToSQL()
+    MigrateDataFromMongoToSQL()
     #HTMLParser_Testing()
     #HTMLParser_TestingFromMongo()
-    SendEmailMessages()
+    #SendEmailMessages()
 
     pass
 
