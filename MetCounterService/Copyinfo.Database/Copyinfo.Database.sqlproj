@@ -63,6 +63,8 @@
     <Folder Include="Queue" />
     <Folder Include="Queue\Tables" />
     <Folder Include="Scripts" />
+    <Folder Include="Warehouse" />
+    <Folder Include="Warehouse\Tables" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Security\Machine.sql" />
@@ -73,5 +75,7 @@
     <Build Include="Security\Queue.sql" />
     <Build Include="Queue\Tables\Email.sql" />
     <Build Include="Scripts\RemoveDuplicatesInRecords.sql" />
+    <Build Include="Security\Warehouse.sql" />
+    <Build Include="Warehouse\Tables\EmailSource.sql" />
   </ItemGroup>
 </Project>

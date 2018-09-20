@@ -32,6 +32,13 @@ class TBSQL:
         self.MachineServiceSourceSerialNumber = self.Machine.classes.ServiceSourceSerialNumber
         self.MachineEmailSource = self.Machine.classes.EmailSource
 
+        self.Warehouse = automap_base()
+        self.Warehouse.prepare(self.Engine, reflect=True, schema='Warehouse')
+        self.WarehouseEmailSource = self.Warehouse.classes.EmailSource
+
+        for el in self.Warehouse.classes.keys():
+            print(el) # TODO logging
+
     def ImportEmailToQueue(self, contentToInsert):
         session = Session(self.Engine)
         session.add(self.QueueEmail(Content=contentToInsert))
@@ -57,6 +64,13 @@ class TBSQL:
         entity.emailsource = self.MachineEmailSource(
             Content = binaryBody
         )
+        session.add(entity)
+        session.commit()
+        session.close()
+
+    def InsertWarehouseEmail(self, binaryBody):
+        session = Session(self.Engine)
+        entity = self.WarehouseEmailSource(Content = binaryBody)
         session.add(entity)
         session.commit()
         session.close()

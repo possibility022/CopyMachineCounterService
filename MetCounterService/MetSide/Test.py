@@ -195,15 +195,6 @@ def MigrateDataFromMongoToSQL():
         
         if el['parsed_by_email'] is True:
             pass
-        # Na poczatku chcialem poprostu przepisac cala baze danych. Teraz przeskanuje wszystkie maile w postaci binarnej
-        #     EmailSources = EmailSources + 1
-        #     mail = mongo.email_binary_db.find_one({'_id': el['email_info']})
-        #     mail = EmailPop3Client.parse(mail)
-        #     parsingResults = emParser.ParseEmailToMachineRecord(mail)
-        #     if parsingResults['sucess'] is True:
-        #         sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
-        #     else:
-        #         raise Exception('Woops')
         else:
             counter = mongo.countersdata.find_one({'_id': el['full_counter']})
             serial = mongo.serialdata.find_one({'_id': el['full_serialnumber']})
@@ -216,14 +207,19 @@ def MigrateDataFromMongoToSQL():
 
     # Email parsing - Skanowanie wszystkich binarnych wiadomosci
     binaryEmails = 0
+    failedParsed = 0
+    
     allBinaryEmails = mongo.email_binary_db.find()
     for email in allBinaryEmails:
         try:
             mail = EmailPop3Client.parse(email)
             parsingResults = emParser.ParseEmailToMachineRecord(mail)
             if parsingResults['sucess'] is True:
-                binaryEmails = binaryEmails + 1
+                binaryEmails += 1
                 sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+            else:
+                failedParsed += 1
+                sql.InsertWarehouseEmail(parsingResults['sourceEmail']['body-binary'])
         except ServerException:
             pass
 
@@ -350,16 +346,16 @@ if __name__ == "__main__":
     import settings
     settings.init()
     
-    eng = Engine()
+    #eng = Engine()
 
-    eng.test_email_loopV2()
+    #eng.test_email_loopV2()
 
     #testEmailParsing()
 
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     #SQLTest_TestingInsertingRecords()
-    #MigrateDataFromMongoToSQL()
+    MigrateDataFromMongoToSQL()
     #HTMLParser_Testing()
     #HTMLParser_TestingFromMongo()
     #SendEmailMessages()
