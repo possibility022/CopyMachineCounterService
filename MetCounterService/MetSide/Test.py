@@ -286,12 +286,13 @@ def HTMLParser_Testing():
     htmlParser = HTMLParser(xmlHTMLLoader)
 
     for f in files:
-        print(f)
         data = open(path + '\\' + f, encoding='utf-8').read()
         results = htmlParser.parse(data)
+    
         if results['sucess'] is True:
             sql.InsertMachineRecord_HTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
-        print (results)
+        else:
+            sql.InsertWarehouseHTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
 
 def HTMLParser_TestingFromMongo():
     
@@ -355,8 +356,8 @@ if __name__ == "__main__":
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     #SQLTest_TestingInsertingRecords()
-    MigrateDataFromMongoToSQL()
-    #HTMLParser_Testing()
+    #MigrateDataFromMongoToSQL()
+    HTMLParser_Testing()
     #HTMLParser_TestingFromMongo()
     #SendEmailMessages()
 

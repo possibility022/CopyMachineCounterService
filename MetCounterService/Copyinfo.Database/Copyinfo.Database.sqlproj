@@ -60,8 +60,6 @@
     <Folder Include="Machine" />
     <Folder Include="Security" />
     <Folder Include="Machine\Tables" />
-    <Folder Include="Queue" />
-    <Folder Include="Queue\Tables" />
     <Folder Include="Scripts" />
     <Folder Include="Warehouse" />
     <Folder Include="Warehouse\Tables" />
@@ -73,9 +71,13 @@
     <Build Include="Machine\Tables\ServiceSourceCounters.sql" />
     <Build Include="Machine\Tables\ServiceSourceSerialNumber.sql" />
     <Build Include="Security\Queue.sql" />
-    <Build Include="Queue\Tables\Email.sql" />
-    <Build Include="Scripts\RemoveDuplicatesInRecords.sql" />
     <Build Include="Security\Warehouse.sql" />
     <Build Include="Warehouse\Tables\EmailSource.sql" />
+    <Build Include="Warehouse\Tables\HTMLSource.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\DeleteAllData.sql" />
+    <None Include="SqlSchemaCompare.scmp" />
+    <None Include="Scripts\DeleteAllDuplicates.sql" />
   </ItemGroup>
 </Project>

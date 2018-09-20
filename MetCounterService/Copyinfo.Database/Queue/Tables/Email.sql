@@ -1,7 +1,0 @@
-﻿CREATE TABLE [Queue].[Email]
-(
-	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
-    [Content] VARBINARY(MAX) NOT NULL
-)
-
-GO

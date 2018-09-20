@@ -13,3 +13,6 @@ DELETE
 
 DELETE
 	FROM [MetCounterService].Warehouse.EmailSource
+
+DELETE
+	FROM [MetCounterService].Warehouse.HTMLSource

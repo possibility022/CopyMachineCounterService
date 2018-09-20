@@ -59,7 +59,11 @@ class HTMLParser:
             parsed = self.parse_using_regex(self.printer_data['full_serialnumber'], regexgroup)
             parsed = parsed.replace(' ', '')
             ser += parsed
+
         self.printer_data['serial_number'] = ser
+        if ser == '':
+            self.appendErrorMessage('Serial number is empty.')
+
 
     def parse_datetime_format(self, time_format):
         #26.09.2016 09:44
