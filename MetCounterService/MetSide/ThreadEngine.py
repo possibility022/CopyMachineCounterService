@@ -18,7 +18,9 @@ import settings
 from Service.SQL.SqlDatabase import TBSQL
 from Service.Email.EmailClient import EmailPop3Client
 from Service.Parsing.EmailParsing import EmailParserV2
-from Service import *
+from Service.Parsing.HTMLParser import HTMLParser
+from Service.Parsing.XmlParsing import XMLLoader
+from Service.Parsing.XmlParsing import XMLLoaderForHTML
 
 from MongoDatabase import MongoTB
 from Parser import DataParser
@@ -104,7 +106,7 @@ class Engine(object):
 
     def parse_loop(self):
         try:
-            files = self.mongo.global_get_fulldata()
+            files = self.mongo.global_get_fulldata(True)
             for f in files:
                 device = DataParser(f)
                 sucess = self.mongo.import_to_database(device)
@@ -113,6 +115,24 @@ class Engine(object):
         except:
             logging.error('Krytyczny blad w przetwarzaniu zdalnych raportow HTML')
             logging.exception('Error!')
+
+    def parse_loopV2(self):
+        try:
+            files = self.mongo.global_get_fulldata()
+            for f in files:
+
+                results = self.htmlParser.parse(f)
+                if results['sucess'] is True:
+                    self.sql.InsertMachineRecord_HTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
+                else:
+                    self.sql.InsertWarehouseHTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
+
+        except Exception as e:
+            logging.error('P2.1 - Błąd krytyczny w pętli parsowania HTML. %s', e)
+            logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
+            logging.exception('Error!')
+            logging.error(traceback.format_exc())
+            logging.error('Zapisano')
 
     def file_sync(self):
         if self.last_file_update < datetime.today():
@@ -147,10 +167,14 @@ class Engine(object):
         self.sql = TBSQL()
         self.sql.Connect()
         
+        # Initialize Email domain
         xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
         self.emailParserV2 = EmailParserV2(xmlLoader)
-
         self.emailClient = EmailPop3Client(j_settings['emailConnection'])
+
+        # Initialize HTML domain
+        xmlHTMLLoader = XMLLoaderForHTML(j_settings['workfolder'] + j_settings['XmlForHTML'])
+        self.htmlParser = HTMLParser(xmlHTMLLoader)
 
         self.interval = interval
         self.last_file_update = datetime.today() - timedelta(days=1)
@@ -167,6 +191,7 @@ class Engine(object):
             try:
                 self.file_sync()
                 self.parse_loop()
+                self.parse_loopV2()
                 self.parse_loop_email()
                 self.parse_loop_emailV2()
 
@@ -192,6 +217,11 @@ class Engine(object):
     def test_html_loop(self):
         while True:
             self.parse_loop()
+            time.sleep(60)
+
+    def test_html_loopV2(self):
+        while True:
+            self.parse_loopV2()
             time.sleep(60)
 
     def test_email_loopV2(self):

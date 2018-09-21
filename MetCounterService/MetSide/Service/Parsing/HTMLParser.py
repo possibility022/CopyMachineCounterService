@@ -139,13 +139,6 @@ class HTMLParser:
             self.parse_datetime()
             #self.printer_data['parsed'] = True
 
-            self.parsingResults['sourceCounterHTML'] = self.printer_data['full_counter']
-            self.parsingResults['sourceSerialHTML'] = self.printer_data['full_serialnumber']
-            self.printer_data.pop('full_serialnumber')
-            self.printer_data.pop('full_counter')
-            self.parsingResults['record'] = self.printer_data
-            self.parsingResults['sucess'] = len(self.parsingResults['parsingErrorMessage']) == 0
-
         except IndexError:
             logging.info('Index Error in parse(data) in Parser.')
             self.appendErrorMessage('Index Error in parse(data) in Parser.')
@@ -153,6 +146,14 @@ class HTMLParser:
         except Exception as e:
             logging.info('Some error in parse(data) in Parser.')
             self.appendErrorMessage('Some error in parse(data) in Parser.')
+        
+        finally:
+            self.parsingResults['sourceCounterHTML'] = self.printer_data['full_counter']
+            self.parsingResults['sourceSerialHTML'] = self.printer_data['full_serialnumber']
+            self.printer_data.pop('full_serialnumber')
+            self.printer_data.pop('full_counter')
+            self.parsingResults['record'] = self.printer_data
+            self.parsingResults['sucess'] = len(self.parsingResults['parsingErrorMessage']) == 0
         
         return self.parsingResults
 
