@@ -1,14 +1,14 @@
 using System;
 
 
-namespace CopyinfoWPF.ORM
+namespace CopyinfoWPF.ORM.Machine
 {
 
     public class Record {
         public virtual int Id { get; set; }
-        public virtual Emailsource Emailsource { get; set; }
-        public virtual Servicesourcecounters Servicesourcecounters { get; set; }
-        public virtual Servicesourceserialnumber Servicesourceserialnumber { get; set; }
+        public virtual EmailSource Emailsource { get; set; }
+        public virtual ServiceSourceCounters Servicesourcecounters { get; set; }
+        public virtual ServiceSourceSerialNumber Servicesourceserialnumber { get; set; }
         public virtual int? Counterblackandwhite { get; set; }
         public virtual int? Countercolor { get; set; }
         public virtual int? Counterscanner { get; set; }

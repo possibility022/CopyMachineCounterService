@@ -2,11 +2,11 @@ using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Mapping.ByCode;
 
 
-namespace CopyinfoWPF.ORM.Maps
+namespace CopyinfoWPF.ORM.Machine.Maps
 {
-    public class ServicesourceserialnumberMap : ClassMapping<Servicesourceserialnumber> {
+    public class ServiceSourceSerialNumberMap : ClassMapping<ServiceSourceSerialNumber> {
         
-        public ServicesourceserialnumberMap() {
+        public ServiceSourceSerialNumberMap() {
 			Schema("Machine");
 			Lazy(true);
 			Id(x => x.Id, map => map.Generator(Generators.Identity));

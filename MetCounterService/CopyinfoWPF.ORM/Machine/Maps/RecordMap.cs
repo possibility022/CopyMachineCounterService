@@ -2,7 +2,7 @@ using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Mapping.ByCode;
 
 
-namespace CopyinfoWPF.ORM.Maps
+namespace CopyinfoWPF.ORM.Machine.Maps
 {
     public class RecordMap : ClassMapping<Record> {
         

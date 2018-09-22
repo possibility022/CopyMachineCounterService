@@ -2,11 +2,11 @@ using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Mapping.ByCode;
 
 
-namespace CopyinfoWPF.ORM.Maps
+namespace CopyinfoWPF.ORM.Machine.Maps
 {
-    public class ServicesourcecountersMap : ClassMapping<Servicesourcecounters> {
+    public class ServiceSourceCountersMap : ClassMapping<ServiceSourceCounters> {
         
-        public ServicesourcecountersMap() {
+        public ServiceSourceCountersMap() {
 			Schema("Machine");
 			Lazy(true);
 			Id(x => x.Id, map => map.Generator(Generators.Identity));

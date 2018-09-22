@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using CopyinfoWPF.ORM.Machine;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NHibernate;
 using NHibernate.Cfg;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,8 +11,11 @@ namespace CopyinfoWPF.ORM.Tests
     [TestClass]
     public class NHibernateConnection
     {
-        [TestMethod]
-        public void TestConnection()
+
+        private static ISessionFactory SessionFactory { get; set; }
+
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
         {
             var cfg = new Configuration();
             cfg.DataBaseIntegration(x =>
@@ -22,19 +26,62 @@ namespace CopyinfoWPF.ORM.Tests
             );
 
             cfg.AddDeserializedMapping(ConfigurationSettings.GetMapping(), null);
+            SessionFactory = cfg.BuildSessionFactory();
+        }
 
-            var sessionFactory = cfg.BuildSessionFactory();
 
-            IEnumerable<Emailsource> list;
+        [TestMethod]
+        public void TestConnection()
+        {
+            IEnumerable<EmailSource> list;
 
-            using (var session = sessionFactory.OpenSession())
+            bool isConnected = false;
+
+            using (var session = SessionFactory.OpenSession())
             {
-                list = session.Query<Emailsource>().Take(10).ToList();
+                isConnected = session.IsConnected;
             }
 
-            foreach (var el in list)
-                Console.WriteLine(el.Id);
+            Assert.IsTrue(isConnected);
+        }
 
+        [TestMethod]
+        public void TestQueryEmailSource()
+        {
+            var s = GetFirstQuery<EmailSource>();
+            Trace.WriteLine(s);
+        }
+
+        [TestMethod]
+        public void TestQueryRecord()
+        {
+            var s = GetFirstQuery<Record>();
+            Trace.WriteLine(s);
+        }
+
+        [TestMethod]
+        public void TestQueryServiceSourceCounters()
+        {
+            var s = GetFirstQuery<ServiceSourceCounters>();
+            Trace.WriteLine(s);
+        }
+
+        [TestMethod]
+        public void TestQueryServiceSourceSerialNumber()
+        {
+            var s = GetFirstQuery<ServiceSourceSerialNumber>();
+            Trace.WriteLine(s);
+        }
+
+
+
+        private T GetFirstQuery<T>()
+        {
+            using (var session = SessionFactory.OpenSession())
+
+            {
+                return session.Query<T>().FirstOrDefault();
+            }
         }
     }
 }
