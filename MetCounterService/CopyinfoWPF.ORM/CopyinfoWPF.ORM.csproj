@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationSettings.cs" />
     <Compile Include="Emailsource.cs" />
     <Compile Include="Maps\EmailsourceMap.cs" />
     <Compile Include="Maps\RecordMap.cs" />
