@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
-using CopyinfoWPF.Database;
 using System.Threading.Tasks;
-using Copyinfo.Other;
-using CopyinfoWPF.Views;
 using System.Windows.Controls;
 using CopyinfoWPF.Workflows;
 
 using System.ComponentModel;
 using System.Windows.Data;
+using CopyinfoWPF.Model;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -86,16 +83,6 @@ namespace CopyinfoWPF.ViewModels
                 || rec.tonerlevel_y.Contains(FilterText)
                 || rec.tonerlevel_m.Contains(FilterText)
                 || rec.tonerlevel_k.Contains(FilterText);
-        }
-
-        public async Task RefreshClickAsync()
-        {
-            SetRecords(await DAO.GetAllReportsAsync());
-        }
-
-        public void PrintSelectedItems(DataGrid dataGrid)
-        {
-            PrintingWorkflow.Print(SelectedRecords.Cast<MachineRecord>().ToList());
         }
     }
 }

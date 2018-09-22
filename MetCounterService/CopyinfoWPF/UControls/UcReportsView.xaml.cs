@@ -1,5 +1,4 @@
-﻿using CopyinfoWPF.Database;
-using CopyinfoWPF.ViewModels;
+﻿using CopyinfoWPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +33,12 @@ namespace CopyinfoWPF.UControls
 
         private void OnRefreshClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.RefreshClickAsync(); //todo check this
+            //ViewModel.RefreshClickAsync(); //todo check this
         }
 
         private void OnPrintClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.PrintSelectedItems(dataGridWithRecords);
+            //ViewModel.PrintSelectedItems(dataGridWithRecords);
         }
 
         private void dataGridWithRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)

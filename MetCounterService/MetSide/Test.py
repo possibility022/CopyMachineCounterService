@@ -347,16 +347,15 @@ if __name__ == "__main__":
     import settings
     settings.init()
     
-    eng = Engine()
+    #eng = Engine()
+    #eng.test_html_loopV2()
 
-    eng.test_html_loopV2()
-
-    testEmailParsing()
+    #testEmailParsing()
 
     #SetNullTonerLevelToEmptyString()    
     #SQLTest()
     #SQLTest_TestingInsertingRecords()
-    #MigrateDataFromMongoToSQL()
+    MigrateDataFromMongoToSQL()
     #HTMLParser_Testing()
     #HTMLParser_TestingFromMongo()
     #SendEmailMessages()

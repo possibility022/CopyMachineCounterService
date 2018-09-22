@@ -1,4 +1,4 @@
-﻿using CopyinfoWPF.Database;
+﻿using CopyinfoWPF.Model;
 using CopyinfoWPF.ViewModels;
 using System;
 using System.Collections.Generic;

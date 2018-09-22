@@ -1,15 +1,6 @@
 ﻿using CopyinfoWPF.Security;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-using CopyinfoWPF.Common;
-using CopyinfoWPF.Resources;
-using System.Threading;
-using CopyinfoWPF.Database;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -62,32 +53,6 @@ namespace CopyinfoWPF.ViewModels
                 Message = "Błędne hasło. :(";
                 return false;
             }
-        }
-
-        public async Task<IEnumerable<MachineRecord>> StartLoadingAsync()
-        {
-            LoadingAnimationIsVisible = true;
-            Message = "Inicjalizacja bazy danych Liczników";
-            await MongoTB.InitializeAsync();
-
-            Message = "Inicjalizacja bazy danych Asystenta";
-            await Database.LocalCache.FirebirdServiceCache.InitializeAsync();
-
-            Message = "Inicjalizacja pamięci podręcznej.";
-            await DAO.InitializeAsync();
-
-            Message = "Inicjalizacja skrzynki email.";
-            Email.Initialize(
-                Encrypting.AES_Decrypt(ConstantData.EncryptedEmailLogin),
-                Encrypting.AES_Decrypt(ConstantData.EncryptedEmailPassword),
-                Encrypting.AES_Decrypt(ConstantData.EncryptedEmailSmtpPassword));
-
-            Message = "Pobieram dane z baz danych.";
-
-            IEnumerable<MachineRecord> records = await DAO.GetAllReportsAsync();
-
-            LoadingAnimationIsVisible = false;
-            return records;
         }
     }
 }

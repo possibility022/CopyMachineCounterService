@@ -1,5 +1,5 @@
 ﻿using Copyinfo.Other;
-using CopyinfoWPF.Database;
+using CopyinfoWPF.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +13,17 @@ namespace CopyinfoWPF.Workflows
         public static void Print(ICollection<MachineRecord> records, bool printOnlyNotPrinted = false)
         {
             var recordsToPrint = SelectDocumentsToPrint(records, printOnlyNotPrinted);
-            var documentsToPrint = recordsToPrint.Select(rec => rec.GetTextToPrint());
+            //var documentsToPrint = recordsToPrint.Select(rec => rec.GetTextToPrint());
 
-            var result = Printing.InvokePrinting(documentsToPrint, string.Empty);
-            
-            if (result)
-            {
-                foreach(MachineRecord rec in recordsToPrint)
-                {
-                    rec.SetPrintedTrue();
-                }
-            }
+            //var result = Printing.InvokePrinting(documentsToPrint, string.Empty);
+
+            //if (result)
+            //{
+            //    foreach (MachineRecord rec in recordsToPrint)
+            //    {
+            //        rec.SetPrintedTrue();
+            //    }
+            //}
         }
 
         private static IEnumerable<MachineRecord> SelectDocumentsToPrint(IEnumerable<MachineRecord> records, bool printOnlyNotPrinted)
@@ -32,7 +32,7 @@ namespace CopyinfoWPF.Workflows
 
             if (printOnlyNotPrinted)
             {
-                selectedRecords = records.Where(allRec => allRec.printed == false && !string.IsNullOrEmpty(allRec.serial_number));
+                //selectedRecords = records.Where(allRec => allRec.printed == false && !string.IsNullOrEmpty(allRec.serial_number));
             }
             else
             {
