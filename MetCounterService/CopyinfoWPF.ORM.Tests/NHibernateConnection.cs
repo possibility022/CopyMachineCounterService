@@ -1,10 +1,11 @@
-﻿using CopyinfoWPF.ORM.Machine;
+﻿using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate;
 using NHibernate.Cfg;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 
 namespace CopyinfoWPF.ORM.Tests
 {

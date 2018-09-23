@@ -2,7 +2,7 @@ using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Mapping.ByCode;
 
 
-namespace CopyinfoWPF.ORM.Machine.Maps
+namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
 {
     public class EmailsourceMap : ClassMapping<EmailSource> {
         

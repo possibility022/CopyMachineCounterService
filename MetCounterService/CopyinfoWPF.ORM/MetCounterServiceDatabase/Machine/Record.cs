@@ -1,7 +1,7 @@
 using System;
 
 
-namespace CopyinfoWPF.ORM.Machine
+namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine
 {
 
     public class Record {

@@ -59,16 +59,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationSettings.cs" />
-    <Compile Include="Machine\EmailSource.cs" />
-    <Compile Include="Machine\Maps\EmailsourceMap.cs" />
-    <Compile Include="Machine\Maps\RecordMap.cs" />
-    <Compile Include="Machine\Maps\ServiceSourceCountersMap.cs" />
-    <Compile Include="Machine\Maps\ServiceSourceSerialNumberMap.cs" />
+    <Compile Include="MetCounterServiceDatabase\ConfigurationSettings.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\EmailSource.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\EmailsourceMap.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\RecordMap.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\ServiceSourceCountersMap.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\ServiceSourceSerialNumberMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Machine\Record.cs" />
-    <Compile Include="Machine\ServiceSourceCounters.cs" />
-    <Compile Include="Machine\ServiceSourceSerialNumber.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Record.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\ServiceSourceCounters.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\ServiceSourceSerialNumber.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
