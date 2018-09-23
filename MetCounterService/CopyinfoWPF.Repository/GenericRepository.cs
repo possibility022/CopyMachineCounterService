@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CopyinfoWPF.Repository
 {
@@ -27,7 +25,11 @@ namespace CopyinfoWPF.Repository
 
         public bool Add(IEnumerable<T> items)
         {
-            throw new NotImplementedException();
+            foreach (var el in items)
+                _session.Save(el);
+
+            _session.Flush();
+            return true;
         }
 
         public IQueryable<T> All()
@@ -37,37 +39,40 @@ namespace CopyinfoWPF.Repository
 
         public bool Delete(T entity)
         {
-            throw new NotImplementedException();
+            _session.Delete(entity);
+            _session.Flush();
+            return true;
         }
 
         public bool Delete(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            foreach (var el in entities)
+                _session.Delete(el);
+
+            _session.Flush();
+            return true;
         }
 
         public IQueryable<T> FilterBy(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return All().Where(expression);
         }
 
         public T FindBy(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public T FindBy<TV>(TV id)
-        {
-            throw new NotImplementedException();
+            return _session.Get<T>(id);
         }
 
         public T FindBy(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return FilterBy(expression).FirstOrDefault();
         }
 
         public bool Update(T entity)
         {
-            throw new NotImplementedException();
+            _session.Update(entity);
+            _session.Flush();
+            return true;
         }
     }
 }
