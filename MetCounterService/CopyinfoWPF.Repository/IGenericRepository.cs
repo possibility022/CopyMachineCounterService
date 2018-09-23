@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace CopyinfoWPF.Repository
 {
-    internal interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         bool Add(T entity);
         bool Add(IEnumerable<T> items);
