@@ -25,22 +25,22 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
 			ManyToOne(x => x.Emailsource, map => 
 			{
 				map.Column("EmailSource");
-				map.NotNullable(true);
-				map.Cascade(Cascade.None);
+				map.NotNullable(false);
+				map.Cascade(Cascade.DeleteOrphans);
 			});
 
 			ManyToOne(x => x.Servicesourcecounters, map => 
 			{
 				map.Column("ServiceSourceCounters");
-				map.NotNullable(true);
-				map.Cascade(Cascade.None);
+				map.NotNullable(false);
+				map.Cascade(Cascade.DeleteOrphans);
 			});
 
 			ManyToOne(x => x.Servicesourceserialnumber, map => 
 			{
 				map.Column("ServiceSourceSerialNumber");
-				map.NotNullable(true);
-				map.Cascade(Cascade.None);
+				map.NotNullable(false);
+				map.Cascade(Cascade.DeleteOrphans);
 			});
 
         }

@@ -18,16 +18,7 @@ namespace CopyinfoWPF.ORM.Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            var cfg = new Configuration();
-            cfg.DataBaseIntegration(x =>
-            {
-                x.ConnectionString = "Server=WIN-RP56U0UJDMQ;Initial Catalog=MetCounterService;User Id=Superuser;Password=1234567890";
-                x.Dialect<NHibernate.Dialect.MsSql2012Dialect>();
-            }
-            );
-
-            cfg.AddDeserializedMapping(ConfigurationSettings.GetMapping(), null);
-            SessionFactory = cfg.BuildSessionFactory();
+            SessionFactory = Factory.GetSessionFactory();
         }
 
 

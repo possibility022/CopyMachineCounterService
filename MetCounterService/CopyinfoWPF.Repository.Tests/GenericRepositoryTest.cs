@@ -35,5 +35,16 @@ namespace CopyinfoWPF.Repository.Tests
             var taken = repository.All().Take(10).ToList();
             Assert.IsTrue(taken.Count > 0);
         }
+
+        [TestMethod]
+        public void TestFewOperationsInARowWithSameSession()
+        {
+            var repository = new GenericRepository<EmailSource>(SessionFactory.OpenSession());
+            var entity = repository.All().FirstOrDefault();
+            repository.Delete(entity);
+
+            var newEntity = repository.FindBy(entity.Id);
+            Console.WriteLine(newEntity);
+        }
     }
 }
