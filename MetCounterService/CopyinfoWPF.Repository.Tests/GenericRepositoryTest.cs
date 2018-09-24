@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -39,12 +40,22 @@ namespace CopyinfoWPF.Repository.Tests
         [TestMethod]
         public void TestFewOperationsInARowWithSameSession()
         {
-            var repository = new GenericRepository<EmailSource>(SessionFactory.OpenSession());
-            var entity = repository.All().FirstOrDefault();
-            repository.Delete(entity);
+            var repository = new GenericRepository<ServiceSourceCounters>(SessionFactory.OpenSession());
 
-            var newEntity = repository.FindBy(entity.Id);
-            Console.WriteLine(newEntity);
+            var record = new ServiceSourceCounters()
+            {
+                Content = "ABC"
+            };
+
+            repository.Add(record);
+            Assert.IsTrue(record.Id > 0);
+
+            var newRecord = repository.FindBy(record.Id);
+            Assert.AreEqual(record.Id, newRecord.Id);
+
+            repository.Delete(newRecord);
+            newRecord = repository.FindBy(record.Id);
+            Assert.IsNull(newRecord);
         }
     }
 }
