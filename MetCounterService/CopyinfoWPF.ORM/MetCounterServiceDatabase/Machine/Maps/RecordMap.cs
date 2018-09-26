@@ -10,33 +10,33 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
 			Schema("Machine");
 			Lazy(true);
 			Id(x => x.Id, map => map.Generator(Generators.Identity));
-			Property(x => x.Counterblackandwhite);
-			Property(x => x.Countercolor);
-			Property(x => x.Counterscanner);
+			Property(x => x.CounterBlackAndWhite);
+			Property(x => x.CounterColor);
+			Property(x => x.CounterScanner);
 			Property(x => x.Description);
-			Property(x => x.Addressip);
-			Property(x => x.Readdatetime, map => map.NotNullable(true));
-			Property(x => x.Serialnumber, map => map.NotNullable(true));
-			Property(x => x.Tonerlevelblack);
-			Property(x => x.Tonerlevelcyan);
-			Property(x => x.Tonerlevelyellow);
-			Property(x => x.Tonerlevelmagenta);
-			Property(x => x.Addressmac);
-			ManyToOne(x => x.Emailsource, map => 
+			Property(x => x.AddressIp);
+			Property(x => x.ReadDatetime, map => map.NotNullable(true));
+			Property(x => x.SerialNumber, map => map.NotNullable(true));
+			Property(x => x.TonerLevelBlack);
+			Property(x => x.TonerLevelCyan);
+			Property(x => x.TonerLevelYellow);
+			Property(x => x.TonerLevelMagenta);
+			Property(x => x.AddressMac);
+			ManyToOne(x => x.EmailSource, map => 
 			{
 				map.Column("EmailSource");
 				map.NotNullable(false);
 				map.Cascade(Cascade.DeleteOrphans);
 			});
 
-			ManyToOne(x => x.Servicesourcecounters, map => 
+			ManyToOne(x => x.ServiceSourceCounters, map => 
 			{
 				map.Column("ServiceSourceCounters");
 				map.NotNullable(false);
 				map.Cascade(Cascade.DeleteOrphans);
 			});
 
-			ManyToOne(x => x.Servicesourceserialnumber, map => 
+			ManyToOne(x => x.ServiceSourceSerialNumber, map => 
 			{
 				map.Column("ServiceSourceSerialNumber");
 				map.NotNullable(false);

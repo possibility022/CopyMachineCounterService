@@ -30,8 +30,8 @@ namespace CopyinfoWPF.ORM.Tests
             {
                 record = new Record()
                 {
-                    Readdatetime = DateTime.Now,
-                    Serialnumber = SerialNumber
+                    ReadDatetime = DateTime.Now,
+                    SerialNumber = SerialNumber
                 };
 
                 session.Save(record);

@@ -56,15 +56,15 @@
             SelectionChanged="dataGridWithRecords_SelectionChanged"
             SelectionMode="Extended">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=datetime}" Header="Data odczytu" />
-                <DataGridTextColumn Binding="{Binding Path=serial_number}" Header="Klient" />
-                <DataGridTextColumn Binding="{Binding Path=print_counter_black_and_white}" Header="Czarnobiałe" />
-                <DataGridTextColumn Binding="{Binding Path=print_counter_color}" Header="Kolorowe" />
-                <DataGridTextColumn Binding="{Binding Path=scan_counter}" Header="Skany" />
-                <DataGridTextColumn Binding="{Binding Path=tonerlevel_c}" Header="Cyjan" />
-                <DataGridTextColumn Binding="{Binding Path=tonerlevel_m}" Header="Magenta" />
-                <DataGridTextColumn Binding="{Binding Path=tonerlevel_k}" Header="Czarny" />
-                <DataGridTextColumn Binding="{Binding Path=tonerlevel_y}" Header="Żółty" />
+                <DataGridTextColumn Binding="{Binding Path=ReadDatetime}" Header="Data odczytu" />
+                <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="Klient" />
+                <DataGridTextColumn Binding="{Binding Path=CounterBlackAndWhite}" Header="Czarnobiałe" />
+                <DataGridTextColumn Binding="{Binding Path=CounterColor}" Header="Kolorowe" />
+                <DataGridTextColumn Binding="{Binding Path=CounterScanner}" Header="Skany" />
+                <DataGridTextColumn Binding="{Binding Path=TonerLevelCyan}" Header="Cyjan" />
+                <DataGridTextColumn Binding="{Binding Path=TonerLevelMagenta}" Header="Magenta" />
+                <DataGridTextColumn Binding="{Binding Path=TonerLevelBlack}" Header="Czarny" />
+                <DataGridTextColumn Binding="{Binding Path=TonerLevelYellow}" Header="Żółty" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
