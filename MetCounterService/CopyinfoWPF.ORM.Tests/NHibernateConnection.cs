@@ -18,7 +18,7 @@ namespace CopyinfoWPF.ORM.Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            SessionFactory = Factory.GetSessionFactory();
+            SessionFactory = MetSessionFactorySettings.GetSessionFactory();
         }
 
 

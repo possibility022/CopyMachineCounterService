@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EBA33B7F-1FA3-4E2A-B1F1-22307B092F3C}</ProjectGuid>
+    <ProjectGuid>{260D8137-CE7A-494C-8F0E-71B3AACAAB41}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CopyinfoWPF.Repository.Tests</RootNamespace>
-    <AssemblyName>CopyinfoWPF.Repository.Tests</AssemblyName>
+    <RootNamespace>CopyinfoWPF.Services.Tests</RootNamespace>
+    <AssemblyName>CopyinfoWPF.Services.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -95,25 +95,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericRepositoryTest.cs" />
+    <Compile Include="MachineCounterServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CopyinfoWPF.Configuration\CopyinfoWPF.Configuration.csproj">
+      <Project>{a2e9387e-3403-4ad0-b188-02ef62fbde47}</Project>
+      <Name>CopyinfoWPF.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.ORM\CopyinfoWPF.ORM.csproj">
-      <Project>{6a9c499d-22b2-4b58-909d-0a524b0461d1}</Project>
+      <Project>{6A9C499D-22B2-4B58-909D-0A524B0461D1}</Project>
       <Name>CopyinfoWPF.ORM</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CopyinfoWPF.Repository\CopyinfoWPF.Repository.csproj">
-      <Project>{03c67f50-9a2d-4756-92a5-1d151d5d2a61}</Project>
-      <Name>CopyinfoWPF.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CopyinfoWPF\CopyinfoWPF.csproj">
-      <Project>{8DEF84E7-FEA8-4675-8EE2-CECACA412078}</Project>
-      <Name>CopyinfoWPF</Name>
+    <ProjectReference Include="..\CopyinfoWPF.Services\CopyinfoWPF.Services.csproj">
+      <Project>{C1300DBF-4F6E-4D5E-8504-5016975841F0}</Project>
+      <Name>CopyinfoWPF.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

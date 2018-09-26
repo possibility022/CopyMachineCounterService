@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate;
@@ -14,7 +15,7 @@ namespace CopyinfoWPF.ORM.Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            SessionFactory = Factory.GetSessionFactory();
+            SessionFactory = MetSessionFactorySettings.GetSessionFactory();
         }
 
         [TestMethod]
