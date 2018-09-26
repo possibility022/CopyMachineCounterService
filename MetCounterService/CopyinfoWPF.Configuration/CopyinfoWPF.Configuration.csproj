@@ -97,6 +97,10 @@
       <Project>{6a9c499d-22b2-4b58-909d-0a524b0461d1}</Project>
       <Name>CopyinfoWPF.ORM</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CopyinfoWPF.Services\CopyinfoWPF.Services.csproj">
+      <Project>{C1300DBF-4F6E-4D5E-8504-5016975841F0}</Project>
+      <Name>CopyinfoWPF.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

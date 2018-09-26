@@ -1,5 +1,7 @@
 ﻿using CopyinfoWPF.ORM;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
+using CopyinfoWPF.Services.Implementation;
+using CopyinfoWPF.Services.Interfaces;
 using Unity;
 
 namespace CopyinfoWPF.Configuration
@@ -22,7 +24,7 @@ namespace CopyinfoWPF.Configuration
 
         private static void RegisterTypes()
         {
-
+            Container.RegisterType<IMachineCounterService, MachineCounterService>();
         }
 
         private static void RegisterInstances()

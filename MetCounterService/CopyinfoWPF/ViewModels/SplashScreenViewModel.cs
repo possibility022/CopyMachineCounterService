@@ -1,6 +1,12 @@
-﻿using CopyinfoWPF.Security;
+﻿using Unity;
+using CopyinfoWPF.Model;
+using CopyinfoWPF.Security;
+using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Security;
+using System.Threading.Tasks;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -53,6 +59,37 @@ namespace CopyinfoWPF.ViewModels
                 Message = "Błędne hasło. :(";
                 return false;
             }
+        }
+
+        public async Task<IEnumerable<Record>> StartLoadingAsync()
+        {
+            LoadingAnimationIsVisible = true;
+
+            Message = "Inicjalizacja podstawowej konfiguracji.";
+            await Task.Factory.StartNew(() => Configuration.Configuration.Initialize());
+
+            Message = "Inicjalizacja bazy danych Liczników";
+            var recordService = Configuration.Configuration.Container.Resolve<IMachineCounterService>();
+            //await MongoTB.InitializeAsync();
+
+            //Message = "Inicjalizacja bazy danych Asystenta";
+            //await Database.LocalCache.FirebirdServiceCache.InitializeAsync();
+
+            //Message = "Inicjalizacja pamięci podręcznej.";
+            //await DAO.InitializeAsync();
+
+            //Message = "Inicjalizacja skrzynki email.";
+            //Email.Initialize(
+            //    Encrypting.AES_Decrypt(ConstantData.EncryptedEmailLogin),
+            //    Encrypting.AES_Decrypt(ConstantData.EncryptedEmailPassword),
+            //    Encrypting.AES_Decrypt(ConstantData.EncryptedEmailSmtpPassword));
+
+            Message = "Pobieram dane z baz danych.";
+
+            var records = await Task.Factory.StartNew<IEnumerable<Record>>(recordService.GetAllRecords);
+
+            LoadingAnimationIsVisible = false;
+            return records;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CopyinfoWPF.Model;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using CopyinfoWPF.ViewModels;
 using System.Collections.Generic;
 using System.Windows;
@@ -35,10 +36,10 @@ namespace CopyinfoWPF.Views
         {
             if (ViewModel.LoginClick(PasswordBox.SecurePassword))
             {
-                //IEnumerable<MachineRecord> records = await ViewModel.StartLoadingAsync();
-                //MainWindow mainWindow = new MainWindow(records);
-                //mainWindow.Show();
-                //Close();
+                var records = await ViewModel.StartLoadingAsync();
+                var mainWindow = new MainWindow(records);
+                mainWindow.Show();
+                Close();
             }
         }
 

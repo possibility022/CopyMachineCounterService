@@ -74,18 +74,6 @@
     <Reference Include="MimeKit, Version=1.22.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeKit.1.22.0\lib\net451\MimeKit.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.2.5.0\lib\net45\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MongoDB.Driver.Core.2.5.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Legacy, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mongocsharpdriver.2.5.0\lib\net45\MongoDB.Driver.Legacy.dll</HintPath>
-    </Reference>
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -157,7 +145,6 @@
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Interfaces\INewElementProvider.cs" />
     <Compile Include="Model\EmailAttachment.cs" />
-    <Compile Include="Model\MachineRecord.cs" />
     <Compile Include="Resources\ConstantData.cs" />
     <Compile Include="UControls\UcReportsView.xaml.cs">
       <DependentUpon>UcReportsView.xaml</DependentUpon>
@@ -250,6 +237,10 @@
       <Project>{e6158129-fb01-4111-8a04-6027e8e755a3}</Project>
       <Name>CopyinfoWPF.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CopyinfoWPF.Configuration\CopyinfoWPF.Configuration.csproj">
+      <Project>{A2E9387E-3403-4AD0-B188-02EF62FBDE47}</Project>
+      <Name>CopyinfoWPF.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.ORM\CopyinfoWPF.ORM.csproj">
       <Project>{6a9c499d-22b2-4b58-909d-0a524b0461d1}</Project>
       <Name>CopyinfoWPF.ORM</Name>
@@ -257,6 +248,10 @@
     <ProjectReference Include="..\CopyinfoWPF.Security\CopyinfoWPF.Security.csproj">
       <Project>{4c7f6516-2dd1-4ef9-9f14-69d32fe6840d}</Project>
       <Name>CopyinfoWPF.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CopyinfoWPF.Services\CopyinfoWPF.Services.csproj">
+      <Project>{C1300DBF-4F6E-4D5E-8504-5016975841F0}</Project>
+      <Name>CopyinfoWPF.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@ using CopyinfoWPF.Workflows;
 using System.ComponentModel;
 using System.Windows.Data;
 using CopyinfoWPF.Model;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -16,11 +17,11 @@ namespace CopyinfoWPF.ViewModels
     {
         ICollectionView _records;
         private bool _printButtonEnabled;
-        MachineRecord _selectedRecord;
+        Record _selectedRecord;
         private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
 
-        public ObservableCollection<MachineRecord> _allRecords = new ObservableCollection<MachineRecord>();
+        public ObservableCollection<Record> _allRecords = new ObservableCollection<Record>();
 
         public ICollectionView Records
         {
@@ -28,7 +29,7 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _records, value); }
         }
 
-        public MachineRecord SelectedRecord
+        public Record SelectedRecord
         {
             get { return _selectedRecord; }
             set { SetProperty(ref _selectedRecord, value); }
@@ -54,7 +55,7 @@ namespace CopyinfoWPF.ViewModels
 
         public ReportsViewModel()
         {
-            Records = CollectionViewSource.GetDefaultView(new List<MachineRecord>());
+            Records = CollectionViewSource.GetDefaultView(new List<Record>());
         }
 
         private void ApplyFilter()
@@ -63,7 +64,7 @@ namespace CopyinfoWPF.ViewModels
             //Records.AddRange(_allRecords.Where(FilterLogic));
         }
 
-        public void SetRecords(IEnumerable<MachineRecord> records)
+        public void SetRecords(IEnumerable<Record> records)
         {
             _allRecords.Clear();
             _allRecords.AddRange(records);
@@ -73,16 +74,17 @@ namespace CopyinfoWPF.ViewModels
 
         private bool FilterLogic(object item)
         {
-            var rec = item as MachineRecord;
-            return rec.datetime.ToString().Contains(FilterText)
-                || rec.serial_number.Contains(FilterText)
-                || rec.print_counter_black_and_white.ToString().Contains(FilterText)
-                || rec.print_counter_color.ToString().Contains(FilterText)
-                || rec.scan_counter.ToString().Contains(FilterText)
-                || rec.tonerlevel_c.Contains(FilterText)
-                || rec.tonerlevel_y.Contains(FilterText)
-                || rec.tonerlevel_m.Contains(FilterText)
-                || rec.tonerlevel_k.Contains(FilterText);
+            var rec = item as Record;
+            return true;
+            //return rec.datetime.ToString().Contains(FilterText)
+            //    || rec.serial_number.Contains(FilterText)
+            //    || rec.print_counter_black_and_white.ToString().Contains(FilterText)
+            //    || rec.print_counter_color.ToString().Contains(FilterText)
+            //    || rec.scan_counter.ToString().Contains(FilterText)
+            //    || rec.tonerlevel_c.Contains(FilterText)
+            //    || rec.tonerlevel_y.Contains(FilterText)
+            //    || rec.tonerlevel_m.Contains(FilterText)
+            //    || rec.tonerlevel_k.Contains(FilterText);
         }
     }
 }

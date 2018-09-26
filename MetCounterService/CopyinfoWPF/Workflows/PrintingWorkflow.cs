@@ -1,16 +1,13 @@
-﻿using Copyinfo.Other;
-using CopyinfoWPF.Model;
+﻿using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CopyinfoWPF.Workflows
 {
     class PrintingWorkflow
     {
-        public static void Print(ICollection<MachineRecord> records, bool printOnlyNotPrinted = false)
+        public static void Print(ICollection<Record> records, bool printOnlyNotPrinted = false)
         {
             var recordsToPrint = SelectDocumentsToPrint(records, printOnlyNotPrinted);
             //var documentsToPrint = recordsToPrint.Select(rec => rec.GetTextToPrint());
@@ -19,16 +16,16 @@ namespace CopyinfoWPF.Workflows
 
             //if (result)
             //{
-            //    foreach (MachineRecord rec in recordsToPrint)
+            //    foreach (Record rec in recordsToPrint)
             //    {
             //        rec.SetPrintedTrue();
             //    }
             //}
         }
 
-        private static IEnumerable<MachineRecord> SelectDocumentsToPrint(IEnumerable<MachineRecord> records, bool printOnlyNotPrinted)
+        private static IEnumerable<Record> SelectDocumentsToPrint(IEnumerable<Record> records, bool printOnlyNotPrinted)
         {
-            IEnumerable<MachineRecord> selectedRecords;
+            IEnumerable<Record> selectedRecords;
 
             if (printOnlyNotPrinted)
             {
@@ -39,8 +36,9 @@ namespace CopyinfoWPF.Workflows
                 selectedRecords = records;
             }
 
-            return records
-                .Where(allRec => !string.IsNullOrEmpty(allRec.serial_number));
+            throw new NotImplementedException();
+            //return records
+            //    .Where(allRec => !string.IsNullOrEmpty(allRec.serial_number));
                 
         }
     }

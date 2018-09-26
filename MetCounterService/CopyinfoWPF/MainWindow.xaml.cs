@@ -1,4 +1,5 @@
 ﻿using CopyinfoWPF.Model;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using CopyinfoWPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace CopyinfoWPF
             InitializeComponent();
         }
 
-        public MainWindow(IEnumerable<MachineRecord> records) : this()
+        public MainWindow(IEnumerable<Record> records) : this()
         {
             ReportsViewModel.SetRecords(records);
         }
