@@ -21,5 +21,6 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine
         public virtual string TonerLevelYellow { get; set; }
         public virtual string TonerLevelMagenta { get; set; }
         public virtual string AddressMac { get; set; }
+        public virtual bool Printed { get; set; }
     }
 }

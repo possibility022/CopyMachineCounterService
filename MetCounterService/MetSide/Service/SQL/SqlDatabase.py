@@ -105,7 +105,8 @@ class TBSQL:
             TonerLevelCyan = self._getFromDictIfExists(data,'tonerlevel_c'),
             TonerLevelYellow = self._getFromDictIfExists(data,'tonerlevel_y'),
             TonerLevelMagenta = self._getFromDictIfExists(data,'tonerlevel_m'),
-            AddressMac = self._getFromDictIfExists(data,'addressMAC')
+            AddressMac = self._getFromDictIfExists(data,'addressMAC'),
+            Printed = False
         )
 
         return recordEntity
