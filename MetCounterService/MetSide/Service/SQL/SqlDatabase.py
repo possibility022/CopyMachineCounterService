@@ -106,17 +106,17 @@ class TBSQL:
             TonerLevelYellow = self._getFromDictIfExists(data,'tonerlevel_y'),
             TonerLevelMagenta = self._getFromDictIfExists(data,'tonerlevel_m'),
             AddressMac = self._getFromDictIfExists(data,'addressMAC'),
-            Printed = False
+            Printed = self._getFromDictIfExists(data,'printed', None, False),
         )
 
         return recordEntity
     
     @staticmethod
-    def _getFromDictIfExists(dictionary, key, maxLenght = None):
+    def _getFromDictIfExists(dictionary, key, maxLenght = None, defaultValue = None):
         if key in dictionary:
             if (isinstance(dictionary[key], str)) and (maxLenght is not None) and (len(dictionary[key]) > maxLenght):
                 return dictionary[key][:maxLenght] # cut the string
             return dictionary[key]
         else:
-            return None
+            return defaultValue
         
