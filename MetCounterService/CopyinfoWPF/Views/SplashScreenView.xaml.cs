@@ -1,7 +1,4 @@
-﻿using CopyinfoWPF.Model;
-using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
-using CopyinfoWPF.ViewModels;
-using System.Collections.Generic;
+﻿using CopyinfoWPF.ViewModels;
 using System.Windows;
 using System.Windows.Input;
 

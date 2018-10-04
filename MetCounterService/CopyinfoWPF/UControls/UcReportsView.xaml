@@ -56,7 +56,10 @@
             SelectionChanged="dataGridWithRecords_SelectionChanged"
             SelectionMode="Extended">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=ReadDatetime}" Header="Data odczytu" />
+                <DataGridTextColumn
+                    Binding="{Binding Path=ReadDatetime}"
+                    Header="Data odczytu"
+                    SortDirection="{Binding Path=DateTimeListSortDirection}" />
                 <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="Klient" />
                 <DataGridTextColumn Binding="{Binding Path=CounterBlackAndWhite}" Header="Czarnobiałe" />
                 <DataGridTextColumn Binding="{Binding Path=CounterColor}" Header="Kolorowe" />

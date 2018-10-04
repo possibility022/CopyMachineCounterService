@@ -1,14 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using CopyinfoWPF.Workflows;
 
 using System.ComponentModel;
 using System.Windows.Data;
-using CopyinfoWPF.Model;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 
 namespace CopyinfoWPF.ViewModels
@@ -22,6 +17,13 @@ namespace CopyinfoWPF.ViewModels
         private string _filterText = string.Empty;
 
         public ObservableCollection<Record> _allRecords = new ObservableCollection<Record>();
+
+        private ListSortDirection _dateTimeListSortDirection = ListSortDirection.Descending;
+        public ListSortDirection DateTimeListSortDirection
+        {
+            get { return _dateTimeListSortDirection; }
+            set { SetProperty(ref _dateTimeListSortDirection, value); }
+        }
 
         public ICollectionView Records
         {
@@ -55,13 +57,7 @@ namespace CopyinfoWPF.ViewModels
 
         public ReportsViewModel()
         {
-            Records = CollectionViewSource.GetDefaultView(new List<Record>());
-        }
-
-        private void ApplyFilter()
-        {
-            //Records.Clear();
-            //Records.AddRange(_allRecords.Where(FilterLogic));
+            Records = CollectionViewSource.GetDefaultView(new Record[] { });
         }
 
         public void SetRecords(IEnumerable<Record> records)
@@ -70,21 +66,31 @@ namespace CopyinfoWPF.ViewModels
             _allRecords.AddRange(records);
             Records = CollectionViewSource.GetDefaultView(_allRecords);
             Records.Filter = FilterLogic;
+            SetDefaultSorting();
+        }
+
+        private void SetDefaultSorting()
+        {
+            if (Records != null && Records.CanSort == true)
+            {
+                Records.SortDescriptions.Clear();
+                Records.SortDescriptions.Add(new SortDescription(nameof(Record.ReadDatetime), ListSortDirection.Ascending));
+            }
         }
 
         private bool FilterLogic(object item)
         {
             var rec = item as Record;
-            return true;
-            //return rec.datetime.ToString().Contains(FilterText)
-            //    || rec.serial_number.Contains(FilterText)
-            //    || rec.print_counter_black_and_white.ToString().Contains(FilterText)
-            //    || rec.print_counter_color.ToString().Contains(FilterText)
-            //    || rec.scan_counter.ToString().Contains(FilterText)
-            //    || rec.tonerlevel_c.Contains(FilterText)
-            //    || rec.tonerlevel_y.Contains(FilterText)
-            //    || rec.tonerlevel_m.Contains(FilterText)
-            //    || rec.tonerlevel_k.Contains(FilterText);
+
+            return rec.ReadDatetime.ToString().Contains(FilterText)
+                || rec.SerialNumber.Contains(FilterText)
+                || rec.CounterBlackAndWhite.ToString().Contains(FilterText)
+                || rec.CounterColor.ToString().Contains(FilterText)
+                || rec.CounterScanner.ToString().Contains(FilterText)
+                || (string.IsNullOrEmpty(rec.TonerLevelBlack) == false && rec.TonerLevelBlack.Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.TonerLevelCyan) == false && rec.TonerLevelCyan.Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.TonerLevelMagenta) == false && rec.TonerLevelMagenta.Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.TonerLevelYellow) == false && rec.TonerLevelYellow.Contains(FilterText));
         }
     }
 }
