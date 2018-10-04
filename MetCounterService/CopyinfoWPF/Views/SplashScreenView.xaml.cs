@@ -37,7 +37,7 @@ namespace CopyinfoWPF.Views
             if (ViewModel.LoginClick(PasswordBox.SecurePassword))
             {
                 var records = await ViewModel.StartLoadingAsync();
-                var mainWindow = new MainWindow(records);
+                var mainWindow = new MahMainWindow(records);
                 mainWindow.Show();
                 Close();
             }

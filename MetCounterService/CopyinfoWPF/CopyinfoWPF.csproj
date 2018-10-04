@@ -147,11 +147,15 @@
     </ApplicationDefinition>
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Interfaces\INewElementProvider.cs" />
+    <Compile Include="MahMainWindow.xaml.cs">
+      <DependentUpon>MahMainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\EmailAttachment.cs" />
     <Compile Include="Resources\ConstantData.cs" />
     <Compile Include="UControls\UcReportsView.xaml.cs">
       <DependentUpon>UcReportsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\MahMainWindowModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
     <Compile Include="ViewModels\PasswordPromptViewModel.cs" />
     <Compile Include="ViewModels\PrintingPreviewViewModel.cs" />
@@ -167,16 +171,12 @@
       <DependentUpon>SplashScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workflows\PrintingWorkflow.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="MahMainWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\Colors.xaml">
