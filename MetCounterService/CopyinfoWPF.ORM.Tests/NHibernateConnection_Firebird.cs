@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CopyinfoWPF.ORM.AsystentDatabase.Address;
+using CopyinfoWPF.ORM.AsystentDatabase.Device;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate;
@@ -33,16 +35,15 @@ namespace CopyinfoWPF.ORM.Tests
         [TestMethod]
         public void TestConnection_GetOneRecord()
         {
-            bool isConnected = false;
-            ClientAddress record = null;
+            var list = new List<object>();
 
             using (var session = SessionFactory.OpenSession())
             {
-                isConnected = session.IsConnected;
-                record = session.Query<ClientAddress>().FirstOrDefault();
+                list.Add(session.Query<ClientAddress>().FirstOrDefault());
+                list.Add(session.Query<ClientDevice>().FirstOrDefault());
             }
 
-            Assert.IsNotNull(record);
+            Assert.IsFalse(list.Any(o => o == null));
         }
     }
 }

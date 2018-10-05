@@ -1,5 +1,6 @@
 ﻿using CopyinfoWPF.ORM.AsystentDatabase.Address;
 using CopyinfoWPF.ORM.AsystentDatabase.Address.Maps;
+using CopyinfoWPF.ORM.AsystentDatabase.Device;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
@@ -18,11 +19,13 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
             var mapper = new ModelMapper();
 
             mapper.AddMapping<ClientAddressMap>();
+            mapper.AddMapping<ClientDeviceMap>();
             
             var mapping = mapper.CompileMappingFor(
                 new[]
                 {
-                    typeof(ClientAddress)
+                    typeof(ClientAddress),
+                    typeof(ClientDevice)
                 });
 
             return mapping;
