@@ -1,25 +1,17 @@
 ﻿using System.Windows.Controls;
-using System.Windows;
-using System.Windows.Media;
-using System.IO;
-using System.Globalization;
-using CopyinfoWPF.Common;
 using CopyinfoWPF.Common.Enums;
-using System;
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
 
-namespace Copyinfo.Other
+namespace CopyinfoWPF.Common
 {
     public static class Printing
     {
         public static bool InvokePrinting(string text, string description)
         {
-            PrintDialog printDialog = new PrintDialog();
+            var printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
             {
-                TextDocumentPaginator myDocumentPaginator = new TextDocumentPaginator(text, printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
+                var myDocumentPaginator = new TextDocumentPaginator(text, printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
                 printDialog.PrintDocument(myDocumentPaginator, description);
                 return true;
             }
@@ -29,10 +21,10 @@ namespace Copyinfo.Other
 
         public static bool InvokePrinting(IEnumerable<string> documents, string description)
         {
-            PrintDialog printDialog = new PrintDialog();
+            var printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
             {
-                TextDocumentPaginator myDocumentPaginator = new TextDocumentPaginator(documents, printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
+                var myDocumentPaginator = new TextDocumentPaginator(documents, printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
                 printDialog.PrintDocument(myDocumentPaginator, description);
                 return true;
             }

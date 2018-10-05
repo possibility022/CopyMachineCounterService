@@ -147,6 +147,7 @@
     </ApplicationDefinition>
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Interfaces\INewElementProvider.cs" />
+    <Compile Include="Interfaces\IPrintContentProvider.cs" />
     <Compile Include="MahMainWindow.xaml.cs">
       <DependentUpon>MahMainWindow.xaml</DependentUpon>
     </Compile>
@@ -170,7 +171,8 @@
     <Compile Include="Views\SplashScreenView.xaml.cs">
       <DependentUpon>SplashScreenView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Workflows\PrintingWorkflow.cs" />
+    <Compile Include="Workflows\Printing\PrintContentProvider.cs" />
+    <Compile Include="Workflows\Printing\PrintingWorkflow.cs" />
     <Page Include="MahMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
