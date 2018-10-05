@@ -86,6 +86,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsystentDatabase\Address\ClientAddress.cs" />
+    <Compile Include="AsystentDatabase\Address\Maps\EmailsourceMap.cs" />
+    <Compile Include="AsystentDatabase\AsystentFactorySettings.cs" />
     <Compile Include="DatabaseSessionProvider.cs" />
     <Compile Include="DatabaseType.cs" />
     <Compile Include="IDatabaseSessionProvider.cs" />
@@ -103,5 +106,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
