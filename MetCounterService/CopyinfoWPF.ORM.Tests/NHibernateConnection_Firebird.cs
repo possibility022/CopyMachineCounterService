@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using CopyinfoWPF.ORM.AsystentDatabase.Address;
 using CopyinfoWPF.ORM.AsystentDatabase.Device;
@@ -44,6 +45,19 @@ namespace CopyinfoWPF.ORM.Tests
             }
 
             Assert.IsFalse(list.Any(o => o == null));
+        }
+
+        [TestMethod]
+        public void BrowseRecordsClientDevices()
+        {
+            List<ClientDevice> list;
+            using (var session = SessionFactory.OpenSession())
+            {
+                list = session.Query<ClientDevice>().Take(100).ToList();
+            }
+
+            Trace.Write(list.Count);
+            (new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
         }
     }
 }
