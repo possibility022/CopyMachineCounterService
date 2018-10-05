@@ -1,6 +1,6 @@
 ﻿namespace CopyinfoWPF.ORM.AsystentDatabase.Address
 {
-    public class ADRES_KLIENT
+    public class ClientAddress
     {
         public virtual  int ID_ADRES_KLIENT { get; set; }
         public virtual  int ID_KLIENT { get; set; }

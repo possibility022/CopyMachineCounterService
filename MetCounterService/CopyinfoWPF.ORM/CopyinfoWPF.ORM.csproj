@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsystentDatabase\Address\ClientAddress.cs" />
-    <Compile Include="AsystentDatabase\Address\Maps\EmailsourceMap.cs" />
+    <Compile Include="AsystentDatabase\Address\Maps\ClientAddressMap.cs" />
     <Compile Include="AsystentDatabase\AsystentFactorySettings.cs" />
     <Compile Include="DatabaseSessionProvider.cs" />
     <Compile Include="DatabaseType.cs" />

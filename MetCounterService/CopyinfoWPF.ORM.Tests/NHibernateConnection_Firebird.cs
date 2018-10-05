@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using CopyinfoWPF.ORM.AsystentDatabase.Address;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,12 +34,12 @@ namespace CopyinfoWPF.ORM.Tests
         public void TestConnection_GetOneRecord()
         {
             bool isConnected = false;
-            ADRES_KLIENT record = null;
+            ClientAddress record = null;
 
             using (var session = SessionFactory.OpenSession())
             {
                 isConnected = session.IsConnected;
-                record = session.Query<ADRES_KLIENT>().FirstOrDefault();
+                record = session.Query<ClientAddress>().FirstOrDefault();
             }
 
             Assert.IsNotNull(record);

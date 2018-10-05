@@ -22,7 +22,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
             var mapping = mapper.CompileMappingFor(
                 new[]
                 {
-                    typeof(ADRES_KLIENT)
+                    typeof(ClientAddress)
                 });
 
             return mapping;
