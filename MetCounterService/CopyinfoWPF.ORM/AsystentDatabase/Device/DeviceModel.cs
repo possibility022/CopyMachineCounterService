@@ -7,5 +7,7 @@
         public virtual int ID_RODZAJ_URZADZENIA { get; set; } // int; //fk
         public virtual string NAZWA_1 { get; set; } // not null
         public virtual object UWAGI { get; set; }   // ignore BLOB SUB_TYPE 1
+
+        public virtual DeviceBrand DeviceBrand { get; set; }
     }
 }

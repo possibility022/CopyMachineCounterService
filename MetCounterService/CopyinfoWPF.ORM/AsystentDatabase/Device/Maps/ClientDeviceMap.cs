@@ -1,5 +1,4 @@
-﻿using CopyinfoWPF.ORM.AsystentDatabase.Device;
-using NHibernate.Mapping.ByCode;
+﻿using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
 namespace CopyinfoWPF.ORM.AsystentDatabase.Device.Maps
@@ -12,7 +11,15 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Device.Maps
             Lazy(false);
             Id(x => x.ID_URZADZENIE_KLIENT, map => map.Generator(Generators.Identity));
             Property(x => x.ID_URZADZENIE_KLIENT, map => map.NotNullable(true));
-            Property(x => x.ID_MODEL_URZADZENIA, map => map.NotNullable(true));
+
+            //Property(x => x.ID_MODEL_URZADZENIA, map => map.NotNullable(true));
+
+            ManyToOne(x => x.DeviceModel, map =>
+            {
+                map.Column(nameof(ClientDevice.ID_MODEL_URZADZENIA));
+                map.NotNullable(false);
+            });
+
             Property(x => x.ID_KLIENT, map => map.NotNullable(true));
             Property(x => x.NR_URZADZENIA, map => map.NotNullable(true));
             Property(x => x.ID_MIEJSCE_INSTALACJI, map => map.NotNullable(true));

@@ -31,5 +31,7 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Device
         public virtual object MODEL_UWAGI { get; set; } //ignore?
         public virtual object OPIS_MIEJSCA_INSTALACJI { get; set; } //ignore?
         public virtual int? ID_URZADZENIE_KLIENT_STATUS { get; set; }
+        
+        public virtual DeviceModel DeviceModel { get; set; }
     }
 }

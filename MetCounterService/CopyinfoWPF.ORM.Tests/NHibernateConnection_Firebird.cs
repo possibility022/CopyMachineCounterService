@@ -61,6 +61,32 @@ namespace CopyinfoWPF.ORM.Tests
         }
 
         [TestMethod]
+        public void BrowseRecordsClientDevices_CheckMappingDeviceModel()
+        {
+            List<ClientDevice> list;
+            using (var session = SessionFactory.OpenSession())
+            {
+                list = session.Query<ClientDevice>().Take(100).ToList();
+            }
+
+            Assert.IsTrue(list.All(a => a.DeviceModel != null));
+            //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
+        }
+
+        [TestMethod]
+        public void BrowseRecordsDeviceModel_DeviceBrand()
+        {
+            List<DeviceModel> list;
+            using (var session = SessionFactory.OpenSession())
+            {
+                list = session.Query<DeviceModel>().Take(100).ToList();
+            }
+
+            Assert.IsTrue(list.All(a => a.DeviceBrand != null));
+            //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
+        }
+
+        [TestMethod]
         public void BrowseRecordsDeviceModel()
         {
             List<DeviceModel> list;
