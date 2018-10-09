@@ -2,7 +2,7 @@
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
-namespace CopyinfoWPF.ORM.AsystentDatabase.Address.Maps
+namespace CopyinfoWPF.ORM.AsystentDatabase.Device.Maps
 {
     public class ClientDeviceMap : ClassMapping<ClientDevice>
     {

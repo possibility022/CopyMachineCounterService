@@ -57,7 +57,34 @@ namespace CopyinfoWPF.ORM.Tests
             }
 
             Trace.Write(list.Count);
-            (new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
+            //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
         }
+
+        [TestMethod]
+        public void BrowseRecordsDeviceModel()
+        {
+            List<DeviceModel> list;
+            using (var session = SessionFactory.OpenSession())
+            {
+                list = session.Query<DeviceModel>().Take(100).ToList();
+            }
+
+            Trace.Write(list.Count);
+            //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
+        }
+
+        [TestMethod]
+        public void BrowseRecordsDeviceBrand()
+        {
+            List<DeviceBrand> list;
+            using (var session = SessionFactory.OpenSession())
+            {
+                list = session.Query<DeviceBrand>().Take(100).ToList();
+            }
+
+            Trace.Write(list.Count);
+        }
+
+
     }
 }

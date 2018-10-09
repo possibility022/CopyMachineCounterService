@@ -1,31 +1,32 @@
 ﻿using CopyinfoWPF.ORM.AsystentDatabase.Address;
 using CopyinfoWPF.ORM.AsystentDatabase.Address.Maps;
 using CopyinfoWPF.ORM.AsystentDatabase.Device;
+using CopyinfoWPF.ORM.AsystentDatabase.Device.Maps;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
-using System.Collections.Generic;
 
 namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
 {
     public static class AsystentFactorySettings
     {
-
-        private static Dictionary<DatabaseType, Configuration> _configurations = new Dictionary<DatabaseType, Configuration>();
-
         private static HbmMapping GetMapping()
         {
             var mapper = new ModelMapper();
 
             mapper.AddMapping<ClientAddressMap>();
             mapper.AddMapping<ClientDeviceMap>();
+            mapper.AddMapping<DeviceModelMap>();
+            mapper.AddMapping<DeviceBrandMap>();
             
             var mapping = mapper.CompileMappingFor(
                 new[]
                 {
                     typeof(ClientAddress),
-                    typeof(ClientDevice)
+                    typeof(ClientDevice),
+                    typeof(DeviceModel),
+                    typeof(DeviceBrand)
                 });
 
             return mapping;
@@ -43,11 +44,6 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
 
             cfg.AddDeserializedMapping(GetMapping(), null);
             return cfg.BuildSessionFactory();
-        }
-
-        public static void RegisterNewDatabase(DatabaseType databaseType)
-        {
-            
         }
 
     }
