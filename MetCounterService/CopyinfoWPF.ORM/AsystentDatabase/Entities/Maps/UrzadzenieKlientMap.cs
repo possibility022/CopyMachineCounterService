@@ -38,6 +38,12 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Entities.Maps
 			Property(x => x.ModelUwagi, map => map.Column("MODEL_UWAGI"));
 			Property(x => x.OpisMiejscaInstalacji, map => map.Column("OPIS_MIEJSCA_INSTALACJI"));
 			Property(x => x.IdUrzadzenieKlientStatus, map => map.Column("ID_URZADZENIE_KLIENT_STATUS"));
+
+            ManyToOne(x => x.ModelUrzadzenia, map =>
+            {
+                map.Column("ID_MODEL_URZADZENIA");
+                map.NotNullable(true);
+            });
         }
     }
 }

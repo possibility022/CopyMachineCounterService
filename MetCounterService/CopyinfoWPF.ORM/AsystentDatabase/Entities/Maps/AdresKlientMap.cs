@@ -10,8 +10,6 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Entities.Maps
         
         public AdresKlientMap() {
 			Table("ADRES_KLIENT");
-			Schema("dbo");
-			Lazy(true);
 			Id(x => x.IdAdresKlient, map => { map.Column("ID_ADRES_KLIENT"); map.Generator(Generators.Assigned); });
 			Property(x => x.IdKlient, map => { map.Column("ID_KLIENT"); map.NotNullable(true); });
 			Property(x => x.Rodzaj, map => map.NotNullable(true));

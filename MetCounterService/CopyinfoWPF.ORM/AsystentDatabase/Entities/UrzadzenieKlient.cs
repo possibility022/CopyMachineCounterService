@@ -32,5 +32,7 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Entities
         public virtual string ModelUwagi { get; set; }
         public virtual string OpisMiejscaInstalacji { get; set; }
         public virtual int? IdUrzadzenieKlientStatus { get; set; }
+
+        public virtual ModelUrzadzenia ModelUrzadzenia { get; set; }
     }
 }
