@@ -16,7 +16,7 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Entities.Maps
 			ManyToOne(x => x.Towar, map => 
 			{
 				map.Column("ID_TOWAR");
-				map.PropertyRef("IdTowar");
+				//map.PropertyRef("IdTowar");
 				map.NotNullable(true);
 				map.Cascade(Cascade.None);
 			});
