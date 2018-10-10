@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using CopyinfoWPF.ORM.AsystentDatabase.Address;
-using CopyinfoWPF.ORM.AsystentDatabase.Device;
+using CopyinfoWPF.ORM.AsystentDatabase.Entities;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NHibernate;
@@ -40,11 +40,12 @@ namespace CopyinfoWPF.ORM.Tests
 
             using (var session = SessionFactory.OpenSession())
             {
-                list.Add(session.Query<ClientAddress>().FirstOrDefault());
-                list.Add(session.Query<ClientDevice>().FirstOrDefault());
+                list.Add(session.Query<AdresKlient>().FirstOrDefault());
+                list.Add(session.Query<UrzadzenieKlient>().FirstOrDefault());
             }
 
             Assert.IsFalse(list.Any(o => o == null));
+                
         }
 
         [TestMethod]

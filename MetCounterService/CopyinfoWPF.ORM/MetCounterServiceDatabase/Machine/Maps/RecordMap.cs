@@ -8,7 +8,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
         
         public RecordMap() {
 			Schema("Machine");
-			Lazy(true);
+			
 			Id(x => x.Id, map => map.Generator(Generators.Identity));
 			Property(x => x.CounterBlackAndWhite);
 			Property(x => x.CounterColor);
