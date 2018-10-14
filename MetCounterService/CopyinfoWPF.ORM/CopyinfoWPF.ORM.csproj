@@ -99,6 +99,7 @@
     <Compile Include="AsystentDatabase\Entities\GrupaKlient.cs" />
     <Compile Include="AsystentDatabase\Entities\JakieRozliczenie.cs" />
     <Compile Include="AsystentDatabase\Entities\JednostkiMiary.cs" />
+    <Compile Include="AsystentDatabase\Entities\Klient.cs" />
     <Compile Include="AsystentDatabase\Entities\KlientStatus.cs" />
     <Compile Include="AsystentDatabase\Entities\Magazyn.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\AdDziennikZdarzenMap.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="AsystentDatabase\Entities\Maps\GrupaKlientMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\JakieRozliczenieMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\JednostkiMiaryMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\KlientMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\KlientStatusMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\MagazynMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\MarkaUrzadzeniaMap.cs" />
