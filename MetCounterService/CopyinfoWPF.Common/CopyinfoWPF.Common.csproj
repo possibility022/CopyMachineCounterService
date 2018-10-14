@@ -47,6 +47,9 @@
   <ItemGroup>
     <Compile Include="CommonData.cs" />
     <Compile Include="CommonMethods.cs" />
+    <Compile Include="CustomCollections\Cache.cs" />
+    <Compile Include="CustomCollections\ICache.cs" />
+    <Compile Include="CustomCollections\IConditionalCache.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="Enums\PageSizes.cs" />
     <Compile Include="Log.cs" />

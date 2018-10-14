@@ -93,6 +93,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CopyinfoWPF.Common\CopyinfoWPF.Common.csproj">
+      <Project>{e6158129-fb01-4111-8a04-6027e8e755a3}</Project>
+      <Name>CopyinfoWPF.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.DTO\CopyinfoWPF.DTO.csproj">
       <Project>{909DB328-4325-4E6F-B114-CFD8EE3A91F4}</Project>
       <Name>CopyinfoWPF.DTO</Name>

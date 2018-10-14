@@ -6,23 +6,17 @@ namespace CopyinfoWPF.DTO.Models
     public class MachineRecord
     {
 
-        public MachineRecord(Record record)
+        public MachineRecord(Record record, UrzadzenieKlient device)
         {
             Record = record;
+            Device = device;
         }
 
-        public MachineRecord()
-        {
-            Record = new Record();
-            Address = new AdresKlient();
-            Device = new UrzadzenieKlient();
-        }
+        public Record Record { get; private set; } = new Record();
 
-        public Record Record { get; private set; }
+        public AdresKlient Address { get; private set; } = new AdresKlient();
 
-        public AdresKlient Address { get; private set; }
-
-        public UrzadzenieKlient Device { get; private set; }
+        public UrzadzenieKlient Device { get; private set; } = new UrzadzenieKlient();
     }
 }
 //public string modelName { get; private set; }
