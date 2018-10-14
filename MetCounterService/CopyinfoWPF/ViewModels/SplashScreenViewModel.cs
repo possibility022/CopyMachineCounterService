@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Security;
 using System.Threading.Tasks;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
+using CopyinfoWPF.DTO.Models;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -61,7 +62,7 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
-        public async Task<IEnumerable<Record>> StartLoadingAsync()
+        public async Task<IEnumerable<MachineRecord>> StartLoadingAsync()
         {
             LoadingAnimationIsVisible = true;
 
@@ -69,7 +70,7 @@ namespace CopyinfoWPF.ViewModels
             await Task.Factory.StartNew(() => Configuration.Configuration.Initialize());
 
             Message = "Inicjalizacja bazy danych Liczników";
-            var recordService = Configuration.Configuration.Container.Resolve<IMachineCounterService>();
+            var recordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
             //await MongoTB.InitializeAsync();
 
             //Message = "Inicjalizacja bazy danych Asystenta";
@@ -86,7 +87,7 @@ namespace CopyinfoWPF.ViewModels
 
             Message = "Pobieram dane z baz danych.";
 
-            var records = await Task.Factory.StartNew<IEnumerable<Record>>(recordService.GetAllRecords);
+            var records = await Task.Factory.StartNew(recordService.GetLatestReports);
 
             LoadingAnimationIsVisible = false;
             return records;

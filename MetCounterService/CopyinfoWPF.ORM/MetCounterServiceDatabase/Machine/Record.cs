@@ -14,7 +14,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine
         public virtual int? CounterScanner { get; set; }
         public virtual string Description { get; set; }
         public virtual string AddressIp { get; set; }
-        public virtual DateTime ReadDatetime { get; set; }
+        public virtual DateTime ReadDatetime { get; set; } = new DateTime();
         public virtual string SerialNumber { get; set; }
         public virtual string TonerLevelBlack { get; set; }
         public virtual string TonerLevelCyan { get; set; }

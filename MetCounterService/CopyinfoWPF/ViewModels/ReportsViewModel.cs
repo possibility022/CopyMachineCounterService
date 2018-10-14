@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 using System.ComponentModel;
 using System.Windows.Data;
-using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
+using CopyinfoWPF.DTO.Models;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -12,11 +12,11 @@ namespace CopyinfoWPF.ViewModels
     {
         ICollectionView _records;
         private bool _printButtonEnabled;
-        Record _selectedRecord;
+        MachineRecord _selectedRecord;
         private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
 
-        public ObservableCollection<Record> _allRecords = new ObservableCollection<Record>();
+        public ObservableCollection<MachineRecord> _allRecords = new ObservableCollection<MachineRecord>();
 
         private ListSortDirection _dateTimeListSortDirection = ListSortDirection.Descending;
         public ListSortDirection DateTimeListSortDirection
@@ -31,7 +31,7 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _records, value); }
         }
 
-        public Record SelectedRecord
+        public MachineRecord SelectedRecord
         {
             get { return _selectedRecord; }
             set { SetProperty(ref _selectedRecord, value); }
@@ -57,10 +57,10 @@ namespace CopyinfoWPF.ViewModels
 
         public ReportsViewModel()
         {
-            Records = CollectionViewSource.GetDefaultView(new Record[] { });
+            Records = CollectionViewSource.GetDefaultView(new MachineRecord[] { });
         }
 
-        public void SetRecords(IEnumerable<Record> records)
+        public void SetRecords(IEnumerable<MachineRecord> records)
         {
             _allRecords.Clear();
             _allRecords.AddRange(records);
@@ -74,23 +74,23 @@ namespace CopyinfoWPF.ViewModels
             if (Records != null && Records.CanSort == true)
             {
                 Records.SortDescriptions.Clear();
-                Records.SortDescriptions.Add(new SortDescription(nameof(Record.ReadDatetime), ListSortDirection.Ascending));
+                Records.SortDescriptions.Add(new SortDescription($"{nameof(MachineRecord.Record)}.{nameof(ORM.MetCounterServiceDatabase.Machine.Record.ReadDatetime)}", ListSortDirection.Descending));
             }
         }
 
         private bool FilterLogic(object item)
         {
-            var rec = item as Record;
+            var rec = item as MachineRecord;
 
-            return rec.ReadDatetime.ToString().Contains(FilterText)
-                || rec.SerialNumber.Contains(FilterText)
-                || rec.CounterBlackAndWhite.ToString().Contains(FilterText)
-                || rec.CounterColor.ToString().Contains(FilterText)
-                || rec.CounterScanner.ToString().Contains(FilterText)
-                || (string.IsNullOrEmpty(rec.TonerLevelBlack) == false && rec.TonerLevelBlack.Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.TonerLevelCyan) == false && rec.TonerLevelCyan.Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.TonerLevelMagenta) == false && rec.TonerLevelMagenta.Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.TonerLevelYellow) == false && rec.TonerLevelYellow.Contains(FilterText));
+            return rec.Record.ReadDatetime.ToString().Contains(FilterText)
+                || rec.Record.SerialNumber.Contains(FilterText)
+                || rec.Record.CounterBlackAndWhite.ToString().Contains(FilterText)
+                || rec.Record.CounterColor.ToString().Contains(FilterText)
+                || rec.Record.CounterScanner.ToString().Contains(FilterText)
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelBlack) == false && rec.Record.TonerLevelBlack.Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelCyan) == false && rec.Record.TonerLevelCyan.Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelMagenta) == false && rec.Record.TonerLevelMagenta.Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelYellow) == false && rec.Record.TonerLevelYellow.Contains(FilterText));
         }
     }
 }

@@ -57,17 +57,17 @@
             SelectionMode="Extended">
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Binding="{Binding Path=ReadDatetime}"
+                    Binding="{Binding Path=Record.ReadDatetime}"
                     Header="Data odczytu"
                     SortDirection="{Binding Path=DateTimeListSortDirection}" />
-                <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="Klient" />
-                <DataGridTextColumn Binding="{Binding Path=CounterBlackAndWhite}" Header="Czarnobiałe" />
-                <DataGridTextColumn Binding="{Binding Path=CounterColor}" Header="Kolorowe" />
-                <DataGridTextColumn Binding="{Binding Path=CounterScanner}" Header="Skany" />
-                <DataGridTextColumn Binding="{Binding Path=TonerLevelCyan}" Header="Cyjan" />
-                <DataGridTextColumn Binding="{Binding Path=TonerLevelMagenta}" Header="Magenta" />
-                <DataGridTextColumn Binding="{Binding Path=TonerLevelBlack}" Header="Czarny" />
-                <DataGridTextColumn Binding="{Binding Path=TonerLevelYellow}" Header="Żółty" />
+                <DataGridTextColumn Binding="{Binding Path=Record.SerialNumber}" Header="Klient" />
+                <DataGridTextColumn Binding="{Binding Path=Record.CounterBlackAndWhite}" Header="Czarnobiałe" />
+                <DataGridTextColumn Binding="{Binding Path=Record.CounterColor}" Header="Kolorowe" />
+                <DataGridTextColumn Binding="{Binding Path=Record.CounterScanner}" Header="Skany" />
+                <DataGridTextColumn Binding="{Binding Path=Record.TonerLevelCyan}" Header="Cyjan" />
+                <DataGridTextColumn Binding="{Binding Path=Record.TonerLevelMagenta}" Header="Magenta" />
+                <DataGridTextColumn Binding="{Binding Path=Record.TonerLevelBlack}" Header="Czarny" />
+                <DataGridTextColumn Binding="{Binding Path=Record.TonerLevelYellow}" Header="Żółty" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

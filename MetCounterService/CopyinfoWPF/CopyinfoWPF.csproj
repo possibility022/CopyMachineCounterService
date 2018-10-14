@@ -246,8 +246,12 @@
       <Project>{A2E9387E-3403-4AD0-B188-02EF62FBDE47}</Project>
       <Name>CopyinfoWPF.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CopyinfoWPF.DTO\CopyinfoWPF.DTO.csproj">
+      <Project>{909DB328-4325-4E6F-B114-CFD8EE3A91F4}</Project>
+      <Name>CopyinfoWPF.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.ORM\CopyinfoWPF.ORM.csproj">
-      <Project>{6a9c499d-22b2-4b58-909d-0a524b0461d1}</Project>
+      <Project>{6A9C499D-22B2-4B58-909D-0A524B0461D1}</Project>
       <Name>CopyinfoWPF.ORM</Name>
     </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.Security\CopyinfoWPF.Security.csproj">

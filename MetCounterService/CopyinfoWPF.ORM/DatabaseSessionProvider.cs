@@ -17,5 +17,10 @@ namespace CopyinfoWPF.ORM
         {
             _configurations.Add(databaseType, sessionFactory);
         }
+
+        public ISessionFactory GetSessionFactory(DatabaseType databaseType)
+        {
+            return _configurations[databaseType];
+        }
     }
 }

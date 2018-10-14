@@ -25,6 +25,7 @@ namespace CopyinfoWPF.Configuration
         private static void RegisterTypes()
         {
             Container.RegisterType<IMachineCounterService, MachineCounterService>();
+            Container.RegisterType<IMachineRecordService, MachineRecordService>();
         }
 
         private static void RegisterInstances()
@@ -36,6 +37,7 @@ namespace CopyinfoWPF.Configuration
         {
             var sessionProvider = Container.Resolve<IDatabaseSessionProvider>();
             sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetSessionFactory());
+            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetSessionFactory());
         }
     }
 }

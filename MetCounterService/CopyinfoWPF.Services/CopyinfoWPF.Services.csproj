@@ -87,10 +87,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\MachineCounterService.cs" />
+    <Compile Include="Implementation\MachineRecordService.cs" />
     <Compile Include="Interfaces\IMachineCounterService.cs" />
+    <Compile Include="Interfaces\IMachineRecordService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CopyinfoWPF.DTO\CopyinfoWPF.DTO.csproj">
+      <Project>{909DB328-4325-4E6F-B114-CFD8EE3A91F4}</Project>
+      <Name>CopyinfoWPF.DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.ORM\CopyinfoWPF.ORM.csproj">
       <Project>{6A9C499D-22B2-4B58-909D-0A524B0461D1}</Project>
       <Name>CopyinfoWPF.ORM</Name>
