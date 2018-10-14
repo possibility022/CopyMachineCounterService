@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Configuration",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Services.Tests", "CopyinfoWPF.Services.Tests\CopyinfoWPF.Services.Tests.csproj", "{260D8137-CE7A-494C-8F0E-71B3AACAAB41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.DTO", "CopyinfoWPF.DTO\CopyinfoWPF.DTO.csproj", "{909DB328-4325-4E6F-B114-CFD8EE3A91F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,6 +114,10 @@ Global
 		{260D8137-CE7A-494C-8F0E-71B3AACAAB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{260D8137-CE7A-494C-8F0E-71B3AACAAB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{260D8137-CE7A-494C-8F0E-71B3AACAAB41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{909DB328-4325-4E6F-B114-CFD8EE3A91F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{909DB328-4325-4E6F-B114-CFD8EE3A91F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{909DB328-4325-4E6F-B114-CFD8EE3A91F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{909DB328-4325-4E6F-B114-CFD8EE3A91F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
