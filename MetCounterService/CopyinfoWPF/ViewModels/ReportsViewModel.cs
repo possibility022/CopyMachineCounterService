@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 using CopyinfoWPF.DTO.Models;
+using System.Windows.Controls;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -45,6 +46,20 @@ namespace CopyinfoWPF.ViewModels
                 SetProperty(ref _selectedRecords, value);
                 PrintButtonEnabled = _selectedRecords.Count > 0;
             }
+        }
+
+        private Image _documentPrinted;
+        public Image DocumentPrinted
+        {
+            get { return _documentPrinted; }
+            set { SetProperty(ref _documentPrinted, value); } 
+        }
+
+        private Image _documentNotPrinted;
+        public Image DocumentNotPrinted
+        {
+            get { return _documentNotPrinted; }
+            set { SetProperty(ref _documentNotPrinted, value); }
         }
 
         public string FilterText

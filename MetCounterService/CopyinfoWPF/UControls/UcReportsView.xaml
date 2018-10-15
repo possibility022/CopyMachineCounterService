@@ -56,6 +56,15 @@
             SelectionChanged="dataGridWithRecords_SelectionChanged"
             SelectionMode="Extended">
             <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Name="MyImage" Source="pack://application:,,,/../../Resources/Images/printer-48_red.png" />
+
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn
                     Binding="{Binding Path=Record.ReadDatetime}"
                     Header="Data odczytu"

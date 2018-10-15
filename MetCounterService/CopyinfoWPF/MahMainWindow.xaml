@@ -11,6 +11,9 @@
     Width="1200"
     Height="850"
     mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary Source="Resources\XamlResources.xaml" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
