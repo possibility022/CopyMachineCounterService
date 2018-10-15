@@ -60,7 +60,7 @@
                     Binding="{Binding Path=Record.ReadDatetime}"
                     Header="Data odczytu"
                     SortDirection="{Binding Path=DateTimeListSortDirection}" />
-                <DataGridTextColumn Binding="{Binding Path=Client.Nazwa2}" Header="Klient" />
+                <DataGridTextColumn Binding="{Binding Path=ClientName}" Header="Klient" />
                 <DataGridTextColumn Binding="{Binding Path=Address.Ulica}" Header="Adres" />
                 <DataGridTextColumn Binding="{Binding Path=Device.ModelUrzadzenia.Nazwa1}" Header="Model" />
                 <DataGridTextColumn Binding="{Binding Path=Record.SerialNumber}" Header="Numer Seryjny" />

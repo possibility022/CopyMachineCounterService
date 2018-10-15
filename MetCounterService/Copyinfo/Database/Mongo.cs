@@ -19,8 +19,8 @@ namespace Copyinfo.Database
         private static IMongoClient _client;
         private static IMongoDatabase _database;
 
-        const string ipadress = "192.168.1.246";
-        //const string ipadress = "192.168.0.42";
+        //const string ipadress = "192.168.1.246";
+        const string ipadress = "192.168.0.119";
         const string port = "2772";
 
         const string connectionString = "mongodb://" + ipadress + ":" + port;
@@ -71,7 +71,7 @@ namespace Copyinfo.Database
             MongoCredential credentials = MongoCredential.CreateCredential(databaseName, login, password); //TODO encrypt this things
             List<MongoCredential> credentials_list = new List<MongoCredential>();
             credentials_list.Add(credentials);
-            settings.Credentials = credentials_list;
+            //settings.Credentials = credentials_list;
             
             client = new MongoClient(settings);
             server = client.GetServer();

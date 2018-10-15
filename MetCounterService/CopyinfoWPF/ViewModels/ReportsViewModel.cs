@@ -12,11 +12,11 @@ namespace CopyinfoWPF.ViewModels
     {
         ICollectionView _records;
         private bool _printButtonEnabled;
-        MachineRecord _selectedRecord;
+        MachineRecordViewModel _selectedRecord;
         private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
 
-        public ObservableCollection<MachineRecord> _allRecords = new ObservableCollection<MachineRecord>();
+        public ObservableCollection<MachineRecordViewModel> _allRecords = new ObservableCollection<MachineRecordViewModel>();
 
         private ListSortDirection _dateTimeListSortDirection = ListSortDirection.Descending;
         public ListSortDirection DateTimeListSortDirection
@@ -31,7 +31,7 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _records, value); }
         }
 
-        public MachineRecord SelectedRecord
+        public MachineRecordViewModel SelectedRecord
         {
             get { return _selectedRecord; }
             set { SetProperty(ref _selectedRecord, value); }
@@ -57,10 +57,10 @@ namespace CopyinfoWPF.ViewModels
 
         public ReportsViewModel()
         {
-            Records = CollectionViewSource.GetDefaultView(new MachineRecord[] { });
+            Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
         }
 
-        public void SetRecords(IEnumerable<MachineRecord> records)
+        public void SetRecords(IEnumerable<MachineRecordViewModel> records)
         {
             _allRecords.Clear();
             _allRecords.AddRange(records);
@@ -74,13 +74,13 @@ namespace CopyinfoWPF.ViewModels
             if (Records != null && Records.CanSort == true)
             {
                 Records.SortDescriptions.Clear();
-                Records.SortDescriptions.Add(new SortDescription($"{nameof(MachineRecord.Record)}.{nameof(ORM.MetCounterServiceDatabase.Machine.Record.ReadDatetime)}", ListSortDirection.Descending));
+                Records.SortDescriptions.Add(new SortDescription($"{nameof(MachineRecordViewModel.Record)}.{nameof(ORM.MetCounterServiceDatabase.Machine.Record.ReadDatetime)}", ListSortDirection.Descending));
             }
         }
 
         private bool FilterLogic(object item)
         {
-            var rec = item as MachineRecord;
+            var rec = item as MachineRecordViewModel;
 
             return rec.Record.ReadDatetime.ToString().Contains(FilterText)
                 || rec.Record.SerialNumber.Contains(FilterText)

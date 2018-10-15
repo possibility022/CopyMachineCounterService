@@ -6,7 +6,7 @@ namespace CopyinfoWPF.Services.Interfaces
     public interface IMachineRecordService
     {
 
-        IEnumerable<MachineRecord> GetLatestReports();
+        IEnumerable<MachineRecordViewModel> GetLatestReports();
         
     }
 }

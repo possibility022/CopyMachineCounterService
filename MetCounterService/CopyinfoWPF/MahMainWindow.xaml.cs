@@ -16,7 +16,7 @@ namespace CopyinfoWPF
         ReportsViewModel ReportsViewModel { get => _reportsViewModel ?? (_reportsViewModel = (ReportsViewModel)Reports.DataContext); }
 
 
-        public MahMainWindow(IEnumerable<MachineRecord> records) : this()
+        public MahMainWindow(IEnumerable<MachineRecordViewModel> records) : this()
         {
             ReportsViewModel.SetRecords(records);
         }

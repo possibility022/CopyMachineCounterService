@@ -62,7 +62,7 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
-        public async Task<IEnumerable<MachineRecord>> StartLoadingAsync()
+        public async Task<IEnumerable<MachineRecordViewModel>> StartLoadingAsync()
         {
             LoadingAnimationIsVisible = true;
 

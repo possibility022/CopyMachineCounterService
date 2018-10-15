@@ -38,9 +38,9 @@ namespace CopyinfoWPF.Services.Implementation
             _clientCache.UpdateMany(f => f.IdKlient, _clientRepository.All());
         }
 
-        public IEnumerable<MachineRecord> GetLatestReports()
+        public IEnumerable<MachineRecordViewModel> GetLatestReports()
         {
-            var records = new List<MachineRecord>();
+            var records = new List<MachineRecordViewModel>();
 
             foreach (var rec in _recordRepository.All().OrderByDescending(d => d.ReadDatetime))
             {
@@ -57,7 +57,7 @@ namespace CopyinfoWPF.Services.Implementation
                     Debug.WriteLine("Empty device");
 
 
-                records.Add(new MachineRecord(rec, device, address, client));
+                records.Add(new MachineRecordViewModel(rec, device, address, client));
             }
 
             return records;
