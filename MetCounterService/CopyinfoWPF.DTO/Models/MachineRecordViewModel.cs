@@ -26,11 +26,20 @@ namespace CopyinfoWPF.DTO.Models
             set { SetProperty(ref _clientName, value); }
         }
 
-        public Record Record { get => _record; private set => SetProperty(ref _record, value); }
+        public Record Record
+        {
+            get => _record; private set
+            {
+                SetProperty(ref _record, value);
+                Printed = value?.Printed ?? false;
+            }
+        }
 
         public AdresKlient Address { get => _address; private set => SetProperty(ref _address, value); }
 
         public UrzadzenieKlient Device { get => _device; private set => SetProperty(ref _device, value); }
+
+        public bool Printed { get; set; }
 
         public Klient Client
         {

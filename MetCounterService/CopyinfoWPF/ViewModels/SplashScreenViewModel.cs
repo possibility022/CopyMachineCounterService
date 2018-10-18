@@ -8,6 +8,7 @@ using System.Security;
 using System.Threading.Tasks;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using CopyinfoWPF.DTO.Models;
+using System.Windows;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -62,7 +63,7 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
-        public async Task<IEnumerable<MachineRecordViewModel>> StartLoadingAsync()
+        public async Task<Window> StartLoadingAsync()
         {
             LoadingAnimationIsVisible = true;
 
@@ -70,7 +71,7 @@ namespace CopyinfoWPF.ViewModels
             await Task.Factory.StartNew(() => Configuration.Configuration.Initialize());
 
             Message = "Inicjalizacja bazy danych Liczników";
-            var recordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
+            var recordService = await Task<IMachineRecordService>.Factory.StartNew(() => Configuration.Configuration.Container.Resolve<IMachineRecordService>());
             //await MongoTB.InitializeAsync();
 
             //Message = "Inicjalizacja bazy danych Asystenta";
@@ -86,11 +87,18 @@ namespace CopyinfoWPF.ViewModels
             //    Encrypting.AES_Decrypt(ConstantData.EncryptedEmailSmtpPassword));
 
             Message = "Pobieram dane z baz danych.";
-
             var records = await Task.Factory.StartNew(recordService.GetLatestReports);
 
+            Message = "Tworzę okno aplikacji.";
+            var window = new MahMainWindow();
+
+            Message = "Uzupełniam widok pobranymi danymi.";
+            window.SetRecords(records);
+
             LoadingAnimationIsVisible = false;
-            return records;
+            return window;
         }
+
+
     }
 }

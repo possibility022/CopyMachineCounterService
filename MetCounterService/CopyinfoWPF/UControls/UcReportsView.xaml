@@ -59,8 +59,12 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Name="MyImage" Source="pack://application:,,,/../../Resources/Images/printer-48_red.png" />
-
+                            <Image Name="MyImage" Source="pack://application:,,,/../../Resources/Images/printer-48_green.png" />
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Path=Printed}" Value="false">
+                                    <Setter TargetName="MyImage" Property="Source" Value="pack://application:,,,/../../Resources/Images/printer-48_red.png" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
