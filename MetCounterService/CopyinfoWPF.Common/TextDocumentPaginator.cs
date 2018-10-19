@@ -66,28 +66,29 @@ namespace CopyinfoWPF.Common
 
         private void AddLines(string text)
         {
-            List<string> lines = SplitLines(text);
+            var lines = SplitLines(text);
             var formattedLines = RenderLines(lines);
 
             pages.AddRange(SplitToPages(formattedLines));
 
         }
 
-        private List<string> SplitLines(string text)
+        private IEnumerable<string> SplitLines(string text)
         {
-            List<string> lines = new List<string>();
-
             int lastIndex = 0;
             int newLineIndex = text.IndexOf(Environment.NewLine);
 
-            while (newLineIndex >= 0)
+            if (newLineIndex == -1)
             {
-                lines.Add(text.Substring(lastIndex, newLineIndex - lastIndex));
-                lastIndex = newLineIndex + Environment.NewLine.Length;
-                newLineIndex = text.IndexOf(Environment.NewLine, lastIndex);
+                yield return text;
             }
 
-            return lines;
+            while (newLineIndex >= 0)
+            {
+                lastIndex = newLineIndex + Environment.NewLine.Length;
+                newLineIndex = text.IndexOf(Environment.NewLine, lastIndex);
+                yield return text.Substring(lastIndex, newLineIndex - lastIndex);
+            }
         }
 
         private List<List<FormattedText>> SplitToPages(IEnumerable<FormattedText> formattedTexts)
@@ -115,19 +116,52 @@ namespace CopyinfoWPF.Common
             return pages;
         }
 
-        private List<FormattedText> RenderLines(IEnumerable<string> lines)
+
+        public IEnumerable<FormattedText> RenderLines(IEnumerable<string> lines)
         {
-            List<FormattedText> fLines = new List<FormattedText>();
-
-            foreach (string line in lines)
-            {
-                fLines.Add(GetFormattedText(line));
-            }
-
-            return fLines;
+            foreach (var line in lines)
+                foreach (var renderredLines in RenderLine(line))
+                    yield return renderredLines;
         }
 
-        private FormattedText GetFormattedText(string text)
+        public IEnumerable<FormattedText> RenderLine(string text)
+        {
+            
+            var fText = FormatText(text, 90000);
+            int maxWidth = (int)(PageSize.Width - MarginLeft - MarginRight);    //double v = 1.999999;
+                                                                                //int i = (int)v;
+                                                                                //Console.WriteLine(i); 
+                                                                                //Output: 1                                                         
+            if (fText.Width > maxWidth)
+            {
+                var bestOption = (int)((maxWidth / fText.Width) * text.Length) - 4; // -4 just to be sure.
+
+                foreach (var line in SplitTooLongLine(text, bestOption))
+                {
+                    yield return FormatText(line, maxWidth);
+                }
+            }
+            else
+            {
+                yield return fText;
+            }
+        }
+
+        private IEnumerable<string> SplitTooLongLine(string text, int maxCharactersInLine)
+        {
+            int tail = maxCharactersInLine;
+            int pointer;
+
+            for (pointer = 0; pointer < text.Length; pointer += maxCharactersInLine)
+            {
+                if (pointer + maxCharactersInLine > text.Length)
+                    tail = text.Length - pointer;
+
+                yield return text.Substring(pointer, tail);
+            }
+        }
+
+        private FormattedText FormatText(string text, double maxTextWidth = 90000)
         {
             return new FormattedText(
             text,
@@ -135,7 +169,7 @@ namespace CopyinfoWPF.Common
             FlowDirection.LeftToRight,
             new Typeface("Calibry"), 20, Brushes.Black)
             {
-                MaxTextWidth = PageSize.Width - MarginLeft - MarginRight
+                MaxTextWidth = maxTextWidth
             };
         }
 

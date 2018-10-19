@@ -6,6 +6,9 @@ using System.ComponentModel;
 using System.Windows.Data;
 using CopyinfoWPF.DTO.Models;
 using System.Windows.Controls;
+using System;
+using CopyinfoWPF.Views;
+using System.Text;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -30,6 +33,15 @@ namespace CopyinfoWPF.ViewModels
         {
             get { return _records; }
             set { SetProperty(ref _records, value); }
+        }
+
+        internal void PrintSelectedItems(DataGrid dataGridWithRecords)
+        {
+            var window = new PrintingPreviewView();
+            var dataContext = (PrintingPreviewViewModel)window.DataContext;
+            dataContext.CreatePreview("jhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhjjhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhjjhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhjjhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhj");
+
+            window.Show();
         }
 
         public MachineRecordViewModel SelectedRecord
