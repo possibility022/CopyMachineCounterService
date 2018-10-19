@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Documents;
@@ -66,31 +67,13 @@ namespace CopyinfoWPF.Common
 
         private void AddLines(string text)
         {
-            var lines = SplitLines(text);
+            var lines = text.Split(Environment.NewLine.ToCharArray());
             var formattedLines = RenderLines(lines);
 
             pages.AddRange(SplitToPages(formattedLines));
 
         }
-
-        private IEnumerable<string> SplitLines(string text)
-        {
-            int lastIndex = 0;
-            int newLineIndex = text.IndexOf(Environment.NewLine);
-
-            if (newLineIndex == -1)
-            {
-                yield return text;
-            }
-
-            while (newLineIndex >= 0)
-            {
-                lastIndex = newLineIndex + Environment.NewLine.Length;
-                newLineIndex = text.IndexOf(Environment.NewLine, lastIndex);
-                yield return text.Substring(lastIndex, newLineIndex - lastIndex);
-            }
-        }
-
+        
         private List<List<FormattedText>> SplitToPages(IEnumerable<FormattedText> formattedTexts)
         {
             List<List<FormattedText>> pages = new List<List<FormattedText>>();
@@ -138,7 +121,7 @@ namespace CopyinfoWPF.Common
 
                 foreach (var line in SplitTooLongLine(text, bestOption))
                 {
-                    yield return FormatText(line, maxWidth);
+                    yield return FormatText(line + "-", maxWidth);
                 }
             }
             else

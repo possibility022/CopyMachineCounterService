@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System;
 using CopyinfoWPF.Views;
 using System.Text;
+using System.IO;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -39,7 +40,7 @@ namespace CopyinfoWPF.ViewModels
         {
             var window = new PrintingPreviewView();
             var dataContext = (PrintingPreviewViewModel)window.DataContext;
-            dataContext.CreatePreview("jhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhjjhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhjjhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhjjhgfkjhjgkjhgkjhgkjhghjghjhgjaushkjhkjhkjhkjlhkjlkjajknkakljnkadkjlndasnkljknwajknkjnlnlkjwdnjkyfhagsvtytyftyoibhjbhjhj");
+            dataContext.CreatePreview(File.ReadAllText("Resources\\LoremIpsum.txt"));
 
             window.Show();
         }
