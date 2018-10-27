@@ -1,30 +1,14 @@
 ﻿using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Packaging;
 using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Xps.Packaging;
 using CopyinfoWPF.Common.Enums;
-using CopyinfoWPF.Common;
-using System.Text;
-using System.Windows.Xps;
 
 namespace CopyinfoWPF.ViewModels
 {
     class PrintingPreviewViewModel : BindableBase
     {
-
-        public DocumentViewer DocumentViewer
-        {
-            get { return _documentViewer; }
-            set { SetProperty(ref _documentViewer, value); }
-        }
-
-        DocumentViewer _documentViewer;
-
         public IEnumerable<PageSizes> PageSizesList
         {
             get { return _pageSizes; }
@@ -49,55 +33,14 @@ namespace CopyinfoWPF.ViewModels
 
         private IDocumentPaginatorSource _document;
 
-        private Uri _packageUri;
-
         public PrintingPreviewViewModel()
         {
             SelectedPageSize = PageSizesList.FirstOrDefault();
         }
 
-        public void CreatePreview(IEnumerable<string> text)
+        public PrintingPreviewViewModel(IDocumentPaginatorSource document) : this()
         {
-            RemovePackage();
-
-            DocumentPaginator paginator = new TextDocumentPaginator(text, CommonData.PageSizes[PageSizes.A4]);
-
-            var stream = new MemoryStream();
-
-            var package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
-
-            _packageUri = GenerateUri();
-
-            PackageStore.AddPackage(_packageUri, package);
-            var xpsDoc = new XpsDocument(package);
-
-            xpsDoc.Uri = _packageUri;
-            XpsDocument.CreateXpsDocumentWriter(xpsDoc).Write(paginator);
-
-            Document = xpsDoc.GetFixedDocumentSequence();
-        }
-
-        private Uri GenerateUri()
-        {
-            Random random = new Random(DateTime.Now.Millisecond);
-
-            StringBuilder stringBuilder = new StringBuilder(@"memorystream://");
-
-            for (int i = 0; i < 15; i++)
-            {
-                int r = random.Next(CommonData.AllStandardCharacters.Length);
-                stringBuilder.Append(CommonData.AllStandardCharacters[r]);
-            }
-
-            stringBuilder.Append(".xps");
-
-            return new Uri(stringBuilder.ToString());
-        }
-
-        public void RemovePackage()
-        {
-            if (_packageUri != null)
-                PackageStore.RemovePackage(_packageUri);
+            Document = document;
         }
     }
 }

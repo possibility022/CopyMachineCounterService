@@ -13,6 +13,7 @@ using System.IO;
 using CopyinfoWPF.Interfaces.Formatters;
 using Unity.Attributes;
 using Unity;
+using CopyinfoWPF.Workflows.Printing;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -60,7 +61,7 @@ namespace CopyinfoWPF.ViewModels
         public Image DocumentPrinted
         {
             get { return _documentPrinted; }
-            set { SetProperty(ref _documentPrinted, value); } 
+            set { SetProperty(ref _documentPrinted, value); }
         }
 
         private Image _documentNotPrinted;
@@ -91,16 +92,26 @@ namespace CopyinfoWPF.ViewModels
             _recordFormatter = formatter;
         }
 
-        internal void PrintSelectedItems()
+        internal void PrintPreview()
         {
-            var window = new PrintingPreviewView();
-            var dataContext = (PrintingPreviewViewModel)window.DataContext;
-
-            dataContext.CreatePreview(
-                _recordFormatter.GetText(
-                    SelectedItemsToEnumerable()));
-
+            var preview = PrintingPreview.CreatePreview(_recordFormatter.GetText(SelectedItemsToEnumerable()));
+            var dataContext = new PrintingPreviewViewModel(preview.XpsDocument.GetFixedDocumentSequence());
+            
+            var window = new PrintingPreviewView()
+            {
+                DataContext = dataContext
+            };
             window.Show();
+        }
+
+        public void PrintSelectedItems()
+        {
+            var printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+                var preview = PrintingPreview.CreatePreview(_recordFormatter.GetText(SelectedItemsToEnumerable()));
+                printDialog.PrintDocument(preview.XpsDocument.GetFixedDocumentSequence().DocumentPaginator, "Copyinfo Print");
+            }
         }
 
         private IEnumerable<MachineRecordViewModel> SelectedItemsToEnumerable()

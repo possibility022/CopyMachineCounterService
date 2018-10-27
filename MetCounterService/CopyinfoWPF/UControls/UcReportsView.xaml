@@ -5,6 +5,7 @@
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:ViewModels="clr-namespace:CopyinfoWPF.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="500"
     d:DesignWidth="900"
@@ -24,19 +25,61 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Width="190"
-                Height="40"
                 Margin="0,5,5,5"
-                Background="White"
                 Click="OnRefreshClick"
-                Content="Odśwież" />
+                Style="{StaticResource BigButton}">
+                <Button.Content>
+                    <StackPanel
+                        Width="Auto"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                        <Label
+                            Padding="2"
+                            VerticalAlignment="Bottom"
+                            Content="Odśwież" />
+                        <iconPacks:PackIconMaterial
+                            Width="25"
+                            Height="25"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Kind="Refresh" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
             <Button
-                Width="190"
-                Height="40"
-                Margin="5"
+                Margin="5,5,0,5"
+                Padding="0"
                 Click="OnPrintClick"
-                Content="Drukuj"
-                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}" />
+                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}"
+                Style="{StaticResource BigButton}">
+                <Button.Content>
+                    <StackPanel
+                        Width="Auto"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                        <Label
+                            Padding="2"
+                            VerticalAlignment="Bottom"
+                            Content="Drukuj" />
+                        <iconPacks:PackIconMaterial
+                            Width="25"
+                            Height="25"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Kind="Printer" />
+                    </StackPanel>
+                </Button.Content>
+
+            </Button>
+            <Controls:DropDownButton
+                Width="20"
+                Height="40"
+                Margin="0"
+                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}">
+                <Controls:DropDownButton.Content>
+                    <iconPacks:PackIconMaterial Kind="ChevronDown" />
+                </Controls:DropDownButton.Content>
+            </Controls:DropDownButton>
         </StackPanel>
         <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
         <DataGrid
