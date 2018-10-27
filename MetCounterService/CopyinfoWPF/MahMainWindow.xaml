@@ -12,7 +12,7 @@
     Height="850"
     mc:Ignorable="d">
     <Window.Resources>
-        <ResourceDictionary Source="Resources\XamlResources.xaml" />
+        <ResourceDictionary Source="Resources\Style.xaml" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>

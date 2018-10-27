@@ -10,11 +10,14 @@
     Height="1024"
     ContentRendered="Window_ContentRendered"
     SizeChanged="Window_SizeChanged"
-    
     mc:Ignorable="d">
     <Window.DataContext>
         <ViewModels:PrintingPreviewViewModel />
     </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary Source="..\Resources\Style.xaml" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

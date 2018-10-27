@@ -12,9 +12,7 @@
     <UserControl.DataContext>
         <ViewModels:ReportsViewModel />
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <ResourceDictionary Source="..\Resources\XamlResources.xaml" />
-    </UserControl.Resources>
+
     <Grid x:Name="data">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -26,23 +24,18 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Grid.Column="0"
                 Width="190"
                 Height="40"
                 Margin="0,5,5,5"
                 Background="White"
                 Click="OnRefreshClick"
-                Content="Odśwież"
-                FontSize="18" />
+                Content="Odśwież" />
             <Button
-                Grid.Column="0"
                 Width="190"
                 Height="40"
                 Margin="5"
-                Background="White"
                 Click="OnPrintClick"
                 Content="Drukuj"
-                FontSize="18"
                 IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}" />
         </StackPanel>
         <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
