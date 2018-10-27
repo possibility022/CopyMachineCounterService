@@ -10,6 +10,9 @@ using System;
 using CopyinfoWPF.Views;
 using System.Text;
 using System.IO;
+using CopyinfoWPF.Interfaces.Formatters;
+using Unity.Attributes;
+using Unity;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -20,6 +23,7 @@ namespace CopyinfoWPF.ViewModels
         MachineRecordViewModel _selectedRecord;
         private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
+        IRecordToTextFormatter _recordFormatter;
 
         public ObservableCollection<MachineRecordViewModel> _allRecords = new ObservableCollection<MachineRecordViewModel>();
 
@@ -34,15 +38,6 @@ namespace CopyinfoWPF.ViewModels
         {
             get { return _records; }
             set { SetProperty(ref _records, value); }
-        }
-
-        internal void PrintSelectedItems(DataGrid dataGridWithRecords)
-        {
-            var window = new PrintingPreviewView();
-            var dataContext = (PrintingPreviewViewModel)window.DataContext;
-            dataContext.CreatePreview(File.ReadAllText("Resources\\LoremIpsum.txt"));
-
-            window.Show();
         }
 
         public MachineRecordViewModel SelectedRecord
@@ -83,9 +78,42 @@ namespace CopyinfoWPF.ViewModels
 
         public bool PrintButtonEnabled { get => _printButtonEnabled; private set => SetProperty(ref _printButtonEnabled, value); }
 
+
         public ReportsViewModel()
         {
             Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
+            _recordFormatter = Configuration.Configuration.Container.Resolve<IRecordToTextFormatter>();
+        }
+
+        [InjectionConstructor]
+        public ReportsViewModel(IRecordToTextFormatter formatter) : this()
+        {
+            _recordFormatter = formatter;
+        }
+
+        internal void PrintSelectedItems()
+        {
+            var window = new PrintingPreviewView();
+            var dataContext = (PrintingPreviewViewModel)window.DataContext;
+
+            dataContext.CreatePreview(
+                _recordFormatter.GetText(
+                    SelectedItemsToEnumerable()));
+
+            window.Show();
+        }
+
+        private IEnumerable<MachineRecordViewModel> SelectedItemsToEnumerable()
+        {
+            if (SelectedRecords == null)
+                yield break;
+
+            foreach (var rec in SelectedRecords)
+            {
+                var r = rec as MachineRecordViewModel;
+                if (r != null)
+                    yield return r;
+            }
         }
 
         public void SetRecords(IEnumerable<MachineRecordViewModel> records)

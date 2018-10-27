@@ -31,11 +31,6 @@ namespace CopyinfoWPF.Common
 
             return false;
         }
-
-        public static TextDocumentPaginator GetA4Preview(string text)
-        {
-            return new TextDocumentPaginator(text, CommonData.PageSizes[PageSizes.A4]);
-        }
     }
 }
 

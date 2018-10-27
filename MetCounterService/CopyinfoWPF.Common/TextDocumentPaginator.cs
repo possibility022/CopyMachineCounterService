@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -50,19 +51,23 @@ namespace CopyinfoWPF.Common
             PageSize = new Size(printableAreaWidth, printableAreaHeight);
             foreach (string document in documents)
             {
-                AddDocument(document);
+                AddLines(document);
             }
         }
 
         public TextDocumentPaginator(string text, Size size)
         {
             PageSize = size;
-            AddDocument(text);
+            AddLines(text);
         }
 
-        public void AddDocument(string text)
+        public TextDocumentPaginator(IEnumerable<string> texts, Size size)
         {
-            AddLines(text);
+            PageSize = size;
+            foreach (string document in texts)
+            {
+                AddLines(document);
+            }
         }
 
         private void AddLines(string text)
@@ -71,17 +76,16 @@ namespace CopyinfoWPF.Common
             var formattedLines = RenderLines(lines);
 
             pages.AddRange(SplitToPages(formattedLines));
-
         }
         
         private List<List<FormattedText>> SplitToPages(IEnumerable<FormattedText> formattedTexts)
         {
-            List<List<FormattedText>> pages = new List<List<FormattedText>>();
-            List<FormattedText> page = new List<FormattedText>();
+            var pages = new List<List<FormattedText>>();
+            var page = new List<FormattedText>();
 
             double currentPageHeight = 0;
 
-            foreach (FormattedText formattedText in formattedTexts)
+            foreach (var formattedText in formattedTexts)
             {
                 if (currentPageHeight + formattedText.Height > PageSize.Height - MarginTop - MarginBottom)
                 {

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using CopyinfoWPF.DTO.Models;
 using System.Windows;
+using CopyinfoWPF.Interfaces.Formatters;
+using CopyinfoWPF.Formatters;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -68,23 +70,10 @@ namespace CopyinfoWPF.ViewModels
             LoadingAnimationIsVisible = true;
 
             Message = "Inicjalizacja podstawowej konfiguracji.";
-            await Task.Factory.StartNew(() => Configuration.Configuration.Initialize());
+            await Task.Factory.StartNew(InitializeUnity);
 
             Message = "Inicjalizacja bazy danych Liczników";
             var recordService = await Task<IMachineRecordService>.Factory.StartNew(() => Configuration.Configuration.Container.Resolve<IMachineRecordService>());
-            //await MongoTB.InitializeAsync();
-
-            //Message = "Inicjalizacja bazy danych Asystenta";
-            //await Database.LocalCache.FirebirdServiceCache.InitializeAsync();
-
-            //Message = "Inicjalizacja pamięci podręcznej.";
-            //await DAO.InitializeAsync();
-
-            //Message = "Inicjalizacja skrzynki email.";
-            //Email.Initialize(
-            //    Encrypting.AES_Decrypt(ConstantData.EncryptedEmailLogin),
-            //    Encrypting.AES_Decrypt(ConstantData.EncryptedEmailPassword),
-            //    Encrypting.AES_Decrypt(ConstantData.EncryptedEmailSmtpPassword));
 
             Message = "Pobieram dane z baz danych.";
             var records = await Task.Factory.StartNew(recordService.GetLatestReports);
@@ -99,6 +88,11 @@ namespace CopyinfoWPF.ViewModels
             return window;
         }
 
+        private void InitializeUnity()
+        {
+            Configuration.Configuration.Initialize();
+            Configuration.Configuration.Container.RegisterInstance<IRecordToTextFormatter>(new RecordFormatter());
+        }
 
     }
 }

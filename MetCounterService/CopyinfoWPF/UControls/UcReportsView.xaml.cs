@@ -1,18 +1,6 @@
 ﻿using CopyinfoWPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CopyinfoWPF.UControls
 {
@@ -28,7 +16,6 @@ namespace CopyinfoWPF.UControls
         public UcReportsView()
         {
             InitializeComponent();
-            
         }
 
         private void OnRefreshClick(object sender, RoutedEventArgs e)
@@ -38,7 +25,7 @@ namespace CopyinfoWPF.UControls
 
         private void OnPrintClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.PrintSelectedItems(dataGridWithRecords);
+            ViewModel.PrintSelectedItems();
         }
 
         private void dataGridWithRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)

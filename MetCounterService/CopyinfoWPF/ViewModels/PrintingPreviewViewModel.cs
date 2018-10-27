@@ -25,7 +25,7 @@ namespace CopyinfoWPF.ViewModels
 
         DocumentViewer _documentViewer;
 
-        public IEnumerable<PageSizes> PageSizes
+        public IEnumerable<PageSizes> PageSizesList
         {
             get { return _pageSizes; }
             set { SetProperty(ref _pageSizes, value); }
@@ -53,23 +53,18 @@ namespace CopyinfoWPF.ViewModels
 
         public PrintingPreviewViewModel()
         {
-            SelectedPageSize = PageSizes.FirstOrDefault();
+            SelectedPageSize = PageSizesList.FirstOrDefault();
         }
 
-        public void CreatePreview(string text)
+        public void CreatePreview(IEnumerable<string> text)
         {
-            //if (Document == null)
-            //{
-            //    throw new InvalidOperationException("Document paginator is null");
-            //}
-
             RemovePackage();
 
-            DocumentPaginator paginator = Printing.GetA4Preview(text);
+            DocumentPaginator paginator = new TextDocumentPaginator(text, CommonData.PageSizes[PageSizes.A4]);
 
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
 
-            Package package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
+            var package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
 
             _packageUri = GenerateUri();
 
@@ -80,35 +75,6 @@ namespace CopyinfoWPF.ViewModels
             XpsDocument.CreateXpsDocumentWriter(xpsDoc).Write(paginator);
 
             Document = xpsDoc.GetFixedDocumentSequence();
-            
-
-            //DocumentPaginator paginator = new TextDocumentPaginator(File.ReadAllText(@"D:\Games\Battle.net\World of Warcraft\interface\addons\Singer\core.lua"), 1000, 1000);
-
-            //MemoryStream stream = new MemoryStream();
-
-            //Package package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
-
-            //var uri = new Uri(@"memorystream://myXps.xps");
-            //PackageStore.AddPackage(uri, package);
-            //var xpsDoc = new XpsDocument(package);
-
-            //xpsDoc.Uri = uri;
-            //XpsDocument.CreateXpsDocumentWriter(xpsDoc).Write(paginator);
-
-            //Document = xpsDoc.GetFixedDocumentSequence();
-
-
-
-            //if (File.Exists("printPreview.xps"))
-            //{
-            //    File.Delete("printPreview.xps");
-            //}
-            //var xpsDocument = new XpsDocument("printPreview.xps", FileAccess.ReadWrite);
-            //XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-            //writer.Write(((IDocumentPaginatorSource)FD).DocumentPaginator);
-            //Document = xpsDocument.GetFixedDocumentSequence();
-            //xpsDocument.Close();            
-
         }
 
         private Uri GenerateUri()
