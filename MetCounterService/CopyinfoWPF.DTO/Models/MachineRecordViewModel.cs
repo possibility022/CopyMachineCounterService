@@ -1,6 +1,7 @@
 ﻿using CopyinfoWPF.ORM.AsystentDatabase.Entities;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using Prism.Mvvm;
+using System.Diagnostics;
 
 namespace CopyinfoWPF.DTO.Models
 {
@@ -20,6 +21,8 @@ namespace CopyinfoWPF.DTO.Models
         }
 
         private string _clientName;
+        private bool _printed;
+
         public string ClientName
         {
             get { return _clientName; }
@@ -28,18 +31,19 @@ namespace CopyinfoWPF.DTO.Models
 
         public Record Record
         {
-            get => _record; private set
+            get => _record;
+            set
             {
                 SetProperty(ref _record, value);
                 Printed = value?.Printed ?? false;
             }
         }
 
-        public AdresKlient Address { get => _address; private set => SetProperty(ref _address, value); }
+        public AdresKlient Address { get => _address; set => SetProperty(ref _address, value); }
 
-        public UrzadzenieKlient Device { get => _device; private set => SetProperty(ref _device, value); }
+        public UrzadzenieKlient Device { get => _device; set => SetProperty(ref _device, value); }
 
-        public bool Printed { get; set; }
+        public bool Printed { get => _printed; set => SetProperty(ref _printed, value); }
 
         public Klient Client
         {

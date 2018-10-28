@@ -8,12 +8,11 @@ using CopyinfoWPF.DTO.Models;
 using System.Windows.Controls;
 using System;
 using CopyinfoWPF.Views;
-using System.Text;
-using System.IO;
 using CopyinfoWPF.Interfaces.Formatters;
-using Unity.Attributes;
 using Unity;
 using CopyinfoWPF.Workflows.Printing;
+using CopyinfoWPF.Services.Interfaces;
+using System.Linq;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -25,8 +24,12 @@ namespace CopyinfoWPF.ViewModels
         private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
         IRecordToTextFormatter _recordFormatter;
+        readonly IMachineRecordService _machineRecordService;
 
         public ObservableCollection<MachineRecordViewModel> _allRecords = new ObservableCollection<MachineRecordViewModel>();
+
+        private Func<MachineRecordViewModel, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
+        private Func<MachineRecordViewModel, bool> SelectAllRecords = (f => true);
 
         private ListSortDirection _dateTimeListSortDirection = ListSortDirection.Descending;
         public ListSortDirection DateTimeListSortDirection
@@ -84,19 +87,22 @@ namespace CopyinfoWPF.ViewModels
         {
             Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
             _recordFormatter = Configuration.Configuration.Container.Resolve<IRecordToTextFormatter>();
+            _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
         }
 
-        [InjectionConstructor]
-        public ReportsViewModel(IRecordToTextFormatter formatter) : this()
+        private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordViewModel> selectedRecords)
         {
-            _recordFormatter = formatter;
+            _machineRecordService.RefreshViewModels(GetSelected(SelectOnlyPrintedRecord));
+            var preview = new PrintingPreview();
+            selectedRecords = GetSelected(SelectOnlyPrintedRecord).ToList();
+            preview.CreateDocument(_recordFormatter.GetText(selectedRecords));
+            return preview;
         }
 
         internal void PrintPreview()
         {
-            var preview = PrintingPreview.CreatePreview(_recordFormatter.GetText(SelectedItemsToEnumerable()));
-            var dataContext = new PrintingPreviewViewModel(preview.XpsDocument.GetFixedDocumentSequence());
-            
+            var dataContext = new PrintingPreviewViewModel(GetPrintingPreview(out _));
+
             var window = new PrintingPreviewView()
             {
                 DataContext = dataContext
@@ -109,12 +115,13 @@ namespace CopyinfoWPF.ViewModels
             var printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
             {
-                var preview = PrintingPreview.CreatePreview(_recordFormatter.GetText(SelectedItemsToEnumerable()));
-                printDialog.PrintDocument(preview.XpsDocument.GetFixedDocumentSequence().DocumentPaginator, "Copyinfo Print");
+                ICollection<MachineRecordViewModel> selected;
+                printDialog.PrintDocument(GetPrintingPreview(out selected).XpsDocument.GetFixedDocumentSequence().DocumentPaginator, "Copyinfo Print");
+                _machineRecordService.SetPrinted(selected);
             }
         }
 
-        private IEnumerable<MachineRecordViewModel> SelectedItemsToEnumerable()
+        private IEnumerable<MachineRecordViewModel> GetSelected(Func<MachineRecordViewModel, bool> filter)
         {
             if (SelectedRecords == null)
                 yield break;
@@ -122,7 +129,7 @@ namespace CopyinfoWPF.ViewModels
             foreach (var rec in SelectedRecords)
             {
                 var r = rec as MachineRecordViewModel;
-                if (r != null)
+                if (r != null && filter.Invoke(r))
                     yield return r;
             }
         }

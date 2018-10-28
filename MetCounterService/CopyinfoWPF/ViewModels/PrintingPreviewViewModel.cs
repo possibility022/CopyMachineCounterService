@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Documents;
 using CopyinfoWPF.Common.Enums;
+using CopyinfoWPF.Workflows.Printing;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -33,6 +34,8 @@ namespace CopyinfoWPF.ViewModels
 
         private IDocumentPaginatorSource _document;
 
+        private PrintingPreview _printingPreview;
+
         public PrintingPreviewViewModel()
         {
             SelectedPageSize = PageSizesList.FirstOrDefault();
@@ -41,6 +44,12 @@ namespace CopyinfoWPF.ViewModels
         public PrintingPreviewViewModel(IDocumentPaginatorSource document) : this()
         {
             Document = document;
+        }
+
+        public PrintingPreviewViewModel(PrintingPreview document) : this()
+        {
+            _printingPreview = document;
+            Document = document.XpsDocument.GetFixedDocumentSequence();
         }
     }
 }

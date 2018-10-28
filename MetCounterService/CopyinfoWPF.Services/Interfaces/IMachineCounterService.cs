@@ -8,5 +8,9 @@ namespace CopyinfoWPF.Services.Interfaces
         IList<Record> GetAllRecords();
 
         IList<Record> TakeRecords(int count);
+
+        void SetRecordToPrinted(IEnumerable<Record> record);
+
+        void RefreshRecords(IEnumerable<Record> records);
     }
 }

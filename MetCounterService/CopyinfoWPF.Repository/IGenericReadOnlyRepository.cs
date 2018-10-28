@@ -10,5 +10,6 @@ namespace CopyinfoWPF.Repository
         IQueryable<T> All();
         T FindBy(Expression<Func<T, bool>> expression);
         IQueryable<T> FilterBy(Expression<Func<T, bool>> expression);
+        void Load(T record, object id);
     }
 }

@@ -13,7 +13,7 @@ namespace CopyinfoWPF.Services.Implementation
 {
     public class MachineRecordService : IMachineRecordService
     {
-        private IGenericReadOnlyRepository<Record> _recordRepository;
+        private IGenericRepository<Record> _recordRepository;
         private IGenericReadOnlyRepository<UrzadzenieKlient> _deviceRepository;
         private IGenericReadOnlyRepository<AdresKlient> _addressRepository;
         private IGenericReadOnlyRepository<Klient> _clientRepository;
@@ -61,6 +61,40 @@ namespace CopyinfoWPF.Services.Implementation
             }
 
             return records;
+        }
+
+        public void RefreshViewModels(IEnumerable<MachineRecordViewModel> records)
+        {
+            foreach (var rec in records)
+            {
+                rec.Record = _recordRepository.FindBy(rec.Record.Id);
+                if (rec.Address != null)
+                {
+                    rec.Address = _addressRepository.FindBy(rec.Address.IdAdresKlient);
+                    _addressCache.Add(rec.Address.IdAdresKlient, rec.Address);
+                }
+                if (rec.Client != null)
+                {
+                    rec.Client = _clientRepository.FindBy(rec.Client.IdKlient);
+                    _clientCache.Add(rec.Client.IdKlient, rec.Client);
+                }
+                if (rec.Device != null)
+                {
+                    rec.Device = _deviceRepository.FindBy(rec.Device.IdUrzadzenieKlient);
+                    _deviceCache.Add(rec.Device.NrFabryczny, rec.Device, k => !string.IsNullOrWhiteSpace(k));
+                }
+            }
+        }
+
+        public void SetPrinted(IEnumerable<MachineRecordViewModel> records)
+        {
+            foreach(var rec in records)
+            {
+                rec.Record.Printed = true;
+                rec.Printed = true;
+
+                _recordRepository.Update(rec.Record);
+            }
         }
     }
 }

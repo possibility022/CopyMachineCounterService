@@ -22,6 +22,8 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
 			Property(x => x.TonerLevelYellow);
 			Property(x => x.TonerLevelMagenta);
 			Property(x => x.AddressMac);
+            Property(x => x.Printed);
+
 			ManyToOne(x => x.EmailSource, map => 
 			{
 				map.Column("EmailSource");

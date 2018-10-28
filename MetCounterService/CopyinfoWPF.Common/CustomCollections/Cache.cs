@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 
 namespace CopyinfoWPF.Common.CustomCollections
 {
-    public class Cache<T1, T2> : ICache<T1, T2>, IConditionalCache<T1, T2>
+    public class Cache<T1, T2> : IConditionalCache<T1, T2>
     {
 
         private readonly ConcurrentDictionary<T1, T2> concurrentDictionary = new ConcurrentDictionary<T1, T2>();

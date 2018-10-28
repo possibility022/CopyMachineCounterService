@@ -12,18 +12,9 @@ namespace CopyinfoWPF.Workflows.Printing
 {
     public class PrintingPreview : IDisposable
     {
-
-        public static PrintingPreview CreatePreview(IEnumerable<string> text)
-        {
-            var preview = new PrintingPreview();
-            preview.CreateDocument(text);
-            return preview;
-        }
-
-        private XpsDocument _xpsDocument;
         private Uri _packageUri;
 
-        public XpsDocument XpsDocument { get => _xpsDocument; private set => _xpsDocument = value; }
+        public XpsDocument XpsDocument { get; private set; }
 
         public void RemovePackage()
         {

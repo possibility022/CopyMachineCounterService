@@ -14,6 +14,7 @@ namespace CopyinfoWPF.Repository
         public GenericRepository(ISession session)
         {
             _session = session;
+            _session.FlushMode = FlushMode.Manual;
         }
 
         public bool Add(T entity)
@@ -66,6 +67,11 @@ namespace CopyinfoWPF.Repository
         public T FindBy(Expression<Func<T, bool>> expression)
         {
             return FilterBy(expression).FirstOrDefault();
+        }
+
+        public void Load(T record, object id)
+        {
+            _session.Load(record, id);
         }
 
         public bool Update(T entity)
