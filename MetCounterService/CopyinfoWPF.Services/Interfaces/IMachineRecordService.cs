@@ -8,6 +8,8 @@ namespace CopyinfoWPF.Services.Interfaces
 
         IEnumerable<MachineRecordViewModel> GetLatestReports();
 
+        void RefreshCache();
+
         void RefreshViewModels(IEnumerable<MachineRecordViewModel> records);
 
         void SetPrinted(IEnumerable<MachineRecordViewModel> records);

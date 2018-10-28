@@ -23,7 +23,7 @@ namespace CopyinfoWPF.UControls
 
         private void OnRefreshClick(object sender, RoutedEventArgs e)
         {
-            //ViewModel.RefreshClickAsync(); //todo check this
+            var task = ViewModel.RefreshClickAsync();
         }
 
         private async void OnPrintClick(object sender, RoutedEventArgs e)
@@ -34,6 +34,13 @@ namespace CopyinfoWPF.UControls
         private void dataGridWithRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ViewModel.SelectedRecords = (sender as DataGrid).SelectedItems;
+        }
+
+        private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+                //ViewModel.RefreshFiltersCommand.Execute(null);
+                ViewModel.ApplyFilters();
         }
     }
 }

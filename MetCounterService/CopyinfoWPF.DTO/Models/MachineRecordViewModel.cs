@@ -20,9 +20,9 @@ namespace CopyinfoWPF.DTO.Models
             Client = client;
         }
 
-        private string _clientName;
-        private bool _printed;
-        private bool _emailSourceAvailable;
+        private string _clientName = string.Empty;
+        private bool _printed = false;
+        private bool _emailSourceAvailable = false;
 
         public string ClientName
         {

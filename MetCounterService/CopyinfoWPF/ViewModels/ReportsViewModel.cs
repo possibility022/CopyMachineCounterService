@@ -43,7 +43,10 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _dateTimeListSortDirection, value); }
         }
 
-        public ICommand PrintOptionCommand { get; set; }
+        public ICommand PrintOptionCommand { get; private set; }
+        public ICommand RefreshFiltersCommand { get; private set; }
+
+        public bool CanRefresh { get => _canRefresh; set => SetProperty(ref _canRefresh, value); }
 
         public ICollectionView Records
         {
@@ -75,6 +78,7 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private Image _documentNotPrinted;
+        private bool _canRefresh = true;
 
         public Image DocumentNotPrinted
         {
@@ -85,7 +89,7 @@ namespace CopyinfoWPF.ViewModels
         public string FilterText
         {
             get => _filterText;
-            set { SetProperty(ref _filterText, value); Records.Refresh(); }
+            set { SetProperty(ref _filterText, value.ToLower()); }
         }
 
         public ObservableCollection<string> PrintingOptions { get; private set; }
@@ -103,8 +107,14 @@ namespace CopyinfoWPF.ViewModels
             Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
             PrintOptionCommand = new PrintOptions(PrintOption);
+            RefreshFiltersCommand = new BaseCommand(Records.Refresh);
             _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordViewModel>>();
             _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
+        }
+
+        public void ApplyFilters()
+        {
+            Records.Refresh();
         }
 
         private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordViewModel> selectedRecords, Func<MachineRecordViewModel, bool> selector)
@@ -223,6 +233,21 @@ namespace CopyinfoWPF.ViewModels
             SetDefaultSorting();
         }
 
+        public async Task RefreshClickAsync()
+        {
+            CanRefresh = false;
+            var records = await Task.Factory.StartNew(GetRecords);
+            _allRecords.Clear();
+            _allRecords.AddRange(records);
+            CanRefresh = true;
+        }
+
+        private IEnumerable<MachineRecordViewModel> GetRecords()
+        {
+            _machineRecordService.RefreshCache();
+            return _machineRecordService.GetLatestReports();
+        }
+
         private void SetDefaultSorting()
         {
             if (Records != null && Records.CanSort == true)
@@ -236,15 +261,17 @@ namespace CopyinfoWPF.ViewModels
         {
             var rec = item as MachineRecordViewModel;
 
-            return rec.Record.ReadDatetime.ToString().Contains(FilterText)
-                || rec.Record.SerialNumber.Contains(FilterText)
-                || rec.Record.CounterBlackAndWhite.ToString().Contains(FilterText)
-                || rec.Record.CounterColor.ToString().Contains(FilterText)
-                || rec.Record.CounterScanner.ToString().Contains(FilterText)
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelBlack) == false && rec.Record.TonerLevelBlack.Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelCyan) == false && rec.Record.TonerLevelCyan.Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelMagenta) == false && rec.Record.TonerLevelMagenta.Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelYellow) == false && rec.Record.TonerLevelYellow.Contains(FilterText));
+            return rec.Record.ReadDatetime.ToString().ToLower().Contains(FilterText)
+                || rec.Record.SerialNumber.ToLower().Contains(FilterText)
+                || rec.Record.CounterBlackAndWhite.ToString().ToLower().Contains(FilterText)
+                || rec.Record.CounterColor.ToString().ToLower().Contains(FilterText)
+                || rec.Record.CounterScanner.ToString().ToLower().Contains(FilterText)
+                || rec.ClientName.ToLower().Contains(FilterText)
+                || (rec.Address != null && rec.Address.Ulica.ToLower().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelBlack) == false && rec.Record.TonerLevelBlack.ToLower().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelCyan) == false && rec.Record.TonerLevelCyan.ToLower().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelMagenta) == false && rec.Record.TonerLevelMagenta.ToLower().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelYellow) == false && rec.Record.TonerLevelYellow.ToLower().Contains(FilterText));
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CopyinfoWPF.Common.CustomCollections;
 using System.Diagnostics;
+using System;
 
 namespace CopyinfoWPF.Services.Implementation
 {
@@ -33,9 +34,7 @@ namespace CopyinfoWPF.Services.Implementation
             _addressCache = new Cache<int, AdresKlient>();
             _clientCache = new Cache<int, Klient>();
 
-            _deviceCache.UpdateMany(f => f.NrFabryczny, _deviceRepository.All(), k => !string.IsNullOrWhiteSpace(k));
-            _addressCache.UpdateMany(f => f.IdAdresKlient, _addressRepository.All());
-            _clientCache.UpdateMany(f => f.IdKlient, _clientRepository.All());
+            RefreshCache();
         }
 
         public IEnumerable<MachineRecordViewModel> GetLatestReports()
@@ -44,9 +43,12 @@ namespace CopyinfoWPF.Services.Implementation
 
             foreach (var rec in _recordRepository.All().OrderByDescending(d => d.ReadDatetime))
             {
-                var device = _deviceCache.Get(rec.SerialNumber);
+
                 AdresKlient address = null;
                 Klient client = null;
+                UrzadzenieKlient device = null;
+                
+                device = _deviceCache.Get(rec.SerialNumber);
 
                 if (device != null)
                 {
@@ -61,6 +63,13 @@ namespace CopyinfoWPF.Services.Implementation
             }
 
             return records;
+        }
+
+        public void RefreshCache()
+        {
+            _deviceCache.UpdateMany(f => f.NrFabryczny, _deviceRepository.All(), k => !string.IsNullOrWhiteSpace(k));
+            _addressCache.UpdateMany(f => f.IdAdresKlient, _addressRepository.All());
+            _clientCache.UpdateMany(f => f.IdKlient, _clientRepository.All());
         }
 
         public void RefreshViewModels(IEnumerable<MachineRecordViewModel> records)
@@ -88,7 +97,7 @@ namespace CopyinfoWPF.Services.Implementation
 
         public void SetPrinted(IEnumerable<MachineRecordViewModel> records)
         {
-            foreach(var rec in records)
+            foreach (var rec in records)
             {
                 rec.Record.Printed = true;
                 rec.Printed = true;
