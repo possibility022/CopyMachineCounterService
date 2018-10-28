@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CopyinfoWPF.Commands
 {
     public class PrintOptions : ICommand
     {
-        Action<string> _action;
+        Func<string, Task<bool>> _action;
 
-        public PrintOptions(Action<string> action)
+        public PrintOptions(Func<string, Task<bool>> action)
         {
             _action = action;
         }

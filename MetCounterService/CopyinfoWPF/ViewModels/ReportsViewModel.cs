@@ -15,6 +15,8 @@ using CopyinfoWPF.Services.Interfaces;
 using System.Linq;
 using System.Windows.Input;
 using CopyinfoWPF.Commands;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -25,8 +27,9 @@ namespace CopyinfoWPF.ViewModels
         MachineRecordViewModel _selectedRecord;
         private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
-        IRecordToTextFormatter _recordFormatter;
+        IFormatter<MachineRecordViewModel> _recordFormatter;
         readonly IMachineRecordService _machineRecordService;
+        private IDialogCoordinator _dialogCoordinator;
 
         public ObservableCollection<MachineRecordViewModel> _allRecords = new ObservableCollection<MachineRecordViewModel>();
 
@@ -40,11 +43,7 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _dateTimeListSortDirection, value); }
         }
 
-        public ICommand PrintOptionCommand
-        {
-            get => _setAlbumCommand;
-            set => _setAlbumCommand = value;
-        }
+        public ICommand PrintOptionCommand { get; set; }
 
         public ICollectionView Records
         {
@@ -76,7 +75,6 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private Image _documentNotPrinted;
-        private ICommand _setAlbumCommand;
 
         public Image DocumentNotPrinted
         {
@@ -94,66 +92,113 @@ namespace CopyinfoWPF.ViewModels
 
         public bool PrintButtonEnabled { get => _printButtonEnabled; private set => SetProperty(ref _printButtonEnabled, value); }
 
+        public IDialogCoordinator DialogCoordinator
+        {
+            get => _dialogCoordinator;
+            set => SetProperty(ref _dialogCoordinator, value);
+        }
 
         public ReportsViewModel()
         {
             Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
             PrintOptionCommand = new PrintOptions(PrintOption);
-            _recordFormatter = Configuration.Configuration.Container.Resolve<IRecordToTextFormatter>();
+            _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordViewModel>>();
             _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
         }
 
         private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordViewModel> selectedRecords, Func<MachineRecordViewModel, bool> selector)
         {
-            _machineRecordService.RefreshViewModels(GetSelected(selector));
+            selectedRecords = GetSelected(selector).ToList();
+
+            if (!selectedRecords.Any())
+                return null;
+
+            _machineRecordService.RefreshViewModels(selectedRecords);
             var preview = new PrintingPreview();
             selectedRecords = GetSelected(selector).ToList();
             preview.CreateDocument(_recordFormatter.GetText(selectedRecords));
             return preview;
         }
 
-        private void PrintOption(string option)
+        private async Task<bool> PrintOption(string option)
         {
             switch (option)
             {
                 case "Podgląd wydruku":
-                    PrintPreview(SelectOnlyPrintedRecord);
-                    break;
+                    return await PrintPreview(SelectOnlyPrintedRecord);
+
                 case "Drukuj wszystkie zaznaczone":
-                    PrintSelectedItems(SelectAllRecords);
-                    break;
+                    return await PrintSelectedItems(SelectAllRecords);
+
                 case "Podgląd wydruku - Wszystkie zaznaczone":
-                    PrintPreview(SelectAllRecords);
-                    break;
+                    return await PrintPreview(SelectAllRecords);
             }
+
+            return false;
         }
 
-        internal void PrintPreview(Func<MachineRecordViewModel, bool> selector)
+        internal async Task<bool> PrintPreview(Func<MachineRecordViewModel, bool> selector)
         {
-            var dataContext = new PrintingPreviewViewModel(GetPrintingPreview(out _, selector));
+            var printingPreview = GetPrintingPreview(out _, selector);
+            if (printingPreview == null)
+            {
+                //this.ShowMessageAsync("This is the title", "Some message");
+                var results = await ShowWrongPrintoutDialog();
+                if (results == MessageDialogResult.Affirmative)
+                    printingPreview = GetPrintingPreview(out _, SelectAllRecords);
+                else
+                    return false;
+            }
+
+            var dataContext = new PrintingPreviewViewModel(printingPreview);
 
             var window = new PrintingPreviewView()
             {
                 DataContext = dataContext
             };
             window.Show();
+            return true;
         }
 
-        public void Print()
+        public async Task<bool> Print()
         {
-            PrintSelectedItems(SelectOnlyPrintedRecord);
+            return await PrintSelectedItems(SelectOnlyPrintedRecord);
         }
 
-        public void PrintSelectedItems(Func<MachineRecordViewModel, bool> selector)
+        private async Task<MessageDialogResult> ShowWrongPrintoutDialog()
         {
+            return await DialogCoordinator.ShowMessageAsync(this, string.Empty, "Wybrane liczniki zostały już wydrukowane, czy wydrukować je jeszcze raz?", MessageDialogStyle.AffirmativeAndNegative);
+        }
+
+        public async Task<bool> PrintSelectedItems(Func<MachineRecordViewModel, bool> selector)
+        {
+            ICollection<MachineRecordViewModel> selected;
+            var preview = GetPrintingPreview(out selected, selector);
+            if (!selected.Any())
+            {
+                var printAll = await ShowWrongPrintoutDialog();
+                if (printAll == MessageDialogResult.Affirmative)
+                    preview = GetPrintingPreview(out selected, SelectAllRecords);
+                else
+                    return false;
+            }
+
             var printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
             {
-                ICollection<MachineRecordViewModel> selected;
-                printDialog.PrintDocument(GetPrintingPreview(out selected, selector).XpsDocument.GetFixedDocumentSequence().DocumentPaginator, "Copyinfo Print");
+
+                printDialog
+                    .PrintDocument(preview
+                    .XpsDocument
+                    .GetFixedDocumentSequence()
+                    .DocumentPaginator, "Copyinfo Print");
+
                 _machineRecordService.SetPrinted(selected);
+                return true;
             }
+
+            return false;
         }
 
         private IEnumerable<MachineRecordViewModel> GetSelected(Func<MachineRecordViewModel, bool> filter)

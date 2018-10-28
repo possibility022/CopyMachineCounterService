@@ -91,7 +91,7 @@ namespace CopyinfoWPF.ViewModels
         private void InitializeUnity()
         {
             Configuration.Configuration.Initialize();
-            Configuration.Configuration.Container.RegisterInstance<IRecordToTextFormatter>(new RecordFormatter());
+            Configuration.Configuration.Container.RegisterType<IFormatter<MachineRecordViewModel>, RecordFormatter>();
         }
 
     }

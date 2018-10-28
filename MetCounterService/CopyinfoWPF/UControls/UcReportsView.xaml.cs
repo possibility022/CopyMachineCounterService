@@ -1,4 +1,6 @@
 ﻿using CopyinfoWPF.ViewModels;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,6 +18,7 @@ namespace CopyinfoWPF.UControls
         public UcReportsView()
         {
             InitializeComponent();
+            ViewModel.DialogCoordinator = DialogCoordinator.Instance;
         }
 
         private void OnRefreshClick(object sender, RoutedEventArgs e)
@@ -23,9 +26,9 @@ namespace CopyinfoWPF.UControls
             //ViewModel.RefreshClickAsync(); //todo check this
         }
 
-        private void OnPrintClick(object sender, RoutedEventArgs e)
+        private async void OnPrintClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.Print();
+            var results = await ViewModel.Print();
         }
 
         private void dataGridWithRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)

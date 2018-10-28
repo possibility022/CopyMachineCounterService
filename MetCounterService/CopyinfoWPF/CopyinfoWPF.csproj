@@ -151,7 +151,7 @@
     <Compile Include="Commands\PrintOptions.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Formatters\RecordFormatter.cs" />
-    <Compile Include="Interfaces\Formatters\IRecordToTextFormatter.cs" />
+    <Compile Include="Interfaces\Formatters\IFormatter.cs" />
     <Compile Include="Interfaces\INewElementProvider.cs" />
     <Compile Include="MahMainWindow.xaml.cs">
       <DependentUpon>MahMainWindow.xaml</DependentUpon>

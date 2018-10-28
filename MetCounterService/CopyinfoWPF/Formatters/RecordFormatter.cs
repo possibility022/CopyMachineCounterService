@@ -1,62 +1,111 @@
 ﻿using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.Interfaces.Formatters;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
+using CopyinfoWPF.Workflows.Email;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CopyinfoWPF.Formatters
 {
-    public class RecordFormatter : IRecordToTextFormatter
+    public class RecordFormatter : IFormatter<MachineRecordViewModel>, IFormatter<Record>, IFormatter<MimeReader>
     {
+
+        MimeReader _mimeReader = new MimeReader();
+
         public IEnumerable<string> GetText(IEnumerable<MachineRecordViewModel> records)
         {
             var sb = new StringBuilder();
 
-            foreach(var rec in records)
+            foreach (var rec in records)
             {
                 sb.Clear();
 
-                RecToString(rec, sb);
+                RecToString(rec, ref sb);
 
                 yield return sb.ToString();
-
-                //"Klient: " + rec.ClientName + " NIP: " + client.NIP + newLine +
-                //"Data: " + datetime.ToString(Forms.Style.DateTimeFormat) + newLine +
-                //"Numer Seryjny: " + serial_number + newLine +
-                //"Producent: " + device.provider + newLine +
-                //"Model: " + device.model + newLine +
-                //"Adres: " + address.street + " " + address.house_number + "/" + address.apartment + " " + address.city + newLine +
-                //"Licznik Skanowań: " + scan_counter + newLine +
-                //"Licznik Czarno-Białe: " + print_counter_black_and_white + newLine +
-                //"Licznik Kolorowe: " + print_counter_color + newLine +
-                //"Toner Cyjan: " + tonerlevel_c + newLine +
-                //"Toner Magenta: " + tonerlevel_c + newLine +
-                //"Toner Yellow: " + tonerlevel_m + newLine +
-                //"Toner Black: " + tonerlevel_k + newLine;
             }
         }
 
         public StringBuilder GetText(MachineRecordViewModel record)
         {
             var sb = new StringBuilder();
-            RecToString(record, sb);
+            RecToString(record, ref sb);
             return sb;
         }
 
-        private void RecToString(MachineRecordViewModel rec, StringBuilder sb)
+        public IEnumerable<string> GetText(IEnumerable<MimeReader> items)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var mime in items)
+            {
+                GetText(mime, ref sb);
+                yield return sb.ToString();
+                sb.Clear();
+            }
+        }
+
+        public StringBuilder GetText(MimeReader item)
+        {
+            var sb = new StringBuilder();
+            GetText(item, ref sb);
+            return sb;
+        }
+
+        private void GetText(MimeReader item, ref StringBuilder sb)
+        {
+            sb.AppendLine($"Od: {item.From}");
+            sb.AppendLine($"Temat: {item.Subject}");
+            sb.AppendLine();
+            sb.AppendLine(item.TextBody);
+        }
+
+        public IEnumerable<string> GetText(IEnumerable<Record> items)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var item in items)
+            {
+                sb.Clear();
+                GetText(item, ref sb);
+                yield return sb.ToString();
+            }
+
+        }
+
+        public StringBuilder GetText(Record item)
+        {
+            var sb = new StringBuilder();
+            GetText(item, ref sb);
+            return sb;
+        }
+
+        private void GetText(Record record, ref StringBuilder sb)
+        {
+            sb.AppendLine($"Data odczytu: {record?.ReadDatetime.ToString()}");
+            sb.AppendLine($"Numer seryjny: {record?.SerialNumber}");
+            sb.AppendLine($"Licznik Skanowań: {record?.CounterScanner}");
+            sb.AppendLine($"Licznik Czarno-Biały: {record?.CounterBlackAndWhite}");
+            sb.AppendLine($"Licznik Kolorowy: {record?.CounterColor}");
+            sb.AppendLine($"Toner Cyjan: {record?.TonerLevelCyan}");
+            sb.AppendLine($"Toner Magenta: {record?.TonerLevelMagenta}");
+            sb.AppendLine($"Toner Yellow: {record?.TonerLevelYellow}");
+            sb.AppendLine($"Toner Czarny: {record?.TonerLevelBlack}");
+        }
+
+        private void RecToString(MachineRecordViewModel rec, ref StringBuilder sb)
         {
             sb.AppendLine($"Klient: {rec.ClientName} NIP: {rec.Client?.Nip}");
-            sb.AppendLine($"Data: {rec.Record?.ReadDatetime.ToString()}");
-            sb.AppendLine($"Numer seryjny: {rec.Record?.SerialNumber}");
             sb.AppendLine($"Producent: {rec.Device?.ModelUrzadzenia.MarkaUrzadzenia.Nazwa1}");
             sb.AppendLine($"Model: {rec.Device?.ModelUrzadzenia.Nazwa1}");
             sb.AppendLine($"Adres: {rec.Address?.Ulica}");
-            sb.AppendLine($"Licznik Skanowań: {rec.Record?.CounterScanner}");
-            sb.AppendLine($"Licznik Czarno-Biały: {rec.Record?.CounterBlackAndWhite}");
-            sb.AppendLine($"Licznik Kolorowy: {rec.Record?.CounterColor}");
-            sb.AppendLine($"Toner Cyjan: {rec.Record?.TonerLevelCyan}");
-            sb.AppendLine($"Toner Magenta: {rec.Record?.TonerLevelMagenta}");
-            sb.AppendLine($"Toner Yellow: {rec.Record?.TonerLevelYellow}");
-            sb.AppendLine($"Toner Czarny: {rec.Record?.TonerLevelBlack}");
+            GetText(rec.Record, ref sb);
+
+            if (rec.Record?.EmailSource?.Content != null)
+            {
+                _mimeReader.DeserializeEmail(rec.Record.EmailSource.Content);
+                GetText(_mimeReader, ref sb);
+            }
         }
     }
 }

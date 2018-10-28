@@ -9,6 +9,8 @@ namespace CopyinfoWPF.Workflows.Email
     {
         private const string SourceEmailNewLine = "\n";
 
+        public MimeReader() { }
+
         public MimeReader(byte[] content)
         {
             DeserializeEmail(content);
