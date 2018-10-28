@@ -22,6 +22,7 @@ namespace CopyinfoWPF.DTO.Models
 
         private string _clientName;
         private bool _printed;
+        private bool _emailSourceAvailable;
 
         public string ClientName
         {
@@ -36,6 +37,7 @@ namespace CopyinfoWPF.DTO.Models
             {
                 SetProperty(ref _record, value);
                 Printed = value?.Printed ?? false;
+                EmailSourceAvailable = value?.EmailSourceId == null ? false : true;
             }
         }
 
@@ -44,6 +46,8 @@ namespace CopyinfoWPF.DTO.Models
         public UrzadzenieKlient Device { get => _device; set => SetProperty(ref _device, value); }
 
         public bool Printed { get => _printed; set => SetProperty(ref _printed, value); }
+
+        public bool EmailSourceAvailable { get => _emailSourceAvailable; set => SetProperty(ref _emailSourceAvailable, value); }
 
         public Klient Client
         {

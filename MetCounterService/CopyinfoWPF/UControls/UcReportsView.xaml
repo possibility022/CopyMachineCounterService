@@ -94,6 +94,7 @@
             Grid.Row="2"
             AutoGenerateColumns="False"
             Foreground="Black"
+            IsReadOnly="True"
             ItemsSource="{Binding Records}"
             SelectedItem="{Binding SelectedRecord}"
             SelectionChanged="dataGridWithRecords_SelectionChanged"
@@ -102,10 +103,23 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Name="MyImage" Source="pack://application:,,,/../../Resources/Images/printer-48_green.png" />
+                            <Image Name="PrintIcon" Source="pack://application:,,,/../../Resources/Images/printer-48_green.png" />
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding Path=Printed}" Value="false">
-                                    <Setter TargetName="MyImage" Property="Source" Value="pack://application:,,,/../../Resources/Images/printer-48_red.png" />
+                                    <Setter TargetName="PrintIcon" Property="Source" Value="pack://application:,,,/../../Resources/Images/printer-48_red.png" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Name="EmailIcon" Source="pack://application:,,,/../../Resources/Images/email-5-48.png" />
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding Path=EmailSourceAvailable}" Value="false">
+                                    <Setter TargetName="EmailIcon" Property="Source" Value="{x:Null}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
 

@@ -4,7 +4,8 @@ using System;
 namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine
 {
 
-    public class Record {
+    public class Record
+    {
         public virtual int Id { get; set; }
         public virtual EmailSource EmailSource { get; set; }
         public virtual ServiceSourceCounters ServiceSourceCounters { get; set; }
@@ -22,5 +23,6 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine
         public virtual string TonerLevelMagenta { get; set; }
         public virtual string AddressMac { get; set; }
         public virtual bool Printed { get; set; }
+        public virtual int? EmailSourceId { get; set; }
     }
 }
