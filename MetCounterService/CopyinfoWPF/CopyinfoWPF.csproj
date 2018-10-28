@@ -176,6 +176,7 @@
     <Compile Include="Views\SplashScreenView.xaml.cs">
       <DependentUpon>SplashScreenView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Workflows\E-Mail\MimeReader.cs" />
     <Compile Include="Workflows\Printing\PrintingPreview.cs" />
     <Page Include="MahMainWindow.xaml">
       <SubType>Designer</SubType>
