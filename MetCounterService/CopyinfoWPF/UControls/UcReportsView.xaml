@@ -75,10 +75,15 @@
                 Width="20"
                 Height="40"
                 Margin="0"
-                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}">
-                <Controls:DropDownButton.Content>
-                    <iconPacks:PackIconMaterial Kind="ChevronDown" />
-                </Controls:DropDownButton.Content>
+                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}"
+                ItemsSource="{Binding PrintingOptions}">
+                <Controls:DropDownButton.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
+                        <!--<Setter Property="Header" Value="{Binding Title}"/>-->
+                        <Setter Property="Command" Value="{Binding DataContext.PrintOptionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" />
+                        <Setter Property="CommandParameter" Value="{Binding}" />
+                    </Style>
+                </Controls:DropDownButton.ItemContainerStyle>
             </Controls:DropDownButton>
         </StackPanel>
         <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />

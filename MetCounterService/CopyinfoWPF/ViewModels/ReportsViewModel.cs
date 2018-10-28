@@ -13,6 +13,8 @@ using Unity;
 using CopyinfoWPF.Workflows.Printing;
 using CopyinfoWPF.Services.Interfaces;
 using System.Linq;
+using System.Windows.Input;
+using CopyinfoWPF.Commands;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -36,6 +38,12 @@ namespace CopyinfoWPF.ViewModels
         {
             get { return _dateTimeListSortDirection; }
             set { SetProperty(ref _dateTimeListSortDirection, value); }
+        }
+
+        public ICommand PrintOptionCommand
+        {
+            get => _setAlbumCommand;
+            set => _setAlbumCommand = value;
         }
 
         public ICollectionView Records
@@ -68,6 +76,8 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private Image _documentNotPrinted;
+        private ICommand _setAlbumCommand;
+
         public Image DocumentNotPrinted
         {
             get { return _documentNotPrinted; }
@@ -80,28 +90,48 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _filterText, value); Records.Refresh(); }
         }
 
+        public ObservableCollection<string> PrintingOptions { get; private set; }
+
         public bool PrintButtonEnabled { get => _printButtonEnabled; private set => SetProperty(ref _printButtonEnabled, value); }
 
 
         public ReportsViewModel()
         {
             Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
+            PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
+            PrintOptionCommand = new PrintOptions(PrintOption);
             _recordFormatter = Configuration.Configuration.Container.Resolve<IRecordToTextFormatter>();
             _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
         }
 
-        private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordViewModel> selectedRecords)
+        private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordViewModel> selectedRecords, Func<MachineRecordViewModel, bool> selector)
         {
-            _machineRecordService.RefreshViewModels(GetSelected(SelectOnlyPrintedRecord));
+            _machineRecordService.RefreshViewModels(GetSelected(selector));
             var preview = new PrintingPreview();
-            selectedRecords = GetSelected(SelectOnlyPrintedRecord).ToList();
+            selectedRecords = GetSelected(selector).ToList();
             preview.CreateDocument(_recordFormatter.GetText(selectedRecords));
             return preview;
         }
 
-        internal void PrintPreview()
+        private void PrintOption(string option)
         {
-            var dataContext = new PrintingPreviewViewModel(GetPrintingPreview(out _));
+            switch (option)
+            {
+                case "Podgląd wydruku":
+                    PrintPreview(SelectOnlyPrintedRecord);
+                    break;
+                case "Drukuj wszystkie zaznaczone":
+                    PrintSelectedItems(SelectAllRecords);
+                    break;
+                case "Podgląd wydruku - Wszystkie zaznaczone":
+                    PrintPreview(SelectAllRecords);
+                    break;
+            }
+        }
+
+        internal void PrintPreview(Func<MachineRecordViewModel, bool> selector)
+        {
+            var dataContext = new PrintingPreviewViewModel(GetPrintingPreview(out _, selector));
 
             var window = new PrintingPreviewView()
             {
@@ -110,13 +140,18 @@ namespace CopyinfoWPF.ViewModels
             window.Show();
         }
 
-        public void PrintSelectedItems()
+        public void Print()
+        {
+            PrintSelectedItems(SelectOnlyPrintedRecord);
+        }
+
+        public void PrintSelectedItems(Func<MachineRecordViewModel, bool> selector)
         {
             var printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
             {
                 ICollection<MachineRecordViewModel> selected;
-                printDialog.PrintDocument(GetPrintingPreview(out selected).XpsDocument.GetFixedDocumentSequence().DocumentPaginator, "Copyinfo Print");
+                printDialog.PrintDocument(GetPrintingPreview(out selected, selector).XpsDocument.GetFixedDocumentSequence().DocumentPaginator, "Copyinfo Print");
                 _machineRecordService.SetPrinted(selected);
             }
         }

@@ -25,7 +25,7 @@ namespace CopyinfoWPF.UControls
 
         private void OnPrintClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.PrintSelectedItems();
+            ViewModel.Print();
         }
 
         private void dataGridWithRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)
