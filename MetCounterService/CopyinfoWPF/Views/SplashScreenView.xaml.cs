@@ -34,7 +34,7 @@ namespace CopyinfoWPF.Views
             if (ViewModel.LoginClick(PasswordBox.SecurePassword))
             {
                 var window = await ViewModel.StartLoadingAsync();
-                
+
                 window.Show();
                 Close();
             }
@@ -45,7 +45,12 @@ namespace CopyinfoWPF.Views
             if (e.Key == Key.Return)
             {
                 LoginClick(sender, null);
-            }else
+            }
+            else if (e.Key == Key.F3)
+            {
+                new TestWindow().Show();
+            }
+            else
             {
                 ViewModel.Message = "";
             }

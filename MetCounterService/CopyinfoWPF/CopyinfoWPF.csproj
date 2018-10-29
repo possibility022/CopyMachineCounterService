@@ -159,6 +159,12 @@
     </Compile>
     <Compile Include="Model\EmailAttachment.cs" />
     <Compile Include="Resources\ConstantData.cs" />
+    <Compile Include="UControls\UcAddress.xaml.cs">
+      <DependentUpon>UcAddress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UControls\UcClientOverview.xaml.cs">
+      <DependentUpon>UcClientOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UControls\UcReportsView.xaml.cs">
       <DependentUpon>UcReportsView.xaml</DependentUpon>
     </Compile>
@@ -176,6 +182,9 @@
     </Compile>
     <Compile Include="Views\SplashScreenView.xaml.cs">
       <DependentUpon>SplashScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workflows\E-Mail\MimeReader.cs" />
     <Compile Include="Workflows\Printing\PrintingPreview.cs" />
@@ -199,6 +208,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UControls\UcAddress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UControls\UcClientOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UControls\UcReportsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SplashScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

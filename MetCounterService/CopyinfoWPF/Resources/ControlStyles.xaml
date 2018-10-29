@@ -54,6 +54,29 @@
         <Setter Property="Height" Value="30" />
     </Style>
 
+
+    <!--  Labels  -->
+    <Style x:Key="Header" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style x:Key="Info" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+
+    <!--  User Control  -->
+    <Style BasedOn="{StaticResource {x:Type UserControl}}" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="White" />
+    </Style>
+
+
     <!--  DOCUMENTVIEWR  -->
 
     <Style x:Key="{x:Type DocumentViewer}" TargetType="{x:Type DocumentViewer}">
