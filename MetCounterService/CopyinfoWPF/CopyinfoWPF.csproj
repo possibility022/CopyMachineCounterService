@@ -168,6 +168,7 @@
     <Compile Include="UControls\UcReportsView.xaml.cs">
       <DependentUpon>UcReportsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\ClientOverviewViewModel.cs" />
     <Compile Include="ViewModels\MahMainWindowModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
     <Compile Include="ViewModels\PasswordPromptViewModel.cs" />

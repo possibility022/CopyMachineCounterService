@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CopyinfoWPF.UControls
 {
@@ -23,6 +11,119 @@ namespace CopyinfoWPF.UControls
         public UcAddress()
         {
             InitializeComponent();
+        }
+
+        public string Street
+        {
+            get
+            {
+                return (string)GetValue(StreetProperty);
+            }
+            set
+            {
+                SetValue(StreetProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty StreetProperty =
+            DependencyProperty.Register("Street", typeof(string),
+            typeof(UcAddress), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(StreetChange)));
+
+        private static void StreetChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
+        {
+            ((UcAddress)property).StreetL.Content = (string)args.NewValue;
+        }
+
+
+
+        public string HouseNumber
+        {
+            get
+            {
+                return (string)GetValue(HouseNumberProperty);
+            }
+            set
+            {
+                SetValue(HouseNumberProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty HouseNumberProperty =
+            DependencyProperty.Register("HouseNumber", typeof(string),
+            typeof(UcAddress), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(HouseNumberChange)));
+
+        private static void HouseNumberChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
+        {
+            ((UcAddress)property).HouseNumberL.Content = (string)args.NewValue;
+        }
+
+
+
+
+
+        public string City
+        {
+            get
+            {
+                return (string)GetValue(CityProperty);
+            }
+            set
+            {
+                SetValue(CityProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty CityProperty =
+            DependencyProperty.Register("City", typeof(string),
+            typeof(UcAddress), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(CityChange)));
+
+        private static void CityChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
+        {
+            ((UcAddress)property).CityL.Content = (string)args.NewValue;
+        }
+
+        public string PostNumber
+        {
+            get
+            {
+                return (string)GetValue(PostNumberProperty);
+            }
+            set
+            {
+                SetValue(PostNumberProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty PostNumberProperty =
+            DependencyProperty.Register("PostNumber", typeof(string),
+            typeof(UcAddress), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(PostNumberChange)));
+
+        private static void PostNumberChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
+        {
+            ((UcAddress)property).CityL.Content = (string)args.NewValue;
+        }
+
+
+
+        public string PostCity
+        {
+            get
+            {
+                return (string)GetValue(PostCityProperty);
+            }
+            set
+            {
+                SetValue(PostCityProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty PostCityProperty =
+            DependencyProperty.Register("PostCity", typeof(string),
+            typeof(UcAddress), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(PostCityChange)));
+
+        private static void PostCityChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
+        {
+            ((UcAddress)property).CityL.Content = (string)args.NewValue;
         }
     }
 }

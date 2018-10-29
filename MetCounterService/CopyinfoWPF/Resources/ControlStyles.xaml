@@ -72,9 +72,9 @@
 
 
     <!--  User Control  -->
-    <Style BasedOn="{StaticResource {x:Type UserControl}}" TargetType="{x:Type UserControl}">
+    <!--<Style BasedOn="{StaticResource {x:Type UserControl}}" TargetType="{x:Type UserControl}">
         <Setter Property="Background" Value="White" />
-    </Style>
+    </Style>-->
 
 
     <!--  DOCUMENTVIEWR  -->

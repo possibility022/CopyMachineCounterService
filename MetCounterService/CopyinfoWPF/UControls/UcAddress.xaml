@@ -25,6 +25,9 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+
+        <!--  Ulica  -->
+
         <Label
             Grid.Row="0"
             Grid.Column="0"
@@ -32,6 +35,7 @@
             Style="{StaticResource Info}" />
 
         <Label
+            Name="StreetL"
             Grid.Row="0"
             Grid.Column="2"
             Content="Łazienkowa"
@@ -46,6 +50,7 @@
             Style="{StaticResource Info}" />
 
         <Label
+            Name="HouseNumberL"
             Grid.Row="1"
             Grid.Column="2"
             Content="1"
@@ -60,6 +65,7 @@
             Style="{StaticResource Info}" />
 
         <Label
+            Name="CityL"
             Grid.Row="2"
             Grid.Column="2"
             Content="Kąty Wrocławskie"
@@ -74,6 +80,7 @@
             Style="{StaticResource Info}" />
 
         <Label
+            Name="PostNumberL"
             Grid.Row="3"
             Grid.Column="2"
             Content="55-080"
@@ -88,6 +95,7 @@
             Style="{StaticResource Info}" />
 
         <Label
+            Name="PostCityL"
             Grid.Row="4"
             Grid.Column="2"
             Content="Kąty Wrocławskie"
