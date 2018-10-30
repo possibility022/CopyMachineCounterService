@@ -67,6 +67,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
             mapper.AddMapping<ZamowieniaCzesciMap>();
             mapper.AddMapping<KlientMap>();
             mapper.AddMapping<UmowaSerwisowaMap>();
+            mapper.AddMapping<ZlecenieSerwisoweMap>();
 
             var mapping = mapper.CompileMappingFor(
                 new[]
@@ -118,7 +119,8 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
                 typeof(WersjaBazy),
                 typeof(ZamowieniaCzesci),
                 typeof(Klient),
-                typeof(UmowaSerwisowa)
+                typeof(UmowaSerwisowa),
+                typeof(ZlecenieSerwisowe)
                 });
 
             return mapping;

@@ -11,6 +11,9 @@
     Height="850"
     mc:Ignorable="d">
     <Grid>
-        <UControls:UcClientOverview x:Name="ClientControl" />
+        <StackPanel Orientation="Horizontal">
+            <UControls:UcClientOverview x:Name="ClientControl" />
+            <UControls:UcDeviceOverview x:Name="DeviceControl" />
+        </StackPanel>
     </Grid>
 </Window>

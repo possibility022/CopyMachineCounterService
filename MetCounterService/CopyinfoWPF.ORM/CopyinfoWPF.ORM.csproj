@@ -150,6 +150,7 @@
     <Compile Include="AsystentDatabase\Entities\Maps\WalutyMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\WersjaBazyMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\ZamowieniaCzesciMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\ZlecenieSerwisoweMap.cs" />
     <Compile Include="AsystentDatabase\Entities\MarkaUrzadzenia.cs" />
     <Compile Include="AsystentDatabase\Entities\MatEksploat.cs" />
     <Compile Include="AsystentDatabase\Entities\ModelUrzadzenia.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="AsystentDatabase\Entities\Waluty.cs" />
     <Compile Include="AsystentDatabase\Entities\WersjaBazy.cs" />
     <Compile Include="AsystentDatabase\Entities\ZamowieniaCzesci.cs" />
+    <Compile Include="AsystentDatabase\Entities\ZlecenieSerwisowe.cs" />
     <Compile Include="DatabaseSessionProvider.cs" />
     <Compile Include="DatabaseType.cs" />
     <Compile Include="IDatabaseSessionProvider.cs" />

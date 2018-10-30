@@ -277,7 +277,9 @@ namespace CopyinfoWPF.ViewModels
         internal void OpenSelectedRecord()
         {
             var clientOverviewViewModel = new ClientOverviewViewModel(SelectedRecord?.Client, _machineRecordService);
-            new OverviewView(clientOverviewViewModel)
+            var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedRecord?.Device);
+
+            new OverviewView(clientOverviewViewModel, deviceOverviewViewModel)
                 .Show();
         }
     }

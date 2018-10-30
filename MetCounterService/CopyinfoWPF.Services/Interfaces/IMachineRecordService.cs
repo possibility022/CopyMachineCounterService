@@ -1,5 +1,4 @@
 ﻿using CopyinfoWPF.DTO.Models;
-using CopyinfoWPF.ORM.AsystentDatabase.Entities;
 using System.Collections.Generic;
 
 namespace CopyinfoWPF.Services.Interfaces
@@ -16,5 +15,6 @@ namespace CopyinfoWPF.Services.Interfaces
         void SetPrinted(IEnumerable<MachineRecordViewModel> records);
 
         IEnumerable<DeviceViewModel> GetDevicesForClient(int clientId);
+        IEnumerable<RecordViewModel> GetRecordsForDevice(string deviceSerialNumber);
     }
 }

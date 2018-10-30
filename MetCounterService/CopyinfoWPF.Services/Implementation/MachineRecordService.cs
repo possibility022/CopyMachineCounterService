@@ -19,10 +19,13 @@ namespace CopyinfoWPF.Services.Implementation
         private IGenericReadOnlyRepository<AdresKlient> _addressRepository;
         private IGenericReadOnlyRepository<Klient> _clientRepository;
         private IGenericReadOnlyRepository<UmowaSerwisowa> _serviceAgreementRepository;
+        private IGenericReadOnlyRepository<ZlecenieSerwisowe> _serviceOrderRepository;
+        private IGenericReadOnlyRepository<Pracownik> _employeeRepository;
 
         IConditionalCache<string, UrzadzenieKlient> _deviceCache;
         IConditionalCache<int, AdresKlient> _addressCache;
         IConditionalCache<int, Klient> _clientCache;
+        IConditionalCache<int, Pracownik> _employeeCache;
         HashSet<int> _serviceAgreementCache;
 
         public MachineRecordService(IDatabaseSessionProvider databaseSessionProvider)
@@ -32,10 +35,13 @@ namespace CopyinfoWPF.Services.Implementation
             _addressRepository = new GenericRepository<AdresKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
             _clientRepository = new GenericRepository<Klient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
             _serviceAgreementRepository = new GenericRepository<UmowaSerwisowa>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
+            _serviceOrderRepository = new GenericRepository<ZlecenieSerwisowe>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
+            _employeeRepository = new GenericRepository<Pracownik>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
 
             _deviceCache = new Cache<string, UrzadzenieKlient>();
             _addressCache = new Cache<int, AdresKlient>();
             _clientCache = new Cache<int, Klient>();
+            _employeeCache = new Cache<int, Pracownik>();
             _serviceAgreementCache = new HashSet<int>();
 
             RefreshCache();
@@ -103,11 +109,53 @@ namespace CopyinfoWPF.Services.Implementation
             return records;
         }
 
+        public IEnumerable<RecordViewModel> GetRecordsForDevice(string deviceSerialNumber)
+        {
+
+            var list = new List<RecordViewModel>();
+
+            if (_deviceCache.Contains(deviceSerialNumber))
+            {
+
+                var device = _deviceCache.Get(deviceSerialNumber);
+                
+                foreach (var order in _serviceOrderRepository
+                    .FilterBy(d => d.IdUrzadzenieKlient == device.IdUrzadzenieKlient))
+                {
+                    var model = new RecordViewModel()
+                    {
+                        BlackAndWhite = order.LicznikBiezacy ?? 0,
+                        DateTime = order.DataZamknieciaZlec
+                    };
+
+                    if (order.IdSerwisant != null)
+                        model.ServiceMan = _employeeCache.Get((int)order.IdSerwisant).Imie;
+
+                    list.Add(model);
+                }
+
+                foreach (var rec in _recordRepository.FilterBy(d => d.SerialNumber == deviceSerialNumber))
+                {
+                    list.Add(new RecordViewModel()
+                    {
+                        BlackAndWhite = rec.CounterBlackAndWhite ?? 0,
+                        Color = rec.CounterColor ?? 0,
+                        Scan = rec.CounterScanner ?? 0,
+                        DateTime = rec.ReadDatetime,
+                        ServiceMan = "System"
+                    });
+                }
+            }
+
+            return list.OrderByDescending(d => d.DateTime);
+        }
+
         public void RefreshCache()
         {
             _deviceCache.UpdateMany(f => f.NrFabryczny, _deviceRepository.All(), k => !string.IsNullOrWhiteSpace(k));
             _addressCache.UpdateMany(f => f.IdAdresKlient, _addressRepository.All());
             _clientCache.UpdateMany(f => f.IdKlient, _clientRepository.All());
+            _employeeCache.UpdateMany(f => f.IdPracownik, _employeeRepository.All());
             _serviceAgreementCache = new HashSet<int>(_serviceAgreementRepository.All().Select(s => s.IdKlient));
         }
 

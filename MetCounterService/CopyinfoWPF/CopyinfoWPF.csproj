@@ -170,6 +170,9 @@
     <Compile Include="UControls\UcAddress.xaml.cs">
       <DependentUpon>UcAddress.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UControls\UcDeviceOverview.xaml.cs">
+      <DependentUpon>UcDeviceOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UControls\UcClientOverview.xaml.cs">
       <DependentUpon>UcClientOverview.xaml</DependentUpon>
     </Compile>
@@ -177,6 +180,7 @@
       <DependentUpon>UcReportsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ClientOverviewViewModel.cs" />
+    <Compile Include="ViewModels\DeviceOverviewViewModel.cs" />
     <Compile Include="ViewModels\MahMainWindowModel.cs" />
     <Compile Include="ViewModels\MainWindowModel.cs" />
     <Compile Include="ViewModels\PasswordPromptViewModel.cs" />
@@ -223,6 +227,10 @@
     <Page Include="UControls\UcAddress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UControls\UcDeviceOverview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UControls\UcClientOverview.xaml">
       <SubType>Designer</SubType>
