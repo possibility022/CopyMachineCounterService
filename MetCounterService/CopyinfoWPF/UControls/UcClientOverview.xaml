@@ -114,12 +114,17 @@
         <DataGrid
             Grid.Row="7"
             Grid.ColumnSpan="2"
-            Margin="5">
+            Margin="5"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Devices}"
+            Loaded="DataGrid_Loaded">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Numer seryjny" />
-                <DataGridTextColumn Header="Model" />
-                <DataGridTextColumn Header="Adres" />
-                <DataGridTextColumn Header="Data Instalacji" />
+                <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="Numer seryjny" />
+                <DataGridTextColumn Binding="{Binding Path=Model}" Header="Model" />
+                <DataGridTextColumn Binding="{Binding Path=Address}" Header="Adres" />
+                <DataGridTextColumn Binding="{Binding Path=InstallationDate}" Header="Data Instalacji" />
             </DataGrid.Columns>
         </DataGrid>
 

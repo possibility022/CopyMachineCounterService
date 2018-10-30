@@ -41,6 +41,39 @@ namespace CopyinfoWPF.Services.Implementation
             RefreshCache();
         }
 
+        public IEnumerable<DeviceViewModel> GetDevicesForClient(int clientId)
+        {
+            if (_clientCache.Contains(clientId))
+            {
+                AdresKlient address;
+                string addressShortValue = string.Empty;
+
+                foreach (var d in _deviceRepository.FilterBy(d => d.IdKlient == clientId))
+                {
+                    address = _addressCache.Get(d.IdMiejsceInstalacji);
+
+                    if (address != null)
+                    {
+                        addressShortValue = $"{address.Ulica} {address.Miejscowosc}";
+                    }
+                    else
+                    {
+                        addressShortValue = string.Empty;
+                    }
+                    
+                    _deviceCache.Add(d.NrFabryczny, d);
+
+                    yield return new DeviceViewModel()
+                    {
+                        SerialNumber = d.NrFabryczny,
+                        Address = addressShortValue,
+                        InstallationDate = d.DataInstalacji,
+                        Model = d.ModelUrzadzenia?.Nazwa1
+                    };
+                }
+            }
+        }
+
         public IEnumerable<MachineRecordViewModel> GetLatestReports()
         {
             var records = new List<MachineRecordViewModel>();

@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using Unity;
 using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.Model;
 using CopyinfoWPF.ORM.AsystentDatabase.Entities;
+using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
+using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -72,6 +76,7 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private string _note;
+
         public string Note
         {
             get { return _note; }
@@ -80,15 +85,40 @@ namespace CopyinfoWPF.ViewModels
 
         #endregion
 
+        private readonly IMachineRecordService _machineRecordService;
+
+        public int ClientId { get; private set; }
+
+        private ObservableCollection<DeviceViewModel> _devices = new ObservableCollection<DeviceViewModel>();
+        public ObservableCollection<DeviceViewModel> Devices
+        {
+            get { return _devices; }
+            set { SetProperty(ref _devices, value); }
+        }
+
         public ClientOverviewViewModel()
         {
 
         }
 
-        public ClientOverviewViewModel(Klient client)
+        public ClientOverviewViewModel(Klient client, IMachineRecordService machineRecordService) : this()
         {
             if (client != null)
+            {
                 Mapper.Map(client, this);
+                ClientId = client.IdKlient;
+            }
+
+            _machineRecordService = machineRecordService;
         }
+
+        public void DeviceDataGridLoaded()
+        {
+            foreach (var device in _machineRecordService.GetDevicesForClient(ClientId))
+            {
+                Devices.Add(device);
+            }
+        }
+
     }
 }
