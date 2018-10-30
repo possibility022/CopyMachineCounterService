@@ -100,7 +100,7 @@ namespace CopyinfoWPF.UControls
 
         private static void PostNumberChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
         {
-            ((UcAddress)property).CityL.Content = (string)args.NewValue;
+            ((UcAddress)property).PostNumberL.Content = (string)args.NewValue;
         }
 
 
@@ -123,7 +123,7 @@ namespace CopyinfoWPF.UControls
 
         private static void PostCityChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
         {
-            ((UcAddress)property).CityL.Content = (string)args.NewValue;
+            ((UcAddress)property).PostCityL.Content = (string)args.NewValue;
         }
     }
 }

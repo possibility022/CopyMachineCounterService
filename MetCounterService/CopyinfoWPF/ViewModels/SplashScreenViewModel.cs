@@ -11,6 +11,8 @@ using CopyinfoWPF.DTO.Models;
 using System.Windows;
 using CopyinfoWPF.Interfaces.Formatters;
 using CopyinfoWPF.Formatters;
+using AutoMapper;
+using CopyinfoWPF.Configuration;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -72,6 +74,9 @@ namespace CopyinfoWPF.ViewModels
             Message = "Inicjalizacja podstawowej konfiguracji.";
             await Task.Factory.StartNew(InitializeUnity);
 
+            Message = "Inicjalizacja automappera.";
+            await Task.Factory.StartNew(InitializeAutoMapper);
+
             Message = "Inicjalizacja bazy danych Liczników";
             var recordService = await Task<IMachineRecordService>.Factory.StartNew(() => Configuration.Configuration.Container.Resolve<IMachineRecordService>());
 
@@ -92,6 +97,11 @@ namespace CopyinfoWPF.ViewModels
         {
             Configuration.Configuration.Initialize();
             Configuration.Configuration.Container.RegisterType<IFormatter<MachineRecordViewModel>, RecordFormatter>();
+        }
+
+        private void InitializeAutoMapper()
+        {
+            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
         }
 
     }

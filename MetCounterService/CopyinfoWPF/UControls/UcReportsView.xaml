@@ -98,6 +98,7 @@
             IsReadOnly="True"
             ItemsSource="{Binding Records}"
             SelectedItem="{Binding SelectedRecord}"
+            MouseDoubleClick="dataGridWithRecords_MouseDoubleClick"
             SelectionChanged="dataGridWithRecords_SelectionChanged"
             SelectionMode="Extended">
             <DataGrid.Columns>

@@ -41,7 +41,7 @@
             Grid.Row="0"
             Grid.Column="1"
             Margin="10,0,0,0"
-            Content="Plastmer"
+            Content="{Binding Name}"
             Style="{StaticResource Header}" />
 
 
@@ -55,7 +55,7 @@
             Grid.Row="1"
             Grid.Column="1"
             Margin="10,0,0,0"
-            Content="JAKISTAMNIP"
+            Content="{Binding NIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource Header}" />
 
         <Label
@@ -70,7 +70,7 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Label Content="Umowa Serwisowa" Style="{StaticResource Header}" />
-            <CheckBox Margin="10,0,0,0" IsChecked="True" />
+            <CheckBox Margin="10,0,0,0" IsChecked="{Binding ServiceAgreement}" />
         </StackPanel>
 
         <Border
@@ -83,7 +83,7 @@
             <TextBlock
                 Margin="5"
                 FontSize="15"
-                Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud "
+                Text="{Binding Note}"
                 TextWrapping="Wrap" />
         </Border>
         <Label
@@ -97,7 +97,11 @@
             Grid.Row="5"
             Grid.ColumnSpan="2"
             Padding="10,0,0,0"
-            Street="{Binding Address}" />
+            City="{Binding City}"
+            HouseNumber="{Binding HouseNumber}"
+            PostCity="{Binding PostalCity}"
+            PostNumber="{Binding PostalCode}"
+            Street="{Binding Street}" />
 
         <Label
             Grid.Row="6"

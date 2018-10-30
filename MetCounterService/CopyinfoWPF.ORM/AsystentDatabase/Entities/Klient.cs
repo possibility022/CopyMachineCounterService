@@ -31,5 +31,7 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Entities
         public virtual string Wojewodztwo { get; set; }
         public virtual string SposobRozlVat { get; set; }
         public virtual int? IdPoziomyCen { get; set; }
+
+        public bool UmowaSerwisowa { get; set; } = false;// this is not a property for map.
     }
 }

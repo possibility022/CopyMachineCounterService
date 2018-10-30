@@ -83,6 +83,7 @@ namespace CopyinfoWPF.ORM.Tests
                 list.Add(session.Query<UrzadzenieKlient>().FirstOrDefault());
                 list.Add(session.Query<UrzadzenieKlientStatus>().FirstOrDefault());
                 list.Add(session.Query<Waluty>().FirstOrDefault());
+                list.Add(session.Query<UmowaSerwisowa>().FirstOrDefault());
                 //list.Add(session.Query<WersjaBazy>().FirstOrDefault()); // In this case, we have to do something with mapping. Will return an error. Is adding ID to Select even when there is no ID in mapping?
                 //list.Add(session.Query<ZamowieniaCzesci>().FirstOrDefault());
                 list.Add(session.Query<Klient>().FirstOrDefault());

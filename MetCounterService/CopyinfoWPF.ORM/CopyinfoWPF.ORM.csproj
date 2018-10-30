@@ -144,6 +144,7 @@
     <Compile Include="AsystentDatabase\Entities\Maps\TypDokumentuMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\TypPlatnosciMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\TypZleceniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\UmowaSerwisowaMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\UrzadzenieKlientMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\UrzadzenieKlientStatusMap.cs" />
     <Compile Include="AsystentDatabase\Entities\Maps\WalutyMap.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="AsystentDatabase\Entities\TypDokumentu.cs" />
     <Compile Include="AsystentDatabase\Entities\TypPlatnosci.cs" />
     <Compile Include="AsystentDatabase\Entities\TypZlecenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\UmowaSerwisowa.cs" />
     <Compile Include="AsystentDatabase\Entities\UrzadzenieKlient.cs" />
     <Compile Include="AsystentDatabase\Entities\UrzadzenieKlientStatus.cs" />
     <Compile Include="AsystentDatabase\Entities\Waluty.cs" />

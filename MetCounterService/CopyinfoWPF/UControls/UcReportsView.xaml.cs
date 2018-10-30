@@ -42,5 +42,10 @@ namespace CopyinfoWPF.UControls
                 //ViewModel.RefreshFiltersCommand.Execute(null);
                 ViewModel.ApplyFilters();
         }
+
+        private void dataGridWithRecords_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.OpenSelectedRecord();
+        }
     }
 }

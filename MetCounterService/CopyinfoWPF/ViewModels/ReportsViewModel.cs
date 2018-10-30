@@ -273,5 +273,12 @@ namespace CopyinfoWPF.ViewModels
                 || (string.IsNullOrEmpty(rec.Record.TonerLevelMagenta) == false && rec.Record.TonerLevelMagenta.ToLower().Contains(FilterText))
                 || (string.IsNullOrEmpty(rec.Record.TonerLevelYellow) == false && rec.Record.TonerLevelYellow.ToLower().Contains(FilterText));
         }
+
+        internal void OpenSelectedRecord()
+        {
+            var clientOverviewViewModel = new ClientOverviewViewModel(SelectedRecord?.Client);
+            new OverviewView(clientOverviewViewModel)
+                .Show();
+        }
     }
 }

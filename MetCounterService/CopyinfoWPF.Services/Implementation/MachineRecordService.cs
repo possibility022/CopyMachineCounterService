@@ -18,10 +18,12 @@ namespace CopyinfoWPF.Services.Implementation
         private IGenericReadOnlyRepository<UrzadzenieKlient> _deviceRepository;
         private IGenericReadOnlyRepository<AdresKlient> _addressRepository;
         private IGenericReadOnlyRepository<Klient> _clientRepository;
+        private IGenericReadOnlyRepository<UmowaSerwisowa> _serviceAgreementRepository;
 
         IConditionalCache<string, UrzadzenieKlient> _deviceCache;
         IConditionalCache<int, AdresKlient> _addressCache;
         IConditionalCache<int, Klient> _clientCache;
+        HashSet<int> _serviceAgreementCache;
 
         public MachineRecordService(IDatabaseSessionProvider databaseSessionProvider)
         {
@@ -29,10 +31,12 @@ namespace CopyinfoWPF.Services.Implementation
             _deviceRepository = new GenericRepository<UrzadzenieKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
             _addressRepository = new GenericRepository<AdresKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
             _clientRepository = new GenericRepository<Klient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
+            _serviceAgreementRepository = new GenericRepository<UmowaSerwisowa>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
 
             _deviceCache = new Cache<string, UrzadzenieKlient>();
             _addressCache = new Cache<int, AdresKlient>();
             _clientCache = new Cache<int, Klient>();
+            _serviceAgreementCache = new HashSet<int>();
 
             RefreshCache();
         }
@@ -47,13 +51,14 @@ namespace CopyinfoWPF.Services.Implementation
                 AdresKlient address = null;
                 Klient client = null;
                 UrzadzenieKlient device = null;
-                
+
                 device = _deviceCache.Get(rec.SerialNumber);
 
                 if (device != null)
                 {
                     address = _addressCache.Get(device.IdMiejsceInstalacji);
                     client = _clientCache.Get(device.IdKlient);
+                    client.UmowaSerwisowa = _serviceAgreementCache.Contains(client.IdKlient);
                 }
                 else
                     Debug.WriteLine("Empty device");
@@ -70,6 +75,7 @@ namespace CopyinfoWPF.Services.Implementation
             _deviceCache.UpdateMany(f => f.NrFabryczny, _deviceRepository.All(), k => !string.IsNullOrWhiteSpace(k));
             _addressCache.UpdateMany(f => f.IdAdresKlient, _addressRepository.All());
             _clientCache.UpdateMany(f => f.IdKlient, _clientRepository.All());
+            _serviceAgreementCache = new HashSet<int>(_serviceAgreementRepository.All().Select(s => s.IdKlient));
         }
 
         public void RefreshViewModels(IEnumerable<MachineRecordViewModel> records)
@@ -85,6 +91,7 @@ namespace CopyinfoWPF.Services.Implementation
                 if (rec.Client != null)
                 {
                     rec.Client = _clientRepository.FindBy(rec.Client.IdKlient);
+                    rec.Client.UmowaSerwisowa = _serviceAgreementCache.Contains(rec.Client.IdKlient);
                     _clientCache.Add(rec.Client.IdKlient, rec.Client);
                 }
                 if (rec.Device != null)
