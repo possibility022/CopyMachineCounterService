@@ -110,6 +110,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -176,6 +177,9 @@
     <Compile Include="UControls\UcClientOverview.xaml.cs">
       <DependentUpon>UcClientOverview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UControls\UcReportOverview.xaml.cs">
+      <DependentUpon>UcReportOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UControls\UcReportsView.xaml.cs">
       <DependentUpon>UcReportsView.xaml</DependentUpon>
     </Compile>
@@ -185,6 +189,7 @@
     <Compile Include="ViewModels\MainWindowModel.cs" />
     <Compile Include="ViewModels\PasswordPromptViewModel.cs" />
     <Compile Include="ViewModels\PrintingPreviewViewModel.cs" />
+    <Compile Include="ViewModels\ReportOverviewViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <Compile Include="Views\OverviewView.xaml.cs">
@@ -233,6 +238,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UControls\UcClientOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UControls\UcReportOverview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
