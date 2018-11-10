@@ -13,12 +13,14 @@ namespace CopyinfoWPF.ViewModels
     {
 
         IFormatter<EmailMessage> _emailFormatter;
+        IFormatter<RecordViewModel> _recordFormatter;
 
         public ReportOverviewViewModel() { }
 
-        public ReportOverviewViewModel(IFormatter<EmailMessage> emailFormatter)
+        public ReportOverviewViewModel(IFormatter<EmailMessage> emailFormatter, IFormatter<RecordViewModel> recordFormatter)
         {
             _emailFormatter = emailFormatter;
+            _recordFormatter = recordFormatter;
         }
 
         private string _textContent = string.Empty;
@@ -42,29 +44,31 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _emailAttachments, value); }
         }
 
-        public void ViewNewRecord(RecordViewModel recordDetailsViewModel)
+        public void ViewNewRecord(RecordViewModel recordViewModel)
         {
-            if (recordDetailsViewModel == null)
+            if (recordViewModel == null)
             {
                 TextContent = string.Empty;
                 ListVisible = Visibility.Hidden;
                 return;
             }
 
-            switch(recordDetailsViewModel.Source)
+            switch(recordViewModel.Source)
             {
                 case ORM.DatabaseType.CounterService:
                     TextContent = _emailFormatter
-                        .GetText(new EmailMessage(recordDetailsViewModel.BinaryContent))
+                        .GetText(new EmailMessage(recordViewModel.BinaryContent))
                         .ToString();
                     break;
 
                 case ORM.DatabaseType.Assystent:
-                    TextContent = recordDetailsViewModel.TextContent;
+                    TextContent = _recordFormatter
+                        .GetText(recordViewModel)
+                        .ToString();
                     break;
 
                 default:
-                    Log.LogMessage($"Error datasource [{recordDetailsViewModel.Source}] is not supported");
+                    Log.LogMessage($"Error datasource [{recordViewModel.Source}] is not supported");
                     break;
             }
         }

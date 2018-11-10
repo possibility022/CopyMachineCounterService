@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CopyinfoWPF.Formatters
 {
-    public class RecordFormatter : IFormatter<MachineRecordViewModel>, IFormatter<Record>, IFormatter<EmailMessage>
+    public class RecordFormatter : IFormatter<MachineRecordViewModel>, IFormatter<Record>, IFormatter<EmailMessage>, IFormatter<RecordViewModel>
     {
 
         public IEnumerable<string> GetText(IEnumerable<MachineRecordViewModel> records)
@@ -101,8 +101,38 @@ namespace CopyinfoWPF.Formatters
 
             if (rec.Record?.EmailSource?.Content != null)
             {
-                var email= new EmailMessage(rec.Record.EmailSource.Content);
+                var email = new EmailMessage(rec.Record.EmailSource.Content);
                 GetText(email, ref sb);
+            }
+        }
+
+        public IEnumerable<string> GetText(IEnumerable<RecordViewModel> items)
+        {
+            var sb = new StringBuilder();
+            
+            foreach(var r in items)
+            {
+                RecViewModelToString(r, ref sb);
+                yield return sb.ToString();
+                sb.Clear();
+            }
+        }
+
+        public StringBuilder GetText(RecordViewModel item)
+        {
+            var sb = new StringBuilder();
+            RecViewModelToString(item, ref sb);
+            return sb;
+        }
+
+        private void RecViewModelToString(RecordViewModel rec, ref StringBuilder sb)
+        {
+            if (rec.Source == ORM.DatabaseType.Assystent)
+            {
+                sb.AppendLine($"Serwisant: {rec.ServiceMan}");
+                sb.AppendLine($"Data: {rec.DateTime}");
+                sb.AppendLine();
+                sb.AppendLine(rec.TextContent);
             }
         }
     }

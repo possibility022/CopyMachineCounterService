@@ -99,6 +99,7 @@ namespace CopyinfoWPF.ViewModels
             Configuration.Configuration.Initialize();
             Configuration.Configuration.Container.RegisterType<IFormatter<MachineRecordViewModel>, RecordFormatter>();
             Configuration.Configuration.Container.RegisterType<IFormatter<EmailMessage>, RecordFormatter>();
+            Configuration.Configuration.Container.RegisterType<IFormatter<RecordViewModel>, RecordFormatter>();
         }
 
         private void InitializeAutoMapper()

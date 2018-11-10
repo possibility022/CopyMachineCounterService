@@ -279,7 +279,9 @@ namespace CopyinfoWPF.ViewModels
         {
             var clientOverviewViewModel = new ClientOverviewViewModel(SelectedRecord?.Client, _machineRecordService);
             var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedRecord?.Device);
-            var reportOverviewViewModel = new ReportOverviewViewModel(Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>());
+            var reportOverviewViewModel = new ReportOverviewViewModel(
+                Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>(),
+                Configuration.Configuration.Container.Resolve<IFormatter<RecordViewModel>>());
 
             clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
             deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
