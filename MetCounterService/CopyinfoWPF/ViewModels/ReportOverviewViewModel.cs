@@ -37,6 +37,42 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _listVisible, value); }
         }
 
+        private Visibility _textVisible;
+        public Visibility TextVisible
+        {
+            get { return _textVisible; }
+            set
+            {
+                if (value == Visibility.Visible)
+                    WebBrowserVisible = Visibility.Hidden;
+                SetProperty(ref _textVisible, value);
+            }
+        }
+
+        private Visibility _webBrowserVisible;
+        public Visibility WebBrowserVisible
+        {
+            get { return _webBrowserVisible; }
+            set
+            {
+                if (value == Visibility.Visible)
+                    TextVisible = Visibility.Hidden;
+                SetProperty(ref _webBrowserVisible, value);
+            }
+        }
+
+        private string _htmlToDisplay = "<html></html>";
+        public string HtmlToDisplay
+        {
+            get { return _htmlToDisplay; }
+            set
+            {
+                if (string.IsNullOrEmpty(value)) // Propably WebBrowser do not accept empty or null values.
+                    value = "<html></html>";
+                SetProperty(ref _htmlToDisplay, value);
+            }
+        }
+
         private ObservableCollection<EmailAttachment> _emailAttachments = new ObservableCollection<EmailAttachment>();
         public ObservableCollection<EmailAttachment> EmailAttachments
         {
@@ -53,18 +89,31 @@ namespace CopyinfoWPF.ViewModels
                 return;
             }
 
-            switch(recordViewModel.Source)
+            switch (recordViewModel.Source)
             {
                 case ORM.DatabaseType.CounterService:
-                    TextContent = _emailFormatter
-                        .GetText(new EmailMessage(recordViewModel.BinaryContent))
-                        .ToString();
+
+                    if (recordViewModel.BinaryContent != null)
+                    {
+                        TextContent = _emailFormatter
+                            .GetText(new EmailMessage(recordViewModel.BinaryContent))
+                            .ToString();
+
+                        TextVisible = Visibility.Visible;
+                    }
+                    else if (!string.IsNullOrEmpty(recordViewModel.HtmlContent))
+                    {
+                        HtmlToDisplay = recordViewModel.HtmlContent;
+                        WebBrowserVisible = Visibility.Visible;
+                    }
                     break;
 
                 case ORM.DatabaseType.Assystent:
                     TextContent = _recordFormatter
                         .GetText(recordViewModel)
                         .ToString();
+
+                    TextVisible = Visibility.Visible;
                     break;
 
                 default:

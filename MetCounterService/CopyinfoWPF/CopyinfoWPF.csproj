@@ -159,6 +159,7 @@
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\PrintOptions.cs" />
     <Compile Include="Configuration\MappingProfile.cs" />
+    <Compile Include="Dependency\BrowserBehavior.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Formatters\RecordFormatter.cs" />
     <Compile Include="Interfaces\Formatters\IFormatter.cs" />

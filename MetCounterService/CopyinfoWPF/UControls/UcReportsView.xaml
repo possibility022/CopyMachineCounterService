@@ -89,7 +89,10 @@
                 </Controls:DropDownButton.ItemContainerStyle>
             </Controls:DropDownButton>
         </StackPanel>
-        <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" KeyUp="TextBox_KeyUp"  />
+        <TextBox
+            Grid.Row="1"
+            KeyUp="TextBox_KeyUp"
+            Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
         <DataGrid
             x:Name="dataGridWithRecords"
             Grid.Row="2"
@@ -97,8 +100,8 @@
             Foreground="Black"
             IsReadOnly="True"
             ItemsSource="{Binding Records}"
-            SelectedItem="{Binding SelectedRecord}"
             MouseDoubleClick="dataGridWithRecords_MouseDoubleClick"
+            SelectedItem="{Binding SelectedRecord}"
             SelectionChanged="dataGridWithRecords_SelectionChanged"
             SelectionMode="Extended">
             <DataGrid.Columns>

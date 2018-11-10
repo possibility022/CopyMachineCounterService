@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ViewModels="clr-namespace:CopyinfoWPF.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dependency="clr-namespace:CopyinfoWPF.Dependency"
     xmlns:local="clr-namespace:CopyinfoWPF.UControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="800"
@@ -34,13 +35,23 @@
 
 
         <TextBox
+            Grid.Row="0"
+            Grid.Column="0"
             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
             Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
             HorizontalAlignment="Stretch"
             AcceptsReturn="True"
             Text="{Binding TextContent}"
             TextWrapping="Wrap"
-            VerticalScrollBarVisibility="Auto" />
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{Binding TextVisible}" />
+
+        <WebBrowser
+            Name="WebBrowser"
+            Grid.Row="0"
+            Grid.Column="0"
+            dependency:BrowserBehavior.Html="{Binding HtmlToDisplay}"
+            Visibility="{Binding WebBrowserVisible}" />
 
 
     </Grid>
