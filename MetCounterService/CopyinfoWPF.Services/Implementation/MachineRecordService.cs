@@ -8,19 +8,20 @@ using System.Collections.Generic;
 using System.Linq;
 using CopyinfoWPF.Common.CustomCollections;
 using System.Diagnostics;
-using System;
 
 namespace CopyinfoWPF.Services.Implementation
 {
     public class MachineRecordService : IMachineRecordService
     {
         private IGenericRepository<Record> _recordRepository;
+
         private IGenericReadOnlyRepository<UrzadzenieKlient> _deviceRepository;
         private IGenericReadOnlyRepository<AdresKlient> _addressRepository;
         private IGenericReadOnlyRepository<Klient> _clientRepository;
         private IGenericReadOnlyRepository<UmowaSerwisowa> _serviceAgreementRepository;
         private IGenericReadOnlyRepository<ZlecenieSerwisowe> _serviceOrderRepository;
         private IGenericReadOnlyRepository<Pracownik> _employeeRepository;
+        
 
         IConditionalCache<string, UrzadzenieKlient> _deviceCache;
         IConditionalCache<int, AdresKlient> _addressCache;
@@ -31,6 +32,7 @@ namespace CopyinfoWPF.Services.Implementation
         public MachineRecordService(IDatabaseSessionProvider databaseSessionProvider)
         {
             _recordRepository = new GenericRepository<Record>(databaseSessionProvider.OpenSession(DatabaseType.CounterService));
+            
             _deviceRepository = new GenericRepository<UrzadzenieKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
             _addressRepository = new GenericRepository<AdresKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
             _clientRepository = new GenericRepository<Klient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
@@ -122,10 +124,11 @@ namespace CopyinfoWPF.Services.Implementation
                 foreach (var order in _serviceOrderRepository
                     .FilterBy(d => d.IdUrzadzenieKlient == device.IdUrzadzenieKlient))
                 {
-                    var model = new RecordViewModel()
+                    var model = new RecordViewModel(order.IdZlecenieSerwisowe, DatabaseType.Assystent)
                     {
                         BlackAndWhite = order.LicznikBiezacy ?? 0,
-                        DateTime = order.DataZamknieciaZlec
+                        DateTime = order.DataZamknieciaZlec,
+                        TextContent = order.OpisCzynnosciSerwisowych
                     };
 
                     if (order.IdSerwisant != null)
@@ -136,13 +139,14 @@ namespace CopyinfoWPF.Services.Implementation
 
                 foreach (var rec in _recordRepository.FilterBy(d => d.SerialNumber == deviceSerialNumber))
                 {
-                    list.Add(new RecordViewModel()
+                    list.Add(new RecordViewModel(rec.Id, DatabaseType.CounterService)
                     {
                         BlackAndWhite = rec.CounterBlackAndWhite ?? 0,
                         Color = rec.CounterColor ?? 0,
                         Scan = rec.CounterScanner ?? 0,
                         DateTime = rec.ReadDatetime,
-                        ServiceMan = "System"
+                        ServiceMan = "System",
+                        BinaryContent = rec.EmailSource?.Content
                     });
                 }
             }

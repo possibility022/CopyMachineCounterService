@@ -1,10 +1,36 @@
-﻿using Prism.Mvvm;
+﻿using CopyinfoWPF.ORM;
+using Prism.Mvvm;
 using System;
 
 namespace CopyinfoWPF.DTO.Models
 {
     public class RecordViewModel : BindableBase
     {
+
+        public RecordViewModel(int id, DatabaseType source)
+        {
+            Id = id;
+            Source = source;
+        }
+
+        public int Id { get; }
+
+        private string _textContent;
+        public string TextContent
+        {
+            get => _textContent;
+            set => SetProperty(ref _textContent, value);
+        }
+
+        private byte[] _binaryContent;
+        public byte[] BinaryContent
+        {
+            get { return _binaryContent; }
+            set { SetProperty(ref _binaryContent, value); }
+        }
+
+        public DatabaseType Source { get; }
+
         private string _serviceMan;
         public string ServiceMan
         {
@@ -34,6 +60,7 @@ namespace CopyinfoWPF.DTO.Models
         }
 
         private int _scan;
+
         public int Scan
         {
             get { return _scan; }

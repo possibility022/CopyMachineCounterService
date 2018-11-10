@@ -7,10 +7,8 @@ using System.Text;
 
 namespace CopyinfoWPF.Formatters
 {
-    public class RecordFormatter : IFormatter<MachineRecordViewModel>, IFormatter<Record>, IFormatter<MimeReader>
+    public class RecordFormatter : IFormatter<MachineRecordViewModel>, IFormatter<Record>, IFormatter<EmailMessage>
     {
-
-        MimeReader _mimeReader = new MimeReader();
 
         public IEnumerable<string> GetText(IEnumerable<MachineRecordViewModel> records)
         {
@@ -33,7 +31,7 @@ namespace CopyinfoWPF.Formatters
             return sb;
         }
 
-        public IEnumerable<string> GetText(IEnumerable<MimeReader> items)
+        public IEnumerable<string> GetText(IEnumerable<EmailMessage> items)
         {
             var sb = new StringBuilder();
 
@@ -45,14 +43,14 @@ namespace CopyinfoWPF.Formatters
             }
         }
 
-        public StringBuilder GetText(MimeReader item)
+        public StringBuilder GetText(EmailMessage item)
         {
             var sb = new StringBuilder();
             GetText(item, ref sb);
             return sb;
         }
 
-        private void GetText(MimeReader item, ref StringBuilder sb)
+        private void GetText(EmailMessage item, ref StringBuilder sb)
         {
             sb.AppendLine($"Od: {item.From}");
             sb.AppendLine($"Temat: {item.Subject}");
@@ -103,8 +101,8 @@ namespace CopyinfoWPF.Formatters
 
             if (rec.Record?.EmailSource?.Content != null)
             {
-                _mimeReader.DeserializeEmail(rec.Record.EmailSource.Content);
-                GetText(_mimeReader, ref sb);
+                var email= new EmailMessage(rec.Record.EmailSource.Content);
+                GetText(email, ref sb);
             }
         }
     }

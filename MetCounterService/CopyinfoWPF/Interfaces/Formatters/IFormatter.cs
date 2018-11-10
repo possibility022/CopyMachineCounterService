@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CopyinfoWPF.Interfaces.Formatters
 {
-    interface IFormatter<T>
+    public interface IFormatter<T>
     {
         IEnumerable<string> GetText(IEnumerable<T> items);
 

@@ -207,7 +207,7 @@
     <Compile Include="Views\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Workflows\E-Mail\MimeReader.cs" />
+    <Compile Include="Workflows\Email\EmailMessage.cs" />
     <Compile Include="Workflows\Printing\PrintingPreview.cs" />
     <Page Include="MahMainWindow.xaml">
       <SubType>Designer</SubType>

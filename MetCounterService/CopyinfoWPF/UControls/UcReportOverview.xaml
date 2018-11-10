@@ -10,7 +10,13 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <ResourceDictionary Source="..\Resources\Style.xaml" />
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Resources\Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
         <ViewModels:ReportOverviewViewModel />
@@ -22,8 +28,20 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0" Text="{Binding TextContent}" />
-        <ListBox Grid.Row="1" Visibility="{Binding ListVisible}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+
+        <TextBox
+            Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualWidth}"
+            Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=ActualHeight}"
+            HorizontalAlignment="Stretch"
+            AcceptsReturn="True"
+            Text="{Binding TextContent}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
+
 
     </Grid>
 </UserControl>

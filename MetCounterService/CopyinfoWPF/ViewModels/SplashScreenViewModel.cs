@@ -13,6 +13,7 @@ using CopyinfoWPF.Interfaces.Formatters;
 using CopyinfoWPF.Formatters;
 using AutoMapper;
 using CopyinfoWPF.Configuration;
+using CopyinfoWPF.Workflows.Email;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -97,6 +98,7 @@ namespace CopyinfoWPF.ViewModels
         {
             Configuration.Configuration.Initialize();
             Configuration.Configuration.Container.RegisterType<IFormatter<MachineRecordViewModel>, RecordFormatter>();
+            Configuration.Configuration.Container.RegisterType<IFormatter<EmailMessage>, RecordFormatter>();
         }
 
         private void InitializeAutoMapper()

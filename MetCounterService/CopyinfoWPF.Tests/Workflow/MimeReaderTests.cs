@@ -18,7 +18,7 @@ namespace CopyinfoWPF.Tests.Workflow
 
             foreach(var f in files)
             {
-                var mime = new MimeReader(File.ReadAllBytes(f));
+                var mime = new EmailMessage(File.ReadAllBytes(f));
                 File.WriteAllText(FolderPath + Path.GetFileName(f) + ".txt", mime.TextBody);
             }
         }

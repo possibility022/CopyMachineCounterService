@@ -17,6 +17,7 @@ using System.Windows.Input;
 using CopyinfoWPF.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
+using CopyinfoWPF.Workflows.Email;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -278,8 +279,12 @@ namespace CopyinfoWPF.ViewModels
         {
             var clientOverviewViewModel = new ClientOverviewViewModel(SelectedRecord?.Client, _machineRecordService);
             var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedRecord?.Device);
+            var reportOverviewViewModel = new ReportOverviewViewModel(Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>());
 
-            new OverviewView(clientOverviewViewModel, deviceOverviewViewModel)
+            clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
+            deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
+
+            new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
                 .Show();
         }
     }

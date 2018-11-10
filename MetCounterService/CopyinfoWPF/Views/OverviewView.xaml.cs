@@ -25,10 +25,12 @@ namespace CopyinfoWPF.Views
             InitializeComponent();
         }
 
-        public OverviewView(ClientOverviewViewModel clientOverviewViewModel, DeviceOverviewViewModel deviceOverviewViewModel) : this()
+        public OverviewView(ClientOverviewViewModel clientOverviewViewModel, DeviceOverviewViewModel deviceOverviewViewModel, ReportOverviewViewModel reportOverviewViewModel) 
+            : this()
         {
             ClientControl.DataContext = clientOverviewViewModel;
             DeviceControl.DataContext = deviceOverviewViewModel;
+            ReportControl.DataContext = reportOverviewViewModel;
         }
     }
 }

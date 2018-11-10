@@ -11,9 +11,19 @@
     Height="850"
     mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Horizontal">
-            <UControls:UcClientOverview x:Name="ClientControl" />
-            <UControls:UcDeviceOverview x:Name="DeviceControl" />
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <UControls:UcClientOverview x:Name="ClientControl" Grid.Column="0" />
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
+        <UControls:UcDeviceOverview x:Name="DeviceControl" Grid.Column="2" />
+        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" />
+        <UControls:UcReportOverview x:Name="ReportControl" Grid.Column="4" />
+
     </Grid>
 </Window>

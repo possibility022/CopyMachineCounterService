@@ -119,7 +119,8 @@
             CanUserAddRows="False"
             IsReadOnly="True"
             ItemsSource="{Binding Devices}"
-            Loaded="DataGrid_Loaded">
+            Loaded="DataGrid_Loaded"
+            SelectedItem="{Binding SelectedDevice}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="Numer seryjny" />
                 <DataGridTextColumn Binding="{Binding Path=Model}" Header="Model" />

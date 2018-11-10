@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Unity;
 using CopyinfoWPF.DTO.Models;
-using CopyinfoWPF.Model;
 using CopyinfoWPF.ORM.AsystentDatabase.Entities;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
-using System.Windows;
 using System.Collections.ObjectModel;
+using System;
+using System.Linq;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -96,6 +95,23 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _devices, value); }
         }
 
+        public event EventHandler<DeviceViewModel> DeviceSelected;
+
+        private DeviceViewModel _selectedDevice;
+        public DeviceViewModel SelectedDevice
+        {
+            get { return _selectedDevice; }
+            set
+            {
+                if (_selectedDevice != value)
+                {
+                    SetProperty(ref _selectedDevice, value);
+                    DeviceSelected?.Invoke(this,  value);
+                }
+
+            }
+        }
+
         public ClientOverviewViewModel()
         {
 
@@ -118,6 +134,9 @@ namespace CopyinfoWPF.ViewModels
             {
                 Devices.Add(device);
             }
+
+
+            SelectedDevice = Devices.FirstOrDefault();
         }
 
     }

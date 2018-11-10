@@ -1,14 +1,11 @@
 ﻿using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.ORM.AsystentDatabase.Entities;
-using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -89,9 +86,26 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _records, value); }
         }
 
+        public EventHandler<RecordViewModel> RecordSelected;
+
+        private RecordViewModel _selectedRecord;
+        public RecordViewModel SelectedRecord
+        {
+            get { return _selectedRecord; }
+            set
+            {
+                if (value != _selectedRecord)
+                {
+                    SetProperty(ref _selectedRecord, value);
+                    RecordSelected?.Invoke(this, value);
+                }
+            }
+        }
+
         private readonly IMachineRecordService _machineRecordService;
 
         public DeviceOverviewViewModel() { }
+
 
         public DeviceOverviewViewModel(IMachineRecordService service, UrzadzenieKlient device)
         {
@@ -101,14 +115,26 @@ namespace CopyinfoWPF.ViewModels
                 Manufacturer = device.ModelUrzadzenia?.MarkaUrzadzenia?.Nazwa1;
                 SerialNumber = device.NrFabryczny;
                 InstallationDate = device.DataInstalacji;
-                Model = device.ModelUrzadzenia?.Nazwa1;                
+                Model = device.ModelUrzadzenia?.Nazwa1;
             }
         }
 
         internal void RecordDataGridLoaded()
         {
-            Records.AddRange(_machineRecordService.GetRecordsForDevice(SerialNumber));
+            LoadRecordsToList(_machineRecordService.GetRecordsForDevice(SerialNumber));
         }
 
+        public void LoadRecordsToList(IEnumerable<RecordViewModel> records)
+        {
+            SelectedRecord = null;
+            Records.Clear();
+            Records.AddRange(records);
+            SelectedRecord = Records.FirstOrDefault();
+        }
+
+        public void OnDeviceSelected(object sender, DeviceViewModel e)
+        {
+            LoadRecordsToList(_machineRecordService.GetRecordsForDevice(e.SerialNumber));
+        }
     }
 }
