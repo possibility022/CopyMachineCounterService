@@ -9,21 +9,45 @@
     Title="OverviewView"
     Width="1500"
     Height="850"
+    Background="#f2f2f2"
     mc:Ignorable="d">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <Window.Resources>
+        <ResourceDictionary Source="..\Resources\Style.xaml" />
+    </Window.Resources>
+    <Border
+        Margin="5"
+        BorderBrush="#91c1e7"
+        BorderThickness="5">
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-        <UControls:UcClientOverview x:Name="ClientControl" Grid.Column="0" />
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
-        <UControls:UcDeviceOverview x:Name="DeviceControl" Grid.Column="2" />
-        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" />
-        <UControls:UcReportOverview x:Name="ReportControl" Grid.Column="4" />
+            <UControls:UcClientOverview
+                x:Name="ClientControl"
+                Grid.Column="0"
+                Margin="0,0,3,0" />
+            <GridSplitter
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                Background="#91c1e7" />
+            <UControls:UcDeviceOverview
+                x:Name="DeviceControl"
+                Grid.Column="2"
+                Margin="3,0,3,0" />
+            <GridSplitter
+                Grid.Column="3"
+                HorizontalAlignment="Stretch"
+                Background="#91c1e7" />
+            <UControls:UcReportOverview
+                x:Name="ReportControl"
+                Grid.Column="4"
+                Margin="3,0,0,0" />
 
-    </Grid>
+        </Grid>
+    </Border>
 </Window>

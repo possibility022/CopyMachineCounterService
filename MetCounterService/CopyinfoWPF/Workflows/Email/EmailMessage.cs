@@ -13,6 +13,9 @@ namespace CopyinfoWPF.Workflows.Email
 
         public EmailMessage(byte[] content)
         {
+            if (content == null)
+                return;
+
             using (Stream stream = new MemoryStream())
             {
                 stream.Write(content, 0, content.Length);
@@ -28,11 +31,11 @@ namespace CopyinfoWPF.Workflows.Email
             }
         }
 
-        public string From { get; private set; }
-        public string To { get; private set; }
-        public string Subject { get; private set; }
+        public string From { get; private set; } = string.Empty;
+        public string To { get; private set; } = string.Empty;
+        public string Subject { get; private set; } = string.Empty;
 
-        public string TextBody { get; private set; }
+        public string TextBody { get; private set; } = string.Empty;
         
         private string FormatContent(string content)
         {

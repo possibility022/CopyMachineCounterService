@@ -10,6 +10,7 @@
     Title="MahMainWindow"
     Width="1200"
     Height="850"
+    Background="#f2f2f2"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary Source="Resources\Style.xaml" />
@@ -23,7 +24,7 @@
             x:Name="Reports"
             Grid.Column="1"
             Margin="0,0,5,5" />
-        <StackPanel Background="White">
+        <StackPanel Background="#f2f2f2">
             <Image Margin="0,0,0,20" Source="Resources\logo-met_tech.png" />
             <Button Grid.Column="0" Content="Liczniki" />
             <Button Grid.Column="0" Content="Urządzenia" />

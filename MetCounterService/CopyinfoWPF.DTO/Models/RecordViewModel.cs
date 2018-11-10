@@ -22,6 +22,13 @@ namespace CopyinfoWPF.DTO.Models
             set => SetProperty(ref _textContent, value);
         }
 
+        private string _htmlContent;
+        public string HtmlContent
+        {
+            get { return _htmlContent; }
+            set { SetProperty(ref _htmlContent, value); }
+        }
+
         private byte[] _binaryContent;
         public byte[] BinaryContent
         {

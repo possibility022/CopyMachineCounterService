@@ -15,7 +15,7 @@
     <UserControl.DataContext>
         <ViewModels:DeviceOverviewViewModel />
     </UserControl.DataContext>
-    <Grid Background="#FFF5E9D3">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -102,7 +102,6 @@
         <DataGrid
             Grid.Row="7"
             Grid.ColumnSpan="2"
-            Margin="5"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
             IsReadOnly="True"

@@ -69,7 +69,7 @@ namespace CopyinfoWPF.Services.Implementation
                         addressShortValue = string.Empty;
                     }
                     
-                    _deviceCache.Add(d.NrFabryczny, d);
+                    _deviceCache.Add(d.NrFabryczny, d, o => o != null);
 
                     yield return new DeviceViewModel()
                     {
@@ -116,7 +116,7 @@ namespace CopyinfoWPF.Services.Implementation
 
             var list = new List<RecordViewModel>();
 
-            if (_deviceCache.Contains(deviceSerialNumber))
+            if (deviceSerialNumber != null && _deviceCache.Contains(deviceSerialNumber))
             {
 
                 var device = _deviceCache.Get(deviceSerialNumber);
@@ -146,7 +146,8 @@ namespace CopyinfoWPF.Services.Implementation
                         Scan = rec.CounterScanner ?? 0,
                         DateTime = rec.ReadDatetime,
                         ServiceMan = "System",
-                        BinaryContent = rec.EmailSource?.Content
+                        BinaryContent = rec.EmailSource?.Content,
+                        HtmlContent = rec.ServiceSourceCounters?.Content
                     });
                 }
             }

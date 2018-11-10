@@ -26,7 +26,7 @@
     </Style>-->
 
     <Style TargetType="Window">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="#f2f2f2" />
     </Style>
 
     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
@@ -72,9 +72,9 @@
 
 
     <!--  User Control  -->
-    <!--<Style BasedOn="{StaticResource {x:Type UserControl}}" TargetType="{x:Type UserControl}">
-        <Setter Property="Background" Value="White" />
-    </Style>-->
+    <Style TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="#f2f2f2" />
+    </Style>
 
 
     <!--  DOCUMENTVIEWR  -->

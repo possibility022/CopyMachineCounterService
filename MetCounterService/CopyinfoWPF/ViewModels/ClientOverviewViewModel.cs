@@ -134,8 +134,7 @@ namespace CopyinfoWPF.ViewModels
             {
                 Devices.Add(device);
             }
-
-
+            
             SelectedDevice = Devices.FirstOrDefault();
         }
 
