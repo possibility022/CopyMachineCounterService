@@ -82,6 +82,14 @@ namespace CopyinfoWPF.Services.Implementation
             }
         }
 
+        public UrzadzenieKlient GetDeviceDetails(string serialNumber)
+        {
+            var rec = _deviceRepository.FindBy(s => s.NrFabryczny == serialNumber);
+            _deviceCache.Add(rec.NrFabryczny, rec);
+
+            return rec;
+        }
+
         public IEnumerable<MachineRecordViewModel> GetLatestReports()
         {
             var records = new List<MachineRecordViewModel>();

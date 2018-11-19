@@ -61,7 +61,7 @@
         <Label
             Grid.Row="2"
             Grid.Column="0"
-            Content="Numer seryjny:"
+            Content="Numer seryjny: "
             Style="{StaticResource Header}" />
 
         <Label
@@ -73,7 +73,7 @@
         <Label
             Grid.Row="3"
             Grid.Column="0"
-            Content="Data instalacji:"
+            Content="Data instalacji: "
             Style="{StaticResource Header}" />
 
         <Label

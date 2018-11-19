@@ -26,7 +26,7 @@
     </Style>-->
 
     <Style TargetType="Window">
-        <Setter Property="Background" Value="#f2f2f2" />
+        <Setter Property="Background" Value="White" />
     </Style>
 
     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
@@ -73,7 +73,7 @@
 
     <!--  User Control  -->
     <Style TargetType="{x:Type UserControl}">
-        <Setter Property="Background" Value="#f2f2f2" />
+        <Setter Property="Background" Value="White" />
     </Style>
 
 

@@ -110,12 +110,23 @@ namespace CopyinfoWPF.ViewModels
         public DeviceOverviewViewModel(IMachineRecordService service, UrzadzenieKlient device)
         {
             _machineRecordService = service;
+
+        }
+
+        private void UpdateDevice(UrzadzenieKlient device)
+        {
             if (device != null)
             {
                 Manufacturer = device.ModelUrzadzenia?.MarkaUrzadzenia?.Nazwa1;
                 SerialNumber = device.NrFabryczny;
                 InstallationDate = device.DataInstalacji;
                 Model = device.ModelUrzadzenia?.Nazwa1;
+            }else
+            {
+                Manufacturer = string.Empty;
+                SerialNumber = string.Empty;
+                InstallationDate = new DateTime();
+                Model = string.Empty;
             }
         }
 
@@ -135,6 +146,7 @@ namespace CopyinfoWPF.ViewModels
         public void OnDeviceSelected(object sender, DeviceViewModel e)
         {
             LoadRecordsToList(_machineRecordService.GetRecordsForDevice(e.SerialNumber));
+            UpdateDevice(_machineRecordService.GetDeviceDetails(e.SerialNumber));
         }
     }
 }

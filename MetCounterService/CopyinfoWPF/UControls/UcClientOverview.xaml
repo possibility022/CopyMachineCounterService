@@ -70,7 +70,10 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Label Content="Umowa Serwisowa" Style="{StaticResource Header}" />
-            <CheckBox Margin="10,0,0,0" IsChecked="{Binding ServiceAgreement}" />
+            <CheckBox
+                Margin="10,0,0,0"
+                IsChecked="{Binding ServiceAgreement}"
+                IsEnabled="False" />
         </StackPanel>
 
         <Border
