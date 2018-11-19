@@ -15,6 +15,9 @@ namespace CopyinfoWPF
     /// </summary>
     public partial class App : Application
     {
+
+        public const string NewVersionUrl  = "http://***REMOVED***/copyinfo.wpf/version.xml";
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

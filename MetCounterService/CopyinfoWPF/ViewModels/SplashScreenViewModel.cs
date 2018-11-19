@@ -14,6 +14,7 @@ using CopyinfoWPF.Formatters;
 using AutoMapper;
 using CopyinfoWPF.Configuration;
 using CopyinfoWPF.Workflows.Email;
+using AutoUpdaterDotNET;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -72,6 +73,9 @@ namespace CopyinfoWPF.ViewModels
         {
             LoadingAnimationIsVisible = true;
 
+            // todo async
+            CheckForUpdates();
+
             Message = "Inicjalizacja podstawowej konfiguracji.";
             await Task.Factory.StartNew(InitializeUnity);
 
@@ -92,6 +96,11 @@ namespace CopyinfoWPF.ViewModels
 
             LoadingAnimationIsVisible = false;
             return window;
+        }
+
+        private void CheckForUpdates()
+        {
+            AutoUpdater.Start(App.NewVersionUrl, System.Reflection.Assembly.GetExecutingAssembly());
         }
 
         private void InitializeUnity()
