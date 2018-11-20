@@ -19,6 +19,7 @@ namespace CopyinfoWPF.ORM.Tests
             SessionFactory = MetSessionFactorySettings.GetSessionFactory();
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void DeleteRelatedRecords()
         {

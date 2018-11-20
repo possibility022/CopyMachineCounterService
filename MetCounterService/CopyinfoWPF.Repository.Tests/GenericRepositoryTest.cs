@@ -18,6 +18,7 @@ namespace CopyinfoWPF.Repository.Tests
             SessionFactory = MetSessionFactorySettings.GetSessionFactory();
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void AllTakeTen()
         {
@@ -26,6 +27,7 @@ namespace CopyinfoWPF.Repository.Tests
             Assert.IsTrue(taken.Count > 0);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestFewOperationsInARowWithSameSession()
         {

@@ -17,6 +17,7 @@ namespace CopyinfoWPF.Services.Tests
             Configuration.Configuration.Initialize();
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestMethod1()
         {

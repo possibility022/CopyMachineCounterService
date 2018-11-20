@@ -20,6 +20,7 @@ namespace CopyinfoWPF.ORM.Tests
             SessionFactory = AsystentFactorySettings.GetSessionFactory();
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestConnection()
         {
@@ -33,6 +34,7 @@ namespace CopyinfoWPF.ORM.Tests
             Assert.IsTrue(isConnected);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestConnection_GetOneRecord()
         {
@@ -95,6 +97,7 @@ namespace CopyinfoWPF.ORM.Tests
                 
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void BrowseRecordsUrzadzenieKlients()
         {
@@ -108,6 +111,7 @@ namespace CopyinfoWPF.ORM.Tests
             //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void BrowseRecordsUrzadzenieKlients_CheckMappingModelUrzadzenia()
         {
@@ -121,6 +125,7 @@ namespace CopyinfoWPF.ORM.Tests
             //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void BrowseRecordsModelUrzadzenia_MarkaUrzadzenia()
         {
@@ -134,6 +139,7 @@ namespace CopyinfoWPF.ORM.Tests
             //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void BrowseRecordsModelUrzadzenia()
         {
@@ -147,6 +153,7 @@ namespace CopyinfoWPF.ORM.Tests
             //(new System.Xml.Serialization.XmlSerializer(list.GetType())).Serialize(new System.IO.StreamWriter(@"d:\tmp\text2.xml"), list);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void BrowseRecordsMarkaUrzadzenia()
         {

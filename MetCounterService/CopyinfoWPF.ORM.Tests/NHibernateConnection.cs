@@ -23,6 +23,7 @@ namespace CopyinfoWPF.ORM.Tests
         }
 
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestConnection()
         {
@@ -38,6 +39,7 @@ namespace CopyinfoWPF.ORM.Tests
             Assert.IsTrue(isConnected);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestQueryEmailSource()
         {
@@ -45,6 +47,7 @@ namespace CopyinfoWPF.ORM.Tests
             Trace.WriteLine(s);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestQueryRecord()
         {
@@ -52,6 +55,7 @@ namespace CopyinfoWPF.ORM.Tests
             Trace.WriteLine(s);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestQueryServiceSourceCounters()
         {
@@ -59,6 +63,7 @@ namespace CopyinfoWPF.ORM.Tests
             Trace.WriteLine(s);
         }
 
+        [TestCategory("DatabaseConnection")]
         [TestMethod]
         public void TestQueryServiceSourceSerialNumber()
         {
