@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CopyinfoWPF.Services.Tests
 {
     [TestClass]
+    [TestCategory("DatabaseConnection")]
     public class MachineCounterServiceTest
     {
 

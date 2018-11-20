@@ -10,6 +10,7 @@ using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 namespace CopyinfoWPF.ORM.Tests
 {
     [TestClass]
+    [TestCategory("DatabaseConnection")]
     public class NHibernateConnection
     {
 

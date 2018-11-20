@@ -8,6 +8,7 @@ using NHibernate;
 namespace CopyinfoWPF.ORM.Tests
 {
     [TestClass]
+    [TestCategory("DatabaseConnection")]
     public class TestDeleteOrphans
     {
         private static ISessionFactory SessionFactory { get; set; }

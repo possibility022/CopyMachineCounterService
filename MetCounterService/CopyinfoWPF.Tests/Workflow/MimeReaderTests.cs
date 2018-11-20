@@ -12,6 +12,7 @@ namespace CopyinfoWPF.Tests.Workflow
 
         [TestMethod]
         [Ignore]
+        [TestCategory("DatabaseConnection")]
         public void DeserializeEmailFromBytes()
         {
             var files = Directory.GetFiles(FolderPath, "*.bytes");

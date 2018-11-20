@@ -124,7 +124,11 @@ namespace WindowsMetService
             Console.WriteLine(mes);
             Debug.WriteLine(mes);
 #else
-            File.AppendAllLines(BuildPath(File_Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+            try
+            {
+                File.AppendAllLines(BuildPath(File_Log), new string[] { DateTime.Today.ToShortDateString() + " " + DateTime.Now.TimeOfDay.ToString() + " Message: " + message });
+            }
+            catch (Exception) { }
 #endif
         }
 

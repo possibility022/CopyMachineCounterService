@@ -7,6 +7,7 @@ using NHibernate;
 namespace CopyinfoWPF.Repository.Tests
 {
     [TestClass]
+    [TestCategory("DatabaseConnection")]
     public class GenericRepositoryTest
     {
         private static ISessionFactory SessionFactory { get; set; }

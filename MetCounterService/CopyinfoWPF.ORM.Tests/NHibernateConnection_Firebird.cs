@@ -9,6 +9,7 @@ using NHibernate;
 namespace CopyinfoWPF.ORM.Tests
 {
     [TestClass]
+    [TestCategory("DatabaseConnection")]
     public class NHibernateConnection_Firebird
     {
         private static ISessionFactory SessionFactory { get; set; }
