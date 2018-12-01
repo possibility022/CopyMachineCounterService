@@ -58,7 +58,7 @@ namespace CopyinfoWPF.Views
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.CheckForUpdates();
+            var task = ViewModel.CheckForUpdates();
         }
     }
 }
