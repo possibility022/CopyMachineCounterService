@@ -1,12 +1,9 @@
 ﻿using Unity;
-using CopyinfoWPF.Model;
 using CopyinfoWPF.Security;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
-using System.Collections.Generic;
 using System.Security;
 using System.Threading.Tasks;
-using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using CopyinfoWPF.DTO.Models;
 using System.Windows;
 using CopyinfoWPF.Interfaces.Formatters;
@@ -73,9 +70,6 @@ namespace CopyinfoWPF.ViewModels
         {
             LoadingAnimationIsVisible = true;
 
-            // todo async
-            CheckForUpdates();
-
             Message = "Inicjalizacja podstawowej konfiguracji.";
             await Task.Factory.StartNew(InitializeUnity);
 
@@ -98,7 +92,7 @@ namespace CopyinfoWPF.ViewModels
             return window;
         }
 
-        private void CheckForUpdates()
+        public void CheckForUpdates()
         {
             AutoUpdater.Start(App.NewVersionUrl, System.Reflection.Assembly.GetExecutingAssembly());
         }
