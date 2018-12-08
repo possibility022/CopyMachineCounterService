@@ -9,7 +9,13 @@ namespace CopyinfoWPF.DTO.Models
         public string SerialNumber
         {
             get { return _serialNumber; }
-            set { SetProperty(ref _serialNumber, value); }
+            set
+            {
+                if (value == null)
+                    value = string.Empty;
+
+                SetProperty(ref _serialNumber, value);
+            }
         }
 
         private string _model;
