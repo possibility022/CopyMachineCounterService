@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:UControls="clr-namespace:CopyinfoWPF.UControls"
+    xmlns:ViewModels="clr-namespace:CopyinfoWPF.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CopyinfoWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -12,23 +13,54 @@
     Height="850"
     Background="White"
     mc:Ignorable="d">
+
     <Window.Resources>
-        <ResourceDictionary Source="Resources\Style.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources\Style.xaml" />
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type ViewModels:ReportsViewModel}">
+                        <UControls:UcReportsView />
+                    </DataTemplate>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
+
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <UControls:UcReportsView
-            x:Name="Reports"
+
+        <DockPanel Grid.Column="0" LastChildFill="False">
+
+            <Image
+                Margin="0,0,0,20"
+                DockPanel.Dock="Top"
+                Source="Resources\logo-met_tech.png" />
+
+            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Views}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            Margin="2,5"
+                            Command="{Binding DataContext.SwitchViewCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                            CommandParameter="{Binding}"
+                            Content="{Binding ViewName}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </DockPanel>
+
+        <ContentControl
             Grid.Column="1"
-            Margin="0,0,5,5" />
-        <StackPanel Background="White">
-            <Image Margin="0,0,0,20" Source="Resources\logo-met_tech.png" />
-            <Button Grid.Column="0" Content="Liczniki" />
-            <Button Grid.Column="0" Content="Urządzenia" />
-            <Button Grid.Column="0" Content="Klienci" />
-        </StackPanel>
+            Margin="0,0,5,5"
+            Content="{Binding CurrentView}"
+            DataContextChanged="ContentControl_DataContextChanged" />
+
     </Grid>
 </Controls:MetroWindow>

@@ -18,6 +18,11 @@ namespace CopyinfoWPF.UControls
         public UcReportsView()
         {
             InitializeComponent();
+            DataContextChanged += UcReportsView_DataContextChanged;
+        }
+
+        private void UcReportsView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
             ViewModel.DialogCoordinator = DialogCoordinator.Instance;
         }
 

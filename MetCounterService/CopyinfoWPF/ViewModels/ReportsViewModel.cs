@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Prism.Mvvm;
 using System.Collections.ObjectModel;
 
 using System.ComponentModel;
@@ -21,7 +20,7 @@ using CopyinfoWPF.Workflows.Email;
 
 namespace CopyinfoWPF.ViewModels
 {
-    class ReportsViewModel : BindableBase
+    public class ReportsViewModel : PageViewBase
     {
         ICollectionView _records;
         private bool _printButtonEnabled;
@@ -32,6 +31,8 @@ namespace CopyinfoWPF.ViewModels
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
 
+        public override string ViewName => "Reports";
+        
         public ObservableCollection<MachineRecordViewModel> _allRecords = new ObservableCollection<MachineRecordViewModel>();
 
         private Func<MachineRecordViewModel, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
@@ -106,6 +107,8 @@ namespace CopyinfoWPF.ViewModels
         public ReportsViewModel()
         {
             Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
+            DialogCoordinator = MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance;
+            SetDefaultSorting();
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
             PrintOptionCommand = new PrintOptions(PrintOption);
             RefreshFiltersCommand = new BaseCommand(Records.Refresh);
@@ -240,6 +243,7 @@ namespace CopyinfoWPF.ViewModels
             var records = await Task.Factory.StartNew(GetRecords);
             _allRecords.Clear();
             _allRecords.AddRange(records);
+            Records = CollectionViewSource.GetDefaultView(_allRecords);
             CanRefresh = true;
         }
 

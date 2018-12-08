@@ -12,9 +12,6 @@
     d:DesignHeight="500"
     d:DesignWidth="900"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <ViewModels:ReportsViewModel />
-    </UserControl.DataContext>
 
     <Grid x:Name="data">
         <Grid.RowDefinitions>
@@ -134,7 +131,7 @@
                 <DataGridTextColumn
                     Binding="{Binding Path=Record.ReadDatetime}"
                     Header="Data odczytu"
-                    SortDirection="{Binding Path=DateTimeListSortDirection}" />
+                    SortDirection="Descending" />
                 <DataGridTextColumn Binding="{Binding Path=ClientName}" Header="Klient" />
                 <DataGridTextColumn Binding="{Binding Path=Address.Ulica}" Header="Adres" />
                 <DataGridTextColumn Binding="{Binding Path=Device.ModelUrzadzenia.Nazwa1}" Header="Model" />

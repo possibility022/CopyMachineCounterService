@@ -186,12 +186,14 @@
     </ApplicationDefinition>
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\PrintOptions.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Configuration\MappingProfile.cs" />
     <Compile Include="Dependency\BrowserBehavior.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Formatters\RecordFormatter.cs" />
     <Compile Include="Interfaces\Formatters\IFormatter.cs" />
     <Compile Include="Interfaces\INewElementProvider.cs" />
+    <Compile Include="Interfaces\IPageView.cs" />
     <Compile Include="MahMainWindow.xaml.cs">
       <DependentUpon>MahMainWindow.xaml</DependentUpon>
     </Compile>
@@ -215,7 +217,7 @@
     <Compile Include="ViewModels\ClientOverviewViewModel.cs" />
     <Compile Include="ViewModels\DeviceOverviewViewModel.cs" />
     <Compile Include="ViewModels\MahMainWindowModel.cs" />
-    <Compile Include="ViewModels\MainWindowModel.cs" />
+    <Compile Include="ViewModels\PageViewBase.cs" />
     <Compile Include="ViewModels\PasswordPromptViewModel.cs" />
     <Compile Include="ViewModels\PrintingPreviewViewModel.cs" />
     <Compile Include="ViewModels\ReportOverviewViewModel.cs" />

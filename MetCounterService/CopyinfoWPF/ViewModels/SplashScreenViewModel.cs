@@ -89,7 +89,7 @@ namespace CopyinfoWPF.ViewModels
             var window = new MahMainWindow();
 
             Message = "Uzupełniam widok pobranymi danymi.";
-            window.SetRecords(records);
+            window.DataContext = new MahMainWindowModel(records);
 
             LoadingAnimationIsVisible = false;
             return window;

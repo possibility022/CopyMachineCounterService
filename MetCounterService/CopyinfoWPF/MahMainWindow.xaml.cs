@@ -1,7 +1,5 @@
-﻿using CopyinfoWPF.DTO.Models;
-using CopyinfoWPF.ViewModels;
-using MahApps.Metro.Controls;
-using System.Collections.Generic;
+﻿using MahApps.Metro.Controls;
+using System.Diagnostics;
 
 namespace CopyinfoWPF
 {
@@ -10,20 +8,14 @@ namespace CopyinfoWPF
     /// </summary>
     public partial class MahMainWindow : MetroWindow
     {
-
-        ReportsViewModel _reportsViewModel;
-
-        ReportsViewModel ReportsViewModel { get => _reportsViewModel ?? (_reportsViewModel = (ReportsViewModel)Reports.DataContext); }
-
-
-        public void SetRecords(IEnumerable<MachineRecordViewModel> records)
-        {
-            ReportsViewModel.SetRecords(records);
-        }
-
         public MahMainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ContentControl_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            Debug.WriteLine(e.NewValue);
         }
     }
 }
