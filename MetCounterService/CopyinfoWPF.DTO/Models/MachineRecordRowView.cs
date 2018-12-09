@@ -5,14 +5,14 @@ using System.Diagnostics;
 
 namespace CopyinfoWPF.DTO.Models
 {
-    public class MachineRecordViewModel : BindableBase
+    public class MachineRecordRowView : BindableBase
     {
         private Klient _client;
         private UrzadzenieKlient _device;
         private AdresKlient _address;
         private Record _record;
 
-        public MachineRecordViewModel(Record record, UrzadzenieKlient device, AdresKlient address, Klient client)
+        public MachineRecordRowView(Record record, UrzadzenieKlient device, AdresKlient address, Klient client)
         {
             Record = record;
             Device = device;

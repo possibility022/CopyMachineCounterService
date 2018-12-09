@@ -96,7 +96,7 @@
             AutoGenerateColumns="False"
             Foreground="Black"
             IsReadOnly="True"
-            ItemsSource="{Binding Records}"
+            ItemsSource="{Binding Collection}"
             MouseDoubleClick="dataGridWithRecords_MouseDoubleClick"
             SelectedItem="{Binding SelectedRecord}"
             SelectionChanged="dataGridWithRecords_SelectionChanged"

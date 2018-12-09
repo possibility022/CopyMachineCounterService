@@ -21,7 +21,7 @@ namespace CopyinfoWPF.ViewModels
             set => SetProperty(ref _currentView, value);
         }
 
-        public MahMainWindowModel(IEnumerable<MachineRecordViewModel> records)
+        public MahMainWindowModel(IEnumerable<MachineRecordRowView> records)
         {
             var recordsView = new ReportsViewModel();
             recordsView.SetRecords(records);
@@ -35,7 +35,7 @@ namespace CopyinfoWPF.ViewModels
             SwitchViewCommand = new RelayCommand(SwitchViewAction, CanSwitchView);
         }
 
-        public MahMainWindowModel() : this(new List<MachineRecordViewModel>())
+        public MahMainWindowModel() : this(new List<MachineRecordRowView>())
         {
             
         }

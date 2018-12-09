@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
 using System.ComponentModel;
 using System.Windows.Data;
 using CopyinfoWPF.DTO.Models;
@@ -20,43 +19,29 @@ using CopyinfoWPF.Workflows.Email;
 
 namespace CopyinfoWPF.ViewModels
 {
-    public class ReportsViewModel : PageViewBase
+    public class ReportsViewModel : PageViewBase<MachineRecordRowView>
     {
-        ICollectionView _records;
         private bool _printButtonEnabled;
-        MachineRecordViewModel _selectedRecord;
+        MachineRecordRowView _selectedRecord;
         private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
-        IFormatter<MachineRecordViewModel> _recordFormatter;
+        IFormatter<MachineRecordRowView> _recordFormatter;
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
 
         public override string ViewName => "Reports";
         
-        public ObservableCollection<MachineRecordViewModel> _allRecords = new ObservableCollection<MachineRecordViewModel>();
+        public ObservableCollection<MachineRecordRowView> _allRecords = new ObservableCollection<MachineRecordRowView>();
 
-        private Func<MachineRecordViewModel, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
-        private Func<MachineRecordViewModel, bool> SelectAllRecords = (f => true);
-
-        private ListSortDirection _dateTimeListSortDirection = ListSortDirection.Descending;
-        public ListSortDirection DateTimeListSortDirection
-        {
-            get { return _dateTimeListSortDirection; }
-            set { SetProperty(ref _dateTimeListSortDirection, value); }
-        }
+        private Func<MachineRecordRowView, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
+        private Func<MachineRecordRowView, bool> SelectAllRecords = (f => true);
 
         public ICommand PrintOptionCommand { get; private set; }
         public ICommand RefreshFiltersCommand { get; private set; }
 
         public bool CanRefresh { get => _canRefresh; set => SetProperty(ref _canRefresh, value); }
 
-        public ICollectionView Records
-        {
-            get { return _records; }
-            set { SetProperty(ref _records, value); }
-        }
-
-        public MachineRecordViewModel SelectedRecord
+        public MachineRecordRowView SelectedRecord
         {
             get { return _selectedRecord; }
             set { SetProperty(ref _selectedRecord, value); }
@@ -106,22 +91,22 @@ namespace CopyinfoWPF.ViewModels
 
         public ReportsViewModel()
         {
-            Records = CollectionViewSource.GetDefaultView(new MachineRecordViewModel[] { });
+            Collection = CollectionViewSource.GetDefaultView(new MachineRecordRowView[] { });
             DialogCoordinator = MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance;
             SetDefaultSorting();
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
             PrintOptionCommand = new PrintOptions(PrintOption);
-            RefreshFiltersCommand = new BaseCommand(Records.Refresh);
-            _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordViewModel>>();
+            RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
+            _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordRowView>>();
             _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
         }
 
         public void ApplyFilters()
         {
-            Records.Refresh();
+            Collection.Refresh();
         }
 
-        private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordViewModel> selectedRecords, Func<MachineRecordViewModel, bool> selector)
+        private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordRowView> selectedRecords, Func<MachineRecordRowView, bool> selector)
         {
             selectedRecords = GetSelected(selector).ToList();
 
@@ -152,7 +137,7 @@ namespace CopyinfoWPF.ViewModels
             return false;
         }
 
-        internal async Task<bool> PrintPreview(Func<MachineRecordViewModel, bool> selector)
+        internal async Task<bool> PrintPreview(Func<MachineRecordRowView, bool> selector)
         {
             var printingPreview = GetPrintingPreview(out _, selector);
             if (printingPreview == null)
@@ -185,9 +170,9 @@ namespace CopyinfoWPF.ViewModels
             return await DialogCoordinator.ShowMessageAsync(this, string.Empty, "Wybrane liczniki zostały już wydrukowane, czy wydrukować je jeszcze raz?", MessageDialogStyle.AffirmativeAndNegative);
         }
 
-        public async Task<bool> PrintSelectedItems(Func<MachineRecordViewModel, bool> selector)
+        public async Task<bool> PrintSelectedItems(Func<MachineRecordRowView, bool> selector)
         {
-            ICollection<MachineRecordViewModel> selected;
+            ICollection<MachineRecordRowView> selected;
             var preview = GetPrintingPreview(out selected, selector);
             if (!selected.Any())
             {
@@ -215,25 +200,25 @@ namespace CopyinfoWPF.ViewModels
             return false;
         }
 
-        private IEnumerable<MachineRecordViewModel> GetSelected(Func<MachineRecordViewModel, bool> filter)
+        private IEnumerable<MachineRecordRowView> GetSelected(Func<MachineRecordRowView, bool> filter)
         {
             if (SelectedRecords == null)
                 yield break;
 
             foreach (var rec in SelectedRecords)
             {
-                var r = rec as MachineRecordViewModel;
+                var r = rec as MachineRecordRowView;
                 if (r != null && filter.Invoke(r))
                     yield return r;
             }
         }
 
-        public void SetRecords(IEnumerable<MachineRecordViewModel> records)
+        public void SetRecords(IEnumerable<MachineRecordRowView> records)
         {
             _allRecords.Clear();
             _allRecords.AddRange(records);
-            Records = CollectionViewSource.GetDefaultView(_allRecords);
-            Records.Filter = FilterLogic;
+            Collection = CollectionViewSource.GetDefaultView(_allRecords);
+            Collection.Filter = FilterLogic;
             SetDefaultSorting();
         }
 
@@ -243,28 +228,28 @@ namespace CopyinfoWPF.ViewModels
             var records = await Task.Factory.StartNew(GetRecords);
             _allRecords.Clear();
             _allRecords.AddRange(records);
-            Records = CollectionViewSource.GetDefaultView(_allRecords);
+            Collection = CollectionViewSource.GetDefaultView(_allRecords);
             CanRefresh = true;
         }
 
-        private IEnumerable<MachineRecordViewModel> GetRecords()
+        private IEnumerable<MachineRecordRowView> GetRecords()
         {
             _machineRecordService.RefreshCache();
-            return _machineRecordService.GetLatestReports();
+            return _machineRecordService.GetAll();
         }
 
         private void SetDefaultSorting()
         {
-            if (Records != null && Records.CanSort == true)
+            if (Collection != null && Collection.CanSort == true)
             {
-                Records.SortDescriptions.Clear();
-                Records.SortDescriptions.Add(new SortDescription($"{nameof(MachineRecordViewModel.Record)}.{nameof(ORM.MetCounterServiceDatabase.Machine.Record.ReadDatetime)}", ListSortDirection.Descending));
+                Collection.SortDescriptions.Clear();
+                Collection.SortDescriptions.Add(new SortDescription($"{nameof(MachineRecordRowView.Record)}.{nameof(ORM.MetCounterServiceDatabase.Machine.Record.ReadDatetime)}", ListSortDirection.Descending));
             }
         }
 
         private bool FilterLogic(object item)
         {
-            var rec = item as MachineRecordViewModel;
+            var rec = item as MachineRecordRowView;
 
             return rec.Record.ReadDatetime.ToString().ToLower().Contains(FilterText)
                 || rec.Record.SerialNumber.ToLower().Contains(FilterText)

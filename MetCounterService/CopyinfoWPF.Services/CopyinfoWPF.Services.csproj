@@ -88,6 +88,8 @@
   <ItemGroup>
     <Compile Include="Implementation\MachineCounterService.cs" />
     <Compile Include="Implementation\MachineRecordService.cs" />
+    <Compile Include="Interfaces\BaseService.cs" />
+    <Compile Include="Interfaces\IDeviceService.cs" />
     <Compile Include="Interfaces\IMachineCounterService.cs" />
     <Compile Include="Interfaces\IMachineRecordService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

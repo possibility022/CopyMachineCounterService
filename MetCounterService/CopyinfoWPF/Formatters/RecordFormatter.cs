@@ -7,10 +7,10 @@ using System.Text;
 
 namespace CopyinfoWPF.Formatters
 {
-    public class RecordFormatter : IFormatter<MachineRecordViewModel>, IFormatter<Record>, IFormatter<EmailMessage>, IFormatter<RecordViewModel>
+    public class RecordFormatter : IFormatter<MachineRecordRowView>, IFormatter<Record>, IFormatter<EmailMessage>, IFormatter<RecordViewModel>
     {
 
-        public IEnumerable<string> GetText(IEnumerable<MachineRecordViewModel> records)
+        public IEnumerable<string> GetText(IEnumerable<MachineRecordRowView> records)
         {
             var sb = new StringBuilder();
 
@@ -24,7 +24,7 @@ namespace CopyinfoWPF.Formatters
             }
         }
 
-        public StringBuilder GetText(MachineRecordViewModel record)
+        public StringBuilder GetText(MachineRecordRowView record)
         {
             var sb = new StringBuilder();
             RecToString(record, ref sb);
@@ -91,7 +91,7 @@ namespace CopyinfoWPF.Formatters
             sb.AppendLine($"Toner Czarny: {record?.TonerLevelBlack}");
         }
 
-        private void RecToString(MachineRecordViewModel rec, ref StringBuilder sb)
+        private void RecToString(MachineRecordRowView rec, ref StringBuilder sb)
         {
             sb.AppendLine($"Klient: {rec.ClientName} NIP: {rec.Client?.Nip}");
             sb.AppendLine($"Producent: {rec.Device?.ModelUrzadzenia.MarkaUrzadzenia.Nazwa1}");

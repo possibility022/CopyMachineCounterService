@@ -4,6 +4,6 @@
     {
         string ViewName { get; }
 
-        void Select();
+        void Selected();
     }
 }

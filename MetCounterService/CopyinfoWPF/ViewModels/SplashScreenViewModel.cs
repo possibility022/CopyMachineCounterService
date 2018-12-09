@@ -83,7 +83,7 @@ namespace CopyinfoWPF.ViewModels
             var recordService = await Task<IMachineRecordService>.Factory.StartNew(() => Configuration.Configuration.Container.Resolve<IMachineRecordService>());
 
             Message = "Pobieram dane z baz danych.";
-            var records = await Task.Factory.StartNew(recordService.GetLatestReports);
+            var records = await Task.Factory.StartNew(recordService.GetAll);
 
             Message = "Tworzę okno aplikacji.";
             var window = new MahMainWindow();
@@ -113,7 +113,7 @@ namespace CopyinfoWPF.ViewModels
         private void InitializeUnity()
         {
             Configuration.Configuration.Initialize();
-            Configuration.Configuration.Container.RegisterType<IFormatter<MachineRecordViewModel>, RecordFormatter>();
+            Configuration.Configuration.Container.RegisterType<IFormatter<MachineRecordRowView>, RecordFormatter>();
             Configuration.Configuration.Container.RegisterType<IFormatter<EmailMessage>, RecordFormatter>();
             Configuration.Configuration.Container.RegisterType<IFormatter<RecordViewModel>, RecordFormatter>();
         }

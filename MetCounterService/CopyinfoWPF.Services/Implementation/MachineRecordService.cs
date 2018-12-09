@@ -93,9 +93,9 @@ namespace CopyinfoWPF.Services.Implementation
             return null;
         }
 
-        public IEnumerable<MachineRecordViewModel> GetLatestReports()
+        public ICollection<MachineRecordRowView> GetAll()
         {
-            var records = new List<MachineRecordViewModel>();
+            var records = new List<MachineRecordRowView>();
 
             foreach (var rec in _recordRepository.All().OrderByDescending(d => d.ReadDatetime))
             {
@@ -116,7 +116,7 @@ namespace CopyinfoWPF.Services.Implementation
                     Debug.WriteLine("Empty device");
 
 
-                records.Add(new MachineRecordViewModel(rec, device, address, client));
+                records.Add(new MachineRecordRowView(rec, device, address, client));
             }
 
             return records;
@@ -175,7 +175,7 @@ namespace CopyinfoWPF.Services.Implementation
             _serviceAgreementCache = new HashSet<int>(_serviceAgreementRepository.All().Select(s => s.IdKlient));
         }
 
-        public void RefreshViewModels(IEnumerable<MachineRecordViewModel> records)
+        public void RefreshViewModels(IEnumerable<MachineRecordRowView> records)
         {
             foreach (var rec in records)
             {
@@ -199,7 +199,7 @@ namespace CopyinfoWPF.Services.Implementation
             }
         }
 
-        public void SetPrinted(IEnumerable<MachineRecordViewModel> records)
+        public void SetPrinted(IEnumerable<MachineRecordRowView> records)
         {
             foreach (var rec in records)
             {

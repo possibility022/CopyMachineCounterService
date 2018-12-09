@@ -44,9 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\DeviceRowView.cs" />
     <Compile Include="Models\RecordViewModel.cs" />
     <Compile Include="Models\DeviceViewModel.cs" />
-    <Compile Include="Models\MachineRecordViewModel.cs" />
+    <Compile Include="Models\MachineRecordRowView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,16 +4,13 @@ using System.Collections.Generic;
 
 namespace CopyinfoWPF.Services.Interfaces
 {
-    public interface IMachineRecordService
+    public interface IMachineRecordService : BaseService<MachineRecordRowView>
     {
-
-        IEnumerable<MachineRecordViewModel> GetLatestReports();
-
         void RefreshCache();
 
-        void RefreshViewModels(IEnumerable<MachineRecordViewModel> records);
+        void RefreshViewModels(IEnumerable<MachineRecordRowView> records);
 
-        void SetPrinted(IEnumerable<MachineRecordViewModel> records);
+        void SetPrinted(IEnumerable<MachineRecordRowView> records);
 
         IEnumerable<DeviceViewModel> GetDevicesForClient(int clientId);
         IEnumerable<RecordViewModel> GetRecordsForDevice(string deviceSerialNumber);
