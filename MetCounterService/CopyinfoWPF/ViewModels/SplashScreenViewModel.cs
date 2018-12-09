@@ -12,6 +12,7 @@ using AutoMapper;
 using CopyinfoWPF.Configuration;
 using CopyinfoWPF.Workflows.Email;
 using AutoUpdaterDotNET;
+using CopyinfoWPF.Interfaces;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -88,8 +89,18 @@ namespace CopyinfoWPF.ViewModels
             Message = "Tworzę okno aplikacji.";
             var window = new MahMainWindow();
 
+            var recordsModel = new ReportsViewModel();
+            recordsModel.SetRecords(records);
+
+            var views = new IPageView[]
+            {
+                recordsModel,
+                new DevicesViewModel(Configuration.Configuration.Container.Resolve<IDeviceService>())
+            };
+            
+
             Message = "Uzupełniam widok pobranymi danymi.";
-            window.DataContext = new MahMainWindowModel(records);
+            window.DataContext = new MahMainWindowModel(views);
 
             LoadingAnimationIsVisible = false;
             return window;

@@ -26,6 +26,7 @@ namespace CopyinfoWPF.Configuration
         {
             Container.RegisterType<IMachineCounterService, MachineCounterService>();
             Container.RegisterType<IMachineRecordService, MachineRecordService>();
+            Container.RegisterType<IDeviceService, DeviceService>();
         }
 
         private static void RegisterInstances()

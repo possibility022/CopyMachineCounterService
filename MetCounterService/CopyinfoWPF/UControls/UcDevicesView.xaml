@@ -45,6 +45,6 @@
             </Button>
         </StackPanel>
         <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-        <DataGrid Grid.Row="2" />
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Collection}" />
     </Grid>
 </UserControl>

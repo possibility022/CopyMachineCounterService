@@ -92,13 +92,13 @@ namespace CopyinfoWPF.ViewModels
         public ReportsViewModel()
         {
             Collection = CollectionViewSource.GetDefaultView(new MachineRecordRowView[] { });
-            DialogCoordinator = MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance;
             SetDefaultSorting();
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
             PrintOptionCommand = new PrintOptions(PrintOption);
             RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
             _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordRowView>>();
             _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
+            _baseService = _machineRecordService;
         }
 
         public void ApplyFilters()
@@ -215,6 +215,7 @@ namespace CopyinfoWPF.ViewModels
 
         public void SetRecords(IEnumerable<MachineRecordRowView> records)
         {
+            Loaded = true;
             _allRecords.Clear();
             _allRecords.AddRange(records);
             Collection = CollectionViewSource.GetDefaultView(_allRecords);

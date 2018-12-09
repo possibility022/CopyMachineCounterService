@@ -86,6 +86,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\DeviceService.cs" />
     <Compile Include="Implementation\MachineCounterService.cs" />
     <Compile Include="Implementation\MachineRecordService.cs" />
     <Compile Include="Interfaces\BaseService.cs" />

@@ -1,8 +1,6 @@
 ﻿using CopyinfoWPF.Commands;
-using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.Interfaces;
 using Prism.Mvvm;
-using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace CopyinfoWPF.ViewModels
@@ -21,21 +19,13 @@ namespace CopyinfoWPF.ViewModels
             set => SetProperty(ref _currentView, value);
         }
 
-        public MahMainWindowModel(IEnumerable<MachineRecordRowView> records)
+        public MahMainWindowModel(IPageView[] views)
         {
-            var recordsView = new ReportsViewModel();
-            recordsView.SetRecords(records);
-
-            Views = new IPageView[]
-            {
-                recordsView,
-                new DevicesViewModel()
-            };
-
             SwitchViewCommand = new RelayCommand(SwitchViewAction, CanSwitchView);
+            Views = views;
         }
 
-        public MahMainWindowModel() : this(new List<MachineRecordRowView>())
+        public MahMainWindowModel()
         {
             
         }
@@ -44,6 +34,7 @@ namespace CopyinfoWPF.ViewModels
         {
             System.Diagnostics.Debug.WriteLine(view?.GetType().ToString());
             CurrentView = (IPageView)view;
+            CurrentView.Selected();
         }
 
         private bool CanSwitchView(object view)
