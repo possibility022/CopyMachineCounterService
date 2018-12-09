@@ -28,7 +28,8 @@ namespace CopyinfoWPF.ViewModels
 
             Views = new IPageView[]
             {
-                recordsView
+                recordsView,
+                new DevicesViewModel()
             };
 
             SwitchViewCommand = new RelayCommand(SwitchViewAction, CanSwitchView);

@@ -23,6 +23,11 @@
                         <UControls:UcReportsView />
                     </DataTemplate>
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
+                        <UControls:UcDevicesView />
+                    </DataTemplate>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
