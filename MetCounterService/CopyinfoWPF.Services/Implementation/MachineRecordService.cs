@@ -1,75 +1,34 @@
 ﻿using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.ORM;
-using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
 using CopyinfoWPF.ORM.AsystentDatabase.Entities;
-using CopyinfoWPF.Repository;
 using CopyinfoWPF.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using CopyinfoWPF.Common.CustomCollections;
 using System.Diagnostics;
+using CopyinfoWPF.Services.Extensions;
 
 namespace CopyinfoWPF.Services.Implementation
 {
-    public class MachineRecordService : IMachineRecordService
+    public class MachineRecordService : BaseService<MachineRecordRowView>, IMachineRecordService
     {
-        private IGenericRepository<Record> _recordRepository;
-
-        private IGenericReadOnlyRepository<UrzadzenieKlient> _deviceRepository;
-        private IGenericReadOnlyRepository<AdresKlient> _addressRepository;
-        private IGenericReadOnlyRepository<Klient> _clientRepository;
-        private IGenericReadOnlyRepository<UmowaSerwisowa> _serviceAgreementRepository;
-        private IGenericReadOnlyRepository<ZlecenieSerwisowe> _serviceOrderRepository;
-        private IGenericReadOnlyRepository<Pracownik> _employeeRepository;
-        
-
-        IConditionalCache<string, UrzadzenieKlient> _deviceCache;
-        IConditionalCache<int, AdresKlient> _addressCache;
-        IConditionalCache<int, Klient> _clientCache;
-        IConditionalCache<int, Pracownik> _employeeCache;
-        HashSet<int> _serviceAgreementCache;
-
-        public MachineRecordService(IDatabaseSessionProvider databaseSessionProvider)
+        public MachineRecordService(IDatabaseSessionProvider databaseSessionProvider) : base(databaseSessionProvider)
         {
-            _recordRepository = new GenericRepository<Record>(databaseSessionProvider.OpenSession(DatabaseType.CounterService));
-            
-            _deviceRepository = new GenericRepository<UrzadzenieKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
-            _addressRepository = new GenericRepository<AdresKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
-            _clientRepository = new GenericRepository<Klient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
-            _serviceAgreementRepository = new GenericRepository<UmowaSerwisowa>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
-            _serviceOrderRepository = new GenericRepository<ZlecenieSerwisowe>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
-            _employeeRepository = new GenericRepository<Pracownik>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
 
-            _deviceCache = new Cache<string, UrzadzenieKlient>();
-            _addressCache = new Cache<int, AdresKlient>();
-            _clientCache = new Cache<int, Klient>();
-            _employeeCache = new Cache<int, Pracownik>();
-            _serviceAgreementCache = new HashSet<int>();
-
-            RefreshCache();
         }
 
         public IEnumerable<DeviceViewModel> GetDevicesForClient(int clientId)
         {
-            if (_clientCache.Contains(clientId))
+            if (Cache.ClientCache.Contains(clientId))
             {
                 AdresKlient address;
                 string addressShortValue = string.Empty;
 
                 foreach (var d in _deviceRepository.FilterBy(d => d.IdKlient == clientId))
                 {
-                    address = _addressCache.Get(d.IdMiejsceInstalacji);
+                    address = Cache.AddressCache.Get(d.IdMiejsceInstalacji);
+                    addressShortValue = address.ToShortAddress();
 
-                    if (address != null)
-                    {
-                        addressShortValue = $"{address.Ulica} {address.Miejscowosc}";
-                    }
-                    else
-                    {
-                        addressShortValue = string.Empty;
-                    }
-                    
-                    _deviceCache.Add(d.NrFabryczny, d, o => o != null);
+                    Cache.DeviceCache.Add(d.NrFabryczny, d, o => o != null);
 
                     yield return new DeviceViewModel()
                     {
@@ -87,13 +46,13 @@ namespace CopyinfoWPF.Services.Implementation
             if (string.IsNullOrEmpty(serialNumber) == false)
             {
                 var rec = _deviceRepository.FindBy(s => s.NrFabryczny == serialNumber);
-                _deviceCache.Add(rec.NrFabryczny, rec);
+                Cache.DeviceCache.Add(rec.NrFabryczny, rec);
                 return rec;
             }
             return null;
         }
 
-        public ICollection<MachineRecordRowView> GetAll()
+        public override ICollection<MachineRecordRowView> GetAll()
         {
             var records = new List<MachineRecordRowView>();
 
@@ -104,13 +63,13 @@ namespace CopyinfoWPF.Services.Implementation
                 Klient client = null;
                 UrzadzenieKlient device = null;
 
-                device = _deviceCache.Get(rec.SerialNumber);
+                device = Cache.DeviceCache.Get(rec.SerialNumber);
 
                 if (device != null)
                 {
-                    address = _addressCache.Get(device.IdMiejsceInstalacji);
-                    client = _clientCache.Get(device.IdKlient);
-                    client.UmowaSerwisowa = _serviceAgreementCache.Contains(client.IdKlient);
+                    address = Cache.AddressCache.Get(device.IdMiejsceInstalacji);
+                    client = Cache.ClientCache.Get(device.IdKlient);
+                    client.UmowaSerwisowa = Cache.ServiceAgreementCache.Contains(client.IdKlient);
                 }
                 else
                     Debug.WriteLine("Empty device");
@@ -127,11 +86,11 @@ namespace CopyinfoWPF.Services.Implementation
 
             var list = new List<RecordViewModel>();
 
-            if (deviceSerialNumber != null && _deviceCache.Contains(deviceSerialNumber))
+            if (deviceSerialNumber != null && Cache.DeviceCache.Contains(deviceSerialNumber))
             {
 
-                var device = _deviceCache.Get(deviceSerialNumber);
-                
+                var device = Cache.DeviceCache.Get(deviceSerialNumber);
+
                 foreach (var order in _serviceOrderRepository
                     .FilterBy(d => d.IdUrzadzenieKlient == device.IdUrzadzenieKlient))
                 {
@@ -143,7 +102,7 @@ namespace CopyinfoWPF.Services.Implementation
                     };
 
                     if (order.IdSerwisant != null)
-                        model.ServiceMan = _employeeCache.Get((int)order.IdSerwisant).Imie;
+                        model.ServiceMan = Cache.EmployeeCache.Get((int)order.IdSerwisant).Imie;
 
                     list.Add(model);
                 }
@@ -168,11 +127,11 @@ namespace CopyinfoWPF.Services.Implementation
 
         public void RefreshCache()
         {
-            _deviceCache.UpdateMany(f => f.NrFabryczny, _deviceRepository.All(), k => !string.IsNullOrWhiteSpace(k));
-            _addressCache.UpdateMany(f => f.IdAdresKlient, _addressRepository.All());
-            _clientCache.UpdateMany(f => f.IdKlient, _clientRepository.All());
-            _employeeCache.UpdateMany(f => f.IdPracownik, _employeeRepository.All());
-            _serviceAgreementCache = new HashSet<int>(_serviceAgreementRepository.All().Select(s => s.IdKlient));
+            Cache.DeviceCache.UpdateMany(f => f.NrFabryczny, _deviceRepository.All(), k => !string.IsNullOrWhiteSpace(k));
+            Cache.AddressCache.UpdateMany(f => f.IdAdresKlient, _addressRepository.All());
+            Cache.ClientCache.UpdateMany(f => f.IdKlient, _clientRepository.All());
+            Cache.EmployeeCache.UpdateMany(f => f.IdPracownik, _employeeRepository.All());
+            Cache.ServiceAgreementCache = new HashSet<int>(_serviceAgreementRepository.All().Select(s => s.IdKlient));
         }
 
         public void RefreshViewModels(IEnumerable<MachineRecordRowView> records)
@@ -183,18 +142,18 @@ namespace CopyinfoWPF.Services.Implementation
                 if (rec.Address != null)
                 {
                     rec.Address = _addressRepository.FindBy(rec.Address.IdAdresKlient);
-                    _addressCache.Add(rec.Address.IdAdresKlient, rec.Address);
+                    Cache.AddressCache.Add(rec.Address.IdAdresKlient, rec.Address);
                 }
                 if (rec.Client != null)
                 {
                     rec.Client = _clientRepository.FindBy(rec.Client.IdKlient);
-                    rec.Client.UmowaSerwisowa = _serviceAgreementCache.Contains(rec.Client.IdKlient);
-                    _clientCache.Add(rec.Client.IdKlient, rec.Client);
+                    rec.Client.UmowaSerwisowa = Cache.ServiceAgreementCache.Contains(rec.Client.IdKlient);
+                    Cache.ClientCache.Add(rec.Client.IdKlient, rec.Client);
                 }
                 if (rec.Device != null)
                 {
                     rec.Device = _deviceRepository.FindBy(rec.Device.IdUrzadzenieKlient);
-                    _deviceCache.Add(rec.Device.NrFabryczny, rec.Device, k => !string.IsNullOrWhiteSpace(k));
+                    Cache.DeviceCache.Add(rec.Device.NrFabryczny, rec.Device, k => !string.IsNullOrWhiteSpace(k));
                 }
             }
         }

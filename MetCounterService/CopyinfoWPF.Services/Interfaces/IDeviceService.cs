@@ -2,7 +2,7 @@
 
 namespace CopyinfoWPF.Services.Interfaces
 {
-    public interface IDeviceService : BaseService<DeviceRowView>
+    public interface IDeviceService : IBaseService<DeviceRowView>
     {
 
     }

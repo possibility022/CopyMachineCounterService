@@ -13,6 +13,7 @@ using CopyinfoWPF.Configuration;
 using CopyinfoWPF.Workflows.Email;
 using AutoUpdaterDotNET;
 using CopyinfoWPF.Interfaces;
+using CopyinfoWPF.Services.Implementation;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -79,6 +80,9 @@ namespace CopyinfoWPF.ViewModels
 
             Message = "Inicjalizacja automappera.";
             await Task.Factory.StartNew(InitializeAutoMapper);
+
+            Message = "Inicjalizacja cach'u.";
+            Cache.InitializeCache();
 
             Message = "Inicjalizacja bazy danych Liczników";
             var recordService = await Task<IMachineRecordService>.Factory.StartNew(() => Configuration.Configuration.Container.Resolve<IMachineRecordService>());

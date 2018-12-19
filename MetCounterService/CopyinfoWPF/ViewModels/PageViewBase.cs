@@ -11,12 +11,12 @@ namespace CopyinfoWPF.ViewModels
 
         public PageViewBase() { }
 
-        public PageViewBase(BaseService<T> baseService)
+        public PageViewBase(IBaseService<T> baseService)
         {
             _baseService = baseService;
         }
 
-        protected BaseService<T> _baseService;
+        protected IBaseService<T> _baseService;
         protected bool Loaded { get; set; }
 
         private string _filter;

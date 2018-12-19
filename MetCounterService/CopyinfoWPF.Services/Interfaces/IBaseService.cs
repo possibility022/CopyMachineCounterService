@@ -2,7 +2,7 @@
 
 namespace CopyinfoWPF.Services.Interfaces
 {
-    public interface BaseService<T>
+    public interface IBaseService<T>
     {
         ICollection<T> GetAll();
     }
