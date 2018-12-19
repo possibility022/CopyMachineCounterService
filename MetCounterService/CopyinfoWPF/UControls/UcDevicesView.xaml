@@ -45,6 +45,23 @@
             </Button>
         </StackPanel>
         <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
-        <DataGrid Grid.Row="2" ItemsSource="{Binding Collection}" />
+        <DataGrid
+            x:Name="dataGridWithRecords"
+            Grid.Row="2"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Collection}"
+            SelectedItem="{Binding SelectedRecord}"
+            SelectionMode="Extended">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=SerrialNumber}" Header="Numer seryjny" />
+                <DataGridTextColumn Binding="{Binding Path=ClientName}" Header="Klient" />
+                <DataGridTextColumn Binding="{Binding Path=Manufacturer}" Header="Producent" />
+                <DataGridTextColumn Binding="{Binding Path=Model}" Header="Model" />
+                <DataGridTextColumn Binding="{Binding Path=Address}" Header="Adres" />
+                <DataGridTextColumn Binding="{Binding Path=InstallationDateTime}" Header="Data instalacji" />
+                <DataGridTextColumn Binding="{Binding Path=ServiceAgreement}" Header="Umowa serwisowa" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

@@ -23,11 +23,13 @@ namespace CopyinfoWPF.Services.Implementation
 
         public ICollection<DeviceRowView> GetAll()
         {
-            return _deviceRepository.All().Select(r => new DeviceRowView
-            {
-                InstallationDateTime = r.DataInstalacji,
-                Address = "TEST"
-            }).ToList();
+            return _deviceRepository
+                .All()
+                .Select(r => new DeviceRowView
+                {
+                    InstallationDateTime = r.DataInstalacji,
+                    Address = "TEST"
+                }).ToList();
         }
     }
 }
