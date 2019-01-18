@@ -21,6 +21,13 @@ namespace CopyinfoWPF.ViewModels
             _baseService = baseService;
         }
 
+        private string _filterText = string.Empty;
+        public string FilterText
+        {
+            get => _filterText;
+            set { SetProperty(ref _filterText, value.ToLower()); }
+        }
+
         protected IBaseService<T> _baseService;
         protected bool Loaded { get; set; }
 

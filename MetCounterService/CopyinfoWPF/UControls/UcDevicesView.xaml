@@ -23,7 +23,7 @@
             Orientation="Horizontal">
             <Button
                 Margin="0,5,5,5"
-                IsEnabled="{Binding CanRefresh}"
+                Command="{Binding RefreshCommand}"
                 Style="{StaticResource BigButton}">
                 <Button.Content>
                     <StackPanel
@@ -51,10 +51,9 @@
             AutoGenerateColumns="False"
             IsReadOnly="True"
             ItemsSource="{Binding Collection}"
-            SelectedItem="{Binding SelectedRecords}"
             SelectionMode="Extended">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=SerrialNumber}" Header="Numer seryjny" />
+                <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="Numer seryjny" />
                 <DataGridTextColumn Binding="{Binding Path=ClientName}" Header="Klient" />
                 <DataGridTextColumn Binding="{Binding Path=Manufacturer}" Header="Producent" />
                 <DataGridTextColumn Binding="{Binding Path=Model}" Header="Model" />

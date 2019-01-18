@@ -20,7 +20,19 @@ namespace CopyinfoWPF.ViewModels
 {
     public class ReportsViewModel : PageViewBase<MachineRecordRowView>
     {
-        private string _filterText = string.Empty;
+        public ReportsViewModel()
+        {
+            Collection = CollectionViewSource.GetDefaultView(new MachineRecordRowView[] { });
+            SetDefaultSorting();
+            PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
+            PrintOptionCommand = new PrintOptions(PrintOption);
+            RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
+            RefreshCommand = new AsyncCommand(RefreshAsync, CanRefresh);
+            _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordRowView>>();
+            _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
+            _baseService = _machineRecordService;
+        }
+
         IFormatter<MachineRecordRowView> _recordFormatter;
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
@@ -52,12 +64,6 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _documentNotPrinted, value); }
         }
 
-        public string FilterText
-        {
-            get => _filterText;
-            set { SetProperty(ref _filterText, value.ToLower()); }
-        }
-
         public ObservableCollection<string> PrintingOptions { get; private set; }
 
         public IDialogCoordinator DialogCoordinator
@@ -66,18 +72,7 @@ namespace CopyinfoWPF.ViewModels
             set => SetProperty(ref _dialogCoordinator, value);
         }
 
-        public ReportsViewModel()
-        {
-            Collection = CollectionViewSource.GetDefaultView(new MachineRecordRowView[] { });
-            SetDefaultSorting();
-            PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
-            PrintOptionCommand = new PrintOptions(PrintOption);
-            RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
-            RefreshCommand = new AsyncCommand(RefreshClickAsync, CanRefresh);
-            _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordRowView>>();
-            _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
-            _baseService = _machineRecordService;
-        }
+
 
         public void ApplyFilters()
         {
@@ -202,7 +197,7 @@ namespace CopyinfoWPF.ViewModels
             SetDefaultSorting();
         }
 
-        public async Task RefreshClickAsync()
+        public async Task RefreshAsync()
         {
             _canRefresh = false;
             var records = await Task.Factory.StartNew(GetRecords);
