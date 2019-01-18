@@ -2,6 +2,7 @@
 using CopyinfoWPF.ORM;
 using CopyinfoWPF.ORM.AsystentDatabase.Entities;
 using CopyinfoWPF.Repository;
+using CopyinfoWPF.Services.Extensions;
 using CopyinfoWPF.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,24 +12,25 @@ using System.Threading.Tasks;
 
 namespace CopyinfoWPF.Services.Implementation
 {
-    public class DeviceService : IDeviceService
+    public class DeviceService : BaseService<DeviceRowView>, IDeviceService
     {
-        private GenericRepository<UrzadzenieKlient> _deviceRepository;
-
-        public DeviceService(IDatabaseSessionProvider databaseSessionProvider)
-        {
-            _deviceRepository = new GenericRepository<UrzadzenieKlient>(databaseSessionProvider.OpenSession(DatabaseType.Assystent));
-        }
+        public DeviceService(IDatabaseSessionProvider databaseSessionProvider) : base(databaseSessionProvider)
+        { }
 
 
-        public ICollection<DeviceRowView> GetAll()
+        public override ICollection<DeviceRowView> GetAll()
         {
             return _deviceRepository
                 .All()
                 .Select(r => new DeviceRowView
                 {
                     InstallationDateTime = r.DataInstalacji,
-                    Address = "TEST"
+                    Address = Cache.AddressCache.Get(r.IdMiejsceInstalacji).ToShortAddress(),
+                    ClientName = Cache.ClientCache.Get(r.IdKlient).ToShortName(),
+                    Manufacturer = r.ModelUrzadzenia.MarkaUrzadzenia.Nazwa1,
+                    Model = r.ModelUrzadzenia.Nazwa1,
+                    SerialNumber = r.NrFabryczny,
+                    ServiceAgreement = Cache.ServiceAgreementCache.Contains(r.IdKlient)
                 }).ToList();
         }
     }

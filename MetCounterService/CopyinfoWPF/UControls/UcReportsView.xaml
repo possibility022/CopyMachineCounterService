@@ -25,8 +25,7 @@
             Orientation="Horizontal">
             <Button
                 Margin="0,5,5,5"
-                Click="OnRefreshClick"
-                IsEnabled="{Binding CanRefresh}"
+                Command="{Binding RefreshCommand}"
                 Style="{StaticResource BigButton}">
                 <Button.Content>
                     <StackPanel
@@ -50,7 +49,6 @@
                 Margin="5,5,0,5"
                 Padding="0"
                 Click="OnPrintClick"
-                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}"
                 Style="{StaticResource BigButton}">
                 <Button.Content>
                     <StackPanel
@@ -75,7 +73,6 @@
                 Width="20"
                 Height="40"
                 Margin="0"
-                IsEnabled="{Binding PrintButtonEnabled, Mode=OneWay}"
                 ItemsSource="{Binding PrintingOptions}">
                 <Controls:DropDownButton.ItemContainerStyle>
                     <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="MenuItem">
@@ -98,9 +95,12 @@
             IsReadOnly="True"
             ItemsSource="{Binding Collection}"
             MouseDoubleClick="dataGridWithRecords_MouseDoubleClick"
-            SelectedItem="{Binding SelectedRecord}"
-            SelectionChanged="dataGridWithRecords_SelectionChanged"
             SelectionMode="Extended">
+            <DataGrid.Resources>
+                <Style x:Key="IsSelectedTrigger" TargetType="DataGridRow">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

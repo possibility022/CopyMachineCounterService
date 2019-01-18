@@ -51,7 +51,7 @@
             AutoGenerateColumns="False"
             IsReadOnly="True"
             ItemsSource="{Binding Collection}"
-            SelectedItem="{Binding SelectedRecord}"
+            SelectedItem="{Binding SelectedRecords}"
             SelectionMode="Extended">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=SerrialNumber}" Header="Numer seryjny" />

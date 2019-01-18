@@ -26,19 +26,9 @@ namespace CopyinfoWPF.UControls
             ViewModel.DialogCoordinator = DialogCoordinator.Instance;
         }
 
-        private void OnRefreshClick(object sender, RoutedEventArgs e)
-        {
-            var task = ViewModel.RefreshClickAsync();
-        }
-
         private async void OnPrintClick(object sender, RoutedEventArgs e)
         {
             var results = await ViewModel.Print();
-        }
-
-        private void dataGridWithRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ViewModel.SelectedRecords = (sender as DataGrid).SelectedItems;
         }
 
         private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)

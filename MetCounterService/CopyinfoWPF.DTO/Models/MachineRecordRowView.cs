@@ -1,11 +1,9 @@
 ﻿using CopyinfoWPF.ORM.AsystentDatabase.Entities;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
-using Prism.Mvvm;
-using System.Diagnostics;
 
 namespace CopyinfoWPF.DTO.Models
 {
-    public class MachineRecordRowView : BindableBase
+    public class MachineRecordRowView : BaseRow
     {
         private Klient _client;
         private UrzadzenieKlient _device;
@@ -62,6 +60,3 @@ namespace CopyinfoWPF.DTO.Models
         }
     }
 }
-//public string modelName { get; private set; }
-//public string deviceAddress { get; private set; }
-//public string clientName { get; private set; }

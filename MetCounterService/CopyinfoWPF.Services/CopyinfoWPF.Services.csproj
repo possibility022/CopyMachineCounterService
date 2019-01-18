@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\AdresKlientExtensions.cs" />
+    <Compile Include="Extensions\KlientExtensions.cs" />
     <Compile Include="Implementation\BaseService.cs" />
     <Compile Include="Implementation\Cache.cs" />
     <Compile Include="Implementation\DeviceService.cs" />

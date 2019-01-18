@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -16,7 +17,7 @@ namespace CopyinfoWPF.ViewModels
 
         public DevicesViewModel() : base()
         {
-
+            
         }
 
         public DevicesViewModel(IDeviceService deviceService) : base(deviceService)
@@ -25,5 +26,10 @@ namespace CopyinfoWPF.ViewModels
         }
 
         public override string ViewName => "Devices";
+
+        ICommand _refreshCommand;
+        public override ICommand RefreshCommand { protected set { _refreshCommand = value; } get { return _refreshCommand; } }
+
+
     }
 }

@@ -1,12 +1,17 @@
-﻿using CopyinfoWPF.Interfaces;
+﻿using CopyinfoWPF.DTO;
+using CopyinfoWPF.Interfaces;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace CopyinfoWPF.ViewModels
 {
-    public abstract class PageViewBase<T> : BindableBase, IPageView
+    public abstract class PageViewBase<T> : BindableBase, IPageView where T : BaseRow
     {
 
         public PageViewBase() { }
@@ -35,14 +40,24 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _collection, value); }
         }
 
+        public IEnumerable<T> SelectedRecords
+        {
+            get => _sourceCollection.Where(i => i.IsSelected);
+        }
+
+        protected ObservableCollection<T> _sourceCollection = new ObservableCollection<T>();
+
+        public abstract ICommand RefreshCommand { get; protected set; }
+
         public virtual void Selected()
         {
             if (Loaded == false)
             {
                 Loaded = true;
 
-                var items = _baseService.GetAll();
-                Collection = CollectionViewSource.GetDefaultView(items);
+                _sourceCollection.Clear();
+                _sourceCollection.AddRange(_baseService.GetAll());
+                Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
             }
         }
     }

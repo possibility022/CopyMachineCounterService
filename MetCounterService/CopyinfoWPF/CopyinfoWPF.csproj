@@ -184,6 +184,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\AsyncCommand.cs" />
+    <Compile Include="Commands\AsyncCommandBase.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\PrintOptions.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Formatters\RecordFormatter.cs" />
     <Compile Include="Interfaces\Formatters\IFormatter.cs" />
+    <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Interfaces\INewElementProvider.cs" />
     <Compile Include="Interfaces\IPageView.cs" />
     <Compile Include="MahMainWindow.xaml.cs">

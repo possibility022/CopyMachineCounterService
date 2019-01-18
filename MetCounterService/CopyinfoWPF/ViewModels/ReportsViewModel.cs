@@ -15,47 +15,24 @@ using System.Windows.Input;
 using CopyinfoWPF.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
-using CopyinfoWPF.Workflows.Email;
 
 namespace CopyinfoWPF.ViewModels
 {
     public class ReportsViewModel : PageViewBase<MachineRecordRowView>
     {
-        private bool _printButtonEnabled;
-        MachineRecordRowView _selectedRecord;
-        private System.Collections.IList _selectedRecords;
         private string _filterText = string.Empty;
         IFormatter<MachineRecordRowView> _recordFormatter;
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
+        private bool _canRefresh = true;
 
         public override string ViewName => "Reports";
-        
-        public ObservableCollection<MachineRecordRowView> _allRecords = new ObservableCollection<MachineRecordRowView>();
 
         private Func<MachineRecordRowView, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
         private Func<MachineRecordRowView, bool> SelectAllRecords = (f => true);
 
         public ICommand PrintOptionCommand { get; private set; }
         public ICommand RefreshFiltersCommand { get; private set; }
-
-        public bool CanRefresh { get => _canRefresh; set => SetProperty(ref _canRefresh, value); }
-
-        public MachineRecordRowView SelectedRecord
-        {
-            get { return _selectedRecord; }
-            set { SetProperty(ref _selectedRecord, value); }
-        }
-
-        public System.Collections.IList SelectedRecords
-        {
-            get => _selectedRecords;
-            internal set
-            {
-                SetProperty(ref _selectedRecords, value);
-                PrintButtonEnabled = _selectedRecords.Count > 0;
-            }
-        }
 
         private Image _documentPrinted;
         public Image DocumentPrinted
@@ -65,7 +42,9 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private Image _documentNotPrinted;
-        private bool _canRefresh = true;
+
+        private ICommand _refreshCommand;
+        public override ICommand RefreshCommand { get => _refreshCommand; protected set => _refreshCommand = value; }
 
         public Image DocumentNotPrinted
         {
@@ -81,8 +60,6 @@ namespace CopyinfoWPF.ViewModels
 
         public ObservableCollection<string> PrintingOptions { get; private set; }
 
-        public bool PrintButtonEnabled { get => _printButtonEnabled; private set => SetProperty(ref _printButtonEnabled, value); }
-
         public IDialogCoordinator DialogCoordinator
         {
             get => _dialogCoordinator;
@@ -96,6 +73,7 @@ namespace CopyinfoWPF.ViewModels
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
             PrintOptionCommand = new PrintOptions(PrintOption);
             RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
+            RefreshCommand = new AsyncCommand(RefreshClickAsync, CanRefresh);
             _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordRowView>>();
             _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
             _baseService = _machineRecordService;
@@ -216,21 +194,27 @@ namespace CopyinfoWPF.ViewModels
         public void SetRecords(IEnumerable<MachineRecordRowView> records)
         {
             Loaded = true;
-            _allRecords.Clear();
-            _allRecords.AddRange(records);
-            Collection = CollectionViewSource.GetDefaultView(_allRecords);
+            _sourceCollection.Clear();
+            _sourceCollection.AddRange(records);
+            
+            Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
             Collection.Filter = FilterLogic;
             SetDefaultSorting();
         }
 
         public async Task RefreshClickAsync()
         {
-            CanRefresh = false;
+            _canRefresh = false;
             var records = await Task.Factory.StartNew(GetRecords);
-            _allRecords.Clear();
-            _allRecords.AddRange(records);
-            Collection = CollectionViewSource.GetDefaultView(_allRecords);
-            CanRefresh = true;
+            _sourceCollection.Clear();
+            _sourceCollection.AddRange(records);
+            Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
+            _canRefresh = true;
+        }
+
+        private bool CanRefresh()
+        {
+            return _canRefresh;
         }
 
         private IEnumerable<MachineRecordRowView> GetRecords()
@@ -267,17 +251,17 @@ namespace CopyinfoWPF.ViewModels
 
         internal void OpenSelectedRecord()
         {
-            var clientOverviewViewModel = new ClientOverviewViewModel(SelectedRecord?.Client, _machineRecordService);
-            var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedRecord?.Device);
-            var reportOverviewViewModel = new ReportOverviewViewModel(
-                Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>(),
-                Configuration.Configuration.Container.Resolve<IFormatter<RecordViewModel>>());
+            //var clientOverviewViewModel = new ClientOverviewViewModel(SelectedRecord?.Client, _machineRecordService);
+            //var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedRecord?.Device);
+            //var reportOverviewViewModel = new ReportOverviewViewModel(
+            //    Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>(),
+            //    Configuration.Configuration.Container.Resolve<IFormatter<RecordViewModel>>());
 
-            clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
-            deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
+            //clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
+            //deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
 
-            new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
-                .Show();
+            //new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
+            //    .Show();
         }
     }
 }

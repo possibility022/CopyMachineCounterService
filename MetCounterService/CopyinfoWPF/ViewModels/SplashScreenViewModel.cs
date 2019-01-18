@@ -87,6 +87,9 @@ namespace CopyinfoWPF.ViewModels
             Message = "Inicjalizacja bazy danych Liczników";
             var recordService = await Task<IMachineRecordService>.Factory.StartNew(() => Configuration.Configuration.Container.Resolve<IMachineRecordService>());
 
+            Message = "Uzupełnianie cachu.";
+            recordService.RefreshCache();
+
             Message = "Pobieram dane z baz danych.";
             var records = await Task.Factory.StartNew(recordService.GetAll);
 
