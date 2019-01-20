@@ -2,10 +2,12 @@
     x:Class="CopyinfoWPF.UControls.UcReportsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="clr-namespace:CopyinfoWPF.Behaviors"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:ViewModels="clr-namespace:CopyinfoWPF.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Dialog:DialogParticipation.Register="{Binding}"
@@ -48,7 +50,7 @@
             <Button
                 Margin="5,5,0,5"
                 Padding="0"
-                Click="OnPrintClick"
+                Command="{Binding PrintCommand}"
                 Style="{StaticResource BigButton}">
                 <Button.Content>
                     <StackPanel
@@ -96,11 +98,11 @@
             ItemsSource="{Binding Collection}"
             MouseDoubleClick="dataGridWithRecords_MouseDoubleClick"
             SelectionMode="Extended">
-            <DataGrid.Resources>
-                <Style x:Key="IsSelectedTrigger" TargetType="DataGridRow">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
-                </Style>
-            </DataGrid.Resources>
+
+            <i:Interaction.Behaviors>
+                <Behaviors:ReportsDataGridSelectedItemsBehaviors SelectedItems="{Binding SelectedItems}" />
+            </i:Interaction.Behaviors>
+
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

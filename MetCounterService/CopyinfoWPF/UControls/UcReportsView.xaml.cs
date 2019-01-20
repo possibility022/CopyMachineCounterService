@@ -26,11 +26,6 @@ namespace CopyinfoWPF.UControls
             ViewModel.DialogCoordinator = DialogCoordinator.Instance;
         }
 
-        private async void OnPrintClick(object sender, RoutedEventArgs e)
-        {
-            var results = await ViewModel.Print();
-        }
-
         private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Enter)

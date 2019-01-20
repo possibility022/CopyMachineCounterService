@@ -55,7 +55,7 @@ namespace CopyinfoWPF.ViewModels
                 row.SerialNumber.ToLower().Contains(FilterText);
         }
 
-        private bool CanExecute()
+        private bool CanExecute(object parameter)
         {
             return _canRefresh;
         }

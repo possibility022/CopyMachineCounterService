@@ -47,11 +47,6 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _collection, value); }
         }
 
-        public IEnumerable<T> SelectedRecords
-        {
-            get => _sourceCollection.Where(i => i.IsSelected);
-        }
-
         protected ObservableCollection<T> _sourceCollection = new ObservableCollection<T>();
 
         public abstract ICommand RefreshCommand { get; protected set; }

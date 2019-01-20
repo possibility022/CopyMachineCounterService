@@ -15,6 +15,8 @@ using System.Windows.Input;
 using CopyinfoWPF.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
+using System.Collections;
+using CopyinfoWPF.Workflows.Email;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -25,9 +27,11 @@ namespace CopyinfoWPF.ViewModels
             Collection = CollectionViewSource.GetDefaultView(new MachineRecordRowView[] { });
             SetDefaultSorting();
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
+            PrintCommand = new AsyncCommand(Print, CanPrint);
             PrintOptionCommand = new PrintOptions(PrintOption);
             RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
             RefreshCommand = new AsyncCommand(RefreshAsync, CanRefresh);
+            SelectedItems = new HashSet<MachineRecordRowView>();
             _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordRowView>>();
             _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
             _baseService = _machineRecordService;
@@ -38,11 +42,16 @@ namespace CopyinfoWPF.ViewModels
         private IDialogCoordinator _dialogCoordinator;
         private bool _canRefresh = true;
 
+
+        private ISet<MachineRecordRowView> _selectedItems;
+        public ISet<MachineRecordRowView> SelectedItems { get => _selectedItems; set => SetProperty(ref _selectedItems, value); }
+
         public override string ViewName => "Reports";
 
         private Func<MachineRecordRowView, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
         private Func<MachineRecordRowView, bool> SelectAllRecords = (f => true);
 
+        public ICommand PrintCommand { get; private set; }
         public ICommand PrintOptionCommand { get; private set; }
         public ICommand RefreshFiltersCommand { get; private set; }
 
@@ -71,8 +80,6 @@ namespace CopyinfoWPF.ViewModels
             get => _dialogCoordinator;
             set => SetProperty(ref _dialogCoordinator, value);
         }
-
-
 
         public void ApplyFilters()
         {
@@ -138,6 +145,11 @@ namespace CopyinfoWPF.ViewModels
             return await PrintSelectedItems(SelectOnlyPrintedRecord);
         }
 
+        private bool CanPrint(object parameter)
+        {
+            return SelectedItems.Count > 0;
+        }
+
         private async Task<MessageDialogResult> ShowWrongPrintoutDialog()
         {
             return await DialogCoordinator.ShowMessageAsync(this, string.Empty, "Wybrane liczniki zostały już wydrukowane, czy wydrukować je jeszcze raz?", MessageDialogStyle.AffirmativeAndNegative);
@@ -175,10 +187,10 @@ namespace CopyinfoWPF.ViewModels
 
         private IEnumerable<MachineRecordRowView> GetSelected(Func<MachineRecordRowView, bool> filter)
         {
-            if (SelectedRecords == null)
+            if (SelectedItems == null)
                 yield break;
-
-            foreach (var rec in SelectedRecords)
+            
+            foreach (var rec in SelectedItems)
             {
                 var r = rec as MachineRecordRowView;
                 if (r != null && filter.Invoke(r))
@@ -191,7 +203,7 @@ namespace CopyinfoWPF.ViewModels
             Loaded = true;
             _sourceCollection.Clear();
             _sourceCollection.AddRange(records);
-            
+
             Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
             Collection.Filter = FilterLogic;
             SetDefaultSorting();
@@ -207,7 +219,7 @@ namespace CopyinfoWPF.ViewModels
             _canRefresh = true;
         }
 
-        private bool CanRefresh()
+        private bool CanRefresh(object param)
         {
             return _canRefresh;
         }
@@ -231,32 +243,33 @@ namespace CopyinfoWPF.ViewModels
         {
             var rec = item as MachineRecordRowView;
 
-            return rec.Record.ReadDatetime.ToString().ToLower().Contains(FilterText)
-                || rec.Record.SerialNumber.ToLower().Contains(FilterText)
-                || rec.Record.CounterBlackAndWhite.ToString().ToLower().Contains(FilterText)
-                || rec.Record.CounterColor.ToString().ToLower().Contains(FilterText)
-                || rec.Record.CounterScanner.ToString().ToLower().Contains(FilterText)
-                || rec.ClientName.ToLower().Contains(FilterText)
-                || (rec.Address != null && rec.Address.Ulica.ToLower().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelBlack) == false && rec.Record.TonerLevelBlack.ToLower().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelCyan) == false && rec.Record.TonerLevelCyan.ToLower().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelMagenta) == false && rec.Record.TonerLevelMagenta.ToLower().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelYellow) == false && rec.Record.TonerLevelYellow.ToLower().Contains(FilterText));
+            return rec.Record.ReadDatetime.ToString().ToLowerInvariant().Contains(FilterText)
+                || rec.Record.SerialNumber.ToLowerInvariant().Contains(FilterText)
+                || rec.Record.CounterBlackAndWhite.ToString().ToLowerInvariant().Contains(FilterText)
+                || rec.Record.CounterColor.ToString().ToLowerInvariant().Contains(FilterText)
+                || rec.Record.CounterScanner.ToString().ToLowerInvariant().Contains(FilterText)
+                || rec.ClientName.ToLowerInvariant().Contains(FilterText)
+                || (rec.Address != null && rec.Address.Ulica.ToLowerInvariant().Contains(FilterText))
+                || (rec.Device.ModelUrzadzenia.Nazwa1 != null && rec.Device.ModelUrzadzenia.Nazwa1.ToLowerInvariant().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelBlack) == false && rec.Record.TonerLevelBlack.ToLowerInvariant().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelCyan) == false && rec.Record.TonerLevelCyan.ToLowerInvariant().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelMagenta) == false && rec.Record.TonerLevelMagenta.ToLowerInvariant().Contains(FilterText))
+                || (string.IsNullOrEmpty(rec.Record.TonerLevelYellow) == false && rec.Record.TonerLevelYellow.ToLowerInvariant().Contains(FilterText));
         }
 
         internal void OpenSelectedRecord()
         {
-            //var clientOverviewViewModel = new ClientOverviewViewModel(SelectedRecord?.Client, _machineRecordService);
-            //var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedRecord?.Device);
-            //var reportOverviewViewModel = new ReportOverviewViewModel(
-            //    Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>(),
-            //    Configuration.Configuration.Container.Resolve<IFormatter<RecordViewModel>>());
+            var clientOverviewViewModel = new ClientOverviewViewModel(SelectedItems?.FirstOrDefault()?.Client, _machineRecordService); // Selected items is a HasSet. So FirstOrDefault will return "random".
+            var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedItems?.FirstOrDefault()?.Device);
+            var reportOverviewViewModel = new ReportOverviewViewModel(
+                Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>(),
+                Configuration.Configuration.Container.Resolve<IFormatter<RecordViewModel>>());
 
-            //clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
-            //deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
+            clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
+            deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
 
-            //new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
-            //    .Show();
+            new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
+                .Show();
         }
     }
 }

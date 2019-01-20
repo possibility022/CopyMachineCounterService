@@ -6,9 +6,9 @@ namespace CopyinfoWPF.Commands
     public class AsyncCommand : AsyncCommandBase
     {
         private readonly Func<Task> _command;
-        private readonly Func<bool> _canExecute;
+        private readonly Func<object, bool> _canExecute;
 
-        public AsyncCommand(Func<Task> command, Func<bool> canExecute)
+        public AsyncCommand(Func<Task> command, Func<object, bool> canExecute)
         {
             _command = command;
             _canExecute = canExecute;
@@ -16,7 +16,7 @@ namespace CopyinfoWPF.Commands
 
         public override bool CanExecute(object parameter)
         {
-            return _canExecute.Invoke();
+            return _canExecute(parameter);
         }
 
         public override Task ExecuteAsync(object parameter)
