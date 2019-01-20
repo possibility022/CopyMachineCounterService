@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRow.cs" />
     <Compile Include="Models\DeviceRowView.cs" />
     <Compile Include="Models\RecordViewModel.cs" />
     <Compile Include="Models\DeviceViewModel.cs" />

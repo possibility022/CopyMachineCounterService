@@ -2,7 +2,7 @@
 
 namespace CopyinfoWPF.DTO.Models
 {
-    public class DeviceRowView : BaseRow
+    public class DeviceRowView
     {
         public string SerialNumber { get; set; }
 
