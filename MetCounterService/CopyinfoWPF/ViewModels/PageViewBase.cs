@@ -1,17 +1,14 @@
-﻿using CopyinfoWPF.DTO;
-using CopyinfoWPF.Interfaces;
+﻿using CopyinfoWPF.Interfaces;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 
 namespace CopyinfoWPF.ViewModels
 {
-    public abstract class PageViewBase<T> : BindableBase, IPageView where T : BaseRow
+    public abstract class PageViewBase<T> : BindableBase, IPageView where T : class
     {
 
         public PageViewBase() { }

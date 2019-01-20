@@ -102,10 +102,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CopyinfoWPF.Configuration\CopyinfoWPF.Configuration.csproj">
-      <Project>{a2e9387e-3403-4ad0-b188-02ef62fbde47}</Project>
-      <Name>CopyinfoWPF.Configuration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.ORM\CopyinfoWPF.ORM.csproj">
       <Project>{6A9C499D-22B2-4B58-909D-0A524B0461D1}</Project>
       <Name>CopyinfoWPF.ORM</Name>

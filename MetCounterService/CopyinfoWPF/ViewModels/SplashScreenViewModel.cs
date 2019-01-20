@@ -31,28 +31,36 @@ namespace CopyinfoWPF.ViewModels
 
         private bool _checkedForUpdates;
 
-        public string LoadingAnimationVisible { get { return _loadingAnimationIsVisible ? "Visible" : "Hidden"; } }
-
-        private bool LoadingAnimationIsVisible
+        private string _loadingAnimationVisible;
+        public string LoadingAnimationVisible
         {
-            get { return _loadingAnimationIsVisible; }
-            set
-            {
-                SetProperty(ref _loadingAnimationIsVisible, value);
-                RaisePropertyChanged(nameof(LoadingAnimationVisible));
-            }
+            get => _loadingAnimationVisible;
+            private set => SetProperty(ref _loadingAnimationVisible, value);
         }
-        private bool _loadingAnimationIsVisible;
-
+        
         public SplashScreenViewModel()
         {
-            _loadingAnimationIsVisible = false;
+            ShowAnimation(false);
+        }
+
+        public SplashScreenViewModel(IMachineRecordService machineRecordService, IDeviceService deviceService)
+        {
+            ShowAnimation(false);
+            _deviceService = deviceService;
+            _machineRecordService = machineRecordService;
+        }
+
+        private IDeviceService _deviceService;
+        private IMachineRecordService _machineRecordService;
+
+        private void ShowAnimation(bool visible)
+        {
+            LoadingAnimationVisible = visible ? "Visible" : "Hidden";
         }
 
         public bool LoginClick(SecureString password)
         {
-
-            SecureString copyOfPassword = password.Copy();
+            var copyOfPassword = password.Copy();
             copyOfPassword.MakeReadOnly();
 
             bool passwordCorrect = Encrypting.DecryptSecureString(copyOfPassword, (result) =>
@@ -73,10 +81,7 @@ namespace CopyinfoWPF.ViewModels
 
         public async Task<Window> StartLoadingAsync()
         {
-            LoadingAnimationIsVisible = true;
-
-            Message = "Inicjalizacja podstawowej konfiguracji.";
-            await Task.Factory.StartNew(InitializeUnity);
+            ShowAnimation(true);
 
             Message = "Inicjalizacja automappera.";
             await Task.Factory.StartNew(InitializeAutoMapper);
@@ -84,14 +89,11 @@ namespace CopyinfoWPF.ViewModels
             Message = "Inicjalizacja cach'u.";
             Cache.InitializeCache();
 
-            Message = "Inicjalizacja bazy danych Liczników";
-            var recordService = await Task<IMachineRecordService>.Factory.StartNew(() => Configuration.Configuration.Container.Resolve<IMachineRecordService>());
-
             Message = "Uzupełnianie cachu.";
-            recordService.RefreshCache();
+            _machineRecordService.RefreshCache();
 
             Message = "Pobieram dane z baz danych.";
-            var records = await Task.Factory.StartNew(recordService.GetAll);
+            var records = await Task.Factory.StartNew(_machineRecordService.GetAll);
 
             Message = "Tworzę okno aplikacji.";
             var window = new MahMainWindow();
@@ -102,14 +104,14 @@ namespace CopyinfoWPF.ViewModels
             var views = new IPageView[]
             {
                 recordsModel,
-                new DevicesViewModel(Configuration.Configuration.Container.Resolve<IDeviceService>())
+                new DevicesViewModel(UnityConfiguration.Container.Resolve<IDeviceService>())
             };
-            
+
 
             Message = "Uzupełniam widok pobranymi danymi.";
             window.DataContext = new MahMainWindowModel(views);
 
-            LoadingAnimationIsVisible = false;
+            ShowAnimation(false);
             return window;
         }
 
@@ -126,14 +128,6 @@ namespace CopyinfoWPF.ViewModels
                 _checkedForUpdates = true;
             }
 
-        }
-
-        private void InitializeUnity()
-        {
-            Configuration.Configuration.Initialize();
-            Configuration.Configuration.Container.RegisterType<IFormatter<MachineRecordRowView>, RecordFormatter>();
-            Configuration.Configuration.Container.RegisterType<IFormatter<EmailMessage>, RecordFormatter>();
-            Configuration.Configuration.Container.RegisterType<IFormatter<RecordViewModel>, RecordFormatter>();
         }
 
         private void InitializeAutoMapper()

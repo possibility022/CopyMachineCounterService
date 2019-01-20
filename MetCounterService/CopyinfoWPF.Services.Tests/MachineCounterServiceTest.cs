@@ -14,7 +14,7 @@ namespace CopyinfoWPF.Services.Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            Configuration.Configuration.Initialize();
+            Configuration.UnityConfiguration.Initialize();
         }
 
         [TestCategory("DatabaseConnection")]

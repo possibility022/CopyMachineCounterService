@@ -33,5 +33,10 @@ namespace CopyinfoWPF.Services.Implementation
                     ServiceAgreement = Cache.ServiceAgreementCache.Contains(r.IdKlient)
                 }).ToList();
         }
+
+        public AdresKlient GetDeviceAddress(int idInstalationAddress)
+        {
+            return Cache.AddressCache.Get(idInstalationAddress);
+        }
     }
 }

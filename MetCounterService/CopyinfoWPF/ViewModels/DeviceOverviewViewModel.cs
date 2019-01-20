@@ -1,4 +1,6 @@
-﻿using CopyinfoWPF.DTO.Models;
+﻿using AutoMapper;
+using CopyinfoWPF.DTO.Models;
+using CopyinfoWPF.Helpers;
 using CopyinfoWPF.ORM.AsystentDatabase.Entities;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
@@ -6,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Unity.Attributes;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -103,30 +106,24 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private readonly IMachineRecordService _machineRecordService;
+        private readonly IDeviceService _deviceService;
 
         public DeviceOverviewViewModel() { }
 
-
-        public DeviceOverviewViewModel(IMachineRecordService service, UrzadzenieKlient device)
+        [InjectionConstructor]
+        public DeviceOverviewViewModel(IMachineRecordService service, IDeviceService deviceService)
         {
             _machineRecordService = service;
-
+            _deviceService = deviceService;
         }
 
         private void UpdateDevice(UrzadzenieKlient device)
         {
             if (device != null)
             {
-                Manufacturer = device.ModelUrzadzenia?.MarkaUrzadzenia?.Nazwa1;
-                SerialNumber = device.NrFabryczny;
-                InstallationDate = device.DataInstalacji;
-                Model = device.ModelUrzadzenia?.Nazwa1;
-            }else
-            {
-                Manufacturer = string.Empty;
-                SerialNumber = string.Empty;
-                InstallationDate = new DateTime();
-                Model = string.Empty;
+                Mapper.Map(device, this);
+                var address = _deviceService.GetDeviceAddress(device.IdMiejsceInstalacji);
+                Mapper.Map(address, this);
             }
         }
 

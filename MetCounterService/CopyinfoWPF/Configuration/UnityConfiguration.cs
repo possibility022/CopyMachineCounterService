@@ -1,22 +1,33 @@
-﻿using CopyinfoWPF.ORM;
+﻿using CopyinfoWPF.DTO.Models;
+using CopyinfoWPF.Formatters;
+using CopyinfoWPF.Interfaces.Formatters;
+using CopyinfoWPF.ORM;
 using CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings;
 using CopyinfoWPF.Services.Implementation;
 using CopyinfoWPF.Services.Interfaces;
+using CopyinfoWPF.Workflows.Email;
+using System;
 using Unity;
 
 namespace CopyinfoWPF.Configuration
 {
-    public static class Configuration
+    public static class UnityConfiguration
     {
         public static IUnityContainer Container { get; private set; }
 
-        public static void Initialize(IUnityContainer container = null)
+        public static T Resolve<T>()
         {
-            if (container == null)
-                Container = new UnityContainer();
-            else
-                Container = container;
+            return Container.Resolve<T>();
+        }
 
+        public static void Initialize()
+        {
+            if (Container != null)
+                throw new InvalidOperationException("Unity was initialized twice.");
+
+            Container = new UnityContainer();
+
+            InitializeFormatters();
             RegisterTypes();
             RegisterInstances();
             RegisterDatabaeses();
@@ -39,6 +50,13 @@ namespace CopyinfoWPF.Configuration
             var sessionProvider = Container.Resolve<IDatabaseSessionProvider>();
             sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetSessionFactory());
             sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetSessionFactory());
+        }
+
+        private static void InitializeFormatters()
+        {
+            Container.RegisterType<IFormatter<MachineRecordRowView>, RecordFormatter>();
+            Container.RegisterType<IFormatter<EmailMessage>, RecordFormatter>();
+            Container.RegisterType<IFormatter<RecordViewModel>, RecordFormatter>();
         }
     }
 }

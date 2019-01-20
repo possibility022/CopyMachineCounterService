@@ -17,6 +17,7 @@ using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using System.Collections;
 using CopyinfoWPF.Workflows.Email;
+using CopyinfoWPF.Configuration;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -32,8 +33,8 @@ namespace CopyinfoWPF.ViewModels
             RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
             RefreshCommand = new AsyncCommand(RefreshAsync, CanRefresh);
             SelectedItems = new HashSet<MachineRecordRowView>();
-            _recordFormatter = Configuration.Configuration.Container.Resolve<IFormatter<MachineRecordRowView>>();
-            _machineRecordService = Configuration.Configuration.Container.Resolve<IMachineRecordService>();
+            _recordFormatter = Configuration.UnityConfiguration.Container.Resolve<IFormatter<MachineRecordRowView>>();
+            _machineRecordService = Configuration.UnityConfiguration.Container.Resolve<IMachineRecordService>();
             _baseService = _machineRecordService;
         }
 
@@ -260,10 +261,8 @@ namespace CopyinfoWPF.ViewModels
         internal void OpenSelectedRecord()
         {
             var clientOverviewViewModel = new ClientOverviewViewModel(SelectedItems?.FirstOrDefault()?.Client, _machineRecordService); // Selected items is a HasSet. So FirstOrDefault will return "random".
-            var deviceOverviewViewModel = new DeviceOverviewViewModel(_machineRecordService, SelectedItems?.FirstOrDefault()?.Device);
-            var reportOverviewViewModel = new ReportOverviewViewModel(
-                Configuration.Configuration.Container.Resolve<IFormatter<EmailMessage>>(),
-                Configuration.Configuration.Container.Resolve<IFormatter<RecordViewModel>>());
+            var deviceOverviewViewModel = UnityConfiguration.Resolve<DeviceOverviewViewModel>();
+            var reportOverviewViewModel = UnityConfiguration.Resolve<ReportOverviewViewModel>();
 
             clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
             deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsMetService", "WindowsMetService\WindowsMetService.csproj", "{D117E248-CA70-4902-8A5F-71660BB094B7}"
 EndProject
@@ -34,8 +34,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Repository.Tests", "CopyinfoWPF.Repository.Tests\CopyinfoWPF.Repository.Tests.csproj", "{EBA33B7F-1FA3-4E2A-B1F1-22307B092F3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Services", "CopyinfoWPF.Services\CopyinfoWPF.Services.csproj", "{C1300DBF-4F6E-4D5E-8504-5016975841F0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Configuration", "CopyinfoWPF.Configuration\CopyinfoWPF.Configuration.csproj", "{A2E9387E-3403-4AD0-B188-02EF62FBDE47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyinfoWPF.Services.Tests", "CopyinfoWPF.Services.Tests\CopyinfoWPF.Services.Tests.csproj", "{260D8137-CE7A-494C-8F0E-71B3AACAAB41}"
 EndProject
@@ -112,10 +110,6 @@ Global
 		{C1300DBF-4F6E-4D5E-8504-5016975841F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1300DBF-4F6E-4D5E-8504-5016975841F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1300DBF-4F6E-4D5E-8504-5016975841F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2E9387E-3403-4AD0-B188-02EF62FBDE47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2E9387E-3403-4AD0-B188-02EF62FBDE47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2E9387E-3403-4AD0-B188-02EF62FBDE47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2E9387E-3403-4AD0-B188-02EF62FBDE47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{260D8137-CE7A-494C-8F0E-71B3AACAAB41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{260D8137-CE7A-494C-8F0E-71B3AACAAB41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{260D8137-CE7A-494C-8F0E-71B3AACAAB41}.Release|Any CPU.ActiveCfg = Release|Any CPU
