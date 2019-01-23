@@ -34,9 +34,11 @@ namespace CopyinfoWPF.Services.Implementation
                 }).ToList();
         }
 
+        public UrzadzenieKlient GetDevice(string serialNumber)
+            => Cache.DeviceCache.Get(serialNumber);
+
         public AdresKlient GetDeviceAddress(int idInstalationAddress)
-        {
-            return Cache.AddressCache.Get(idInstalationAddress);
-        }
+            => Cache.AddressCache.Get(idInstalationAddress);
+
     }
 }

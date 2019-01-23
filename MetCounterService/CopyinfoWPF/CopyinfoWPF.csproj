@@ -202,6 +202,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\DatagridClickBehavior.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\AsyncCommandBase.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
@@ -210,7 +211,7 @@
     <Compile Include="Configuration\MappingProfile.cs" />
     <Compile Include="Behaviors\ReportsDataGridSelectedItemsBehaviors.cs" />
     <Compile Include="Configuration\UnityConfiguration.cs" />
-    <Compile Include="Dependency\BrowserBehavior.cs" />
+    <Compile Include="Behaviors\BrowserBehavior.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
     <Compile Include="Formatters\RecordFormatter.cs" />
     <Compile Include="Helpers\AddressHelpers.cs" />

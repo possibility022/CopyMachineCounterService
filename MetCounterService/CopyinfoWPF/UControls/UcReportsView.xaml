@@ -10,6 +10,7 @@
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:CopyinfoWPF.DTO.Models;assembly=CopyinfoWPF.DTO"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DesignHeight="500"
     d:DesignWidth="900"
@@ -92,11 +93,11 @@
         <DataGrid
             x:Name="dataGridWithRecords"
             Grid.Row="2"
+            Behaviors:DatagridClickBehavior.DataGridDoubleClickCommand="{Binding DataGridDoubleClickCommand}"
             AutoGenerateColumns="False"
             Foreground="Black"
             IsReadOnly="True"
             ItemsSource="{Binding Collection}"
-            MouseDoubleClick="dataGridWithRecords_MouseDoubleClick"
             SelectionMode="Extended">
 
             <i:Interaction.Behaviors>

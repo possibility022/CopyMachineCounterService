@@ -6,6 +6,7 @@ using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System;
 using System.Linq;
+using CopyinfoWPF.Configuration;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -85,6 +86,7 @@ namespace CopyinfoWPF.ViewModels
         #endregion
 
         private readonly IMachineRecordService _machineRecordService;
+        private readonly IClientService _clientService;
 
         public int ClientId { get; private set; }
 
@@ -106,26 +108,36 @@ namespace CopyinfoWPF.ViewModels
                 if (_selectedDevice != value)
                 {
                     SetProperty(ref _selectedDevice, value);
-                    DeviceSelected?.Invoke(this,  value);
+                    DeviceSelected?.Invoke(this, value);
                 }
 
             }
         }
 
-        public ClientOverviewViewModel()
+        public ClientOverviewViewModel() : this(UnityConfiguration.Resolve<IMachineRecordService>(), UnityConfiguration.Resolve<IClientService>())
         {
 
         }
 
-        public ClientOverviewViewModel(Klient client, IMachineRecordService machineRecordService) : this()
+        public ClientOverviewViewModel(IMachineRecordService machineRecordService, IClientService clientService)
+        {
+            _machineRecordService = machineRecordService;
+            _clientService = clientService;
+        }
+
+        public void LoadClient(Klient client)
         {
             if (client != null)
             {
                 Mapper.Map(client, this);
                 ClientId = client.IdKlient;
             }
+        }
 
-            _machineRecordService = machineRecordService;
+        public void LoadClient(int clientId)
+        {
+            var client = _clientService.GetClientById(clientId);
+            LoadClient(client);
         }
 
         public void DeviceDataGridLoaded()
@@ -134,7 +146,7 @@ namespace CopyinfoWPF.ViewModels
             {
                 Devices.Add(device);
             }
-            
+
             SelectedDevice = Devices.FirstOrDefault();
         }
 

@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System;
 using CopyinfoWPF.Views;
 using CopyinfoWPF.Interfaces.Formatters;
-using Unity;
 using CopyinfoWPF.Workflows.Printing;
 using CopyinfoWPF.Services.Interfaces;
 using System.Linq;
@@ -15,8 +14,6 @@ using System.Windows.Input;
 using CopyinfoWPF.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
-using System.Collections;
-using CopyinfoWPF.Workflows.Email;
 using CopyinfoWPF.Configuration;
 
 namespace CopyinfoWPF.ViewModels
@@ -31,10 +28,10 @@ namespace CopyinfoWPF.ViewModels
             PrintCommand = new AsyncCommand(Print, CanPrint);
             PrintOptionCommand = new PrintOptions(PrintOption);
             RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
+            DataGridDoubleClickCommand = new BaseCommand(OpenSelectedRecord);
             RefreshCommand = new AsyncCommand(RefreshAsync, CanRefresh);
-            SelectedItems = new HashSet<MachineRecordRowView>();
-            _recordFormatter = Configuration.UnityConfiguration.Container.Resolve<IFormatter<MachineRecordRowView>>();
-            _machineRecordService = Configuration.UnityConfiguration.Container.Resolve<IMachineRecordService>();
+            _recordFormatter = UnityConfiguration.Resolve<IFormatter<MachineRecordRowView>>();
+            _machineRecordService = UnityConfiguration.Resolve<IMachineRecordService>();
             _baseService = _machineRecordService;
         }
 
@@ -42,10 +39,6 @@ namespace CopyinfoWPF.ViewModels
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
         private bool _canRefresh = true;
-
-
-        private ISet<MachineRecordRowView> _selectedItems;
-        public ISet<MachineRecordRowView> SelectedItems { get => _selectedItems; set => SetProperty(ref _selectedItems, value); }
 
         public override string ViewName => "Reports";
 
@@ -64,9 +57,6 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private Image _documentNotPrinted;
-
-        private ICommand _refreshCommand;
-        public override ICommand RefreshCommand { get => _refreshCommand; protected set => _refreshCommand = value; }
 
         public Image DocumentNotPrinted
         {
@@ -260,9 +250,11 @@ namespace CopyinfoWPF.ViewModels
 
         internal void OpenSelectedRecord()
         {
-            var clientOverviewViewModel = new ClientOverviewViewModel(SelectedItems?.FirstOrDefault()?.Client, _machineRecordService); // Selected items is a HasSet. So FirstOrDefault will return "random".
+            var clientOverviewViewModel = new ClientOverviewViewModel();
             var deviceOverviewViewModel = UnityConfiguration.Resolve<DeviceOverviewViewModel>();
             var reportOverviewViewModel = UnityConfiguration.Resolve<ReportOverviewViewModel>();
+
+            clientOverviewViewModel.LoadClient((SelectedItems?.FirstOrDefault() as MachineRecordRowView)?.Client);
 
             clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
             deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;

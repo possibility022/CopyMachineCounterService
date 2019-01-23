@@ -1,8 +1,12 @@
 ﻿using CopyinfoWPF.Commands;
+using CopyinfoWPF.Configuration;
 using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.Services.Interfaces;
+using CopyinfoWPF.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -11,7 +15,7 @@ namespace CopyinfoWPF.ViewModels
 {
     public class DevicesViewModel : PageViewBase<DeviceRowView>
     {
-        public DevicesViewModel() : base()
+        public DevicesViewModel() : this(UnityConfiguration.Resolve<IDeviceService>())
         {
             
         }
@@ -20,15 +24,29 @@ namespace CopyinfoWPF.ViewModels
         {
             _deviceService = deviceService;
             RefreshCommand = new AsyncCommand(Refresh, CanExecute);
+            DataGridDoubleClickCommand = new BaseCommand(ShowDetails);
+        }
+
+        private void ShowDetails()
+        {
+            var clientOverviewViewModel = new ClientOverviewViewModel(); // Selected items is a HasSet. So FirstOrDefault will return "random".
+            var deviceOverviewViewModel = UnityConfiguration.Resolve<DeviceOverviewViewModel>();
+            var reportOverviewViewModel = UnityConfiguration.Resolve<ReportOverviewViewModel>();
+
+            var device = _deviceService.GetDevice((SelectedItems.FirstOrDefault() as DeviceRowView)?.SerialNumber);
+            clientOverviewViewModel.LoadClient(device.IdKlient);
+
+            clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
+            deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
+
+            new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
+                .Show();
         }
 
         IDeviceService _deviceService;
         bool _canRefresh = true;
         
         public override string ViewName => "Devices";
-
-        ICommand _refreshCommand;
-        public override ICommand RefreshCommand { protected set { _refreshCommand = value; } get { return _refreshCommand; } }
 
         private async Task Refresh()
         {

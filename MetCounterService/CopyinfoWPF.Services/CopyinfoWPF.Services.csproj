@@ -90,10 +90,12 @@
     <Compile Include="Extensions\KlientExtensions.cs" />
     <Compile Include="Implementation\BaseService.cs" />
     <Compile Include="Implementation\Cache.cs" />
+    <Compile Include="Implementation\ClientService.cs" />
     <Compile Include="Implementation\DeviceService.cs" />
     <Compile Include="Implementation\MachineCounterService.cs" />
     <Compile Include="Implementation\MachineRecordService.cs" />
     <Compile Include="Interfaces\IBaseService.cs" />
+    <Compile Include="Interfaces\IClientService.cs" />
     <Compile Include="Interfaces\IDeviceService.cs" />
     <Compile Include="Interfaces\IMachineCounterService.cs" />
     <Compile Include="Interfaces\IMachineRecordService.cs" />

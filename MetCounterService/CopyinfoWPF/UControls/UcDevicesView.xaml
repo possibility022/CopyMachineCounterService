@@ -2,11 +2,14 @@
     x:Class="CopyinfoWPF.UControls.UcDevicesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="clr-namespace:CopyinfoWPF.Behaviors"
     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:CopyinfoWPF.UControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:CopyinfoWPF.DTO.Models;assembly=CopyinfoWPF.DTO"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -46,12 +49,18 @@
         </StackPanel>
         <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
         <DataGrid
-            x:Name="dataGridWithRecords"
+            x:Name="gridDevices"
             Grid.Row="2"
+            Behaviors:DatagridClickBehavior.DataGridDoubleClickCommand="{Binding DataGridDoubleClickCommand}"
             AutoGenerateColumns="False"
             IsReadOnly="True"
             ItemsSource="{Binding Collection}"
             SelectionMode="Extended">
+
+            <i:Interaction.Behaviors>
+                <Behaviors:ReportsDataGridSelectedItemsBehaviors SelectedItems="{Binding SelectedItems}" />
+            </i:Interaction.Behaviors>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=SerialNumber}" Header="Numer seryjny" />
                 <DataGridTextColumn Binding="{Binding Path=ClientName}" Header="Klient" />

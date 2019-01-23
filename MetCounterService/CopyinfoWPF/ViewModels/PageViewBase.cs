@@ -1,6 +1,7 @@
 ﻿using CopyinfoWPF.Interfaces;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -46,7 +47,10 @@ namespace CopyinfoWPF.ViewModels
 
         protected ObservableCollection<T> _sourceCollection = new ObservableCollection<T>();
 
-        public abstract ICommand RefreshCommand { get; protected set; }
+        public ISet<object> SelectedItems { get; set; } = new HashSet<object>();
+
+        public ICommand RefreshCommand { get; protected set; }
+        public ICommand DataGridDoubleClickCommand { get; protected set; }
 
         public virtual void Selected()
         {

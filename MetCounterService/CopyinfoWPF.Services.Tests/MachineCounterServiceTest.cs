@@ -11,19 +11,21 @@ namespace CopyinfoWPF.Services.Tests
     public class MachineCounterServiceTest
     {
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            Configuration.UnityConfiguration.Initialize();
-        }
+        // Integration tests.
 
-        [TestCategory("DatabaseConnection")]
-        [TestMethod]
-        public void TestMethod1()
-        {
-            IMachineCounterService service = new MachineCounterService(new DatabaseSessionProvider());
-            var records = service.TakeRecords(10);
-            Assert.AreEqual(10, records.Count);
-        }
+        //[ClassInitialize]
+        //public static void ClassInitialize(TestContext context)
+        //{
+        //    Configuration.UnityConfiguration.Initialize();
+        //}
+
+        //[TestCategory("DatabaseConnection")]
+        //[TestMethod]
+        //public void TestMethod1()
+        //{
+        //    IMachineCounterService service = new MachineCounterService(new DatabaseSessionProvider());
+        //    var records = service.TakeRecords(10);
+        //    Assert.AreEqual(10, records.Count);
+        //}
     }
 }

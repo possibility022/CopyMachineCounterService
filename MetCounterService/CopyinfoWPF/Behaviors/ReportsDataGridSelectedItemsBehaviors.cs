@@ -9,18 +9,18 @@ namespace CopyinfoWPF.Behaviors
     public class ReportsDataGridSelectedItemsBehaviors : Behavior<DataGrid>
     {
         public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItems", typeof(ISet<MachineRecordRowView>),
+            DependencyProperty.Register("SelectedItems", typeof(ISet<object>),
             typeof(ReportsDataGridSelectedItemsBehaviors),
             new FrameworkPropertyMetadata(null)
             {
                 BindsTwoWayByDefault = true
             });
 
-        public ISet<MachineRecordRowView> SelectedItems
+        public ISet<object> SelectedItems
         {
             get
             {
-                return (ISet<MachineRecordRowView>)GetValue(SelectedItemProperty);
+                return (ISet<object>)GetValue(SelectedItemProperty);
             }
             set
             {
@@ -45,13 +45,13 @@ namespace CopyinfoWPF.Behaviors
         {
             if (e.AddedItems != null && e.AddedItems.Count > 0 && this.SelectedItems != null)
             {
-                foreach (MachineRecordRowView obj in e.AddedItems)
+                foreach (var obj in e.AddedItems)
                     this.SelectedItems.Add(obj);
             }
 
             if (e.RemovedItems != null && e.RemovedItems.Count > 0 && this.SelectedItems != null)
             {
-                foreach (MachineRecordRowView obj in e.RemovedItems)
+                foreach (var obj in e.RemovedItems)
                     this.SelectedItems.Remove(obj);
             }
         }

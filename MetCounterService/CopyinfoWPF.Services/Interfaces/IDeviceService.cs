@@ -6,5 +6,7 @@ namespace CopyinfoWPF.Services.Interfaces
     public interface IDeviceService : IBaseService<DeviceRowView>
     {
         AdresKlient GetDeviceAddress(int idInstalationAddress);
+
+        UrzadzenieKlient GetDevice(string serialNumber);
     }
 }

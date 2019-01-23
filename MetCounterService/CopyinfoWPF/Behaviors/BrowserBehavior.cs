@@ -5,7 +5,7 @@ using System.Windows.Controls;
 // https://stackoverflow.com/questions/2585782/displaying-html-from-string-in-wpf-webbrowser-control
 
 
-namespace CopyinfoWPF.Dependency
+namespace CopyinfoWPF.Behaviors
 {
     public static class BrowserBehavior
     {
