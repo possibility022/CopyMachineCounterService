@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Reflection;
 
 namespace CopyinfoWPF.DTO.Models
 {
-    public class DeviceRowView
+    public class DeviceRowView : BaseRow
     {
+
+        private static readonly PropertyInfo[] PropertyInfos = typeof(DeviceRowView).GetProperties();
+
         public string SerialNumber { get; set; }
 
         public string ClientName { get; set; }
@@ -17,5 +21,10 @@ namespace CopyinfoWPF.DTO.Models
         public DateTime InstallationDateTime { get; set; }  
 
         public bool ServiceAgreement { get; set; }
+
+        public override bool Filter(string filter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

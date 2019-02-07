@@ -29,6 +29,7 @@ namespace CopyinfoWPF.ViewModels
             PrintOptionCommand = new PrintOptions(PrintOption);
             RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
             DataGridDoubleClickCommand = new BaseCommand(OpenSelectedRecord);
+            FilterTextKeyUpCommand = new BaseCommand(ApplyFilters);
             RefreshCommand = new AsyncCommand(RefreshAsync, CanRefresh);
             _recordFormatter = UnityConfiguration.Resolve<IFormatter<MachineRecordRowView>>();
             _machineRecordService = UnityConfiguration.Resolve<IMachineRecordService>();

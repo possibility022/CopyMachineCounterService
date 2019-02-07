@@ -34,15 +34,15 @@ namespace CopyinfoWPF.DTO.Models
             get => _record;
             set
             {
-                SetProperty(ref _record, value);
+                SetPropertyDefault(ref _record, value);
                 Printed = value?.Printed ?? false;
                 EmailSourceAvailable = value?.EmailSourceId == null ? false : true;
             }
         }
 
-        public AdresKlient Address { get => _address; set => SetProperty(ref _address, value); }
+        public AdresKlient Address { get => _address; set => SetPropertyDefault(ref _address, value); }
 
-        public UrzadzenieKlient Device { get => _device; set => SetProperty(ref _device, value); }
+        public UrzadzenieKlient Device { get => _device; set => SetPropertyDefault(ref _device, value); }
 
         public bool Printed { get => _printed; set => SetProperty(ref _printed, value); }
 
@@ -52,12 +52,20 @@ namespace CopyinfoWPF.DTO.Models
         {
             get => _client; set
             {
-                SetProperty(ref _client, value);
+                SetPropertyDefault(ref _client, value);
                 if (value != null)
                 {
                     ClientName = value.NazwaSkr + value.Nazwa2;
                 }
             }
+        }
+
+        private void SetPropertyDefault<T>(ref T storage, T value) where T: new()
+        {
+            if (value == null)
+                value = new T();
+
+            SetProperty(ref storage, value);
         }
     }
 }

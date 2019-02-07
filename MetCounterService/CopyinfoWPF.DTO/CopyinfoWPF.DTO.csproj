@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\BaseRow.cs" />
     <Compile Include="Models\DeviceRowView.cs" />
     <Compile Include="Models\RecordViewModel.cs" />
     <Compile Include="Models\DeviceViewModel.cs" />
@@ -54,6 +55,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CopyinfoWPF.Common\CopyinfoWPF.Common.csproj">
+      <Project>{e6158129-fb01-4111-8a04-6027e8e755a3}</Project>
+      <Name>CopyinfoWPF.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CopyinfoWPF.ORM\CopyinfoWPF.ORM.csproj">
       <Project>{6A9C499D-22B2-4B58-909D-0A524B0461D1}</Project>
       <Name>CopyinfoWPF.ORM</Name>

@@ -86,10 +86,13 @@
                 </Controls:DropDownButton.ItemContainerStyle>
             </Controls:DropDownButton>
         </StackPanel>
-        <TextBox
-            Grid.Row="1"
-            KeyUp="TextBox_KeyUp"
-            Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Grid.Row="1" Text="{Binding FilterText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="KeyUp">
+                    <i:InvokeCommandAction Command="{Binding Path=FilterTextKeyUpCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
         <DataGrid
             x:Name="dataGridWithRecords"
             Grid.Row="2"

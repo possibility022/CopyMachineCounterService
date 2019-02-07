@@ -1,6 +1,7 @@
 ﻿using CopyinfoWPF.Interfaces;
 using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -51,6 +52,7 @@ namespace CopyinfoWPF.ViewModels
 
         public ICommand RefreshCommand { get; protected set; }
         public ICommand DataGridDoubleClickCommand { get; protected set; }
+        public ICommand FilterTextKeyUpCommand { get; protected set; }
 
         public virtual void Selected()
         {
