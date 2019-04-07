@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -18,6 +20,15 @@ namespace CopyinfoWPF.ViewModels
         public PageViewBase(IBaseService<T> baseService)
         {
             _baseService = baseService;
+        }
+
+        protected Func<T, string, bool> FilterLogic { get; set; }
+        public bool FilterCollection (object obj)
+        {
+            if (string.IsNullOrEmpty(FilterText))
+                return true;
+
+            return FilterLogic.Invoke((T)obj, FilterText);
         }
 
         private string _filterText = string.Empty;
@@ -63,6 +74,7 @@ namespace CopyinfoWPF.ViewModels
                 _sourceCollection.Clear();
                 _sourceCollection.AddRange(_baseService.GetAll());
                 Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
+                Collection.Filter = FilterCollection;
             }
         }
     }

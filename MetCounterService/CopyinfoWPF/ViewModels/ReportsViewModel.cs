@@ -15,25 +15,32 @@ using CopyinfoWPF.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using CopyinfoWPF.Configuration;
+using CompareThis;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
+using System.Globalization;
 
 namespace CopyinfoWPF.ViewModels
 {
     public class ReportsViewModel : PageViewBase<MachineRecordRowView>
     {
-        public ReportsViewModel()
+        public ReportsViewModel(IMachineRecordService machineRecordService) : base(machineRecordService)
         {
+            FilterLogic = BuidFilterFunc();
             Collection = CollectionViewSource.GetDefaultView(new MachineRecordRowView[] { });
             SetDefaultSorting();
             PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
             PrintCommand = new AsyncCommand(Print, CanPrint);
             PrintOptionCommand = new PrintOptions(PrintOption);
-            RefreshFiltersCommand = new BaseCommand(Collection.Refresh);
             DataGridDoubleClickCommand = new BaseCommand(OpenSelectedRecord);
             FilterTextKeyUpCommand = new BaseCommand(ApplyFilters);
             RefreshCommand = new AsyncCommand(RefreshAsync, CanRefresh);
             _recordFormatter = UnityConfiguration.Resolve<IFormatter<MachineRecordRowView>>();
-            _machineRecordService = UnityConfiguration.Resolve<IMachineRecordService>();
-            _baseService = _machineRecordService;
+            _machineRecordService = machineRecordService;
+        }
+
+        public ReportsViewModel() : this(UnityConfiguration.Resolve<IMachineRecordService>())
+        {
+
         }
 
         IFormatter<MachineRecordRowView> _recordFormatter;
@@ -48,7 +55,6 @@ namespace CopyinfoWPF.ViewModels
 
         public ICommand PrintCommand { get; private set; }
         public ICommand PrintOptionCommand { get; private set; }
-        public ICommand RefreshFiltersCommand { get; private set; }
 
         private Image _documentPrinted;
         public Image DocumentPrinted
@@ -197,7 +203,7 @@ namespace CopyinfoWPF.ViewModels
             _sourceCollection.AddRange(records);
 
             Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
-            Collection.Filter = FilterLogic;
+            Collection.Filter = FilterCollection;
             SetDefaultSorting();
         }
 
@@ -231,24 +237,6 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
-        private bool FilterLogic(object item)
-        {
-            var rec = item as MachineRecordRowView;
-
-            return rec.Record.ReadDatetime.ToString().ToLowerInvariant().Contains(FilterText)
-                || rec.Record.SerialNumber.ToLowerInvariant().Contains(FilterText)
-                || rec.Record.CounterBlackAndWhite.ToString().ToLowerInvariant().Contains(FilterText)
-                || rec.Record.CounterColor.ToString().ToLowerInvariant().Contains(FilterText)
-                || rec.Record.CounterScanner.ToString().ToLowerInvariant().Contains(FilterText)
-                || rec.ClientName.ToLowerInvariant().Contains(FilterText)
-                || (rec.Address != null && rec.Address.Ulica.ToLowerInvariant().Contains(FilterText))
-                || (rec.Device.ModelUrzadzenia.Nazwa1 != null && rec.Device.ModelUrzadzenia.Nazwa1.ToLowerInvariant().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelBlack) == false && rec.Record.TonerLevelBlack.ToLowerInvariant().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelCyan) == false && rec.Record.TonerLevelCyan.ToLowerInvariant().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelMagenta) == false && rec.Record.TonerLevelMagenta.ToLowerInvariant().Contains(FilterText))
-                || (string.IsNullOrEmpty(rec.Record.TonerLevelYellow) == false && rec.Record.TonerLevelYellow.ToLowerInvariant().Contains(FilterText));
-        }
-
         internal void OpenSelectedRecord()
         {
             var clientOverviewViewModel = new ClientOverviewViewModel();
@@ -262,6 +250,35 @@ namespace CopyinfoWPF.ViewModels
 
             new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
                 .Show();
+        }
+
+        private static Settings ConfigureSettings()
+        {
+            var settings = new Settings()
+            {
+                StringCompareOptions = System.Globalization.CompareOptions.IgnoreCase
+            };
+
+            settings.SetStandardWhiteList();
+            return settings;
+        }
+
+        private static Func<MachineRecordRowView, string, bool> BuidFilterFunc()
+        {
+            var settings = ConfigureSettings();
+            settings.Deep = 1;
+            settings.AddPropertyToWhiteList(typeof(int));
+            settings.AddPropertyToWhiteList(typeof(string));
+            settings.AddPropertyToWhiteList(typeof(DateTime));
+
+            var recFunction = CompareThis.CompareFactory.BuildContainsFunc<Record>(settings);
+
+            var function = new Func<MachineRecordRowView, string, bool>((r, f) => recFunction.Invoke(r.Record, f) 
+            || CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.ClientName, f, CompareOptions.IgnoreCase) >= 0
+            || ((r.Address.Ulica) != null && CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.Address.Ulica, f, CompareOptions.IgnoreCase) >= 0)
+            );
+
+            return function;
         }
     }
 }

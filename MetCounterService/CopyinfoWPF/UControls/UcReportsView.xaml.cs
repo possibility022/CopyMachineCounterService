@@ -26,13 +26,6 @@ namespace CopyinfoWPF.UControls
             ViewModel.DialogCoordinator = DialogCoordinator.Instance;
         }
 
-        private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-                //ViewModel.RefreshFiltersCommand.Execute(null);
-                ViewModel.ApplyFilters();
-        }
-
         private void dataGridWithRecords_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ViewModel.OpenSelectedRecord();

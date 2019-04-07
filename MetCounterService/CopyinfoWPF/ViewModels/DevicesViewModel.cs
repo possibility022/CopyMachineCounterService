@@ -1,4 +1,5 @@
-﻿using CopyinfoWPF.Commands;
+﻿using CompareThis;
+using CopyinfoWPF.Commands;
 using CopyinfoWPF.Configuration;
 using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.Services.Interfaces;
@@ -17,14 +18,29 @@ namespace CopyinfoWPF.ViewModels
     {
         public DevicesViewModel() : this(UnityConfiguration.Resolve<IDeviceService>())
         {
-            
+
         }
 
         public DevicesViewModel(IDeviceService deviceService) : base(deviceService)
-        {
+        { 
             _deviceService = deviceService;
             RefreshCommand = new AsyncCommand(Refresh, CanExecute);
             DataGridDoubleClickCommand = new BaseCommand(ShowDetails);
+            FilterTextKeyUpCommand = new BaseCommand(ApplyFilters);
+            var settings = ConfigureFilterSettings();
+            FilterLogic = CompareFactory.BuildContainsFunc<DeviceRowView>();
+        }
+
+        private static Settings ConfigureFilterSettings()
+        {
+            var settings = new Settings()
+            {
+                StringCompareOptions = System.Globalization.CompareOptions.IgnoreCase,
+                Deep = 1
+            };
+
+            settings.SetStandardWhiteList();
+            return settings;
         }
 
         private void ShowDetails()
@@ -45,7 +61,7 @@ namespace CopyinfoWPF.ViewModels
 
         IDeviceService _deviceService;
         bool _canRefresh = true;
-        
+
         public override string ViewName => "Devices";
 
         private async Task Refresh()
@@ -55,18 +71,13 @@ namespace CopyinfoWPF.ViewModels
             _sourceCollection.Clear();
             _sourceCollection.AddRange(records);
             Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
-            Collection.Filter = FilterLogic;
+            Collection.Filter = FilterCollection;
             _canRefresh = true;
         }
 
-        private bool FilterLogic(object o)
+        private void ApplyFilters()
         {
-            var row = (DeviceRowView)o;
-
-            return row.Address.ToLower().Contains(FilterText) ||
-                row.ClientName.ToLower().Contains(FilterText) ||
-                row.InstallationDateTime.ToString().ToLower().Contains(FilterText) ||
-                row.SerialNumber.ToLower().Contains(FilterText);
+            Collection.Refresh();
         }
 
         private bool CanExecute(object parameter)
@@ -78,7 +89,5 @@ namespace CopyinfoWPF.ViewModels
         {
             return _deviceService.GetAll();
         }
-
-
     }
 }

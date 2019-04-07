@@ -14,6 +14,16 @@ namespace CopyinfoWPF.ViewModels
 {
     public class DeviceOverviewViewModel : BindableBase
     {
+
+        public DeviceOverviewViewModel() { }
+
+        [InjectionConstructor]
+        public DeviceOverviewViewModel(IMachineRecordService service, IDeviceService deviceService)
+        {
+            _machineRecordService = service;
+            _deviceService = deviceService;
+        }
+
         private string _manufacturer;
         public string Manufacturer
         {
@@ -107,15 +117,6 @@ namespace CopyinfoWPF.ViewModels
 
         private readonly IMachineRecordService _machineRecordService;
         private readonly IDeviceService _deviceService;
-
-        public DeviceOverviewViewModel() { }
-
-        [InjectionConstructor]
-        public DeviceOverviewViewModel(IMachineRecordService service, IDeviceService deviceService)
-        {
-            _machineRecordService = service;
-            _deviceService = deviceService;
-        }
 
         private void UpdateDevice(UrzadzenieKlient device)
         {

@@ -7,7 +7,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine
     public class Record
     {
         public virtual int Id { get; set; }
-        public virtual EmailSource EmailSource { get; set; }
+        public virtual EmailSource EmailSource { get => null; set { } }
         public virtual ServiceSourceCounters ServiceSourceCounters { get; set; }
         public virtual ServiceSourceSerialNumber ServiceSourceSerialNumber { get; set; }
         public virtual int? CounterBlackAndWhite { get; set; }
