@@ -24,7 +24,7 @@ namespace CopyinfoWPF.ViewModels
         public DevicesViewModel(IDeviceService deviceService) : base(deviceService)
         { 
             _deviceService = deviceService;
-            RefreshCommand = new AsyncCommand(Refresh, CanExecute);
+            RefreshCommand = new AsyncCommand(Refresh, CanRefresh);
             DataGridDoubleClickCommand = new BaseCommand(ShowDetails);
             FilterTextKeyUpCommand = new BaseCommand(ApplyFilters);
             var settings = ConfigureFilterSettings();
@@ -60,7 +60,6 @@ namespace CopyinfoWPF.ViewModels
         }
 
         IDeviceService _deviceService;
-        bool _canRefresh = true;
 
         public override string ViewName => "Devices";
 
@@ -73,16 +72,6 @@ namespace CopyinfoWPF.ViewModels
             Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
             Collection.Filter = FilterCollection;
             _canRefresh = true;
-        }
-
-        private void ApplyFilters()
-        {
-            Collection.Refresh();
-        }
-
-        private bool CanExecute(object parameter)
-        {
-            return _canRefresh;
         }
 
         private IEnumerable<DeviceRowView> GetRecords()

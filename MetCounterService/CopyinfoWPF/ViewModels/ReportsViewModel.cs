@@ -46,7 +46,6 @@ namespace CopyinfoWPF.ViewModels
         IFormatter<MachineRecordRowView> _recordFormatter;
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
-        private bool _canRefresh = true;
 
         public override string ViewName => "Reports";
 
@@ -77,11 +76,6 @@ namespace CopyinfoWPF.ViewModels
         {
             get => _dialogCoordinator;
             set => SetProperty(ref _dialogCoordinator, value);
-        }
-
-        public void ApplyFilters()
-        {
-            Collection.Refresh();
         }
 
         private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordRowView> selectedRecords, Func<MachineRecordRowView, bool> selector)
@@ -215,11 +209,6 @@ namespace CopyinfoWPF.ViewModels
             _sourceCollection.AddRange(records);
             Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
             _canRefresh = true;
-        }
-
-        private bool CanRefresh(object param)
-        {
-            return _canRefresh;
         }
 
         private IEnumerable<MachineRecordRowView> GetRecords()

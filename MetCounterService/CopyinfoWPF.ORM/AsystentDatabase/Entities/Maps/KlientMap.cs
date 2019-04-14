@@ -17,7 +17,7 @@ namespace CopyinfoWPF.ORM.AsystentDatabase.Entities.Maps
 			Property(x => x.Nip);
 			Property(x => x.NazwaSkr, map => { map.Column("NAZWA_SKR"); map.NotNullable(true); });
 			Property(x => x.Nazwa2, map => map.Column("NAZWA_2"));
-            //Property(x => x.Opis); // strange type. BLOB-SUB TYPE1
+            Property(x => x.Opis); // strange type. BLOB-SUB TYPE1
             Property(x => x.KodUzytkownika, map => map.Column("KOD_UZYTKOWNIKA"));
 			Property(x => x.Ulica);
 			Property(x => x.NrDomu, map => map.Column("NR_DOMU"));

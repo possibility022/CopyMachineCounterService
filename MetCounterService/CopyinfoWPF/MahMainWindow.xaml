@@ -28,6 +28,11 @@
                         <UControls:UcDevicesView />
                     </DataTemplate>
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type ViewModels:ClientsViewModel}">
+                        <UControls:UcClientsView />
+                    </DataTemplate>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

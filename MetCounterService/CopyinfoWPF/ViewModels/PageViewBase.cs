@@ -77,5 +77,17 @@ namespace CopyinfoWPF.ViewModels
                 Collection.Filter = FilterCollection;
             }
         }
+
+        protected bool _canRefresh = true;
+
+        protected bool CanRefresh(object param)
+        {
+            return _canRefresh;
+        }
+
+        protected void ApplyFilters()
+        {
+            Collection.Refresh();
+        }
     }
 }

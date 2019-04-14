@@ -104,7 +104,8 @@ namespace CopyinfoWPF.ViewModels
             var views = new IPageView[]
             {
                 recordsModel,
-                new DevicesViewModel(UnityConfiguration.Container.Resolve<IDeviceService>())
+                new DevicesViewModel(UnityConfiguration.Container.Resolve<IDeviceService>()),
+                new ClientsViewModel(UnityConfiguration.Container.Resolve<IClientService>()),
             };
 
 

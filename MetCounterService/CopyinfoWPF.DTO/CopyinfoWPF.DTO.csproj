@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\BaseRow.cs" />
+    <Compile Include="Models\ClientViewModel.cs" />
     <Compile Include="Models\DeviceRowView.cs" />
     <Compile Include="Models\RecordViewModel.cs" />
     <Compile Include="Models\DeviceViewModel.cs" />
