@@ -276,6 +276,7 @@ namespace CopyinfoWPF.ViewModels
             var function = new Func<MachineRecordRowView, string, bool>((r, f) => recFunction.Invoke(r.Record, f) 
             || CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.ClientName, f, CompareOptions.IgnoreCase) >= 0
             || ((r.Address.Ulica) != null && CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.Address.Ulica, f, CompareOptions.IgnoreCase) >= 0)
+            || ((r.Device?.ModelUrzadzenia?.Nazwa1) != null && CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.Device?.ModelUrzadzenia?.Nazwa1, f, CompareOptions.IgnoreCase) >= 0)
             );
 
             return function;
