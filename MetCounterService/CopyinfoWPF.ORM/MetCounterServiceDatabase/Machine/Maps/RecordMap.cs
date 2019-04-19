@@ -32,12 +32,14 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
                 map.Column("EmailSource");
                 map.NotNullable(false);
                 map.Cascade(Cascade.DeleteOrphans);
+                map.Update(false);
             });
 
             ManyToOne(x => x.ServiceSourceCounters, map =>
             {
                 map.Column("ServiceSourceCounters");
                 map.NotNullable(false);
+                map.Update(false);
                 map.Cascade(Cascade.DeleteOrphans);
             });
 
@@ -45,6 +47,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
             {
                 map.Column("ServiceSourceSerialNumber");
                 map.NotNullable(false);
+                map.Update(false);
                 map.Cascade(Cascade.DeleteOrphans);
             });
 
