@@ -94,8 +94,8 @@ namespace CopyinfoWPF.Formatters
         private void RecToString(MachineRecordRowView rec, ref StringBuilder sb)
         {
             sb.AppendLine($"Klient: {rec.ClientName} NIP: {rec.Client?.Nip}");
-            sb.AppendLine($"Producent: {rec.Device?.ModelUrzadzenia.MarkaUrzadzenia.Nazwa1}");
-            sb.AppendLine($"Model: {rec.Device?.ModelUrzadzenia.Nazwa1}");
+            sb.AppendLine($"Producent: {rec.Device?.ModelUrzadzenia?.MarkaUrzadzenia?.Nazwa1}");
+            sb.AppendLine($"Model: {rec.Device?.ModelUrzadzenia?.Nazwa1}");
             sb.AppendLine($"Adres: {rec.Address?.Ulica}");
             GetText(rec.Record, ref sb);
 
