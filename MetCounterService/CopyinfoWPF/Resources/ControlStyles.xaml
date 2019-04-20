@@ -70,6 +70,30 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
+    <!--  Text Boxes  -->
+
+    <Style x:Key="TextHeader" TargetType="{x:Type TextBox}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="TextInfo" TargetType="{x:Type TextBox}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+
+
 
     <!--  User Control  -->
     <Style TargetType="{x:Type UserControl}">

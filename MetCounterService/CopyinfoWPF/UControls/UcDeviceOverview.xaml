@@ -37,12 +37,12 @@
             Content="Producent:"
             Style="{StaticResource Header}" />
 
-        <Label
+        <TextBox
             Grid.Row="0"
             Grid.Column="1"
             Margin="10,0,0,0"
-            Content="{Binding Manufacturer}"
-            Style="{StaticResource Header}" />
+            Style="{StaticResource TextHeader}"
+            Text="{Binding Manufacturer}" />
 
 
         <Label
@@ -51,12 +51,12 @@
             Content="Model:"
             Style="{StaticResource Header}" />
 
-        <Label
+        <TextBox
             Grid.Row="1"
             Grid.Column="1"
             Margin="10,0,0,0"
-            Content="{Binding Model}"
-            Style="{StaticResource Header}" />
+            Style="{StaticResource TextHeader}"
+            Text="{Binding Model}" />
 
         <Label
             Grid.Row="2"
@@ -64,11 +64,11 @@
             Content="Numer seryjny: "
             Style="{StaticResource Header}" />
 
-        <Label
+        <TextBox
             Grid.Row="2"
             Grid.Column="1"
-            Content="{Binding SerialNumber}"
-            Style="{StaticResource Header}" />
+            Style="{StaticResource TextHeader}"
+            Text="{Binding SerialNumber}" />
 
         <Label
             Grid.Row="3"
@@ -76,11 +76,11 @@
             Content="Data instalacji: "
             Style="{StaticResource Header}" />
 
-        <Label
+        <TextBox
             Grid.Row="3"
             Grid.Column="1"
-            Content="{Binding InstallationDate}"
-            Style="{StaticResource Header}" />
+            Style="{StaticResource TextHeader}"
+            Text="{Binding InstallationDate}" />
 
         <Label
             Grid.Row="4"
