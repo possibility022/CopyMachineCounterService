@@ -31,7 +31,7 @@ namespace CopyinfoWPF.UControls
 
         private static void StreetChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
         {
-            ((UcAddress)property).StreetL.Content = (string)args.NewValue;
+            ((UcAddress)property).StreetL.Text = (string)args.NewValue;
         }
 
 
@@ -54,7 +54,7 @@ namespace CopyinfoWPF.UControls
 
         private static void HouseNumberChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
         {
-            ((UcAddress)property).HouseNumberL.Content = (string)args.NewValue;
+            ((UcAddress)property).HouseNumberL.Text = (string)args.NewValue;
         }
 
 
@@ -79,7 +79,7 @@ namespace CopyinfoWPF.UControls
 
         private static void CityChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
         {
-            ((UcAddress)property).CityL.Content = (string)args.NewValue;
+            ((UcAddress)property).CityL.Text = (string)args.NewValue;
         }
 
         public string PostNumber
@@ -100,7 +100,7 @@ namespace CopyinfoWPF.UControls
 
         private static void PostNumberChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
         {
-            ((UcAddress)property).PostNumberL.Content = (string)args.NewValue;
+            ((UcAddress)property).PostNumberL.Text = (string)args.NewValue;
         }
 
 
@@ -123,7 +123,7 @@ namespace CopyinfoWPF.UControls
 
         private static void PostCityChange(DependencyObject property, DependencyPropertyChangedEventArgs args)
         {
-            ((UcAddress)property).PostCityL.Content = (string)args.NewValue;
+            ((UcAddress)property).PostCityL.Text = (string)args.NewValue;
         }
     }
 }

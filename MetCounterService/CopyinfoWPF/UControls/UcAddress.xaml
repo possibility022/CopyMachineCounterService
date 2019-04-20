@@ -34,12 +34,12 @@
             Content="Ulica:"
             Style="{StaticResource Info}" />
 
-        <Label
+        <TextBox
             Name="StreetL"
             Grid.Row="0"
             Grid.Column="2"
-            Content="Łazienkowa"
-            Style="{StaticResource Info}" />
+            Style="{StaticResource TextInfo}"
+            Text="Łazienkowa" />
 
         <!--  Numer Domu  -->
 
@@ -49,12 +49,12 @@
             Content="Numer Domu:"
             Style="{StaticResource Info}" />
 
-        <Label
+        <TextBox
             Name="HouseNumberL"
             Grid.Row="1"
             Grid.Column="2"
-            Content="1"
-            Style="{StaticResource Info}" />
+            Style="{StaticResource TextInfo}"
+            Text="1" />
 
         <!--  Miejscowość  -->
 
@@ -64,12 +64,12 @@
             Content="Miejscowość:"
             Style="{StaticResource Info}" />
 
-        <Label
+        <TextBox
             Name="CityL"
             Grid.Row="2"
             Grid.Column="2"
-            Content="Kąty Wrocławskie"
-            Style="{StaticResource Info}" />
+            Style="{StaticResource TextInfo}"
+            Text="Kąty Wrocławskie" />
 
         <!--  Kod pocztowy  -->
 
@@ -79,12 +79,12 @@
             Content="Kod pocztowy:"
             Style="{StaticResource Info}" />
 
-        <Label
+        <TextBox
             Name="PostNumberL"
             Grid.Row="3"
             Grid.Column="2"
-            Content="55-080"
-            Style="{StaticResource Info}" />
+            Style="{StaticResource TextInfo}"
+            Text="55-080" />
 
         <!--  Poczta  -->
 
@@ -94,12 +94,12 @@
             Content="Poczta:"
             Style="{StaticResource Info}" />
 
-        <Label
+        <TextBox
             Name="PostCityL"
             Grid.Row="4"
             Grid.Column="2"
-            Content="Kąty Wrocławskie"
-            Style="{StaticResource Info}" />
+            Style="{StaticResource TextInfo}"
+            Text="Kąty Wrocławskie" />
 
     </Grid>
 </UserControl>

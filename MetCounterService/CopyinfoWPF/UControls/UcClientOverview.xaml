@@ -37,12 +37,12 @@
             Content="Klient:"
             Style="{StaticResource Header}" />
 
-        <Label
+        <TextBox
             Grid.Row="0"
             Grid.Column="1"
             Margin="10,0,0,0"
-            Content="{Binding Name}"
-            Style="{StaticResource Header}" />
+            Style="{StaticResource TextHeader}"
+            Text="{Binding Name}" />
 
 
         <Label
@@ -51,12 +51,12 @@
             Content="NIP:"
             Style="{StaticResource Header}" />
 
-        <Label
+        <TextBox
             Grid.Row="1"
             Grid.Column="1"
             Margin="10,0,0,0"
-            Content="{Binding NIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource Header}" />
+            Style="{StaticResource TextHeader}"
+            Text="{Binding NIP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <Label
             Grid.Row="2"
