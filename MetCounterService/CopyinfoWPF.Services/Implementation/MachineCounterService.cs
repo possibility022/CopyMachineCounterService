@@ -10,15 +10,29 @@ namespace CopyinfoWPF.Services.Implementation
     public class MachineCounterService : IMachineCounterService
     {
         private IGenericRepository<Record> _recordRepository;
+        private IGenericRepository<EmailSource> _emailSource;
+        private IGenericRepository<ServiceSourceCounters> _serviceSourceCounters;
 
         public MachineCounterService(IDatabaseSessionProvider databaseSessionProvider)
         {
             _recordRepository = new GenericRepository<Record>(databaseSessionProvider.OpenSession(DatabaseType.CounterService));
+            _emailSource = new GenericRepository<EmailSource>(databaseSessionProvider.OpenSession(DatabaseType.CounterService));
+            _serviceSourceCounters = new GenericRepository<ServiceSourceCounters>(databaseSessionProvider.OpenSession(DatabaseType.CounterService));
         }
 
         public IList<Record> GetAllRecords()
         {
             return _recordRepository.All().ToList();
+        }
+
+        public EmailSource GetEmailSource(int emailSourceId)
+        {
+            return _emailSource.FindBy(emailSourceId);
+        }
+
+        public ServiceSourceCounters GetHtmlCounterSource(int emailSourceId)
+        {
+            return _serviceSourceCounters.FindBy(emailSourceId);
         }
 
         public void RefreshRecords(IEnumerable<Record> records)

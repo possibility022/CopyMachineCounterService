@@ -24,5 +24,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine
         public virtual string AddressMac { get; set; }
         public virtual bool Printed { get; set; }
         public virtual int? EmailSourceId { get; set; }
+        public virtual int? ServiceSourceSerialNumberId { get; set; }
+        public virtual int? ServiceSourceCountersId { get; set; }
     }
 }

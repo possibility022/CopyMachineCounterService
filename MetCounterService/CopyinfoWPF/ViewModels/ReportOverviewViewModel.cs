@@ -2,6 +2,7 @@
 using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.Interfaces.Formatters;
 using CopyinfoWPF.Model;
+using CopyinfoWPF.Services.Interfaces;
 using CopyinfoWPF.Workflows.Email;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
@@ -14,13 +15,15 @@ namespace CopyinfoWPF.ViewModels
 
         IFormatter<EmailMessage> _emailFormatter;
         IFormatter<RecordViewModel> _recordFormatter;
+        private readonly IMachineCounterService _machineCounterService;
 
         public ReportOverviewViewModel() { }
 
-        public ReportOverviewViewModel(IFormatter<EmailMessage> emailFormatter, IFormatter<RecordViewModel> recordFormatter)
+        public ReportOverviewViewModel(IFormatter<EmailMessage> emailFormatter, IFormatter<RecordViewModel> recordFormatter, IMachineCounterService machineCounterService)
         {
             _emailFormatter = emailFormatter;
             _recordFormatter = recordFormatter;
+            _machineCounterService = machineCounterService;
         }
 
         private string _textContent = string.Empty;
@@ -93,17 +96,21 @@ namespace CopyinfoWPF.ViewModels
             {
                 case ORM.DatabaseType.CounterService:
 
-                    if (recordViewModel.BinaryContent != null)
+                    if (recordViewModel.EmailContentId != null)
                     {
+                        var emailSource = _machineCounterService.GetEmailSource(recordViewModel.EmailContentId.Value);
+
                         TextContent = _emailFormatter
-                            .GetText(new EmailMessage(recordViewModel.BinaryContent))
+                            .GetText(new EmailMessage(emailSource.Content))
                             .ToString();
 
                         TextVisible = Visibility.Visible;
                     }
-                    else if (!string.IsNullOrEmpty(recordViewModel.HtmlContent))
+                    else if (recordViewModel.HtmlSourceId != null)
                     {
-                        HtmlToDisplay = recordViewModel.HtmlContent;
+                        var htmlSource = _machineCounterService.GetHtmlCounterSource(recordViewModel.HtmlSourceId.Value);
+
+                        HtmlToDisplay = htmlSource.Content;
                         WebBrowserVisible = Visibility.Visible;
                     }
                     break;

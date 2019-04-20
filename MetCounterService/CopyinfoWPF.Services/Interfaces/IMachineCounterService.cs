@@ -12,5 +12,8 @@ namespace CopyinfoWPF.Services.Interfaces
         void SetRecordToPrinted(IEnumerable<Record> record);
 
         void RefreshRecords(IEnumerable<Record> records);
+
+        EmailSource GetEmailSource(int emailSourceId);
+        ServiceSourceCounters GetHtmlCounterSource(int emailSourceId);
     }
 }

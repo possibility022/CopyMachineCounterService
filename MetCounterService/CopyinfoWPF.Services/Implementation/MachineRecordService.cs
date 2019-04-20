@@ -107,18 +107,21 @@ namespace CopyinfoWPF.Services.Implementation
                     list.Add(model);
                 }
 
-                foreach (var rec in _recordRepository.FilterBy(d => d.SerialNumber == deviceSerialNumber))
-                {
-                    list.Add(new RecordViewModel(rec.Id, DatabaseType.CounterService)
+                foreach (var rec in _recordRepository
+                    .FilterBy(d => d.SerialNumber == deviceSerialNumber)
+                    .Select(r => new RecordViewModel(r.Id, DatabaseType.CounterService)
                     {
-                        BlackAndWhite = rec.CounterBlackAndWhite ?? 0,
-                        Color = rec.CounterColor ?? 0,
-                        Scan = rec.CounterScanner ?? 0,
-                        DateTime = rec.ReadDatetime,
+                        BlackAndWhite = r.CounterBlackAndWhite ?? 0,
+                        Color = r.CounterColor ?? 0,
+                        Scan = r.CounterScanner ?? 0,
+                        DateTime = r.ReadDatetime,
                         ServiceMan = "System",
-                        BinaryContent = rec.EmailSource?.Content,
-                        HtmlContent = rec.ServiceSourceCounters?.Content
-                    });
+                        HtmlSourceId = r.ServiceSourceCountersId,
+                        EmailContentId = r.EmailSourceId
+                    })
+                    )
+                {
+                    list.Add(rec);
                 }
             }
 

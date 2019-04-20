@@ -22,20 +22,6 @@ namespace CopyinfoWPF.DTO.Models
             set => SetProperty(ref _textContent, value);
         }
 
-        private string _htmlContent;
-        public string HtmlContent
-        {
-            get { return _htmlContent; }
-            set { SetProperty(ref _htmlContent, value); }
-        }
-
-        private byte[] _binaryContent;
-        public byte[] BinaryContent
-        {
-            get { return _binaryContent; }
-            set { SetProperty(ref _binaryContent, value); }
-        }
-
         public DatabaseType Source { get; }
 
         private string _serviceMan;
@@ -72,6 +58,20 @@ namespace CopyinfoWPF.DTO.Models
         {
             get { return _scan; }
             set { SetProperty(ref _scan, value); }
+        }
+
+        private int? _emailContentId;
+        public int? EmailContentId
+        {
+            get { return _emailContentId; }
+            set { SetProperty(ref _emailContentId, value); }
+        }
+
+        private int? _htmlSourceId;
+        public int? HtmlSourceId
+        {
+            get { return _htmlSourceId; }
+            set { SetProperty(ref _htmlSourceId, value); }
         }
     }
 }
