@@ -53,16 +53,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>E7C9F1A45CB597A2F55019144BB81D5698C9CD71</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>5D969F3D86F2D6FF4BE4054D6FC9A23A2BE25526</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WindowsMetService_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>WindowsMetService_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -112,7 +112,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="WindowsMetService_TemporaryKey.pfx" />
+    <None Include="WindowsMetService_1_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">

@@ -245,5 +245,7 @@ ModelManifest.xml
 .fake/
 /MetCounterService/MetSide/.idea
 /MetCounterService/ServerSide/.idea
-/MetCounterService/MetSide/__pycache__
 .vscode
+/MetCounterService/MetSide/.mypy_cache/3.6
+*.jfm
+__pycache__

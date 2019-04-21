@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6A9C499D-22B2-4B58-909D-0A524B0461D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CopyinfoWPF.ORM</RootNamespace>
+    <AssemblyName>CopyinfoWPF.ORM</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=6.6.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.6.6.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=5.1.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.5.1.3\lib\net461\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.2.1.2\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq.EagerFetching, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Remotion.Linq.EagerFetching.2.1.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Configuration, Version=5.2.5.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Container.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception, Version=5.5.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Interception.Configuration, Version=5.1.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.RegistrationByConvention, Version=2.1.9.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.11\lib\net46\Unity.ServiceLocation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AsystentDatabase\AsystentFactorySettings.cs" />
+    <Compile Include="AsystentDatabase\Entities\AdDziennikZdarzen.cs" />
+    <Compile Include="AsystentDatabase\Entities\AdresKlient.cs" />
+    <Compile Include="AsystentDatabase\Entities\AdZdarzenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\Blokady.cs" />
+    <Compile Include="AsystentDatabase\Entities\CrmFormyKomunikacji.cs" />
+    <Compile Include="AsystentDatabase\Entities\CrmKategoriaSpr.cs" />
+    <Compile Include="AsystentDatabase\Entities\CrmKontakty.cs" />
+    <Compile Include="AsystentDatabase\Entities\CrmRodzajZadania.cs" />
+    <Compile Include="AsystentDatabase\Entities\Dostawcy.cs" />
+    <Compile Include="AsystentDatabase\Entities\GrupaKlient.cs" />
+    <Compile Include="AsystentDatabase\Entities\JakieRozliczenie.cs" />
+    <Compile Include="AsystentDatabase\Entities\JednostkiMiary.cs" />
+    <Compile Include="AsystentDatabase\Entities\Klient.cs" />
+    <Compile Include="AsystentDatabase\Entities\KlientStatus.cs" />
+    <Compile Include="AsystentDatabase\Entities\Magazyn.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\AdDziennikZdarzenMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\AdresKlientMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\AdZdarzeniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\BlokadyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\CrmFormyKomunikacjiMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\CrmKategoriaSprMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\CrmKontaktyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\CrmRodzajZadaniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\DostawcyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\GrupaKlientMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\JakieRozliczenieMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\JednostkiMiaryMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\KlientMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\KlientStatusMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\MagazynMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\MarkaUrzadzeniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\MatEksploatMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\ModelUrzadzeniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\NotatkiMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\OkresRozliczeniowyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\PracownikMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\PrzypomnCyklMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\PrzypomnOdlozMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\RodzajDokumentuMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\RodzajUrzadzeniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\RodzajZleceniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\SerwisMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\SposobZglZleceniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\StatusCrmSprawyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\StatusCrmZadaniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\StatusPrzypomnieniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\StatusUmowyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\StatusZleceniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\StawkiVatMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\SymbolePkwiuMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\TowarMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\TowarMarkaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\TowarRezerwacjaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\TransportMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\TypDokumentuMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\TypPlatnosciMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\TypZleceniaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\UmowaSerwisowaMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\UrzadzenieKlientMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\UrzadzenieKlientStatusMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\WalutyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\WersjaBazyMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\ZamowieniaCzesciMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\Maps\ZlecenieSerwisoweMap.cs" />
+    <Compile Include="AsystentDatabase\Entities\MarkaUrzadzenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\MatEksploat.cs" />
+    <Compile Include="AsystentDatabase\Entities\ModelUrzadzenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\Notatki.cs" />
+    <Compile Include="AsystentDatabase\Entities\OkresRozliczeniowy.cs" />
+    <Compile Include="AsystentDatabase\Entities\Pracownik.cs" />
+    <Compile Include="AsystentDatabase\Entities\PrzypomnCykl.cs" />
+    <Compile Include="AsystentDatabase\Entities\PrzypomnOdloz.cs" />
+    <Compile Include="AsystentDatabase\Entities\RodzajDokumentu.cs" />
+    <Compile Include="AsystentDatabase\Entities\RodzajUrzadzenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\RodzajZlecenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\Serwis.cs" />
+    <Compile Include="AsystentDatabase\Entities\SposobZglZlecenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\StatusCrmSprawy.cs" />
+    <Compile Include="AsystentDatabase\Entities\StatusCrmZadania.cs" />
+    <Compile Include="AsystentDatabase\Entities\StatusPrzypomnienia.cs" />
+    <Compile Include="AsystentDatabase\Entities\StatusUmowy.cs" />
+    <Compile Include="AsystentDatabase\Entities\StatusZlecenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\StawkiVat.cs" />
+    <Compile Include="AsystentDatabase\Entities\SymbolePkwiu.cs" />
+    <Compile Include="AsystentDatabase\Entities\Towar.cs" />
+    <Compile Include="AsystentDatabase\Entities\TowarMarka.cs" />
+    <Compile Include="AsystentDatabase\Entities\TowarRezerwacja.cs" />
+    <Compile Include="AsystentDatabase\Entities\Transport.cs" />
+    <Compile Include="AsystentDatabase\Entities\TypDokumentu.cs" />
+    <Compile Include="AsystentDatabase\Entities\TypPlatnosci.cs" />
+    <Compile Include="AsystentDatabase\Entities\TypZlecenia.cs" />
+    <Compile Include="AsystentDatabase\Entities\UmowaSerwisowa.cs" />
+    <Compile Include="AsystentDatabase\Entities\UrzadzenieKlient.cs" />
+    <Compile Include="AsystentDatabase\Entities\UrzadzenieKlientStatus.cs" />
+    <Compile Include="AsystentDatabase\Entities\Waluty.cs" />
+    <Compile Include="AsystentDatabase\Entities\WersjaBazy.cs" />
+    <Compile Include="AsystentDatabase\Entities\ZamowieniaCzesci.cs" />
+    <Compile Include="AsystentDatabase\Entities\ZlecenieSerwisowe.cs" />
+    <Compile Include="DatabaseSessionProvider.cs" />
+    <Compile Include="DatabaseType.cs" />
+    <Compile Include="IDatabaseSessionProvider.cs" />
+    <Compile Include="MetCounterServiceDatabase\MetSessionFactorySettings.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\EmailSource.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\EmailsourceMap.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\RecordMap.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\ServiceSourceCountersMap.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Maps\ServiceSourceSerialNumberMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\Record.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\ServiceSourceCounters.cs" />
+    <Compile Include="MetCounterServiceDatabase\Machine\ServiceSourceSerialNumber.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

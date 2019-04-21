@@ -1,101 +1,274 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Prism.Mvvm;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using CopyinfoWPF.Database;
-using System.Threading.Tasks;
-using Copyinfo.Other;
-using CopyinfoWPF.Views;
-using System.Windows.Controls;
-using CopyinfoWPF.Workflows;
-
 using System.ComponentModel;
 using System.Windows.Data;
+using CopyinfoWPF.DTO.Models;
+using System.Windows.Controls;
+using System;
+using CopyinfoWPF.Views;
+using CopyinfoWPF.Interfaces.Formatters;
+using CopyinfoWPF.Workflows.Printing;
+using CopyinfoWPF.Services.Interfaces;
+using System.Linq;
+using System.Windows.Input;
+using CopyinfoWPF.Commands;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
+using CopyinfoWPF.Configuration;
+using CompareThis;
+using CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine;
+using System.Globalization;
 
 namespace CopyinfoWPF.ViewModels
 {
-    class ReportsViewModel : BindableBase
+    public class ReportsViewModel : PageViewBase<MachineRecordRowView>
     {
-        ICollectionView _records;
-        private bool _printButtonEnabled;
-        MachineRecord _selectedRecord;
-        private System.Collections.IList _selectedRecords;
-        private string _filterText = string.Empty;
-
-        public ObservableCollection<MachineRecord> _allRecords = new ObservableCollection<MachineRecord>();
-
-        public ICollectionView Records
+        public ReportsViewModel(IMachineRecordService machineRecordService) : base(machineRecordService)
         {
-            get { return _records; }
-            set { SetProperty(ref _records, value); }
+            FilterLogic = BuidFilterFunc();
+            Collection = CollectionViewSource.GetDefaultView(new MachineRecordRowView[] { });
+            SetDefaultSorting();
+            PrintingOptions = new ObservableCollection<string> { "Podgląd wydruku", "Drukuj wszystkie zaznaczone", "Podgląd wydruku - Wszystkie zaznaczone" };
+            PrintCommand = new AsyncCommand(Print, CanPrint);
+            PrintOptionCommand = new PrintOptions(PrintOption);
+            DataGridDoubleClickCommand = new BaseCommand(OpenSelectedRecord);
+            FilterTextKeyUpCommand = new BaseCommand(ApplyFilters);
+            RefreshCommand = new AsyncCommand(RefreshAsync, CanRefresh);
+            _recordFormatter = UnityConfiguration.Resolve<IFormatter<MachineRecordRowView>>();
+            _machineRecordService = machineRecordService;
         }
 
-        public MachineRecord SelectedRecord
+        public ReportsViewModel() : this(UnityConfiguration.Resolve<IMachineRecordService>())
         {
-            get { return _selectedRecord; }
-            set { SetProperty(ref _selectedRecord, value); }
+
         }
 
-        public System.Collections.IList SelectedRecords
+        IFormatter<MachineRecordRowView> _recordFormatter;
+        readonly IMachineRecordService _machineRecordService;
+        private IDialogCoordinator _dialogCoordinator;
+
+        public override string ViewName => "Reports";
+
+        private Func<MachineRecordRowView, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
+        private Func<MachineRecordRowView, bool> SelectAllRecords = (f => true);
+
+        public ICommand PrintCommand { get; private set; }
+        public ICommand PrintOptionCommand { get; private set; }
+
+        private Image _documentPrinted;
+        public Image DocumentPrinted
         {
-            get => _selectedRecords;
-            internal set
+            get { return _documentPrinted; }
+            set { SetProperty(ref _documentPrinted, value); }
+        }
+
+        private Image _documentNotPrinted;
+
+        public Image DocumentNotPrinted
+        {
+            get { return _documentNotPrinted; }
+            set { SetProperty(ref _documentNotPrinted, value); }
+        }
+
+        public ObservableCollection<string> PrintingOptions { get; private set; }
+
+        public IDialogCoordinator DialogCoordinator
+        {
+            get => _dialogCoordinator;
+            set => SetProperty(ref _dialogCoordinator, value);
+        }
+
+        private PrintingPreview GetPrintingPreview(out ICollection<MachineRecordRowView> selectedRecords, Func<MachineRecordRowView, bool> selector)
+        {
+            selectedRecords = GetSelected(selector).ToList();
+
+            if (!selectedRecords.Any())
+                return null;
+
+            _machineRecordService.RefreshViewModels(selectedRecords);
+            var preview = new PrintingPreview();
+            selectedRecords = GetSelected(selector).ToList();
+            preview.CreateDocument(_recordFormatter.GetText(selectedRecords));
+            return preview;
+        }
+
+        private async Task<bool> PrintOption(string option)
+        {
+            switch (option)
             {
-                SetProperty(ref _selectedRecords, value);
-                PrintButtonEnabled = _selectedRecords.Count > 0;
+                case "Podgląd wydruku":
+                    return await PrintPreview(SelectOnlyPrintedRecord);
+
+                case "Drukuj wszystkie zaznaczone":
+                    return await PrintSelectedItems(SelectAllRecords);
+
+                case "Podgląd wydruku - Wszystkie zaznaczone":
+                    return await PrintPreview(SelectAllRecords);
+            }
+
+            return false;
+        }
+
+        internal async Task<bool> PrintPreview(Func<MachineRecordRowView, bool> selector)
+        {
+            var printingPreview = GetPrintingPreview(out _, selector);
+            if (printingPreview == null)
+            {
+                //this.ShowMessageAsync("This is the title", "Some message");
+                var results = await ShowWrongPrintoutDialog();
+                if (results == MessageDialogResult.Affirmative)
+                    printingPreview = GetPrintingPreview(out _, SelectAllRecords);
+                else
+                    return false;
+            }
+
+            var dataContext = new PrintingPreviewViewModel(printingPreview);
+
+            var window = new PrintingPreviewView()
+            {
+                DataContext = dataContext
+            };
+            window.Show();
+            return true;
+        }
+
+        public async Task<bool> Print()
+        {
+            return await PrintSelectedItems(SelectOnlyPrintedRecord);
+        }
+
+        private bool CanPrint(object parameter)
+        {
+            return SelectedItems.Count > 0;
+        }
+
+        private async Task<MessageDialogResult> ShowWrongPrintoutDialog()
+        {
+            return await DialogCoordinator.ShowMessageAsync(this, string.Empty, "Wybrane liczniki zostały już wydrukowane, czy wydrukować je jeszcze raz?", MessageDialogStyle.AffirmativeAndNegative);
+        }
+
+        public async Task<bool> PrintSelectedItems(Func<MachineRecordRowView, bool> selector)
+        {
+            ICollection<MachineRecordRowView> selected;
+            var preview = GetPrintingPreview(out selected, selector);
+            if (!selected.Any())
+            {
+                var printAll = await ShowWrongPrintoutDialog();
+                if (printAll == MessageDialogResult.Affirmative)
+                    preview = GetPrintingPreview(out selected, SelectAllRecords);
+                else
+                    return false;
+            }
+
+            var printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
+            {
+
+                printDialog
+                    .PrintDocument(preview
+                    .XpsDocument
+                    .GetFixedDocumentSequence()
+                    .DocumentPaginator, "Copyinfo Print");
+
+                _machineRecordService.SetPrinted(selected);
+                return true;
+            }
+
+            return false;
+        }
+
+        private IEnumerable<MachineRecordRowView> GetSelected(Func<MachineRecordRowView, bool> filter)
+        {
+            if (SelectedItems == null)
+                yield break;
+            
+            foreach (var rec in SelectedItems)
+            {
+                var r = rec as MachineRecordRowView;
+                if (r != null && filter.Invoke(r))
+                    yield return r;
             }
         }
 
-        public string FilterText
+        public void SetRecords(IEnumerable<MachineRecordRowView> records)
         {
-            get => _filterText;
-            set { SetProperty(ref _filterText, value); Records.Refresh(); }
+            Loaded = true;
+            _sourceCollection.Clear();
+            _sourceCollection.AddRange(records);
+
+            Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
+            Collection.Filter = FilterCollection;
+            SetDefaultSorting();
         }
 
-        public bool PrintButtonEnabled { get => _printButtonEnabled; private set => SetProperty(ref _printButtonEnabled, value); }
-
-        public ReportsViewModel()
+        public async Task RefreshAsync()
         {
-            Records = CollectionViewSource.GetDefaultView(new List<MachineRecord>());
+            _canRefresh = false;
+            var records = await Task.Factory.StartNew(GetRecords);
+            _sourceCollection.Clear();
+            _sourceCollection.AddRange(records);
+            Collection = CollectionViewSource.GetDefaultView(_sourceCollection);
+            _canRefresh = true;
         }
 
-        private void ApplyFilter()
+        private IEnumerable<MachineRecordRowView> GetRecords()
         {
-            //Records.Clear();
-            //Records.AddRange(_allRecords.Where(FilterLogic));
+            _machineRecordService.RefreshCache();
+            return _machineRecordService.GetAll();
         }
 
-        public void SetRecords(IEnumerable<MachineRecord> records)
+        private void SetDefaultSorting()
         {
-            _allRecords.Clear();
-            _allRecords.AddRange(records);
-            Records = CollectionViewSource.GetDefaultView(_allRecords);
-            Records.Filter = FilterLogic;
+            if (Collection != null && Collection.CanSort == true)
+            {
+                Collection.SortDescriptions.Clear();
+                Collection.SortDescriptions.Add(new SortDescription($"{nameof(MachineRecordRowView.Record)}.{nameof(ORM.MetCounterServiceDatabase.Machine.Record.ReadDatetime)}", ListSortDirection.Descending));
+            }
         }
 
-        private bool FilterLogic(object item)
+        internal void OpenSelectedRecord()
         {
-            var rec = item as MachineRecord;
-            return rec.datetime.ToString().Contains(FilterText)
-                || rec.serial_number.Contains(FilterText)
-                || rec.print_counter_black_and_white.ToString().Contains(FilterText)
-                || rec.print_counter_color.ToString().Contains(FilterText)
-                || rec.scan_counter.ToString().Contains(FilterText)
-                || rec.tonerlevel_c.Contains(FilterText)
-                || rec.tonerlevel_y.Contains(FilterText)
-                || rec.tonerlevel_m.Contains(FilterText)
-                || rec.tonerlevel_k.Contains(FilterText);
+            var clientOverviewViewModel = new ClientOverviewViewModel();
+            var deviceOverviewViewModel = UnityConfiguration.Resolve<DeviceOverviewViewModel>();
+            var reportOverviewViewModel = UnityConfiguration.Resolve<ReportOverviewViewModel>();
+
+            clientOverviewViewModel.LoadClient((SelectedItems?.FirstOrDefault() as MachineRecordRowView)?.Client);
+
+            clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
+            deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
+
+            new OverviewView(clientOverviewViewModel, deviceOverviewViewModel, reportOverviewViewModel)
+                .Show();
         }
 
-        public async Task RefreshClickAsync()
+        private static Settings ConfigureSettings()
         {
-            SetRecords(await DAO.GetAllReportsAsync());
+            var settings = new Settings()
+            {
+                StringCompareOptions = System.Globalization.CompareOptions.IgnoreCase
+            };
+
+            settings.SetStandardWhiteList();
+            return settings;
         }
 
-        public void PrintSelectedItems(DataGrid dataGrid)
+        private static Func<MachineRecordRowView, string, bool> BuidFilterFunc()
         {
-            PrintingWorkflow.Print(SelectedRecords.Cast<MachineRecord>().ToList());
+            var settings = ConfigureSettings();
+            settings.Deep = 1;
+            settings.AddPropertyToWhiteList(typeof(int));
+            settings.AddPropertyToWhiteList(typeof(string));
+            settings.AddPropertyToWhiteList(typeof(DateTime));
+
+            var recFunction = CompareThis.CompareFactory.BuildContainsFunc<Record>(settings);
+
+            var function = new Func<MachineRecordRowView, string, bool>((r, f) => recFunction.Invoke(r.Record, f) 
+            || CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.ClientName, f, CompareOptions.IgnoreCase) >= 0
+            || ((r.Address.Ulica) != null && CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.Address.Ulica, f, CompareOptions.IgnoreCase) >= 0)
+            || ((r.Device?.ModelUrzadzenia?.Nazwa1) != null && CultureInfo.CurrentCulture.CompareInfo.IndexOf(r.Device?.ModelUrzadzenia?.Nazwa1, f, CompareOptions.IgnoreCase) >= 0)
+            );
+
+            return function;
         }
     }
 }

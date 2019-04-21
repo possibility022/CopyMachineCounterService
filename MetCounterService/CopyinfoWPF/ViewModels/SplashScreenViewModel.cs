@@ -1,15 +1,19 @@
-﻿using CopyinfoWPF.Security;
+﻿using Unity;
+using CopyinfoWPF.Security;
+using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security;
-using System.Text;
 using System.Threading.Tasks;
-using CopyinfoWPF.Common;
-using CopyinfoWPF.Resources;
-using System.Threading;
-using CopyinfoWPF.Database;
+using CopyinfoWPF.DTO.Models;
+using System.Windows;
+using CopyinfoWPF.Interfaces.Formatters;
+using CopyinfoWPF.Formatters;
+using AutoMapper;
+using CopyinfoWPF.Configuration;
+using CopyinfoWPF.Workflows.Email;
+using AutoUpdaterDotNET;
+using CopyinfoWPF.Interfaces;
+using CopyinfoWPF.Services.Implementation;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -23,29 +27,40 @@ namespace CopyinfoWPF.ViewModels
         }
 
         private string _message;
+        private object @Lock = new object();
 
-        public string LoadingAnimationVisible { get { return _loadingAnimationIsVisible ? "Visible" : "Hidden"; } }
+        private bool _checkedForUpdates;
 
-        private bool LoadingAnimationIsVisible
+        private string _loadingAnimationVisible;
+        public string LoadingAnimationVisible
         {
-            get { return _loadingAnimationIsVisible; }
-            set
-            {
-                SetProperty(ref _loadingAnimationIsVisible, value);
-                RaisePropertyChanged(nameof(LoadingAnimationVisible));
-            }
+            get => _loadingAnimationVisible;
+            private set => SetProperty(ref _loadingAnimationVisible, value);
         }
-        private bool _loadingAnimationIsVisible;
-
+        
         public SplashScreenViewModel()
         {
-            _loadingAnimationIsVisible = false;
+            ShowAnimation(false);
+        }
+
+        public SplashScreenViewModel(IMachineRecordService machineRecordService, IDeviceService deviceService)
+        {
+            ShowAnimation(false);
+            _deviceService = deviceService;
+            _machineRecordService = machineRecordService;
+        }
+
+        private IDeviceService _deviceService;
+        private IMachineRecordService _machineRecordService;
+
+        private void ShowAnimation(bool visible)
+        {
+            LoadingAnimationVisible = visible ? "Visible" : "Hidden";
         }
 
         public bool LoginClick(SecureString password)
         {
-
-            SecureString copyOfPassword = password.Copy();
+            var copyOfPassword = password.Copy();
             copyOfPassword.MakeReadOnly();
 
             bool passwordCorrect = Encrypting.DecryptSecureString(copyOfPassword, (result) =>
@@ -64,30 +79,62 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
-        public async Task<IEnumerable<MachineRecord>> StartLoadingAsync()
+        public async Task<Window> StartLoadingAsync()
         {
-            LoadingAnimationIsVisible = true;
-            Message = "Inicjalizacja bazy danych Liczników";
-            await MongoTB.InitializeAsync();
+            ShowAnimation(true);
 
-            Message = "Inicjalizacja bazy danych Asystenta";
-            await Database.LocalCache.FirebirdServiceCache.InitializeAsync();
+            Message = "Inicjalizacja automappera.";
+            await Task.Factory.StartNew(InitializeAutoMapper);
 
-            Message = "Inicjalizacja pamięci podręcznej.";
-            await DAO.InitializeAsync();
+            Message = "Inicjalizacja cach'u.";
+            Cache.InitializeCache();
 
-            Message = "Inicjalizacja skrzynki email.";
-            Email.Initialize(
-                Encrypting.AES_Decrypt(ConstantData.EncryptedEmailLogin),
-                Encrypting.AES_Decrypt(ConstantData.EncryptedEmailPassword),
-                Encrypting.AES_Decrypt(ConstantData.EncryptedEmailSmtpPassword));
+            Message = "Uzupełnianie cachu.";
+            _machineRecordService.RefreshCache();
 
             Message = "Pobieram dane z baz danych.";
+            var records = await Task.Factory.StartNew(_machineRecordService.GetAll);
 
-            IEnumerable<MachineRecord> records = await DAO.GetAllReportsAsync();
+            Message = "Tworzę okno aplikacji.";
+            var window = new MahMainWindow();
 
-            LoadingAnimationIsVisible = false;
-            return records;
+            var recordsModel = new ReportsViewModel();
+            recordsModel.SetRecords(records);
+
+            var views = new IPageView[]
+            {
+                recordsModel,
+                new DevicesViewModel(UnityConfiguration.Container.Resolve<IDeviceService>()),
+                new ClientsViewModel(UnityConfiguration.Container.Resolve<IClientService>()),
+            };
+
+
+            Message = "Uzupełniam widok pobranymi danymi.";
+            window.DataContext = new MahMainWindowModel(views);
+
+            ShowAnimation(false);
+            return window;
         }
+
+        public async Task CheckForUpdates()
+        {
+            if (!_checkedForUpdates)
+            {
+                await Task.Factory.StartNew(() => System.Threading.Thread.Sleep(1000)); // I have no idea what is going on but without 
+                                                                                        // this delay update window is shown only for few sec.
+                                                                                        // It works in debug and in most cases when you run it from VStudio.
+                                                                                        // To see efects (BUG) try to run application by double clicking on .exe file.
+                AutoUpdater.RunUpdateAsAdmin = false;
+                AutoUpdater.Start(App.NewVersionUrl, System.Reflection.Assembly.GetExecutingAssembly());
+                _checkedForUpdates = true;
+            }
+
+        }
+
+        private void InitializeAutoMapper()
+        {
+            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
+        }
+
     }
 }

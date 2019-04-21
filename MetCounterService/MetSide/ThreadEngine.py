@@ -5,6 +5,8 @@ import sys
 import os
 import traceback
 
+import json
+
 import Parser
 import MongoDatabase
 import Email
@@ -13,6 +15,13 @@ import logging
 
 import settings
 
+from Service.SQL.SqlDatabase import TBSQL
+from Service.Email.EmailClient import EmailPop3Client
+from Service.Parsing.EmailParsing import EmailParserV2
+from Service.Parsing.HTMLParser import HTMLParser
+from Service.Parsing.XmlParsing import XMLLoader
+from Service.Parsing.XmlParsing import XMLLoaderForHTML
+
 from MongoDatabase import MongoTB
 from Parser import DataParser
 from Email import EmailParser
@@ -20,8 +29,6 @@ from Email import EmailParser
 from datetime import datetime, timedelta
 
 import traceback
-
-
 
 
 class Engine(object):
@@ -38,7 +45,7 @@ class Engine(object):
                 message = mailbox.get_email_pop3(i)                 # Pobieram wiadomosc w formacie {'_id': bytes_id, 'mail':tablica_bajtow_wiadomosc }
                 if message is not None:                             # Jesli wiadomosc pobrano to
                     mailbox.insert_email_to_queue(message)          # Zapisujemy ja do kolejki
-                    mailbox.del_email(i)                            # I usuwamy z serwera
+                    #mailbox.del_email(i)                            # I usuwamy z serwera
 
             queue = mailbox.get_queue()
 
@@ -69,9 +76,37 @@ class Engine(object):
             logging.error(traceback.format_exc())
             logging.error('Zapisano')
 
+    def parse_loop_emailV2(self):
+        try:
+            self.emailClient.ConnectPop3Client()
+            emailsCount = self.emailClient.GetEmailCount()
+            for i in range(1, emailsCount):
+                mail = self.emailClient.get_email_pop3(i)
+                if mail is not None:
+                    mail = self.emailClient.parse(mail)
+                    try:
+                        parsingResults = self.emailParserV2.ParseEmailToMachineRecord(mail)
+                        if parsingResults['sucess'] is True:
+                            self.sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+                            self.emailClient.del_email(i)
+                    except Exception as e2:
+                        logging.error('P2.2 - Parsowanie lub zapis nie powiodły sie.')
+                        logging.error(e2)
+                        # ToDo, send email to Tomek :)
+
+        except Exception as e:
+            logging.error('P1.1 - Błąd krytyczny w pętli parsowania email. Pętla została przerwana. %s', e)
+            logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
+            logging.exception('Error!')
+            logging.error(traceback.format_exc())
+            logging.error('Zapisano')
+            # ToDo, send email to Tomek :)
+        
+        self.emailClient.close()
+
     def parse_loop(self):
         try:
-            files = self.mongo.global_get_fulldata()
+            files = self.mongo.global_get_fulldata(True)
             for f in files:
                 device = DataParser(f)
                 sucess = self.mongo.import_to_database(device)
@@ -81,17 +116,35 @@ class Engine(object):
             logging.error('Krytyczny blad w przetwarzaniu zdalnych raportow HTML')
             logging.exception('Error!')
 
+    def parse_loopV2(self):
+        try:
+            files = self.mongo.global_get_fulldata()
+            for f in files:
+
+                results = self.htmlParser.parse(f)
+                if results['sucess'] is True:
+                    self.sql.InsertMachineRecord_HTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
+                else:
+                    self.sql.InsertWarehouseHTML(results['record'], results['sourceSerialHTML'], results['sourceCounterHTML'])
+
+        except Exception as e:
+            logging.error('P2.1 - Błąd krytyczny w pętli parsowania HTML. %s', e)
+            logging.error('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
+            logging.exception('Error!')
+            logging.error(traceback.format_exc())
+            logging.error('Zapisano')
+
     def file_sync(self):
         if self.last_file_update < datetime.today():
             if datetime.now() > datetime.today() + timedelta(hours=1):
                 data = self.mongo.global_get_emailparser()
                 if data is not None:
-                    f = open(settings.workfolder + '/test/emailparser.xml', 'w')
+                    f = open(settings.workfolder + '/test/emailparser.xml', 'w', encoding = 'utf-8')
                     f.write(data)
                     f.close()
                 data = self.mongo.global_get_mactoweb()
                 if data is not None:
-                    f = open(settings.workfolder + '/test/mactoweb.xml', 'w')
+                    f = open(settings.workfolder + '/test/mactoweb.xml', 'w', encoding = 'utf-8')
                     f.write(data)
                     f.close()
                 self.last_file_update = datetime.today()
@@ -104,8 +157,24 @@ class Engine(object):
         :param interval: Check interval, in seconds
         """
 
+        j_settings = None
+    
+        with open('D:\\data.json', 'r') as fp:
+            j_settings = json.load(fp)
+
         settings.init()
         self.mongo = MongoTB()
+        self.sql = TBSQL()
+        self.sql.Connect()
+        
+        # Initialize Email domain
+        xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
+        self.emailParserV2 = EmailParserV2(xmlLoader)
+        self.emailClient = EmailPop3Client(j_settings['emailConnection'])
+
+        # Initialize HTML domain
+        xmlHTMLLoader = XMLLoaderForHTML(j_settings['workfolder'] + j_settings['XmlForHTML'])
+        self.htmlParser = HTMLParser(xmlHTMLLoader)
 
         self.interval = interval
         self.last_file_update = datetime.today() - timedelta(days=1)
@@ -122,7 +191,9 @@ class Engine(object):
             try:
                 self.file_sync()
                 self.parse_loop()
+                self.parse_loopV2()
                 self.parse_loop_email()
+                self.parse_loop_emailV2()
 
                 time.sleep(self.interval)
             except:
@@ -146,5 +217,15 @@ class Engine(object):
     def test_html_loop(self):
         while True:
             self.parse_loop()
+            time.sleep(60)
+
+    def test_html_loopV2(self):
+        while True:
+            self.parse_loopV2()
+            time.sleep(60)
+
+    def test_email_loopV2(self):
+        while True:
+            self.parse_loop_emailV2()
             time.sleep(60)
 

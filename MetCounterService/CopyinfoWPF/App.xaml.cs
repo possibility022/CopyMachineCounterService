@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+﻿using CopyinfoWPF.ViewModels;
+using CopyinfoWPF.Views;
+using System;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
+using Unity;
 using WpfBindingErrors;
 
 namespace CopyinfoWPF
@@ -15,9 +13,15 @@ namespace CopyinfoWPF
     /// </summary>
     public partial class App : Application
     {
+
+        public const string NewVersionUrl = "http://***REMOVED***/copyinfo/version.xml";
+
         protected override void OnStartup(StartupEventArgs e)
         {
+
             base.OnStartup(e);
+
+            Configuration.UnityConfiguration.Initialize();
 
             // Start listening for WPF binding error.
             // After that line, a BindingException will be thrown each time
@@ -25,6 +29,10 @@ namespace CopyinfoWPF
             BindingExceptionThrower.Attach();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             DispatcherUnhandledException += App_DispatcherUnhandledException;
+            
+            var splashScreenViewModel = Configuration.UnityConfiguration.Container.Resolve<SplashScreenViewModel>();
+            var window = new SplashScreenView() { DataContext = splashScreenViewModel };
+            window.Show();
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -44,6 +52,25 @@ namespace CopyinfoWPF
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show(e.Exception.ToString(), "App.OnDispatcherUnhandledException()", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private static void RegisterTypes()
+        {
+
+        }
+
+        private static void RegisterInstances()
+        {
+        }
+
+        private static void RegisterDatabaeses()
+        {
+
+        }
+
+        private static void InitializeFormatters()
+        {
+
         }
     }
 }

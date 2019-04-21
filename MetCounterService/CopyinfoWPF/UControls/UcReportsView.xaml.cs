@@ -1,19 +1,8 @@
-﻿using CopyinfoWPF.Database;
-using CopyinfoWPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using CopyinfoWPF.ViewModels;
+using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CopyinfoWPF.UControls
 {
@@ -29,22 +18,17 @@ namespace CopyinfoWPF.UControls
         public UcReportsView()
         {
             InitializeComponent();
-            
+            DataContextChanged += UcReportsView_DataContextChanged;
         }
 
-        private void OnRefreshClick(object sender, RoutedEventArgs e)
+        private void UcReportsView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ViewModel.RefreshClickAsync(); //todo check this
+            ViewModel.DialogCoordinator = DialogCoordinator.Instance;
         }
 
-        private void OnPrintClick(object sender, RoutedEventArgs e)
+        private void dataGridWithRecords_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ViewModel.PrintSelectedItems(dataGridWithRecords);
-        }
-
-        private void dataGridWithRecords_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ViewModel.SelectedRecords = (sender as DataGrid).SelectedItems;
+            ViewModel.OpenSelectedRecord();
         }
     }
 }

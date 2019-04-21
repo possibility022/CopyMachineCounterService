@@ -1,31 +1,16 @@
-﻿using Copyinfo.Other;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Packaging;
 using System.Linq;
-using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Xps.Packaging;
 using CopyinfoWPF.Common.Enums;
-using CopyinfoWPF.Common;
-using System.Text;
+using CopyinfoWPF.Workflows.Printing;
 
 namespace CopyinfoWPF.ViewModels
 {
     class PrintingPreviewViewModel : BindableBase
     {
-
-        public DocumentViewer DocumentViewer
-        {
-            get { return _documentViewer; }
-            set { SetProperty(ref _documentViewer, value); }
-        }
-
-        DocumentViewer _documentViewer;
-
-        public IEnumerable<PageSizes> PageSizes
+        public IEnumerable<PageSizes> PageSizesList
         {
             get { return _pageSizes; }
             set { SetProperty(ref _pageSizes, value); }
@@ -49,61 +34,22 @@ namespace CopyinfoWPF.ViewModels
 
         private IDocumentPaginatorSource _document;
 
-        private Uri _packageUri;
+        private PrintingPreview _printingPreview;
 
         public PrintingPreviewViewModel()
         {
-            SelectedPageSize = PageSizes.FirstOrDefault();
+            SelectedPageSize = PageSizesList.FirstOrDefault();
         }
 
-        public void CreatePreview(string text)
+        public PrintingPreviewViewModel(IDocumentPaginatorSource document) : this()
         {
-            if (Document == null)
-            {
-                throw new InvalidOperationException("Document paginator is null");
-            }
-
-            RemovePackage();
-
-            DocumentPaginator paginator = Printing.GetA4Preview(text);
-
-            MemoryStream stream = new MemoryStream();
-
-            Package package = Package.Open(stream, FileMode.Create, FileAccess.ReadWrite);
-            
-            _packageUri = GenerateUri();
-            
-            PackageStore.AddPackage(_packageUri, package);
-            var xpsDoc = new XpsDocument(package);
-
-            xpsDoc.Uri = _packageUri;
-            XpsDocument.CreateXpsDocumentWriter(xpsDoc).Write(paginator);
-            
-            Document = xpsDoc.GetFixedDocumentSequence();
-            FixedDocumentSequence seq = new FixedDocumentSequence();
+            Document = document;
         }
 
-        private Uri GenerateUri()
+        public PrintingPreviewViewModel(PrintingPreview document) : this()
         {
-            Random random = new Random(DateTime.Now.Millisecond);
-
-            StringBuilder stringBuilder = new StringBuilder(@"memorystream://");
-
-            for (int i = 0; i < 15; i++)
-            {
-                int r = random.Next(CommonData.AllStandardCharacters.Length);
-                stringBuilder.Append(CommonData.AllStandardCharacters[r]);
-            }
-
-            stringBuilder.Append(".xps");
-
-            return new Uri(stringBuilder.ToString());
-        }
-
-        public void RemovePackage()
-        {
-            if (_packageUri != null)
-                PackageStore.RemovePackage(_packageUri);
+            _printingPreview = document;
+            Document = document.XpsDocument.GetFixedDocumentSequence();
         }
     }
 }
