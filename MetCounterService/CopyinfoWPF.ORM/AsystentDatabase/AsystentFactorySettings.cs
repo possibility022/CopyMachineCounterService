@@ -7,8 +7,16 @@ using NHibernate.Mapping.ByCode;
 
 namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
 {
-    public static class AsystentFactorySettings
+    public class AsystentFactorySettings
     {
+
+        public ISessionFactory SessionFactory { get; private set; }
+
+        public AsystentFactorySettings(string connectionString)
+        {
+            SessionFactory = GetNewSessionFactory(connectionString);
+        }
+
         private static HbmMapping GetMapping()
         {
             var mapper = new ModelMapper();
@@ -126,12 +134,12 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
             return mapping;
         }
 
-        public static ISessionFactory GetSessionFactory()
+        public static ISessionFactory GetNewSessionFactory(string connectionString)
         {
             var cfg = new Configuration();
             cfg.DataBaseIntegration(x =>
             {
-                x.ConnectionString = "***REMOVED***Database=D:\\data\\test.fdb;DataSource=WIN-RP56U0UJDMQ; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;";
+                x.ConnectionString = connectionString;
                 x.Dialect<global::NHibernate.Dialect.FirebirdDialect>();
             }
             );

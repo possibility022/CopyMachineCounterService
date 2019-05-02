@@ -227,6 +227,7 @@
     </Compile>
     <Compile Include="Model\EmailAttachment.cs" />
     <Compile Include="Resources\ConstantData.cs" />
+    <Compile Include="Settings\BasicSettings.cs" />
     <Compile Include="UControls\UcAddress.xaml.cs">
       <DependentUpon>UcAddress.xaml</DependentUpon>
     </Compile>

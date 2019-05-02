@@ -8,10 +8,17 @@ using System.Collections.Generic;
 
 namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
 {
-    public static class MetSessionFactorySettings
+    public class MetSessionFactorySettings
     {
 
-        private static Dictionary<DatabaseType, Configuration> _configurations = new Dictionary<DatabaseType, Configuration>();
+        public MetSessionFactorySettings(string connectionString)
+        {
+            SessionFactory = GetSessionFactory(connectionString);
+        }
+
+        private Dictionary<DatabaseType, Configuration> _configurations = new Dictionary<DatabaseType, Configuration>();
+
+        public ISessionFactory SessionFactory { get; private set; }
 
         private static HbmMapping GetMapping()
         {
@@ -34,12 +41,12 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
             return mapping;
         }
 
-        public static ISessionFactory GetSessionFactory()
+        public static ISessionFactory GetSessionFactory(string connectionString)
         {
             var cfg = new Configuration();
             cfg.DataBaseIntegration(x =>
             {
-                x.ConnectionString = "Server=WIN-RP56U0UJDMQ;Initial Catalog=MetCounterService;User Id=Superuser;Password=1234567890";
+                x.ConnectionString = connectionString;
                 x.Dialect<global::NHibernate.Dialect.MsSql2012Dialect>();
             }
             );
