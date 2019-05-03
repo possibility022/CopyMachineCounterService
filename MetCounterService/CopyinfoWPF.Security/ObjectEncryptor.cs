@@ -32,10 +32,10 @@ namespace CopyinfoWPF.Security
             {
                 if (p.CanRead && p.CanWrite)
                 {
-                    var bytes = (byte[])jObject[p.Name];
+                    var bytes = Convert.FromBase64String((string)jObject[p.Name]);
                     bytes = _encrypting.Unprotect(bytes);
-                    var value = _byteSerializer.Deserialize(bytes, p.PropertyType);
-                    p.SetValue(obj, value);
+                    dynamic variable = _byteSerializer.Deserialize(bytes, p.PropertyType);
+                    jObject[p.Name] = variable;
                 }
             }
 
@@ -45,7 +45,7 @@ namespace CopyinfoWPF.Security
         public string Encrypt<T>(T obj) where T : new()
         {
             var prop = GetPropertiesToEncrypt(typeof(T));
-            var jObject = new JObject(obj);
+            var jObject = JObject.FromObject(obj);
             
             foreach(var p in prop)
             {

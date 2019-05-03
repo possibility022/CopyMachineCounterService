@@ -15,6 +15,10 @@ namespace CopyinfoWPF.Common
             {
                 return BitConverter.ToInt32(bytes, 0);
             }
+            else if (type == typeof(byte[]))
+            {
+                return bytes;
+            }
             else
                 throw new NotSupportedException($"{type} is not supported.");
 
@@ -36,6 +40,10 @@ namespace CopyinfoWPF.Common
             {
                 int t = (int)obj;
                 return BitConverter.GetBytes(t);
+            }
+            else if (type == typeof(byte[]))
+            {
+                return (byte[])obj;
             }
             else
                 throw new NotSupportedException($"Cannot convert {type} to bytes.");
