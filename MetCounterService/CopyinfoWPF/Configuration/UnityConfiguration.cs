@@ -49,8 +49,8 @@ namespace CopyinfoWPF.Configuration
         private static void RegisterDatabaeses()
         {
             var sessionProvider = Container.Resolve<IDatabaseSessionProvider>();
-            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetSessionFactory());
-            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetSessionFactory());
+            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetNewSessionFactory("Server=WIN-RP56U0UJDMQ;Initial Catalog=MetCounterService;User Id=Superuser;Password=1234567890"));
+            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetNewSessionFactory("User=SYSDBA;Password=masterkey;Database=D:\\data\\test.fdb;DataSource=WIN-RP56U0UJDMQ; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;"));
         }
 
         private static void InitializeFormatters()

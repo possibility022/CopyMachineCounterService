@@ -17,7 +17,7 @@ namespace CopyinfoWPF.ORM.Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            SessionFactory = AsystentFactorySettings.GetSessionFactory();
+            SessionFactory = AsystentFactorySettings.GetNewSessionFactory("User=SYSDBA;Password=masterkey;Database=D:\\data\\test.fdb;DataSource=WIN-RP56U0UJDMQ; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;");
         }
 
         [TestCategory("DatabaseConnection")]

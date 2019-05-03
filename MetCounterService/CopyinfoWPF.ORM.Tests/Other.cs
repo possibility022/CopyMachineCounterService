@@ -19,8 +19,8 @@ namespace CopyinfoWPF.ORM.Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            SessionFactory = MetSessionFactorySettings.GetSessionFactory();
-            AsystentSessionFactory = AsystentFactorySettings.GetSessionFactory();
+            SessionFactory = MetSessionFactorySettings.GetNewSessionFactory("Server=WIN-RP56U0UJDMQ;Initial Catalog=MetCounterService;User Id=Superuser;Password=1234567890");
+            AsystentSessionFactory = AsystentFactorySettings.GetNewSessionFactory("User=SYSDBA;Password=masterkey;Database=D:\\data\\test.fdb;DataSource=WIN-RP56U0UJDMQ; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;");
         }
 
         [TestMethod]

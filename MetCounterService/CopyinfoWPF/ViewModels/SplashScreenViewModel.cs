@@ -14,10 +14,18 @@ using CopyinfoWPF.Workflows.Email;
 using AutoUpdaterDotNET;
 using CopyinfoWPF.Interfaces;
 using CopyinfoWPF.Services.Implementation;
+using System.IO;
+using Newtonsoft.Json;
+using System;
+using System.Security.Cryptography;
+using System.Text;
+using CopyinfoWPF.Common;
+using CopyinfoWPF.Settings;
+using CopyinfoWPF.Common.File;
 
 namespace CopyinfoWPF.ViewModels
 {
-    class SplashScreenViewModel : BindableBase
+    public class SplashScreenViewModel : BindableBase
     {
 
         public string Message
@@ -26,8 +34,21 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _message, value); }
         }
 
+        private bool _loginEnabled;
+        public bool LoginEnabled
+        {
+            get { return _loginEnabled; }
+            set { SetProperty(ref _loginEnabled, value); }
+        }
+
+        private Visibility _confirmPasswordVisible;
+        public Visibility ConfirmPasswordVisible
+        {
+            get { return _confirmPasswordVisible; }
+            set { SetProperty(ref _confirmPasswordVisible, value); }
+        }
+
         private string _message;
-        private object @Lock = new object();
 
         private bool _checkedForUpdates;
 
@@ -37,15 +58,46 @@ namespace CopyinfoWPF.ViewModels
             get => _loadingAnimationVisible;
             private set => SetProperty(ref _loadingAnimationVisible, value);
         }
-        
+
+        Func<SecureString, SecureString, bool> _loginButtonAction;
+
+        public string SettingsPath { get; set; }
+        public string SettingsPathUnprotected { get; set; }
+
+        public IFileOperation FileOperation { get; set; }
+
         public SplashScreenViewModel()
         {
             ShowAnimation(false);
+            FileOperation = new FileOperationWrapper();
+
+            if (!FileOperation.Exists(SettingsPath))
+            {
+                if (FileOperation.Exists(SettingsPathUnprotected))
+                {
+                    InitializeEncrypting();
+                }
+                else
+                {
+                    Message = "Nie znaleziono pliku ustawień.";
+                }
+            }
+            else
+            {
+                // _loginButtonAction todo set this <---
+                //todo decrypt settings
+            }
+        }
+
+        private void InitializeEncrypting()
+        {
+            Message = "Wprowadz nowe hasło";
+            _loginButtonAction = EncryptSettingsAction;
+            ConfirmPasswordVisible = Visibility.Visible;
         }
 
         public SplashScreenViewModel(IMachineRecordService machineRecordService, IDeviceService deviceService)
         {
-            ShowAnimation(false);
             _deviceService = deviceService;
             _machineRecordService = machineRecordService;
         }
@@ -58,15 +110,20 @@ namespace CopyinfoWPF.ViewModels
             LoadingAnimationVisible = visible ? "Visible" : "Hidden";
         }
 
-        public bool LoginClick(SecureString password)
+        public bool LoginClick(SecureString password, SecureString confirm)
+        {
+            return _loginButtonAction.Invoke(password, confirm);
+        }
+
+        public bool LoginAction(SecureString password)
         {
             var copyOfPassword = password.Copy();
             copyOfPassword.MakeReadOnly();
 
             bool passwordCorrect = Encrypting.DecryptSecureString(copyOfPassword, (result) =>
-             {
-                 return Encrypting.DecryptPassword(result);
-             });
+            {
+                return Encrypting.DecryptPassword(result);
+            });
 
             if (passwordCorrect)
             {
@@ -77,6 +134,70 @@ namespace CopyinfoWPF.ViewModels
                 Message = "Błędne hasło. :(";
                 return false;
             }
+        }
+
+        private bool EncryptSettingsAction(SecureString password, SecureString confirm)
+        {
+            if (Encrypting.DecryptSecureString(password.Copy(), pass =>
+            {
+                return Encrypting.DecryptSecureString(confirm.Copy(), conf =>
+                {
+                    return pass.Equals(conf, StringComparison.CurrentCulture);
+                });
+            }))
+            {
+                var json = FileOperation.ReadAllText(SettingsPathUnprotected);
+                var settings = JsonConvert.DeserializeObject<BasicSettings>(json);
+
+                json = EncryptSettings(settings, password.Copy());
+
+                FileOperation.WriteAllText(SettingsPath, json);
+
+                return true;
+            }
+            else
+            {
+                Message = "Hasła się różnią.";
+                return false;
+            }
+        }
+
+        public string EncryptSettings(BasicSettings settings, SecureString password)
+        {
+            byte[] passwordHash =
+                Encrypting.DecryptSecureString(password.Copy(), p => Encrypting.ComputeSha(Encoding.UTF8.GetBytes(p)));
+            byte[] salt = Encrypting.ComputeSha(Encoding.UTF8.GetBytes(Environment.MachineName));
+
+            var full = CombineArrays(passwordHash, salt);
+
+
+            var winDpApi = new WinDpApi(full);
+            var serializer = new SimpleSerializer();
+
+            var objectEncryptor = new ObjectEncryptor(winDpApi, serializer);
+
+            return objectEncryptor.Encrypt(settings);
+        }
+
+        private static byte[] CombineArrays(byte[] a, byte[] b)
+        {
+            byte[] combined = new byte[a.Length + b.Length];
+
+            int l = 0;
+
+            for (int i = 0; i < a.Length; i++)
+                SetByte(ref combined, ref a[i], ref l);
+
+            for (int i = 0; i < b.Length; i++)
+                SetByte(ref combined, ref b[i], ref l);
+
+            return combined;
+        }
+
+        private static void SetByte(ref byte[] target, ref byte value, ref int index)
+        {
+            target[index] = value;
+            index++;
         }
 
         public async Task<Window> StartLoadingAsync()

@@ -25,9 +25,15 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
             Property(x => x.TonerLevelMagenta);
             Property(x => x.AddressMac);
             Property(x => x.Printed);
-            Property(x => x.EmailSourceId, map => { map.Column("EmailSource"); });
-            Property(x => x.ServiceSourceSerialNumberId, map => { map.Column("ServiceSourceSerialNumber"); });
-            Property(x => x.ServiceSourceCountersId, map => { map.Column("ServiceSourceCounters"); });
+            
+            // ToDo - Fix this!
+
+            //Property(x => x.EmailSourceId, map => { map.Column("EmailSource"); map.NotNullable(false); });
+            //Property(x => x.ServiceSourceSerialNumberId, map => {
+            //    map.Column("ServiceSourceSerialNumber");
+            //    map.NotNullable(false);
+            //});
+            //Property(x => x.ServiceSourceCountersId, map => { map.Column("ServiceSourceCounters"); map.NotNullable(false); });
 
             ManyToOne(x => x.EmailSource, map =>
             {

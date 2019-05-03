@@ -13,7 +13,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
 
         public MetSessionFactorySettings(string connectionString)
         {
-            SessionFactory = GetSessionFactory(connectionString);
+            SessionFactory = GetNewSessionFactory(connectionString);
         }
 
         private Dictionary<DatabaseType, Configuration> _configurations = new Dictionary<DatabaseType, Configuration>();
@@ -41,7 +41,7 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.ConfigurationSettings
             return mapping;
         }
 
-        public static ISessionFactory GetSessionFactory(string connectionString)
+        public static ISessionFactory GetNewSessionFactory(string connectionString)
         {
             var cfg = new Configuration();
             cfg.DataBaseIntegration(x =>
