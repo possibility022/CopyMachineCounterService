@@ -5,7 +5,12 @@ namespace CopyinfoWPF.Security
 {
     public class WinDpApi : IEncrypting
     {
-        static byte[] s_aditionalEntropy = { 9, 8, 7, 6, 5, 1, 4, 5, 6, 7, 8, 1, 2 };
+        private readonly byte[] s_aditionalEntropy;
+
+        public WinDpApi(byte[] additionalEntropy)
+        {
+            s_aditionalEntropy = additionalEntropy;
+        }
 
         public byte[] Protect(byte[] data)
         {

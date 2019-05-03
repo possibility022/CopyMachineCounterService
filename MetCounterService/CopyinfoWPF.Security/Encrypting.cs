@@ -158,5 +158,13 @@ namespace CopyinfoWPF.Security
                 return 0;
             });
         }
+
+        public static byte[] ComputeSha(byte[] bytes)
+        {
+            using(var sha = SHA256.Create())
+            {
+                return sha.ComputeHash(bytes);
+            }
+        }
     }
 }

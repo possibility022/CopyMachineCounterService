@@ -52,6 +52,8 @@
     <Compile Include="CustomCollections\IConditionalCache.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="Enums\PageSizes.cs" />
+    <Compile Include="File\FileOperationWrapper.cs" />
+    <Compile Include="File\IFileOperation.cs" />
     <Compile Include="IByteSerializer.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="SimpleSerializer.cs" />
