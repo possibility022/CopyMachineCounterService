@@ -25,21 +25,21 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
             Property(x => x.TonerLevelMagenta);
             Property(x => x.AddressMac);
             Property(x => x.Printed);
-            
-            // ToDo - Fix this!
 
-            //Property(x => x.EmailSourceId, map => { map.Column("EmailSource"); map.NotNullable(false); });
-            //Property(x => x.ServiceSourceSerialNumberId, map => {
-            //    map.Column("ServiceSourceSerialNumber");
-            //    map.NotNullable(false);
-            //});
-            //Property(x => x.ServiceSourceCountersId, map => { map.Column("ServiceSourceCounters"); map.NotNullable(false); });
+            Property(x => x.EmailSourceId, map => { map.Column("EmailSource"); map.NotNullable(false); });
+            Property(x => x.ServiceSourceSerialNumberId, map => {
+                map.Column("ServiceSourceSerialNumber");
+                map.NotNullable(false);
+            });
+            Property(x => x.ServiceSourceCountersId, map => { map.Column("ServiceSourceCounters"); map.NotNullable(false); });
 
             ManyToOne(x => x.EmailSource, map =>
             {
                 map.Column("EmailSource");
                 map.NotNullable(false);
                 map.Cascade(Cascade.DeleteOrphans);
+                map.Update(false);
+                map.Insert(false);
             });
 
             ManyToOne(x => x.ServiceSourceCounters, map =>
@@ -47,6 +47,8 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
                 map.Column("ServiceSourceCounters");
                 map.NotNullable(false);
                 map.Cascade(Cascade.DeleteOrphans);
+                map.Update(false);
+                map.Insert(false);
             });
 
             ManyToOne(x => x.ServiceSourceSerialNumber, map =>
@@ -54,6 +56,8 @@ namespace CopyinfoWPF.ORM.MetCounterServiceDatabase.Machine.Maps
                 map.Column("ServiceSourceSerialNumber");
                 map.NotNullable(false);
                 map.Cascade(Cascade.DeleteOrphans);
+                map.Update(false);
+                map.Insert(false);
             });
 
         }
