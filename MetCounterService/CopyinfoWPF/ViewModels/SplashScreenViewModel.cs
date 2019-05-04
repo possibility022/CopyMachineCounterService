@@ -4,20 +4,14 @@ using CopyinfoWPF.Services.Interfaces;
 using Prism.Mvvm;
 using System.Security;
 using System.Threading.Tasks;
-using CopyinfoWPF.DTO.Models;
 using System.Windows;
-using CopyinfoWPF.Interfaces.Formatters;
-using CopyinfoWPF.Formatters;
 using AutoMapper;
 using CopyinfoWPF.Configuration;
-using CopyinfoWPF.Workflows.Email;
 using AutoUpdaterDotNET;
 using CopyinfoWPF.Interfaces;
 using CopyinfoWPF.Services.Implementation;
-using System.IO;
 using Newtonsoft.Json;
 using System;
-using System.Security.Cryptography;
 using System.Text;
 using CopyinfoWPF.Common;
 using CopyinfoWPF.Settings;
@@ -34,11 +28,11 @@ namespace CopyinfoWPF.ViewModels
             set { SetProperty(ref _message, value); }
         }
 
-        private bool _loginEnabled;
-        public bool LoginEnabled
+        private string _loginButtonText;
+        public string LoginButtonText
         {
-            get { return _loginEnabled; }
-            set { SetProperty(ref _loginEnabled, value); }
+            get { return _loginButtonText; }
+            set { SetProperty(ref _loginButtonText, value); }
         }
 
         private Visibility _confirmPasswordVisible;
@@ -69,6 +63,10 @@ namespace CopyinfoWPF.ViewModels
         public SplashScreenViewModel()
         {
             ShowAnimation(false);
+
+            SettingsPath = App.SettingsPath;
+            SettingsPathUnprotected = App.SettingsPathUnProtected;
+
             FileOperation = new FileOperationWrapper();
 
             if (!FileOperation.Exists(SettingsPath))
@@ -79,30 +77,28 @@ namespace CopyinfoWPF.ViewModels
                 }
                 else
                 {
-                    Message = "Nie znaleziono pliku ustawień.";
+                    CreateEmptySettingsFile();
+                    Message = $"Uzupełnij plik {SettingsPathUnprotected} o niezbędne dane i wprowadź nowe hasło.";
                 }
             }
             else
             {
-                // _loginButtonAction todo set this <---
-                //todo decrypt settings
+                ConfirmPasswordVisible = Visibility.Hidden;
+                LoginButtonText = "Login";
+                _loginButtonAction = LoginAction;
             }
         }
+
+        private BasicSettings _settings;
 
         private void InitializeEncrypting()
         {
             Message = "Wprowadz nowe hasło";
+            LoginButtonText = "Zatwierdź";
             _loginButtonAction = EncryptSettingsAction;
             ConfirmPasswordVisible = Visibility.Visible;
         }
 
-        public SplashScreenViewModel(IMachineRecordService machineRecordService, IDeviceService deviceService)
-        {
-            _deviceService = deviceService;
-            _machineRecordService = machineRecordService;
-        }
-
-        private IDeviceService _deviceService;
         private IMachineRecordService _machineRecordService;
 
         private void ShowAnimation(bool visible)
@@ -115,18 +111,13 @@ namespace CopyinfoWPF.ViewModels
             return _loginButtonAction.Invoke(password, confirm);
         }
 
-        public bool LoginAction(SecureString password)
+        public bool LoginAction(SecureString password, SecureString _)
         {
-            var copyOfPassword = password.Copy();
-            copyOfPassword.MakeReadOnly();
+            var settings = DecryptSettings(password);
 
-            bool passwordCorrect = Encrypting.DecryptSecureString(copyOfPassword, (result) =>
+            if (settings != null)
             {
-                return Encrypting.DecryptPassword(result);
-            });
-
-            if (passwordCorrect)
-            {
+                _settings = settings;
                 return true;
             }
             else
@@ -152,17 +143,27 @@ namespace CopyinfoWPF.ViewModels
                 json = EncryptSettings(settings, password.Copy());
 
                 FileOperation.WriteAllText(SettingsPath, json);
+                CreateEmptySettingsFile();
 
-                return true;
+                LoginButtonText = "Login";
+                _loginButtonAction = LoginAction;
+                ConfirmPasswordVisible = Visibility.Hidden;
+
             }
             else
             {
                 Message = "Hasła się różnią.";
-                return false;
             }
+
+            return false;
         }
 
-        public string EncryptSettings(BasicSettings settings, SecureString password)
+        private void CreateEmptySettingsFile() =>
+            FileOperation.WriteAllText(SettingsPathUnprotected, JsonConvert.SerializeObject(new BasicSettings(), Formatting.Indented));
+
+
+
+        private ObjectEncryptor GetObjectEncryptor(SecureString password)
         {
             byte[] passwordHash =
                 Encrypting.DecryptSecureString(password.Copy(), p => Encrypting.ComputeSha(Encoding.UTF8.GetBytes(p)));
@@ -174,9 +175,26 @@ namespace CopyinfoWPF.ViewModels
             var winDpApi = new WinDpApi(full);
             var serializer = new SimpleSerializer();
 
-            var objectEncryptor = new ObjectEncryptor(winDpApi, serializer);
+            return new ObjectEncryptor(winDpApi, serializer);
+        }
 
-            return objectEncryptor.Encrypt(settings);
+        public string EncryptSettings(BasicSettings settings, SecureString password)
+        {
+            var oe = GetObjectEncryptor(password);
+
+            return oe.Encrypt(settings);
+        }
+
+        public BasicSettings DecryptSettings(SecureString password)
+        {
+            var json = FileOperation.ReadAllText(SettingsPath);
+            var oe = GetObjectEncryptor(password);
+            json = oe.Decrypt<BasicSettings>(json);
+
+            if (json == null)
+                return null;
+
+            return JsonConvert.DeserializeObject<BasicSettings>(json);
         }
 
         private static byte[] CombineArrays(byte[] a, byte[] b)
@@ -204,37 +222,54 @@ namespace CopyinfoWPF.ViewModels
         {
             ShowAnimation(true);
 
-            Message = "Inicjalizacja automappera.";
-            await Task.Factory.StartNew(InitializeAutoMapper);
-
-            Message = "Inicjalizacja cach'u.";
-            Cache.InitializeCache();
-
-            Message = "Uzupełnianie cachu.";
-            _machineRecordService.RefreshCache();
-
-            Message = "Pobieram dane z baz danych.";
-            var records = await Task.Factory.StartNew(_machineRecordService.GetAll);
-
-            Message = "Tworzę okno aplikacji.";
-            var window = new MahMainWindow();
-
-            var recordsModel = new ReportsViewModel();
-            recordsModel.SetRecords(records);
-
-            var views = new IPageView[]
+            try
             {
-                recordsModel,
-                new DevicesViewModel(UnityConfiguration.Container.Resolve<IDeviceService>()),
-                new ClientsViewModel(UnityConfiguration.Container.Resolve<IClientService>()),
-            };
+
+                Message = "Inicjalizacja automappera.";
+                await Task.Factory.StartNew(InitializeAutoMapper);
+
+                Message = "Konfigurowanie połączeń baz danych.";
+                await Task.Factory.StartNew(() => UnityConfiguration.RegisterDatabaeses(_settings.AsystentDatabase, _settings.CopyInfoDatabase));
+
+                Message = "Inicjalizacja cach'u.";
+                Cache.InitializeCache();
+
+                Message = "Uzupełnianie cachu.";
+                _machineRecordService = UnityConfiguration.Resolve<IMachineRecordService>();
+                await Task.Factory.StartNew(_machineRecordService.RefreshCache);
+
+                Message = "Pobieram dane z baz danych.";
+                var records = await Task.Factory.StartNew(_machineRecordService.GetAll);
+
+                Message = "Tworzę okno aplikacji.";
+                var window = new MahMainWindow();
+
+                var recordsModel = new ReportsViewModel();
+                recordsModel.SetRecords(records);
+
+                var views = new IPageView[]
+                {
+                    recordsModel,
+                    new DevicesViewModel(UnityConfiguration.Container.Resolve<IDeviceService>()),
+                    new ClientsViewModel(UnityConfiguration.Container.Resolve<IClientService>()),
+                };
 
 
-            Message = "Uzupełniam widok pobranymi danymi.";
-            window.DataContext = new MahMainWindowModel(views);
+                Message = "Uzupełniam widok pobranymi danymi.";
+                window.DataContext = new MahMainWindowModel(views);
+                return window;
+            }
+            catch (Exception ex)
+            {
+                throw; //todo logging
+            }
+            finally
+            {
+                ShowAnimation(false);
+            }
 
-            ShowAnimation(false);
-            return window;
+
+            return null;
         }
 
         public async Task CheckForUpdates()

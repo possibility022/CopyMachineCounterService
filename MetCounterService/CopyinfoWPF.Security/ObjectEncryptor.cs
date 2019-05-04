@@ -32,6 +32,10 @@ namespace CopyinfoWPF.Security
                 {
                     var bytes = Convert.FromBase64String((string)jObject[p.Name]);
                     bytes = _encrypting.Unprotect(bytes);
+
+                    if (bytes == null)
+                        return null;
+
                     dynamic variable = _byteSerializer.Deserialize(bytes, p.PropertyType);
                     jObject[p.Name] = variable;
                 }
