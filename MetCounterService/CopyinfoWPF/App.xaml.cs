@@ -1,6 +1,7 @@
 ﻿using CopyinfoWPF.ViewModels;
 using CopyinfoWPF.Views;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Windows;
 using Unity;
@@ -14,7 +15,7 @@ namespace CopyinfoWPF
     public partial class App : Application
     {
 
-        public const string NewVersionUrl = "http://***REMOVED***/copyinfo/version.xml";
+        public static string NewVersionUrl { get => ConfigurationManager.AppSettings["UpdateUrl"]; }
         public static string SettingsPath = "settings.set";
         public static string SettingsPathUnProtected = "settings.json";
 
@@ -31,7 +32,7 @@ namespace CopyinfoWPF
             BindingExceptionThrower.Attach();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             DispatcherUnhandledException += App_DispatcherUnhandledException;
-            
+
             var splashScreenViewModel = Configuration.UnityConfiguration.Container.Resolve<SplashScreenViewModel>();
             var window = new SplashScreenView() { DataContext = splashScreenViewModel };
             window.Show();

@@ -281,16 +281,23 @@ namespace CopyinfoWPF.ViewModels
                                                                                         // It works in debug and in most cases when you run it from VStudio.
                                                                                         // To see efects (BUG) try to run application by double clicking on .exe file.
                 AutoUpdater.RunUpdateAsAdmin = false;
-                AutoUpdater.Start(App.NewVersionUrl, System.Reflection.Assembly.GetExecutingAssembly());
-                _checkedForUpdates = true;
-            }
 
+                if (Uri.IsWellFormedUriString(App.NewVersionUrl, UriKind.Absolute))
+                {
+                    AutoUpdater.Start(App.NewVersionUrl, System.Reflection.Assembly.GetExecutingAssembly());
+                }
+                else
+                {
+                    Message = "Url do nowej wersji jest niepoprawny.";
+                }
+
+            }
+            _checkedForUpdates = true;
         }
 
         private void InitializeAutoMapper()
         {
             Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
         }
-
     }
 }
