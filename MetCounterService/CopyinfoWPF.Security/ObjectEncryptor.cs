@@ -21,12 +21,10 @@ namespace CopyinfoWPF.Security
             _byteSerializer = byteSerializer;
         }
 
-        public T Decrypt<T>(string json) where T : new()
+        public string Decrypt<T>(string json) where T : new()
         {
             var jObject = JObject.Parse(json);
             var prop = GetPropertiesToEncrypt(typeof(T));
-
-            var obj = new T();
 
             foreach(var p in prop)
             {
@@ -39,7 +37,7 @@ namespace CopyinfoWPF.Security
                 }
             }
 
-            return obj;
+            return jObject.ToString();
         }
 
         public string Encrypt<T>(T obj) where T : new()

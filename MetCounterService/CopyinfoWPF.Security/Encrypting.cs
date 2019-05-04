@@ -125,6 +125,7 @@ namespace CopyinfoWPF.Security
         /// <returns>Result of Func delegate</returns>
         public static T DecryptSecureString<T>(SecureString secureString, Func<string, T> action)
         {
+            secureString.MakeReadOnly();
             var insecureStringPointer = IntPtr.Zero;
             var insecureString = String.Empty;
             var gcHandler = GCHandle.Alloc(insecureString, GCHandleType.Pinned);
