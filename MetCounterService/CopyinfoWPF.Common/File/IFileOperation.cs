@@ -6,5 +6,6 @@
         bool Exists(string path);
 
         void WriteAllText(string path, string content);
+        void Delete(string settingsPath);
     }
 }
