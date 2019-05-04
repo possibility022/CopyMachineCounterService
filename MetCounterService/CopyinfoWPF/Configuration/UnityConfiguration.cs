@@ -30,7 +30,6 @@ namespace CopyinfoWPF.Configuration
             InitializeFormatters();
             RegisterTypes();
             RegisterInstances();
-            RegisterDatabaeses();
         }
 
         private static void RegisterTypes()
@@ -46,11 +45,11 @@ namespace CopyinfoWPF.Configuration
             Container.RegisterInstance<IDatabaseSessionProvider>(new DatabaseSessionProvider());
         }
 
-        private static void RegisterDatabaeses()
+        public static void RegisterDatabaeses(string asystentConnectionString, string copyinfoDatabase)
         {
             var sessionProvider = Container.Resolve<IDatabaseSessionProvider>();
-            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetNewSessionFactory("Server=WIN-RP56U0UJDMQ;Initial Catalog=MetCounterService;User Id=Superuser;Password=1234567890"));
-            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetNewSessionFactory("User=SYSDBA;Password=masterkey;Database=D:\\data\\test.fdb;DataSource=WIN-RP56U0UJDMQ; Port = 3050; Dialect = 3; Charset = NONE; Role =; Connection lifetime = 15; Pooling = true; MinPoolSize = 0; MaxPoolSize = 50; Packet Size = 8192; ServerType = 0;"));
+            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetNewSessionFactory(copyinfoDatabase));
+            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetNewSessionFactory(asystentConnectionString));
         }
 
         private static void InitializeFormatters()
