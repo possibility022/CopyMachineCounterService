@@ -58,7 +58,7 @@ namespace CopyinfoWPF.ViewModels
 
         private Func<ClientViewModel, string, bool> BuidFilterFunc()
         {
-            var settings = new Settings()
+            var settings = new CompareThis.Settings()
             {
                 StringCompareOptions = System.Globalization.CompareOptions.IgnoreCase
             };

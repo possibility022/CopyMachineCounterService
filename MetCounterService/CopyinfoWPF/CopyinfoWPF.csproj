@@ -120,6 +120,9 @@
     <Reference Include="MimeKit, Version=1.22.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeKit.1.22.0\lib\net451\MimeKit.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=5.1.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.5.1.3\lib\net461\NHibernate.dll</HintPath>
     </Reference>
@@ -227,6 +230,7 @@
     </Compile>
     <Compile Include="Model\EmailAttachment.cs" />
     <Compile Include="Resources\ConstantData.cs" />
+    <Compile Include="Settings\BasicSettings.cs" />
     <Compile Include="UControls\UcAddress.xaml.cs">
       <DependentUpon>UcAddress.xaml</DependentUpon>
     </Compile>

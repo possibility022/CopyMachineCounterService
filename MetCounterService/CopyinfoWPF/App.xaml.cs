@@ -15,6 +15,8 @@ namespace CopyinfoWPF
     {
 
         public const string NewVersionUrl = "http://***REMOVED***/copyinfo/version.xml";
+        public static string SettingsPath = "settings.set";
+        public static string SettingsPathUnProtected = "settings.json";
 
         protected override void OnStartup(StartupEventArgs e)
         {

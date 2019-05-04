@@ -241,11 +241,11 @@ namespace CopyinfoWPF.ViewModels
                 .Show();
         }
 
-        private static Settings ConfigureSettings()
+        private static CompareThis.Settings ConfigureSettings()
         {
-            var settings = new Settings()
+            var settings = new CompareThis.Settings()
             {
-                StringCompareOptions = System.Globalization.CompareOptions.IgnoreCase
+                StringCompareOptions = CompareOptions.IgnoreCase
             };
 
             settings.SetStandardWhiteList();

@@ -125,6 +125,7 @@ namespace CopyinfoWPF.Security
         /// <returns>Result of Func delegate</returns>
         public static T DecryptSecureString<T>(SecureString secureString, Func<string, T> action)
         {
+            secureString.MakeReadOnly();
             var insecureStringPointer = IntPtr.Zero;
             var insecureString = String.Empty;
             var gcHandler = GCHandle.Alloc(insecureString, GCHandleType.Pinned);
@@ -157,6 +158,14 @@ namespace CopyinfoWPF.Security
                 action(s);
                 return 0;
             });
+        }
+
+        public static byte[] ComputeSha(byte[] bytes)
+        {
+            using(var sha = SHA256.Create())
+            {
+                return sha.ComputeHash(bytes);
+            }
         }
     }
 }

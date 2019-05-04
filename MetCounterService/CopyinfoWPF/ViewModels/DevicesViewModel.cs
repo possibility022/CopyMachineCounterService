@@ -4,13 +4,11 @@ using CopyinfoWPF.Configuration;
 using CopyinfoWPF.DTO.Models;
 using CopyinfoWPF.Services.Interfaces;
 using CopyinfoWPF.Views;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Input;
 
 namespace CopyinfoWPF.ViewModels
 {
@@ -31,9 +29,9 @@ namespace CopyinfoWPF.ViewModels
             FilterLogic = CompareFactory.BuildContainsFunc<DeviceRowView>();
         }
 
-        private static Settings ConfigureFilterSettings()
+        private static CompareThis.Settings ConfigureFilterSettings()
         {
-            var settings = new Settings()
+            var settings = new CompareThis.Settings()
             {
                 StringCompareOptions = System.Globalization.CompareOptions.IgnoreCase,
                 Deep = 1

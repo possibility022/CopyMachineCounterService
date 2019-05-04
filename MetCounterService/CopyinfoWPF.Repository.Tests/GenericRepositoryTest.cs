@@ -15,7 +15,7 @@ namespace CopyinfoWPF.Repository.Tests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            SessionFactory = MetSessionFactorySettings.GetSessionFactory();
+            SessionFactory = MetSessionFactorySettings.GetNewSessionFactory("Server=WIN-RP56U0UJDMQ;Initial Catalog=MetCounterService;User Id=Superuser;Password=1234567890");
         }
 
         [TestCategory("DatabaseConnection")]

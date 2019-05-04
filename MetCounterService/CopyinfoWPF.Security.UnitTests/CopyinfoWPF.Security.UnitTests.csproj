@@ -5,12 +5,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F97C4D06-9110-47DD-A082-2FD11B3118F6}</ProjectGuid>
+    <ProjectGuid>{6D141ACA-8056-4E75-863C-A622532CFD4C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CopyinfoWPF.Tests</RootNamespace>
-    <AssemblyName>CopyinfoWPF.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>CopyinfoWPF.Security.UnitTests</RootNamespace>
+    <AssemblyName>CopyinfoWPF.Security.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -51,9 +51,6 @@
     <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.10.1\lib\net45\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -65,12 +62,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObjectEncryptorTests.cs" />
+    <Compile Include="WinDpApiTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\SplashScreenViewModelTests.cs" />
-    <Compile Include="Workflow\MimeReaderTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -78,12 +74,11 @@
       <Project>{E6158129-FB01-4111-8A04-6027E8E755A3}</Project>
       <Name>CopyinfoWPF.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CopyinfoWPF\CopyinfoWPF.csproj">
-      <Project>{8DEF84E7-FEA8-4675-8EE2-CECACA412078}</Project>
-      <Name>CopyinfoWPF</Name>
+    <ProjectReference Include="..\CopyinfoWPF.Security\CopyinfoWPF.Security.csproj">
+      <Project>{4c7f6516-2dd1-4ef9-9f14-69d32fe6840d}</Project>
+      <Name>CopyinfoWPF.Security</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

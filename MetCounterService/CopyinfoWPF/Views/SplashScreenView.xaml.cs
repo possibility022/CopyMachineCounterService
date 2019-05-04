@@ -31,12 +31,15 @@ namespace CopyinfoWPF.Views
 
         private async void LoginClick(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.LoginClick(PasswordBox.SecurePassword))
+            if (ViewModel.LoginClick(PasswordBox.SecurePassword, PasswordBoxConfirm.SecurePassword))
             {
                 var window = await ViewModel.StartLoadingAsync();
 
-                window.Show();
-                Close();
+                if (window != null)
+                {
+                    window.Show();
+                    Close();
+                }
             }
         }
 

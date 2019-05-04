@@ -30,7 +30,6 @@ namespace CopyinfoWPF.Configuration
             InitializeFormatters();
             RegisterTypes();
             RegisterInstances();
-            RegisterDatabaeses();
         }
 
         private static void RegisterTypes()
@@ -46,11 +45,11 @@ namespace CopyinfoWPF.Configuration
             Container.RegisterInstance<IDatabaseSessionProvider>(new DatabaseSessionProvider());
         }
 
-        private static void RegisterDatabaeses()
+        public static void RegisterDatabaeses(string asystentConnectionString, string copyinfoDatabase)
         {
             var sessionProvider = Container.Resolve<IDatabaseSessionProvider>();
-            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetSessionFactory());
-            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetSessionFactory());
+            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.CounterService, MetSessionFactorySettings.GetNewSessionFactory(copyinfoDatabase));
+            sessionProvider.AddNewDatabaseSessionFactory(DatabaseType.Assystent, AsystentFactorySettings.GetNewSessionFactory(asystentConnectionString));
         }
 
         private static void InitializeFormatters()
