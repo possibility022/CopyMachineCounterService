@@ -228,11 +228,14 @@ namespace CopyinfoWPF.ViewModels
 
         internal void OpenSelectedRecord()
         {
-            var clientOverviewViewModel = new ClientOverviewViewModel();
+            var selectedRow = (SelectedItems?.FirstOrDefault() as MachineRecordRowView);
+
+            var clientOverviewViewModel = new ClientOverviewViewModel(selectedRow?.Device.NrFabryczny);
             var deviceOverviewViewModel = UnityConfiguration.Resolve<DeviceOverviewViewModel>();
             var reportOverviewViewModel = UnityConfiguration.Resolve<ReportOverviewViewModel>();
 
-            clientOverviewViewModel.LoadClient((SelectedItems?.FirstOrDefault() as MachineRecordRowView)?.Client);
+            clientOverviewViewModel.LoadClient(selectedRow?.Client);
+            deviceOverviewViewModel.SetRecordToSelect(selectedRow?.Record.Id);
 
             clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
             deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;

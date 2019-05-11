@@ -106,7 +106,6 @@
             CanUserAddRows="False"
             IsReadOnly="True"
             ItemsSource="{Binding Records}"
-            Loaded="DataGrid_Loaded"
             SelectedItem="{Binding SelectedRecord}">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding ServiceMan}" Header="Serwisant" />
