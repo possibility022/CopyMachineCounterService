@@ -80,6 +80,10 @@ class Engine(object):
         try:
             self.emailClient.ConnectPop3Client()
             emailsCount = self.emailClient.GetEmailCount()
+
+            if (emailsCount > 50):
+                emailsCount = 50;
+
             for i in range(1, emailsCount):
                 mail = self.emailClient.get_email_pop3(i)
                 if mail is not None:
@@ -88,6 +92,9 @@ class Engine(object):
                         parsingResults = self.emailParserV2.ParseEmailToMachineRecord(mail)
                         if parsingResults['sucess'] is True:
                             self.sql.InsertMachineRecord(parsingResults['record'], parsingResults['sourceEmail']['body-binary'])
+                            self.emailClient.del_email(i)
+                        else:
+                            self.sql.InsertWarehouseEmail(mail['body-binary'])
                             self.emailClient.del_email(i)
                     except Exception as e2:
                         logging.error('P2.2 - Parsowanie lub zapis nie powiodły sie.')
@@ -212,16 +219,6 @@ class Engine(object):
 
     def test_filesync(self):
         self.file_sync()
-
-    def test_email_loop(self):
-        while True:
-            self.parse_loop_email()
-            time.sleep(60)
-
-    def test_html_loop(self):
-        while True:
-            self.parse_loop()
-            time.sleep(60)
 
     def test_html_loopV2(self):
         while True:
