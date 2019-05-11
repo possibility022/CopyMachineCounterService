@@ -31,8 +31,6 @@ namespace WindowsMetService
 
         private static string _clientDescription = "client description not set";
 
-        private const string ServerAddress = "***REMOVED***";
-
         public static byte[] ClientId => settings.ClientIddd;
 
         public static string ClientDescription
@@ -44,7 +42,7 @@ namespace WindowsMetService
 
         public static bool SaveLogToSystem => settings.SaveLogsToSystem;
 
-        public const string Version = "2.8";
+        public const string Version = "2.9";
 
         private static Settings settings = new Settings()
         {
@@ -53,7 +51,10 @@ namespace WindowsMetService
             ClientIddd = Encoding.UTF8.GetBytes(Settings.EmptyId),
             LastTick = "",
             Version = Version,
-            SaveLogsToSystem = false
+            SaveLogsToSystem = false,
+            ParameterM = "nkRo4Qe5Scfe5UgzdwNuw3QjzaRX/lYvBHqjhPDoRbtjLjZ4xC2bEdTc9y97iKIZ7F6AV3oSBiR157gPHeKc8QnHYUiCWq3XEJu30Ui3V4Q5Ee4fy+uGyTPQR01kFsuKjCJ6UQwHRd4DcwIrGAI9/atNRvaAwuDSNXQ978OGixU=",
+            ParameterE = "AQAB",
+            ServerAddress = "www.someaddress.com"
         };
 
         private static string BuildPath(string fileName)
@@ -90,17 +91,18 @@ namespace WindowsMetService
             if (File.Exists(BuildPath(File_MacToWebMapping)) == false)
                 File.Create(BuildPath(File_MacToWebMapping)).Close();
 
-            Security.RSAv3.Initialize();
             if (LoadSettings() == false)
             {
                 if (File.Exists(BuildPath(File_ConfigPath_Json)))
                     return false;
             }
-           
+
+            Security.RSAv3.Initialize(Convert.FromBase64String(settings.ParameterM), Convert.FromBase64String(settings.ParameterE));
+            
             if (settings.ClientIddd.SequenceEqual(Encoding.UTF8.GetBytes(Settings.EmptyId)))
                 if (DownloadAndSaveID() == false)
                     return false;
-            
+
             LoadIpsFromFile();
             DownloadMacToWebXML();
             SetupLocalLog();
@@ -263,14 +265,14 @@ namespace WindowsMetService
                     }
                     reader.Close();
                 }
-                return new string[] {"", ""};
+                return new string[] { "", "" };
             }
             catch (System.Xml.XmlException xe)
             {
                 Global.Log(@"Jakis problem z czytaniem XMLa. Należy wysłać te logi do firmy MET. Message: " +
                            xe.Message);
             }
-            return new string[] {"",""};
+            return new string[] { "", "" };
         }
 
         public static bool MacIsMapped(string mac)//TODO sprawdz ta metode. Chyba powinno być na odwrót.
@@ -296,7 +298,7 @@ namespace WindowsMetService
             {
                 try
                 {
-                    list = (List<Machine>) ReadFromBinaryFile(pathToStorage);
+                    list = (List<Machine>)ReadFromBinaryFile(pathToStorage);
                     File.Delete(BuildPath(File_MachineStorage));
                 }
                 catch (FieldAccessException ex)
@@ -358,7 +360,7 @@ namespace WindowsMetService
             {
                 settings.ClientIddd = key;
                 SaveSettings();
-                
+
                 Global.Log("Pobrano ID");
                 return true;
             }
@@ -379,10 +381,10 @@ namespace WindowsMetService
             IPAddress ip;
             try
             {
-                IPAddress[] adresy = System.Net.Dns.GetHostEntry(ServerAddress).AddressList;
+                IPAddress[] adresy = System.Net.Dns.GetHostEntry(settings.ServerAddress).AddressList;
                 if (adresy.Length < 1)
                 {
-                    Global.Log("Nie pobrano adresu IP z nazwy hosta: " + ServerAddress);
+                    Global.Log("Nie pobrano adresu IP z nazwy hosta: " + settings.ServerAddress);
                     return null;
                 }
 
@@ -422,7 +424,8 @@ namespace WindowsMetService
                         if (diffrent > 30.0) index = i;
                     }
 
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
 
                 }
@@ -431,7 +434,7 @@ namespace WindowsMetService
             if (index == 0)
                 return;
 
-            for(int i = index; i < lines.Length; i++)
+            for (int i = index; i < lines.Length; i++)
             {
                 selected.Add(lines[i]);
             }
@@ -485,24 +488,31 @@ namespace WindowsMetService
         public string clientId { get; set; }
 
         [JsonIgnore]
-        public byte[] ClientIddd {
+        public byte[] ClientIddd
+        {
             get
             {
                 if (clientId != null)
-                    return Convert.FromBase64String(Security.Encrypting.Decrypt(clientId));
+                    return Convert.FromBase64String(clientId);
                 else
                 {
                     return Encoding.UTF8.GetBytes(EmptyId);
                 }
-            } set
+            }
+            set
             {
-                clientId = Security.Encrypting.Encrypt(Convert.ToBase64String(value));
-            } }
+                clientId = Convert.ToBase64String(value);
+            }
+        }
 
         public string ClientDescription { get; set; } = null;
         public bool ForceRead { get; set; } = false;
         public string Version { get; set; } = null;
         public string LastTick { get; set; } = null;
         public bool SaveLogsToSystem { get; set; } = false;
+        public string ServerAddress { get; set; }
+
+        public string ParameterE { get; set; }
+        public string ParameterM { get; set; }
     }
 }

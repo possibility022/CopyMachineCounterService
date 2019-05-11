@@ -7,6 +7,8 @@ using System.Net;
 using System.Threading;
 using WindowsMetService;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace UnitTests.WindowsMetServiceTest
 {
@@ -14,6 +16,8 @@ namespace UnitTests.WindowsMetServiceTest
     public class FullUnitTest
     {
         [TestMethod]
+        [Timeout(60*1000)]
+        [TestCategory("SmokeTest")]
         public void CheckFullSequence()
         {
             LocalDatabase.Initialize();
@@ -63,13 +67,5 @@ namespace UnitTests.WindowsMetServiceTest
             Console.WriteLine("Zakończono. Konsola się zamknie za 1 min.");
             Thread.Sleep(1000 * 60);
         }
-
-        [TestMethod]
-        public void CheckForceRead()
-        {
-            
-        }
-
-       
     }
 }

@@ -98,7 +98,6 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="Security\Encrypting.cs" />
     <Compile Include="Security\RSAv3.cs" />
     <Compile Include="MetCounterService.cs">
       <SubType>Component</SubType>

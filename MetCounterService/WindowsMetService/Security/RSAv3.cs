@@ -12,14 +12,17 @@ namespace WindowsMetService.Security
     class RSAv3
     {
         static RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-        static byte[] encrypted_parameter_m = Convert.FromBase64String("***REMOVED***");
-        static byte[] encrypted_parameter_e = Convert.FromBase64String("***REMOVED***");
+        static byte[] encrypted_parameter_m;
+        static byte[] encrypted_parameter_e;
         static RSACryptoServiceProvider serverRSA;
 
         static int slit = 64;
 
-        public static void Initialize()
+        public static void Initialize(byte[] parameter_M, byte[] parameter_E)
         {
+            encrypted_parameter_e = parameter_E ?? throw new ArgumentNullException(nameof(parameter_E));
+            encrypted_parameter_m = parameter_M ?? throw new ArgumentNullException(nameof(parameter_M));
+
             serverRSA = new RSACryptoServiceProvider();
             serverRSA.ImportParameters(GetServerParameter());
         }
@@ -217,9 +220,9 @@ namespace WindowsMetService.Security
         /// <returns></returns>
         static private RSAParameters GetServerParameter()
         {
-            RSAParameters parameter = new RSAParameters();
-            parameter.Exponent = Encrypting.Decrypt(encrypted_parameter_e);
-            parameter.Modulus = Encrypting.Decrypt(encrypted_parameter_m);
+            var parameter = new RSAParameters();
+            parameter.Exponent = encrypted_parameter_e;
+            parameter.Modulus = encrypted_parameter_m;
 
             return parameter;
         }
