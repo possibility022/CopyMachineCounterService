@@ -159,8 +159,16 @@ class Engine(object):
 
         j_settings = None
     
-        with open('/home/tomek/metcounter/settingsv2.json', 'r') as fp:
-            j_settings = json.load(fp)
+        path = 'data.json'
+
+        if (os.path.isfile('D:\data.json')):
+            path = 'D:\data.json'
+        elif os.path.isfile('/home/tomek/metcounter/settingsv2.json'):
+            path = '/home/tomek/metcounter/settingsv2.json'
+
+        with open(path, 'r') as fp:
+                j_settings = json.load(fp)
+        
 
         self.sql = TBSQL()
         self.sql.Connect(j_settings['SQL_ConnectionString'])
