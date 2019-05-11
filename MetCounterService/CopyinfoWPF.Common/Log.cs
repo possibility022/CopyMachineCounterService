@@ -18,16 +18,31 @@ namespace CopyinfoWPF.Common
 
         public static Logger Logger { get; private set; }
 
+        public static string FilePath { get; private set; }
+
         public static void ConfigureNLog()
         {
             var config = new LoggingConfiguration();
 
-            var logFile = new FileTarget() { FileName = GenerateFileName(), Layout = Layout };
+            FilePath = GenerateFileName();
+            PrepareFolder(FilePath);
+
+            var logFile = new FileTarget() { FileName = FilePath, Layout = Layout };
+            
 
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logFile);
 
             LogManager.Configuration = config;
             Logger = LogManager.GetCurrentClassLogger();
+        }
+
+        private static void PrepareFolder(string path)
+        {
+            path = Path.GetDirectoryName(path);
+            if (Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+            }
         }
 
         private static string GenerateFileName(string namePrefix = "CopyInfoWPF")

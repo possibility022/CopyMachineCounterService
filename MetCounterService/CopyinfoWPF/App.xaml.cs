@@ -1,8 +1,8 @@
-﻿using CopyinfoWPF.ViewModels;
+﻿using CopyinfoWPF.Common;
+using CopyinfoWPF.ViewModels;
 using CopyinfoWPF.Views;
 using System;
 using System.Configuration;
-using System.IO;
 using System.Windows;
 using Unity;
 using WpfBindingErrors;
@@ -24,6 +24,7 @@ namespace CopyinfoWPF
 
             base.OnStartup(e);
 
+            Log.ConfigureNLog();
             Configuration.UnityConfiguration.Initialize();
 
             // Start listening for WPF binding error.
@@ -40,16 +41,15 @@ namespace CopyinfoWPF
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            string file = Path.GetFullPath("CopyinfoErrorLog.log");
-            File.AppendAllText(file, Environment.NewLine + ((Exception)e.ExceptionObject).Message);
-            MessageBox.Show($"Błąd. Logi znajdziesz tutaj: {file}");
+            Log.Error(((Exception)e.ExceptionObject));
+            
+            MessageBox.Show($"Błąd. Logi znajdziesz tutaj: {Log.FilePath}");
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            string file = Path.GetFullPath("CopyinfoErrorLog.log");
-            File.AppendAllText(file, Environment.NewLine + e.Exception.Message);
-            MessageBox.Show($"Błąd. Logi znajdziesz tutaj: {file}");
+            Log.Error(e.Exception);
+            MessageBox.Show($"Błąd. Logi znajdziesz tutaj: {Log.FilePath}");
         }
 
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
