@@ -159,13 +159,11 @@ class Engine(object):
 
         j_settings = None
     
-        with open('D:\\data.json', 'r') as fp:
+        with open('/home/tomek/metcounter/settingsv2.json', 'r') as fp:
             j_settings = json.load(fp)
 
-        settings.init()
-        self.mongo = MongoTB()
         self.sql = TBSQL()
-        self.sql.Connect()
+        self.sql.Connect(j_settings['SQL_ConnectionString'])
         
         # Initialize Email domain
         xmlLoader = XMLLoader(j_settings['workfolder'] + j_settings['XmlForEmails'])
@@ -190,9 +188,7 @@ class Engine(object):
         while True:
             try:
                 self.file_sync()
-                self.parse_loop()
                 self.parse_loopV2()
-                self.parse_loop_email()
                 self.parse_loop_emailV2()
 
                 time.sleep(self.interval)

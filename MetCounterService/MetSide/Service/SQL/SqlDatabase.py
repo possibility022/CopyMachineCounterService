@@ -8,8 +8,8 @@ class TBSQL:
     def __init__(self):
         pass
 
-    def Connect(self):
-        self.Engine = create_engine("mssql+pyodbc://Superuser:1234567890@WIN-RP56U0UJDMQ/MetCounterService?driver=SQL+Server+Native+Client+11.0")
+    def Connect(self, connectionString):
+        self.Engine = create_engine(connectionString)
 
         # reflect te Machine tables
         self.Machine = automap_base()
