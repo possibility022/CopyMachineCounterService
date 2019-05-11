@@ -5,12 +5,11 @@ from Service.Exceptions.TBExceptions import ServerException
 import logging
 
 
-class MongoTB:
+class MongoTBV2:
 
-    def __init__(self, mongoSettings):
-        workfolder = settings.workfolder
+    def __init__(self, settings):
 
-        self.serverip = settings.LocalMongoDatabaseAddress
+        self.serverip = settings['LocalMongoDatabaseAddress']
         self.serverport = 2772
         self.database_name = 'copyinfo'
         self.machine_records = 'machine_records'
@@ -26,8 +25,8 @@ class MongoTB:
 
         self.client = MongoClient(self.serverip, self.serverport)
         self.db = self.client[self.database_name]
-        if settings.AuthentiactionOn:
-            self.db.authenticate('***REMOVED***', '***REMOVED***--_][')
+        if settings['AuthentiactionOn']:
+            self.db.authenticate(settings['localUser'], settings['localPassword'])
         self.records = self.db[self.machine_records]
         self.countersdata = self.db[self.full_counter]
         self.serialdata = self.db[self.full_serial]
@@ -49,7 +48,7 @@ class MongoTB:
 
         # Serwer Globalny
         
-        self.global_serverip = settings.GlobalMongoDatabaseAddress
+        self.global_serverip = settings['GlobalMongoDatabaseAddress']
         self.global_serverport = 2772
         self.global_database = 'copyinfo'
         self.global_fullrecorddata = 'full_data'
@@ -58,7 +57,7 @@ class MongoTB:
         
         self.global_client = MongoClient(self.global_serverip, self.global_serverport)
         self.global_db = self.global_client[self.global_database]
-        self.global_db.authenticate('***REMOVED***', '***REMOVED***#121#')
+        self.global_db.authenticate(settings['globalUser'], settings['globalPassword'])
         self.global_fulldata = self.global_db[self.global_fullrecorddata]
         self.global_fulldata_faild = self.global_db[self.global_fullrecorddata_faild]
         self.global_other_db = self.global_db[self.global_other]

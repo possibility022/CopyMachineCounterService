@@ -347,8 +347,8 @@ if __name__ == "__main__":
     import settings
     settings.init()
     
-    #eng = Engine()
-    #eng.test_html_loopV2()
+    eng = Engine()
+    eng.test_html_loopV2()
 
     #testEmailParsing()
 

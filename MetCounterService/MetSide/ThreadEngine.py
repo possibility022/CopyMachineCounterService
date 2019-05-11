@@ -21,6 +21,7 @@ from Service.Parsing.EmailParsing import EmailParserV2
 from Service.Parsing.HTMLParser import HTMLParser
 from Service.Parsing.XmlParsing import XMLLoader
 from Service.Parsing.XmlParsing import XMLLoaderForHTML
+from Service.NonSQL.MongoTB2 import MongoTBV2
 
 from MongoDatabase import MongoTB
 from Parser import DataParser
@@ -176,6 +177,7 @@ class Engine(object):
         with open(path, 'r') as fp:
                 j_settings = json.load(fp)
         
+        self.mongo = MongoTBV2(j_settings['mongoSettings'])
 
         self.sql = TBSQL()
         self.sql.Connect(j_settings['SQL_ConnectionString'])

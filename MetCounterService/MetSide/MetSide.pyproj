@@ -31,6 +31,10 @@
     <Compile Include="Service\Email\__init__.py" />
     <Compile Include="Service\Exceptions\TBExceptions.py" />
     <Compile Include="Service\Exceptions\__init__.py" />
+    <Compile Include="Service\NonSQL\MongoTB2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Service\NonSQL\__init__.py" />
     <Compile Include="Service\Parsing\EmailParsing.py" />
     <Compile Include="Service\Parsing\HTMLParser.py">
       <SubType>Code</SubType>
@@ -51,6 +55,7 @@
     <Folder Include="Service\" />
     <Folder Include="Service\Exceptions\" />
     <Folder Include="Service\Email\" />
+    <Folder Include="Service\NonSQL\" />
     <Folder Include="Service\SQL\" />
     <Folder Include="Service\Parsing\" />
     <Folder Include="test\" />
