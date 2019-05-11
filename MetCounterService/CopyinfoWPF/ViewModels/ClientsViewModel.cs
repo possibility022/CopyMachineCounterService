@@ -14,7 +14,7 @@ namespace CopyinfoWPF.ViewModels
 {
     public class ClientsViewModel : PageViewBase<ClientViewModel>
     {
-        public override string ViewName => "Clients";
+        public override string ViewName => "Klienci";
 
         public ClientsViewModel() : this(UnityConfiguration.Resolve<IClientService>())
         {

@@ -21,7 +21,7 @@ namespace CopyinfoWPF.UControls
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.RecordDataGridLoaded();
+            
         }
     }
 }

@@ -90,6 +90,8 @@ namespace CopyinfoWPF.ViewModels
 
         public int ClientId { get; private set; }
 
+        private bool _loadExecuted = false;
+
         private ObservableCollection<DeviceViewModel> _devices = new ObservableCollection<DeviceViewModel>();
         public ObservableCollection<DeviceViewModel> Devices
         {
@@ -110,13 +112,19 @@ namespace CopyinfoWPF.ViewModels
                     SetProperty(ref _selectedDevice, value);
                     DeviceSelected?.Invoke(this, value);
                 }
-
             }
         }
+
+        string _deviceToSelect = string.Empty;
 
         public ClientOverviewViewModel() : this(UnityConfiguration.Resolve<IMachineRecordService>(), UnityConfiguration.Resolve<IClientService>())
         {
 
+        }
+
+        public ClientOverviewViewModel(string selectedDeviceSerialNumber) : this()
+        {
+            _deviceToSelect = selectedDeviceSerialNumber;
         }
 
         public ClientOverviewViewModel(IMachineRecordService machineRecordService, IClientService clientService)
@@ -142,13 +150,25 @@ namespace CopyinfoWPF.ViewModels
 
         public void DeviceDataGridLoaded()
         {
+            if (_loadExecuted == true)
+                return;
+            else
+                _loadExecuted = true;
+
             foreach (var device in _machineRecordService.GetDevicesForClient(ClientId))
             {
                 Devices.Add(device);
             }
 
-            SelectedDevice = Devices.FirstOrDefault();
+            if (!string.IsNullOrEmpty(_deviceToSelect))
+            {
+                SelectedDevice = Devices.First(r => r.SerialNumber == _deviceToSelect);
+                _deviceToSelect = null;
+            }
+            else
+            {
+                SelectedDevice = Devices.FirstOrDefault();
+            }
         }
-
     }
 }

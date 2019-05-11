@@ -43,11 +43,12 @@ namespace CopyinfoWPF.ViewModels
 
         private void ShowDetails()
         {
-            var clientOverviewViewModel = new ClientOverviewViewModel(); // Selected items is a HasSet. So FirstOrDefault will return "random".
+            var device = _deviceService.GetDevice((SelectedItems.FirstOrDefault() as DeviceRowView)?.SerialNumber);
+
+            var clientOverviewViewModel = new ClientOverviewViewModel(device.NrFabryczny);
             var deviceOverviewViewModel = UnityConfiguration.Resolve<DeviceOverviewViewModel>();
             var reportOverviewViewModel = UnityConfiguration.Resolve<ReportOverviewViewModel>();
 
-            var device = _deviceService.GetDevice((SelectedItems.FirstOrDefault() as DeviceRowView)?.SerialNumber);
             clientOverviewViewModel.LoadClient(device.IdKlient);
 
             clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
@@ -59,7 +60,7 @@ namespace CopyinfoWPF.ViewModels
 
         IDeviceService _deviceService;
 
-        public override string ViewName => "Devices";
+        public override string ViewName => "Urządzenia";
 
         private async Task Refresh()
         {

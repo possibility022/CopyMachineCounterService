@@ -115,6 +115,8 @@ namespace CopyinfoWPF.ViewModels
             }
         }
 
+        private int _recordToSelect = -1;
+
         private readonly IMachineRecordService _machineRecordService;
         private readonly IDeviceService _deviceService;
 
@@ -138,7 +140,16 @@ namespace CopyinfoWPF.ViewModels
             SelectedRecord = null;
             Records.Clear();
             Records.AddRange(records);
-            SelectedRecord = Records.FirstOrDefault();
+
+            if (_recordToSelect >= 0)
+            {
+                SelectedRecord = Records.First(r => r.Id == _recordToSelect);
+                _recordToSelect = -1;
+            }
+            else
+            {
+                SelectedRecord = Records.FirstOrDefault();
+            }
         }
 
         public void OnDeviceSelected(object sender, DeviceViewModel e)
@@ -146,5 +157,7 @@ namespace CopyinfoWPF.ViewModels
             LoadRecordsToList(_machineRecordService.GetRecordsForDevice(e.SerialNumber));
             UpdateDevice(_machineRecordService.GetDeviceDetails(e.SerialNumber));
         }
+
+        public void SetRecordToSelect(int? id) => _recordToSelect = id ?? -1;
     }
 }

@@ -47,7 +47,7 @@ namespace CopyinfoWPF.ViewModels
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
 
-        public override string ViewName => "Reports";
+        public override string ViewName => "Raporty";
 
         private Func<MachineRecordRowView, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
         private Func<MachineRecordRowView, bool> SelectAllRecords = (f => true);
@@ -228,11 +228,14 @@ namespace CopyinfoWPF.ViewModels
 
         internal void OpenSelectedRecord()
         {
-            var clientOverviewViewModel = new ClientOverviewViewModel();
+            var selectedRow = (SelectedItems?.FirstOrDefault() as MachineRecordRowView);
+
+            var clientOverviewViewModel = new ClientOverviewViewModel(selectedRow?.Device.NrFabryczny);
             var deviceOverviewViewModel = UnityConfiguration.Resolve<DeviceOverviewViewModel>();
             var reportOverviewViewModel = UnityConfiguration.Resolve<ReportOverviewViewModel>();
 
-            clientOverviewViewModel.LoadClient((SelectedItems?.FirstOrDefault() as MachineRecordRowView)?.Client);
+            clientOverviewViewModel.LoadClient(selectedRow?.Client);
+            deviceOverviewViewModel.SetRecordToSelect(selectedRow?.Record.Id);
 
             clientOverviewViewModel.DeviceSelected += deviceOverviewViewModel.OnDeviceSelected;
             deviceOverviewViewModel.RecordSelected += reportOverviewViewModel.OnRecordSelected;
