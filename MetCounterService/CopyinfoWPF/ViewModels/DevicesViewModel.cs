@@ -60,7 +60,7 @@ namespace CopyinfoWPF.ViewModels
 
         IDeviceService _deviceService;
 
-        public override string ViewName => "Devices";
+        public override string ViewName => "Urządzenia";
 
         private async Task Refresh()
         {

@@ -47,7 +47,7 @@ namespace CopyinfoWPF.ViewModels
         readonly IMachineRecordService _machineRecordService;
         private IDialogCoordinator _dialogCoordinator;
 
-        public override string ViewName => "Reports";
+        public override string ViewName => "Raporty";
 
         private Func<MachineRecordRowView, bool> SelectOnlyPrintedRecord = (f => f.Printed == false);
         private Func<MachineRecordRowView, bool> SelectAllRecords = (f => true);
