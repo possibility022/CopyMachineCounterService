@@ -124,7 +124,7 @@ namespace CopyinfoWPF.ViewModels
                     break;
 
                 default:
-                    Log.LogMessage($"Error datasource [{recordViewModel.Source}] is not supported");
+                    Log.Error($"Error datasource [{recordViewModel.Source}] is not supported");
                     break;
             }
         }

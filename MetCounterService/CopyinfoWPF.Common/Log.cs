@@ -11,7 +11,6 @@ namespace CopyinfoWPF.Common
     {
 
         private const string Layout = "${longdate}|${level:uppercase=true}|Thread: [${threadid}] | Message: \t${message}\t${exception:format=tostring,StackTrace,Data}";
-        private const string ProductChangesLayout = "${longdate}\t${message}";
 
         private const string DateTimeFileFormat = "dd-M-yyyy_HH-mm-ss";
 
@@ -24,16 +23,14 @@ namespace CopyinfoWPF.Common
             var config = new LoggingConfiguration();
 
             var logFile = new FileTarget() { FileName = GenerateFileName(), Layout = Layout };
-            var logProductChangesFile = new FileTarget() { FileName = GenerateFileName("Product"), Layout = ProductChangesLayout };
 
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logFile);
-            config.AddRuleForOneLevel(LogLevel.Trace, logProductChangesFile);
 
             LogManager.Configuration = config;
             Logger = LogManager.GetCurrentClassLogger();
         }
 
-        private static string GenerateFileName(string namePrefix = "")
+        private static string GenerateFileName(string namePrefix = "CopyInfoWPF")
         {
             var fileNameBase = DateTime.Now.ToString(DateTimeFileFormat);
             var fileName = $"{namePrefix}{fileNameBase}.log";
